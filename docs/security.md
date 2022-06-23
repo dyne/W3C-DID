@@ -1,4 +1,4 @@
-# W3C DID Dyne Secuirty Vocabolary
+# Dyne.org's W3C-DID Security Vocabulary
 
 ## Classes
 
