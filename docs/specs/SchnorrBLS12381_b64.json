@@ -1,0 +1,26 @@
+{
+  "@context": {
+    "id": "@id",
+    "type": "@type",
+    "@protected": true,
+    "SchnorrBLS12381VerificationKey_b64": {
+      "@id": "https://dyne.github.io/W3C-DID/#/security?id=schnorrbls12381verificationkey_b64",
+      "@context": {
+        "@protected": true,
+        "id": "@id",
+        "type": "@type",
+        "controller": {
+          "@id": "https://w3id.org/security#controller",
+          "@type": "@id"
+        },
+        "revoked": {
+          "@id": "https://w3id.org/security#revoked",
+          "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+        },
+        "publicKeyBase64": {
+          "@id": "https://dyne.github.io/W3C-DID/#/security?id=publickeybase64"
+        }
+      }
+    }
+  }
+}
