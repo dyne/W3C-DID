@@ -9,7 +9,7 @@
       "@container": "@graph"
     },
     "EcdsaSecp256k1VerificationKey_b64": {
-	"@id": "https://https://dyne.github.io/W3C-DID/#/security?id=ecdsasecp256k1verificationkey_b64",
+	"@id": "https://dyne.github.io/W3C-DID/#/security?id=ecdsasecp256k1verificationkey_b64",
       "@context": {
         "@protected": true,
         "id": "@id",
@@ -21,20 +21,6 @@
         "revoked": {
           "@id": "https://w3id.org/security#revoked",
           "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
-        },
-        "blockchainAccountId": {
-          "@id": "https://w3id.org/security#blockchainAccountId"
-        },
-        "publicKeyJwk": {
-          "@id": "https://w3id.org/security#publicKeyJwk",
-          "@type": "@json"
-        },
-        "publicKeyBase58": {
-          "@id": "https://w3id.org/security#publicKeyBase58"
-        },
-        "publicKeyMultibase": {
-          "@id": "https://w3id.org/security#publicKeyMultibase",
-          "@type": "https://w3id.org/security#multibase"
         },
 	"publicKeyBase64": {
           "@id": "https://github.com/dyne/W3C-DID/specs/security#publicKeyBase64"
