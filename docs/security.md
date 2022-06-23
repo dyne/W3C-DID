@@ -3,7 +3,7 @@
 ## Classes
 
 ### EcdsaSecp256k1VerificationKey_b64
-This class represents a linked data signature verification key. It is implemented as stated [here](https://w3c-ccg.github.io/lds-ecdsa-secp256k1-2019/) with the only difference that accepts base 64 encoded public key with the proprerty [**publicKeyBase64**](https://dyne.github.io/W3C-DID/#/docs/security.md?id=publickeybase64).
+This class represents a linked data signature verification key. It is implemented as stated [here](https://w3c-ccg.github.io/lds-ecdsa-secp256k1-2019/) with the only difference that accepts base 64 encoded public key with the proprerty [**publicKeyBase64**](#publickeybase64).
 
 **Status**:  
 *Stable*  
@@ -61,7 +61,7 @@ This class represents a linked data signature verification key. It has been impl
 
 ## Properties
 
-### PublicKeyBase64
+### publicKeyBase64
 A public key Base64 property is used to specify the base64-encoded version of the public key.
 
 **Status**:   
