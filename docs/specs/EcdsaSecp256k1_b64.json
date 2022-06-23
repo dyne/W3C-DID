@@ -23,7 +23,7 @@
           "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
         },
 	"publicKeyBase64": {
-          "@id": "https://github.com/dyne/W3C-DID/specs/security#publicKeyBase64"
+          "@id": "https://dyne.github.io/W3C-DID/#/security?id=publickeybase64"
         }
       }
     },
