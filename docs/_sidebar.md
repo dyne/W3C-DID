@@ -8,6 +8,6 @@
   - [publicKeyBase64](security.md?id=publickeybase64 "publicKeyBase64")
   
 - Specs
-  - [EcdsaSecp256k1](/specs/EcdsaSecp256k1_b64.json ':ignore')
-  - [ReflowBLS12381](/specs/ReflowBLS12381_b64.json ':ignore')
-  - [SchnorrBLS12381](/specs/SchnorrBLS12381_b64.json ':ignore')
+  - [EcdsaSecp256k1](https://dyne.github.io/W3C-DID/specs/EcdsaSecp256k1_b64.json ':ignore')
+  - [ReflowBLS12381](https://dyne.github.io/W3C-DID/specs/ReflowBLS12381_b64.json ':ignore')
+  - [SchnorrBLS12381](https://dyne.github.io/W3C-DID/specs/SchnorrBLS12381_b64.json ':ignore')
