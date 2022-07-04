@@ -9,6 +9,7 @@ The content of DID document includes:
 * The “Country” and the “State”
 * Public keys for:
   * Secp256k1 ECDSA, widely used for single signatures
+  * ED25519 EDDSA widely used for single signatures
   * BLS381 “Reflow”, for multisignature
   * BLS381 “Schnorr”, currently only for single signatures
   * Dilithium2, for quantum-proof signatures
@@ -21,113 +22,147 @@ Below an example Oracle's W3C-DID Document following our specification:
 
 ```json
   {
-      "@context": [
-        "https://www.w3.org/ns/did/v1",
-        "https://dyne.github.io/W3C-DID/specs/EcdsaSecp256k1_b64.json",
-        "https://dyne.github.io/W3C-DID/specs/ReflowBLS12381_b64.json",
-        "https://dyne.github.io/W3C-DID/specs/SchnorrBLS12381_b64.json",
-        "https://dyne.github.io/W3C-DID/specs/Dilithium2_b64.json",
-        "https://w3id.org/security/suites/secp256k1-2020/v1",
-        {
-          "Country": "https://schema.org/Country",
-          "State": "https://schema.org/State",
-          "description": "https://schema.org/description",
-          "url": "https://schema.org/url"
-        }
-      ],
-      "Country": "DE",
-      "State": "NONE",
-      "alsoKnownAs": "did:dyne:fabchain:BDvKzXKkafOhOd4WqG5SpSK2YJKo6af6YYqZSFf+IZqfEbph8A4taXvM7oJdKcWdHy+5/XHAUl/jsMTTW/YoLrE=",
-      "description": "restroom-mw",
-      "id": "did:dyne:id:BDvKzXKkafOhOd4WqG5SpSK2YJKo6af6YYqZSFf+IZqfEbph8A4taXvM7oJdKcWdHy+5/XHAUl/jsMTTW/YoLrE=",
-      "proof": {
-        "created": "1656592200368",
-        "jws": "eyJhbGciOiJFUzI1NksiLCJiNjQiOnRydWUsImNyaXQiOiJiNjQifQ..eqmJ3CStrY0ePRiwPMGTNwqKavxcduSZvfjIJGHULeNJosIPbI-0mj_43wwN-WcHMmZI6ZWg7Lhj2A7y4np0Cg",
-        "proofPurpose": "assertionMethod",
-        "type": "EcdsaSecp256k1Signature2019",
-        "verificationMethod": "did:dyne:controller:BLL50JCBTKJZc+Pc5sC9cW7Feyx728h3TAEkWYIcOUZzukbPVPYIfOjDptkYIv/GGSI/XFh778eAFHtnkJppLls=#key_ecdsa1"
+  "W3C-DID": {
+    "@context": [
+      "https://www.w3.org/ns/did/v1",
+      "https://dyne.github.io/W3C-DID/specs/EcdsaSecp256k1_b64.json",
+      "https://dyne.github.io/W3C-DID/specs/ReflowBLS12381_b64.json",
+      "https://dyne.github.io/W3C-DID/specs/SchnorrBLS12381_b64.json",
+      "https://dyne.github.io/W3C-DID/specs/Dilithium2_b64.json",
+      "https://w3id.org/security/suites/secp256k1-2020/v1",
+      "https://w3id.org/security/suites/ed25519-2018/v1",
+      {
+        "Country": "https://schema.org/Country",
+        "State": "https://schema.org/State",
+        "description": "https://schema.org/description",
+        "url": "https://schema.org/url"
+      }
+    ],
+    "Country": "FR",
+    "State": "NONE",
+    "alsoKnownAs": "did:dyne:fabchain:BKQKsKZsau62MJAk3nsEK/NoKdS80+a0j7TezfbwrWdAEPJzWk5/yAPldkVL3eiQkz3x2z6FDcIex7cu9W5aYf8=",
+    "description": "restroom-mw",
+    "id": "did:dyne:id:BKQKsKZsau62MJAk3nsEK/NoKdS80+a0j7TezfbwrWdAEPJzWk5/yAPldkVL3eiQkz3x2z6FDcIex7cu9W5aYf8=",
+    "proof": {
+      "created": "1656940750354",
+      "jws": "eyJhbGciOiJFUzI1NksiLCJiNjQiOnRydWUsImNyaXQiOiJiNjQifQ..qAcwEbtzjd4RwC3fTlUDkMx0uoM2SUOXBhv-spAZ8NRaMmRFXKQsez8eHGdIMKQMGJhNAn8V7KDhHA8zaxVmAg",
+      "proofPurpose": "assertionMethod",
+      "type": "EcdsaSecp256k1Signature2019",
+      "verificationMethod": "did:dyne:controller:BLL50JCBTKJZc+Pc5sC9cW7Feyx728h3TAEkWYIcOUZzukbPVPYIfOjDptkYIv/GGSI/XFh778eAFHtnkJppLls=#key_ecdsa1"
+    },
+    "service": [
+      {
+        "id": "did:dyne:zenswarm-api#zenswarm-oracle-announce",
+        "serviceEndpoint": "https://swarm1.dyne.org:20003/api/zenswarm-oracle-announce",
+        "type": "LinkedDomains"
       },
-      "service": [
-        {
-          "id": "did:dyne:zenswarm-api#zenswarm-oracle-announce",
-          "serviceEndpoint": "https://swarm0.dyne.org:20003/api/zenswarm-oracle-announce",
-          "type": "LinkedDomains"
-        },
-        {
-          "id": "did:dyne:zenswarm-api#ethereum-to-ethereum-notarization.chain",
-          "serviceEndpoint": "https://swarm0.dyne.org:20003/api/ethereum-to-ethereum-notarization.chain",
-          "type": "LinkedDomains"
-        },
-        {
-          "id": "did:dyne:zenswarm-api#zenswarm-oracle-get-identity",
-          "serviceEndpoint": "https://swarm0.dyne.org:20003/api/zenswarm-oracle-get-identity",
-          "type": "LinkedDomains"
-        },
-        {
-          "id": "did:dyne:zenswarm-api#zenswarm-oracle-http-post",
-          "serviceEndpoint": "https://swarm0.dyne.org:20003/api/zenswarm-oracle-http-post",
-          "type": "LinkedDomains"
-        },
-        {
-          "id": "did:dyne:zenswarm-api#zenswarm-oracle-key-issuance.chain",
-          "serviceEndpoint": "https://swarm0.dyne.org:20003/api/zenswarm-oracle-key-issuance.chain",
-          "type": "LinkedDomains"
-        },
-        {
-          "id": "did:dyne:zenswarm-api#zenswarm-oracle-ping.zen",
-          "serviceEndpoint": "https://swarm0.dyne.org:20003/api/zenswarm-oracle-ping.zen",
-          "type": "LinkedDomains"
-        },
-        {
-          "id": "did:dyne:zenswarm-api#sawroom-to-ethereum-notarization.chain",
-          "serviceEndpoint": "https://swarm0.dyne.org:20003/api/sawroom-to-ethereum-notarization.chain",
-          "type": "LinkedDomains"
-        },
-        {
-          "id": "did:dyne:zenswarm-api#zenswarm-oracle-get-timestamp.zen",
-          "serviceEndpoint": "https://swarm0.dyne.org:20003/api/zenswarm-oracle-get-timestamp.zen",
-          "type": "LinkedDomains"
-        },
-        {
-          "id": "did:dyne:zenswarm-api#zenswarm-oracle-update",
-          "serviceEndpoint": "https://swarm0.dyne.org:20003/api/zenswarm-oracle-update",
-          "type": "LinkedDomains"
-        }
-      ],
-      "url": "https://swarm0.dyne.org",
-      "verificationMethod": [
-        {
-          "controller": "did:dyne:controller:BLL50JCBTKJZc+Pc5sC9cW7Feyx728h3TAEkWYIcOUZzukbPVPYIfOjDptkYIv/GGSI/XFh778eAFHtnkJppLls=",
-          "id": "did:dyne:id:BDvKzXKkafOhOd4WqG5SpSK2YJKo6af6YYqZSFf+IZqfEbph8A4taXvM7oJdKcWdHy+5/XHAUl/jsMTTW/YoLrE=#key_ecdsa1",
-          "publicKeyBase64": "BDvKzXKkafOhOd4WqG5SpSK2YJKo6af6YYqZSFf+IZqfEbph8A4taXvM7oJdKcWdHy+5/XHAUl/jsMTTW/YoLrE=",
-          "type": "EcdsaSecp256k1VerificationKey_b64"
-        },
-        {
-          "controller": "did:dyne:controller:BLL50JCBTKJZc+Pc5sC9cW7Feyx728h3TAEkWYIcOUZzukbPVPYIfOjDptkYIv/GGSI/XFh778eAFHtnkJppLls=",
-          "id": "did:dyne:id:BDvKzXKkafOhOd4WqG5SpSK2YJKo6af6YYqZSFf+IZqfEbph8A4taXvM7oJdKcWdHy+5/XHAUl/jsMTTW/YoLrE=#key_reflow1",
-          "publicKeyBase64": "DU6n8mU6lP8mpOeQxv4FVhACrRhnsxQoQMkIZPd3YXiLmHM60suxO8GrKZLQRgPQEE9EWsN2x7YIoY34mIsoa5znGiOXy0alCLbRV4g73DpStjsqltVJqAXTLBCxhgHZAqbKILbCvzqUbzK6psEdG/5S8IiI8XvNYczIavAlpss++mLFRYbSKeeT6L+UIMpbA0xeSSyVuscqrKkwC7TRLJB+CCFXMMGMVs5tGZ6Xzena/Lw5WSdI8bL/04NQ++/m",
-          "type": "ReflowBLS12381VerificationKey_b64"
-        },
-        {
-          "controller": "did:dyne:controller:BLL50JCBTKJZc+Pc5sC9cW7Feyx728h3TAEkWYIcOUZzukbPVPYIfOjDptkYIv/GGSI/XFh778eAFHtnkJppLls=",
-          "id": "did:dyne:id:BDvKzXKkafOhOd4WqG5SpSK2YJKo6af6YYqZSFf+IZqfEbph8A4taXvM7oJdKcWdHy+5/XHAUl/jsMTTW/YoLrE=#key_schnorr1",
-          "publicKeyBase64": "DPYbQA/RNB6EvWHFXMkCgELOkcdPsnKcm/jYMCwlAXyp+6THRWuIntfE83urMFpp",
-          "type": "SchnorrBLS12381VerificationKey_b64"
-        },
-        {
-          "controller": "did:dyne:controller:BLL50JCBTKJZc+Pc5sC9cW7Feyx728h3TAEkWYIcOUZzukbPVPYIfOjDptkYIv/GGSI/XFh778eAFHtnkJppLls=",
-          "id": "did:dyne:id:BDvKzXKkafOhOd4WqG5SpSK2YJKo6af6YYqZSFf+IZqfEbph8A4taXvM7oJdKcWdHy+5/XHAUl/jsMTTW/YoLrE=#key_dilithium1",
-          "publicKeyBase64": "5p53NcTIe9JVCsYOR2XteffUcoK5iFMsAKnyQPp6Jr4gwWks/Q8+WlshkDC9uxWSfJxUAq5FACVzLrU6upOzhJHbmGVn6QtIXR47OfJfY5cDraj4Ln5lgGzTvUD0NGwlgJrdfQJ+ePV6D/nJlusB4N96kBp7xn8oa2DbLpQecDKm7R38evlhLh2fNRSsgy6Kia0S/Er7ufRqKfFtxHKr5SC8khktUDfvSZVTKj6EW5ymZq0I8TvdZIdMKn08T1zD14iJlY+pzqttrgX0armkwHMbt0AARsykBecnC1lzsVqIydfslAqsX1ClvhHAQG9ZrPtDJxOE3VDp8UxNHDIegZWVDHu1+wWwgVH7jOxgDDGdUyUi18jXoWjP8aWoa3MpFi924y40x8LQTmkVDNw1ep1DfHVEZVFKTdDdUhK/kmRMYsjIqTg0PJbnbN2VYVsXNvVX783iUOeTmxs79gXqGU8nvRbLspg9aQiwJfUyfRye1F1JnTSIwZWqb1SwfHWyEwjUHCyqwM6ONh13qcG55f1OldMWRRSqt3QMlwqvSK4hCg+it3Htl/iiOochxPhWjVpVwROZHi6QZdoezv0o5iy0hhilITO9S+QMT8GEaAvYryqErMU1++ooBNdOS/2miKcW2H5rTO67dyUeLFR0cxGo5jdjgKcTKONgkj542+KBcyzQBJbcFrEZ3x413797HboNJ7EwdciLm6FZk7fq4qZmDXZZS6TbGlyuMVvsqfVXkwYJ4qM8iOllo1IdlSPq7T3ylwGuKoE3NmjvR1OegiwzOj362nJ4mI892ErtIIoZaCPM5CWfqClcqQmrg/rI+Mu9sFia8HSxxi/8CMyhz5WmllYs6/0oOHy125AkVG8x6fhUyno4dfj9Xy4+PhKrdeKcakH31OwyVBEJdxCnmrtOST6svXpdE731byGxRuzmELFK6f6i/iaIJyxFTCcclX1f13Yx9jn2hIjP1LZ6JlnnQeQSM2STo71n2rbkxiyGQkN1kCKVxuLlqofiEu06NHIjsUB18KyWjBQ0DH6jnJxSwYsEExhlgXC1F9mVxEThtMV2TqkBrrGFsLpkLV6dcrn57vMKr2Ra0bIAyt2mM8JLI+f9TiZgyaG9DYZxfjlc6lKlEz2zsSX6hJUqqiv4/HOvmxSOPgZRseDnvG2gQsrCzU318dDrX6rv1oPhtvgNGK1y46FP/wVo9UNnzOcglJUDr24z2u8rElGkH3K+t0/C5b7QkCSX/Ls0mXIJBwe7EW2SiMBKiD6v+2VRZfR4wqlj0KH7VK6gbeNV52BlX4NyapZO+Nt7ZE4s1faKC2UtPt3yPdnUMcaNbwqOqW8lJuL0NZn0vvMp5/mC1kgN9CKlfkOY7IGZ7jSxroi0eH0BUrmP7YMWzWrNTr1+eEa4yabrB3iJ+F6Ds23UTIvAoo+knJeuNQZyOyNHys/Rai7lT4POY28AgczRVaFaTs/WXDALu0lGC+F7rYgOGQ/iMOaGbJVrez48l5knn6Pk4Pw/iUIwJRKG2RUuZ6JXNn5SxJBG2O/WO/d327BIriIkkOHPJbx8XjMNAo0jGH9uflq33XUYlKUdczB6rrEgMI+ZLAM/WUl84RELS1H8RT60P40IgOnfXYOAaoqzolJX+DI7uCCrrk0+Zrsm1FhkU9sJyjUbM6rVuMn2POTEBiDTJAvWlt4nMcE+1sw5gNb+3Isd0v58ZhGQK04vPvRjENtaNaV7+Z5iBOuvtsO8skQ7Qw==",
-          "type": "Dilithium2VerificationKey_b64"
-        },
-        {
-          "blockchainAccountId": "eip155:1717658228:0x67313004fa6e6c609ac1db714ce5945fc47fa2fd",
-          "controller": "did:dyne:controller:BLL50JCBTKJZc+Pc5sC9cW7Feyx728h3TAEkWYIcOUZzukbPVPYIfOjDptkYIv/GGSI/XFh778eAFHtnkJppLls=",
-          "id": "did:dyne:id:BDvKzXKkafOhOd4WqG5SpSK2YJKo6af6YYqZSFf+IZqfEbph8A4taXvM7oJdKcWdHy+5/XHAUl/jsMTTW/YoLrE=#fabchainAccountId",
-          "type": "EcdsaSecp256k1RecoveryMethod2020"
-        }
-      ]
-    }
+      {
+        "id": "did:dyne:zenswarm-api#ethereum-to-ethereum-notarization.chain",
+        "serviceEndpoint": "https://swarm1.dyne.org:20003/api/ethereum-to-ethereum-notarization.chain",
+        "type": "LinkedDomains"
+      },
+      {
+        "id": "did:dyne:zenswarm-api#zenswarm-oracle-get-identity",
+        "serviceEndpoint": "https://swarm1.dyne.org:20003/api/zenswarm-oracle-get-identity",
+        "type": "LinkedDomains"
+      },
+      {
+        "id": "did:dyne:zenswarm-api#zenswarm-oracle-http-post",
+        "serviceEndpoint": "https://swarm1.dyne.org:20003/api/zenswarm-oracle-http-post",
+        "type": "LinkedDomains"
+      },
+      {
+        "id": "did:dyne:zenswarm-api#zenswarm-oracle-key-issuance.chain",
+        "serviceEndpoint": "https://swarm1.dyne.org:20003/api/zenswarm-oracle-key-issuance.chain",
+        "type": "LinkedDomains"
+      },
+      {
+        "id": "did:dyne:zenswarm-api#zenswarm-oracle-ping",
+        "serviceEndpoint": "https://swarm1.dyne.org:20003/api/zenswarm-oracle-ping",
+        "type": "LinkedDomains"
+      },
+      {
+        "id": "did:dyne:zenswarm-api#sawroom-to-ethereum-notarization.chain",
+        "serviceEndpoint": "https://swarm1.dyne.org:20003/api/sawroom-to-ethereum-notarization.chain",
+        "type": "LinkedDomains"
+      },
+      {
+        "id": "did:dyne:zenswarm-api#zenswarm-oracle-get-timestamp",
+        "serviceEndpoint": "https://swarm1.dyne.org:20003/api/zenswarm-oracle-get-timestamp",
+        "type": "LinkedDomains"
+      },
+      {
+        "id": "did:dyne:zenswarm-api#zenswarm-oracle-update",
+        "serviceEndpoint": "https://swarm1.dyne.org:20003/api/zenswarm-oracle-update",
+        "type": "LinkedDomains"
+      },
+      {
+        "id": "did:dyne:zenswarm-api#zenswarm-oracle-get-signed-timestamp",
+        "serviceEndpoint": "https://swarm1.dyne.org:20003/api/zenswarm-oracle-get-signed-timestamp",
+        "type": "LinkedDomains"
+      },
+      {
+        "id": "did:dyne:zenswarm-api#zenswarm-oracle-sign-dilithium",
+        "serviceEndpoint": "https://swarm1.dyne.org:20003/api/zenswarm-oracle-sign-dilithium",
+        "type": "LinkedDomains"
+      },
+      {
+        "id": "did:dyne:zenswarm-api#zenswarm-oracle-sign-ecdsa",
+        "serviceEndpoint": "https://swarm1.dyne.org:20003/api/zenswarm-oracle-sign-ecdsa",
+        "type": "LinkedDomains"
+      },
+      {
+        "id": "did:dyne:zenswarm-api#zenswarm-oracle-sign-eddsa",
+        "serviceEndpoint": "https://swarm1.dyne.org:20003/api/zenswarm-oracle-sign-eddsa",
+        "type": "LinkedDomains"
+      },
+      {
+        "id": "did:dyne:zenswarm-api#zenswarm-oracle-sign-schnorr",
+        "serviceEndpoint": "https://swarm1.dyne.org:20003/api/zenswarm-oracle-sign-schnorr",
+        "type": "LinkedDomains"
+      }
+    ],
+    "url": "https://swarm1.dyne.org",
+    "verificationMethod": [
+      {
+        "controller": "did:dyne:controller:BLL50JCBTKJZc+Pc5sC9cW7Feyx728h3TAEkWYIcOUZzukbPVPYIfOjDptkYIv/GGSI/XFh778eAFHtnkJppLls=",
+        "id": "did:dyne:id:BKQKsKZsau62MJAk3nsEK/NoKdS80+a0j7TezfbwrWdAEPJzWk5/yAPldkVL3eiQkz3x2z6FDcIex7cu9W5aYf8=#key_ecdsa1",
+        "publicKeyBase64": "BKQKsKZsau62MJAk3nsEK/NoKdS80+a0j7TezfbwrWdAEPJzWk5/yAPldkVL3eiQkz3x2z6FDcIex7cu9W5aYf8=",
+        "type": "EcdsaSecp256k1VerificationKey_b64"
+      },
+      {
+        "controller": "did:dyne:controller:BLL50JCBTKJZc+Pc5sC9cW7Feyx728h3TAEkWYIcOUZzukbPVPYIfOjDptkYIv/GGSI/XFh778eAFHtnkJppLls=",
+        "id": "did:dyne:id:BKQKsKZsau62MJAk3nsEK/NoKdS80+a0j7TezfbwrWdAEPJzWk5/yAPldkVL3eiQkz3x2z6FDcIex7cu9W5aYf8=#key_reflow1",
+        "publicKeyBase64": "E+QVn6d+mrTDPl8g/a98CL9K+CVG1LRG1mdFvYb1nhAFHtMOVw+t3Y6gc+zzTKO7AFRwHyaYI9moXCKanHdcLS37+ebRuxoxB9qOwZhPM6IWJj9opQPdql8xdMz7T1yKBHnq7uy4rkywwUkSgG32nQXA7zPJKwHq+ieLaD65ePzi1n21L1vjIlNBVVDTjGmHD3/xTmgxSVcM8eYswOBSxv+EsU6YhAj9EAgp+OoTW2h7bSIPTXgI8i1COtcw2emA",
+        "type": "ReflowBLS12381VerificationKey_b64"
+      },
+      {
+        "controller": "did:dyne:controller:BLL50JCBTKJZc+Pc5sC9cW7Feyx728h3TAEkWYIcOUZzukbPVPYIfOjDptkYIv/GGSI/XFh778eAFHtnkJppLls=",
+        "id": "did:dyne:id:BKQKsKZsau62MJAk3nsEK/NoKdS80+a0j7TezfbwrWdAEPJzWk5/yAPldkVL3eiQkz3x2z6FDcIex7cu9W5aYf8=#key_schnorr1",
+        "publicKeyBase64": "D54MEEyah5gC76dQscft9ggFt29tENpcp4Ms+6z5ZBaChQeu3iZee5/81Mq9MJEg",
+        "type": "SchnorrBLS12381VerificationKey_b64"
+      },
+      {
+        "controller": "did:dyne:controller:BLL50JCBTKJZc+Pc5sC9cW7Feyx728h3TAEkWYIcOUZzukbPVPYIfOjDptkYIv/GGSI/XFh778eAFHtnkJppLls=",
+        "id": "did:dyne:id:BKQKsKZsau62MJAk3nsEK/NoKdS80+a0j7TezfbwrWdAEPJzWk5/yAPldkVL3eiQkz3x2z6FDcIex7cu9W5aYf8=#key_dilithium1",
+        "publicKeyBase64": "WR6I8Y2/D7pN9wUypkNqoG1ivSozcezyLTovGDBpJYxn3PIO7m2sDJYHx8cr9tJVpCcpdSdregQEWG7iHdgyMwXic60JajTQfifyZCHOStJRYwEXKBA36fMnu/0rK6kjGjImXCGIfGO8gDdvVtWe1x2HmN4XBoLsE+J7Qbwqir+qub3AssQKg+xyq/4DYRGyrqG0kiablY5RaUR66eaVVORgTR2eHza58nf/iCDUkol3Y//yM8CS7BS4bPh+ARd+3Dk2P++XLXzi8kV4Vrj5S4nIVv7D5AbPBUYQc6uTKyw7ybhON2x21MHGWfF0s83J4P1h/yMtObnYg9DxJQAHGZrpc6RvH2fND2hUB0PobdrzRQLz79jm+Pn1oFbhq7LsQep6CFsO2iqQquab3Qes41W16V3gVd2aNtzhbTqaTRr+hU7/T8bYf0dv1r0jZuZvaMnfpbiPpesQ0izSh7lO1l7TrMHNZbVPU/vB9P53stGuqcEXrsmz6W/ExoVCusj2L6DCMo3q2y42XRT2tA3JXsjMrFJKzc2DI1UdOkOuP7jzuc9WxlwFSTHvIdZDrG8SuWiRZYGda6ZzQBvCPgkqpaDRmsZvrC4IGNFeuAcedNZWMI6W+fvw+csOToLOwRUqUmJqhrjjc8dZ0EfyKM34PMp1z8TKcPh/wUWeXOZ6HJCfbEcyNZHNpBXtabhA/bMS3dhVnUR2hDgF5/Ch3wgevXB22VlpQECkRIFkZ6C3q8MD5mVIVQ9hSsHp9hy/mqzCkuRiIrVNfDEglgpMJCtimX5l0prnQPyB5I1B2zWNNJDxuzFGhRn7Nuj5l7Xq0rJN+wa5JlPQmOrTR55YKWi5HrP/r3Z6VAanf23fsWuaNayIDhsDv21Jgg3x+vo2aCx5kuYPnx67ci/3CDOK8YRfAHKuZm2LojEs0GB+FW4H71wQW/46p7LKlvHbU4/XjZFaW3gbrErKIlSVj4eL3kxi9/eCXEoRSueLBips/RWnS+Nrttf6jFLogOyJERFmLYMq+RpC2oViPgRDc3AGfsMlkJUrDY71LkrxbfMCAJXC94OE6A4egUzZTOkch/6dVWSLvOEX4z8ojSEyS5EwlOuVLoa9p+k+VqNRniqGXgto7083RKFu+6HGfQ5HG4CBurpzm7FJ3POM5h246urjyXB6CYVb7qgIa0MhjdNqAZSX+Uhwl0z/Q329vqbM4OZfO3tPO2M6TCPKDb/fcao22bYoNx4P0WfGGtHlzw8TpSQLPnsLpGX7da7LLKsBty2EDCElSlyGDWpoALNui02SGsAiSSF7MDg/ili/GJrYUPlV336X/hg/qqmd+gTVWK88qSyF6NEf7+jMxyHw4a7O7wrRi+PuzH1OJYSTINYGFIwc22MwDZ01gN38s/9i72FQQnI+7Jybt06JZtu/l9cnJp+17qmnZYGskswF1FM6YFGiIxS2++NmW9Vj1iIb1atpcfc9nU7P3RzgOy39Pcc3LH/32eN38Gc4oGB6t2uGqK0UeYAm+hj17+rGrOQGAd4FnJTWmk2euRuGtzU3Xps4YNIxU5kVEe1zMGyb+ueZGLRfu8CsLXqKv8jDWd19Ek1cSceUgUUhdJFXdu4gpiSw4w+QkSrok3A/4dYa30/W/SSyBbDRZ1U2p2ANYhz04oTJe1fEvasf9P9EQsArxQQMPMSdozhHiR3DJ8eks927/eT6YHUzUyL3PgvnOBlmsNxjJQEWARG9eC2NdD+Nvw/L/xZBdg==",
+        "type": "Dilithium2VerificationKey_b64"
+      },
+      {
+        "controller": "did:dyne:controller:BLL50JCBTKJZc+Pc5sC9cW7Feyx728h3TAEkWYIcOUZzukbPVPYIfOjDptkYIv/GGSI/XFh778eAFHtnkJppLls=",
+        "id": "did:dyne:id:BKQKsKZsau62MJAk3nsEK/NoKdS80+a0j7TezfbwrWdAEPJzWk5/yAPldkVL3eiQkz3x2z6FDcIex7cu9W5aYf8=#key_eddsa1",
+        "publicKeyBase58": "FFB2sQifRQNRLmetRroJ8PvcudBxBuRoYQpMSYdQhg6L",
+        "type": "Ed25519VerificationKey2018"
+      },
+      {
+        "blockchainAccountId": "eip155:1717658228:0xe785f9e188f8137ec13ecea52ed753d4c7c7c064",
+        "controller": "did:dyne:controller:BLL50JCBTKJZc+Pc5sC9cW7Feyx728h3TAEkWYIcOUZzukbPVPYIfOjDptkYIv/GGSI/XFh778eAFHtnkJppLls=",
+        "id": "did:dyne:id:BKQKsKZsau62MJAk3nsEK/NoKdS80+a0j7TezfbwrWdAEPJzWk5/yAPldkVL3eiQkz3x2z6FDcIex7cu9W5aYf8=#fabchainAccountId",
+        "type": "EcdsaSecp256k1RecoveryMethod2020"
+      }
+    ]
+  }
+}
 ```
 
 Below is an exampled of a DID Document resolved using the DID contained in "alsoKnownAs": 
