@@ -17,6 +17,7 @@ import ui from "@restroom-mw/ui";
 import http from "http";
 import morgan from "morgan"
 import dotenv from "dotenv";
+
 dotenv.config();
 
 const HTTP_PORT = parseInt(process.env.HTTP_PORT || "3000", 10);
@@ -26,11 +27,35 @@ const OPENAPI = JSON.parse(process.env.OPENAPI || true);
 
 const app = express();
 
+/* TODO: move in another file */
+// const HTTP_PORT = parseInt(process.env.HTTP_PORT || "8000", 10);
+const API_SERVICE_URL = process.env.API_SERVICE_URL;
+
+// Utils
+import { createProxyMiddleware } from 'http-proxy-middleware';
+const START = 'W3C-DID-resolve-did?data='+encodeURIComponent('{"id":"')
+const END = encodeURIComponent('"}')
+
+// Proxy endpoints
+function add_identity_proxy(app) {
+  app.use('/1.0/identifiers', createProxyMiddleware({
+    target: API_SERVICE_URL,
+    changeOrigin: true,
+    pathRewrite: async function (path, req) {
+      const splitPath = path.split('/');
+      const did = splitPath[splitPath.length - 1];
+      const finalPath = START + did + END;
+      return finalPath;
+    }
+  }));
+}
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan("dev"));
 app.set("json spaces", 2);
 
+add_identity_proxy(app)
 app.use(db.default);
 app.use(fabric.default);
 app.use(rrhttp.default);
