@@ -10,11 +10,13 @@ blocks:
       Scenario 'schnorr': Create the key
 
 
+      Given I am 'Issuer'
+
       # keyring
 
-      Given I read the content of 'keyring.json'
+      Given I read the content of 'contracts/keyring.json'
 
-      Given I have the 'keyring'
+      Given I have my 'keyring'
 
 
       Given I have a 'string dictionary' named 'identity'
@@ -26,7 +28,6 @@ blocks:
 
       When I set 'oracle-key-issuance' to
       '/api/zenswarm-oracle-key-issuance.chain' as 'string'
-
 
       When I write string ':' in ':'
 
@@ -84,7 +85,7 @@ blocks:
       Then print the 'schnorr public key'
     next: W3C-DID-zenswarm-controller-key-issuance-2.zen
   W3C-DID-zenswarm-controller-key-issuance-2.zen:
-    zenContent: >
+    zenContent: >+
 
       # Always use 'Rule caller restroom-mw' when using Restroom
 
@@ -130,9 +131,11 @@ blocks:
       Then print my 'keyring'
 
       Then print the 'schnorr public key'
+
+
     next: W3C-DID-zenswarm-controller-key-issuance-3.zen
   W3C-DID-zenswarm-controller-key-issuance-3.zen:
-    zenContent: >
+    zenContent: >-
 
       Scenario 'ecdh': Create the key
 
@@ -330,8 +333,9 @@ blocks:
       Rule caller restroom-mw
       Scenario 'eddsa': create the public key
 
-      Given I read the content of 'keyring.json'
-      Given I have the 'keyring'
+      Given I am 'Issuer'
+      Given I read the content of 'contracts/keyring.json'
+      Given I have my 'keyring'
       Given I have a 'string array' named 'service'
 
       When I create the copy of element '1' in array 'service'
@@ -379,11 +383,13 @@ blocks:
 
       # keyring
 
-      Given I read the content of 'keyring.json'
+      Given I am 'Issuer'
+
+      Given I read the content of 'contracts/keyring.json'
 
       # controller
 
-      Given I have the 'keyring'
+      Given I have my 'keyring'
 
       Given I have a 'string' named 'controller eddsa public key'
 
@@ -780,7 +786,7 @@ blocks:
       ### save on redis
 
       Then I write 'DID' into redis under the key named by 'did:dyne:id:'
-    keysFile: zenswarm/W3C-DID-oracle-announce-6-Oracle-DID-Document-creation.keys
+    keysFile: W3C-DID-oracle-announce-6-Oracle-DID-Document-creation.keys
     next: W3C-DID-oracle-announce-7-Oracle-DID-store-ethereum.zen
   W3C-DID-oracle-announce-7-Oracle-DID-store-ethereum.zen:
     zenContent: >+
@@ -791,7 +797,9 @@ blocks:
 
       # keyring
 
-      Given I read the content of 'keyring.json'
+      Given I am 'Issuer'
+
+      Given I read the content of 'contracts/keyring.json'
 
       # ethereum
 
@@ -808,7 +816,7 @@ blocks:
 
       # transaction
 
-      Given I have the 'keyring'
+      Given I have my 'keyring'
 
       Given I have a 'ethereum address' named 'storage contract'
 
@@ -849,7 +857,7 @@ blocks:
       Then I ask ethereum to broadcast the 'signed_ethereum_transaction' and
       save the transaction id in 'txid'
 
-    keysFile: zenswarm/W3C-DID-oracle-announce-7-Oracle-DID-store-ethereum.keys
+    keysFile: W3C-DID-oracle-announce-7-Oracle-DID-store-ethereum.keys
     next: W3C-DID-oracle-announce-8-Oracle-DID-store-DID.zen
   W3C-DID-oracle-announce-8-Oracle-DID-store-DID.zen:
     zenContent: >-
