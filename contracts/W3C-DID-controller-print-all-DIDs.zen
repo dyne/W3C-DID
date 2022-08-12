@@ -1,0 +1,9 @@
+Rule caller restroom-mw
+
+
+Given I have a valid redis connection on 'redis://localhost:6379'
+Given I read from redis the data under the keys containing 'did:dyne:' and save the output into 'W3C-DIDs'
+
+Given I have a 'string array' named 'W3C-DIDs'
+
+then print 'W3C-DIDs'

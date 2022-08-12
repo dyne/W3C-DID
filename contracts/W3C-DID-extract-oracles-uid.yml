@@ -1,0 +1,51 @@
+zenchain: 1.0
+start: W3C-DID-oracle-uid-1-retrieve-did-documents-from-redis.zen
+blocks:
+  W3C-DID-oracle-uid-1-retrieve-did-documents-from-redis.zen:
+    zenContent: >
+      Rule caller restroom-mw
+
+
+
+      Given I have a valid redis connection on 'redis://localhost:6379'
+
+      Given I read from redis the data under the keys containing 'did:dyne:id:'
+      and save the output into 'W3C-DIDs'
+
+
+      Given I have a 'string array' named 'W3C-DIDs'
+
+
+      then print 'W3C-DIDs'
+    next: W3C-DID-oracle-uid-2-for-each-did-documents-extract-uid.zen
+  W3C-DID-oracle-uid-2-for-each-did-documents-extract-uid.zen:
+    forEach: W3C-DIDs
+    index: temp
+    zenContent: |-
+      Given I have a 'string dictionary' named 'temp'
+
+      # pickup a url
+      When I pickup from path 'temp.service'
+      When I create the copy of element '1' in array 'service'
+      When I pickup from path 'copy.serviceEndpoint'
+      When I remove 'copy'
+
+      # split the url
+      When I set '/' to '/' as 'string'
+      When I create the array by splitting 'serviceEndpoint' at '/'
+
+      # compose the uid
+      When I set 'uid' to 'https://' as 'string'
+      When I create the copy of element '2' in array 'array'
+      When I append 'copy' to 'uid'
+
+      Then print the 'uid'
+    next: W3C-DID-oracle-uid-3-flat-uid-list.zen
+  W3C-DID-oracle-uid-3-flat-uid-list.zen:
+    zenContent: |
+      Given I have a 'string array' named 'W3C-DIDs' 
+       
+      When I create the flat array of contents in 'W3C-DIDs' 
+      When I rename the 'flat array' to 'W3C-DIDs uid list' 
+       
+      Then print the 'W3C-DIDs uid list'

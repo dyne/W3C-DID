@@ -1,0 +1,14 @@
+Rule caller restroom-mw
+Scenario ethereum: retrieve
+Given I have a 'string' named 'blockchain-explorer'
+Given I have a 'string' named 'blockchain'
+Given I have a ethereum endpoint named 'blockchain'
+Given I have a 'hex' named 'ethereum data'
+Given I read the ethereum bytes with hash 'alsoKnownAs' and save the output into 'ethereum_data'
+When I create the 'block' decoded from ethereum bytes 'ethereum data'
+When I create the 'DID' decoded from mpack 'block'
+# then print data
+Then print 'DID' as 'string'
+Then print the 'blockchain-explorer'
+Then print the 'blockchain'
+Then print the 'ethereum data'

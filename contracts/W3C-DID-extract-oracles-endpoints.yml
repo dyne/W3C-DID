@@ -1,0 +1,52 @@
+zenchain: 1.0
+start: W3C-DID-extract-endpoints-1-retrieve-did-documents-from-redis.zen
+blocks:
+  W3C-DID-extract-endpoints-1-retrieve-did-documents-from-redis.zen:
+    zenContent: >-
+      Rule caller restroom-mw
+
+
+      Given I have a valid redis connection on 'redis://localhost:6379'
+
+      Given I read from redis the data under the keys containing 'did:dyne:id:'
+      and save the output into 'W3C-DIDs'
+
+
+      Given I have a 'string array' named 'W3C-DIDs'
+
+      Given I have a 'string' named 'api'
+
+
+      Then print 'W3C-DIDs'
+
+      Then print 'api'
+    next: >-
+      W3C-DID-extract-endpoints-2-for-each-did-documents-extract-api.zen
+  W3C-DID-extract-endpoints-2-for-each-did-documents-extract-api.zen:
+    forEach: W3C-DIDs
+    index: did_document
+    zenContent: >-
+      Scenario 'w3c': read did document
+
+
+      Given I have a 'did document'
+
+      Given I have a 'string' named 'api'
+
+
+      When I create the serviceEndpoint
+
+      When I create the copy of object named by 'api' from dictionary
+      'serviceEndpoint'
+
+
+      Then print 'copy'
+    next: W3C-DID-extract-endpoints-3-flat-endpoints-list.zen
+  W3C-DID-extract-endpoints-3-flat-endpoints-list.zen:
+    zenContent: |-
+      Given I have a 'string array' named 'W3C-DIDs' 
+       
+      When I create the flat array of contents in 'W3C-DIDs' 
+      When I rename the 'flat array' to 'W3C-DIDs endpoints list' 
+       
+      Then print the 'W3C-DIDs endpoints list'

@@ -1,0 +1,62 @@
+zenchain: 1.0
+start: W3C-DID-oracle-balance-1-retrieve-did-documents-from-redis.zen
+blocks:
+  W3C-DID-oracle-balance-1-retrieve-did-documents-from-redis.zen:
+    zenContent: >-
+      Rule caller restroom-mw
+
+
+
+      Given I have a valid redis connection on 'redis://localhost:6379'
+
+      Given I read from redis the data under the keys containing 'did:dyne:id:'
+      and save the output into 'W3C-DIDs'
+
+
+      Given I have a 'string array' named 'W3C-DIDs'
+
+
+      then print 'W3C-DIDs'
+    next: >-
+      W3C-DID-oracle-balance-2-for-each-did-document-extract-ethereum-address.zen
+  W3C-DID-oracle-balance-2-for-each-did-document-extract-ethereum-address.zen:
+    forEach: W3C-DIDs
+    index: did_document
+    zenContent: |-
+      Scenario 'w3c': extract serviceEndpoint
+      Scenario 'ethereum': retrieve ethereum address
+
+      Given I have a 'did document'
+
+      When I create the verificationMethod
+      When I pickup from path 'verificationMethod.ethereum_address'
+
+      Then print the 'ethereum address'
+    next: W3C-DID-oracle-balance-3-flat-ethereum-address-list.zen
+  W3C-DID-oracle-balance-3-flat-ethereum-address-list.zen:
+    zenContent: |-
+      Given I have a 'string array' named 'W3C-DIDs' 
+       
+      When I create the flat array of contents in 'W3C-DIDs' 
+      When I rename the 'flat array' to 'ethereum_address_array' 
+       
+      Then print the 'ethereum_address_array'
+    next: W3C-DID-oracle-balance-4-read-ethereum-balance.zen
+  W3C-DID-oracle-balance-4-read-ethereum-balance.zen:
+    zenContent: >-
+      Rule unknown ignore
+
+      Scenario ethereum: read balance of array of addresses
+
+
+      Given I have a ethereum endpoint named 'fabchain'
+
+      Given I read the ethereum balance for array 'ethereum_address_array' in
+      'ethereum_balances'
+
+
+      Given I have a 'string array' named 'ethereum balances'
+
+
+      Then print the 'ethereum balances'
+    keysFile: zenswarm/W3C-DID-oracle-balance-4-read-ethereum-balance.keys
