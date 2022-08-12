@@ -1,0 +1,15 @@
+server {
+        listen 12000 default_server;
+        listen [::]:12000 default_server;
+
+        server_name _;
+        root /home/app/explorer/app;
+        include /etc/nginx/mime.types;
+
+        location ~ ^/1.0/identifiers/(.*) {
+                proxy_pass http://did.dyne.org:12001/api/W3C-DID-resolve-did?data=%7B%22id%22%3A%22$1%22%7D;
+        }
+        location / {
+                proxy_pass http://did.dyne.org:12001;
+        }
+}
