@@ -1,0 +1,55 @@
+zenchain: 1.0
+start: zenswarm-issuer-set-nonce-1-create-ethereum-address.zen
+blocks:
+  zenswarm-issuer-set-nonce-1-create-ethereum-address.zen:
+    zenContent: |
+      Rule caller restroom-mw
+      Scenario 'ethereum': create address
+
+      Given I read the content of 'contracts/keyring.json'
+      Given I am 'Issuer'
+      Given I have my 'keyring'
+
+      When I create the ethereum address
+
+      Then print the 'ethereum address'
+    next: zenswarm-issuer-set-nonce-2-set-nonce.zen
+  zenswarm-issuer-set-nonce-2-set-nonce.zen:
+    zenContent: >
+      Rule caller restroom-mw
+
+      Scenario ethereum: test store
+
+
+      Given I have a valid redis connection on 'redis://localhost:6379'
+
+
+      Given I have a ethereum endpoint named 'fabchain'
+
+      Given I read the ethereum nonce for 'ethereum_address'
+
+      # Given I have the 'keyring'
+
+
+      Given I have a 'string' named 'ethereum address' 
+
+      Given I have a 'number' named 'ethereum_nonce'
+
+
+      When I copy 'ethereum address' to 'address:nonce'
+
+      When I set ':nonce' to ':nonce' as 'string'
+
+
+      When I append ':nonce' to 'address:nonce'
+
+
+      Then print the 'ethereum nonce' 
+
+      Then print the 'address:nonce'
+
+
+
+      Then I write 'ethereum_nonce' into redis under the key named by
+      'address:nonce'
+    keysFile: zenswarm-issuer-set-nonce-2-set-nonce.keys
