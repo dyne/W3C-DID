@@ -17,7 +17,6 @@ Endif
 
 If the 'id' is  found in 'W3C-DID'
 Then print 'W3C-DID'
-Then print 'id'
 Endif
 
 
