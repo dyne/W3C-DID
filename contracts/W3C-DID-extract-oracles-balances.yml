@@ -59,4 +59,4 @@ blocks:
 
 
       Then print the 'ethereum balances'
-    keysFile: zenswarm/W3C-DID-oracle-balance-4-read-ethereum-balance.keys
+    keysFile: W3C-DID-oracle-balance-4-read-ethereum-balance.keys
