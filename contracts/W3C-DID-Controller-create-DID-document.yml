@@ -239,16 +239,7 @@ blocks:
 
       ### print out
 
-      then print the 'DID' from 'output'
-
-      Then print the 'id' from 'output'
-
       Then print the 'output'
-
-
-      ### save on redis
-
-      Then I write 'DID' into redis under the key named by 'id'
 
       EndIf
 
@@ -387,6 +378,8 @@ blocks:
 
       If 'result' is not found in 'output'
 
+      When I pickup from path 'output.DID'
+
       When I pickup from path 'output.DID.alsoKnownAs'
 
       When I pickup from path 'output.DID.id'
@@ -396,13 +389,25 @@ blocks:
 
       When I insert 'txid' in 'txidContainer'
 
+      When I copy 'id' to 'id_copy'
+
       When I insert 'id' in 'txidContainer'
+
+      When I rename the 'id_copy' to 'id'
 
 
       Then print the 'txidContainer'
 
       Then print the 'alsoKnownAs'
 
+      Then print the 'DID'
+
+      Then print the 'id'
+
+
+      ### save on redis
+
+      Then I write 'DID' into redis under the key named by 'id'
 
       Then I write 'txidContainer' into redis under the key named by
       'alsoKnownAs'
