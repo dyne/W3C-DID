@@ -14,7 +14,7 @@ OPENAPI=true
 YML_EXT=yml 
 HOST=did.dyne.org
 RESOLVER_HOST=localhost
-RESOLVER_HTTP=12002" > .env
+RESOLVER_PORT=12002" > .env
 
 sed -i 's/"name": "restroom",/"name": "W3C-DID",/' restroom/package.json
 sed -i 's/"start": "ZENCODE_DIR=contracts node restroom.mjs"/"start": "node restroom.mjs"/' restroom/package.json

@@ -1,9 +1,10 @@
 const express = require('express');
 const axios = require('axios').default;
+const dotenv = require('dotenv');
 
-dotenv.config();
+dotenv.config({ path: `${__dirname}/../.env`});
 
-const RESOLVER_PORT = parseInt(process.env.RESOLVER_HTTP_PORT || "3000", 10);;
+const RESOLVER_PORT = parseInt(process.env.RESOLVER_PORT || "3000", 10);;
 const RESOLVER_HOST = process.env.RESOLVER_HOST || "0.0.0.0";
 const DID_PORT = parseInt(process.env.HTTP_PORT || "3000", 10);
 
@@ -18,5 +19,5 @@ app.use('/1.0/identifiers/:did', function(req, res) {
 
 // Start Proxy
 app.listen(RESOLVER_PORT, RESOLVER_HOST, () => {
-    console.log(`Starting Proxy at ${HOST}:${PORT}`);
+    console.log(`Starting Proxy at ${RESOLVER_HOST}:${RESOLVER_PORT}`);
 });
