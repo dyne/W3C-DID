@@ -1,0 +1,18 @@
+---
+- name: start controller
+  hosts: all
+  remote_user: root
+  become_user: controller
+  become_method: su
+  vars:
+    controller_root: "/controller"
+  tasks:
+  - name: Start services
+    become: true
+    command: pm2 start ecosystem.config.js
+    args:
+      chdir: "{{ controller_root }}"
+
+  - name: Restart nginx
+    become: false
+    service: name=nginx state=restarted
