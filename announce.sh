@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+if [[ ! -d restroom ]]; then
+    echo "restroom not found"
+    echo "Use the command ./create.sh to import it"
+    exit 0
+fi
+
 if [[ ! -f contracts/keyring.json ]]; then
     echo "Keyring not found, one is being produced..."
     # download Zenroom
