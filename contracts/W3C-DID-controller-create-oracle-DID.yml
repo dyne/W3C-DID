@@ -332,6 +332,7 @@ blocks:
     zenContent: |-
       Rule caller restroom-mw
       Scenario 'eddsa': create the public key
+      Scenario 'ethereum': create the ethereum address
 
       Given I am 'Issuer'
       Given I read the content of 'contracts/keyring.json'
@@ -352,12 +353,16 @@ blocks:
       When I append '//' to 'http'
       When I rename the 'http' to 'myRedisKey'
 
-      # Create the eddsa public key to be used in the following script
-      # to set the controller id
+      # Create the eddsa public key and ethereum address:
+      # eddsa for the controller id;
+      # ethereum address for address:nonce;
       When I create the eddsa public key
+      When I create the ethereum address
       and I rename the 'eddsa public key' to 'controller eddsa public key'
+      and I rename the 'ethereum address' to 'controller ethereum address'
 
       Then print 'controller eddsa public key'
+      Then print 'controller ethereum address'
       Then print 'myRedisKey'
       Then print 'service'
       # then print data
@@ -393,6 +398,8 @@ blocks:
 
       Given I have a 'string' named 'controller eddsa public key'
 
+      Given I have a 'string' named 'controller ethereum address'
+
       # service
 
       Given I have a 'string dictionary' named 'service'
@@ -422,8 +429,6 @@ blocks:
       Given I have a 'string' named 'dilithium_public_key' in 'identity'
 
       Given I have a 'string' named 'eddsa_public_key' in 'identity'
-
-      Given I have a 'string' named 'address:nonce' 
 
 
       # context and proof
@@ -762,11 +767,11 @@ blocks:
 
       ### create the address:nonce that will be incremented in the next script
 
-      # When I copy 'ethereum address' to 'address:nonce'
+      When I copy 'controller ethereum address' to 'address:nonce'
 
-      # When I set ':nonce' to ':nonce' as 'string'
+      When I set ':nonce' to ':nonce' as 'string'
 
-      # When I append ':nonce' to 'address:nonce'
+      When I append ':nonce' to 'address:nonce'
 
 
       ### print all out
