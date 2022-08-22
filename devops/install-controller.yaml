@@ -1,5 +1,5 @@
 ---
-- name: create non root user
+- name: Create non root user
   hosts: all
   remote_user: root
   tasks:
@@ -21,7 +21,7 @@
       owner: controller
       group: controller
 
-- name: install controller
+- name: Install controller
   hosts: all
   remote_user: root
   become_user: controller
@@ -37,7 +37,7 @@
       update_cache: yes
       cache_valid_time: 86400 # One day
 
-  - name: install package dependencies
+  - name: Install package dependencies
     ansible.builtin.package:
       name:
        - nginx
@@ -46,7 +46,7 @@
        - nodejs
       state: latest
 
-  - name: create root for controller
+  - name: Create root for controller
     file:
       path: "{{ controller_root }}"
       state: directory
@@ -59,6 +59,12 @@
 #    args:
 #      chdir: "{{ controller_root }}"
 
+  - name: Download init.mjs
+    become: true
+    get_url:
+      url: "https://raw.githubusercontent.com/dyne/W3C-DID/main/init.mjs"
+      dest: "{{ controller_root }}/restroom/init.mjs"
+
   - name: Create .env
     become: true
     blockinfile:
@@ -69,6 +75,7 @@
         HTTP_PORT=12001
         HTTPS_PORT=443
         ZENCODE_DIR={{ controller_root }}/contracts
+        PRIVATE_ZENCODE_DIR={{ controller_root }}/private_contracts
         FILES_DIR={{ controller_root }}
         CHAIN_EXT=chain
         OPENAPI=true
@@ -88,7 +95,7 @@
     become: true
     command: >
       sed -i 's/"name": "restroom",/"name": "W3C-DID",/;
-      s/"start": "ZENCODE_DIR=contracts node restroom.mjs"/"start": "node restroom.mjs"/'
+      s/"start": "ZENCODE_DIR=contracts node restroom.mjs"/"start": "node restroom.mjs",\n    "init": "node init.mjs"/'
         restroom/package.json
     args:
       chdir: "{{ controller_root }}"
@@ -109,7 +116,22 @@
       group: controller
       recurse: yes
 
-  - name: create root for resolver
+  - name: Copy private_contracts
+    become: true
+    synchronize:
+      src: "../private_contracts"
+      dest: "{{ controller_root }}"
+      owner: no
+      group: no
+
+  - name: Fix private_contracts permissions
+    file:
+      dest: "{{ controller_root }}/private_contracts"
+      owner: controller
+      group: controller
+      recurse: yes
+
+  - name: Create root for resolver
     become: true
     file:
       path: "{{ controller_root }}/resolver"
@@ -117,19 +139,19 @@
       owner: controller
       group: controller
 
-  - name: download resolver
+  - name: Download resolver
     become: true
     get_url:
       url: "https://raw.githubusercontent.com/dyne/W3C-DID/main/resolver/resolver.js"
       dest: "{{ controller_root }}/resolver/resolver.js"
 
-  - name: download package.json resolver
+  - name: Download package.json resolver
     become: true
     get_url:
       url: "https://raw.githubusercontent.com/dyne/W3C-DID/main/resolver/package.json"
       dest: "{{ controller_root }}/resolver/package.json"
 
-  - name: download pm2 ecosystem
+  - name: Download pm2 ecosystem
     become: true
     get_url:
       url: "https://raw.githubusercontent.com/dyne/W3C-DID/main/ecosystem.config.js"
