@@ -1,0 +1,24 @@
+- name: Announce Controller
+  hosts: all
+  remote_user: root
+  become_user: controller
+  become_method: su
+  vars:
+    controller_root: "/controller"
+  tasks:
+  
+  - name: Check keyring
+    stat:
+      path: "{{ controller_root }}/contracts/keyring.json"
+    register: keyring_found
+
+  - name: Create keyring
+    become: true
+    command: yarn run init
+    args:
+      chdir: "{{ controller_root }}/restroom"
+    when: keyring_found.stat.exists
+
+  - name: Create Controller DID document
+    uri:
+      url: https://did.dyne.org:443/api/W3C-DID-Controller-create-DID-document.chain
