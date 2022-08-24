@@ -44,6 +44,7 @@
        - curl
        - rsync
        - nodejs
+       - jq
       state: latest
 
   - name: Create root for controller
@@ -97,15 +98,24 @@
       dest: "{{ controller_root }}/restroom/.env"
       state: link
 
+  - name: Create temporary file
+    become: true
+    tempfile:
+      state: file
+      suffix: temp
+    register: tempfile_1
+
+  - debug:
+      msg: "{{ tempfile_1.path }}"
+
   - name: Modify package.json in restroom
     become: true
-    command: >
-      sed -i 's/"name": "restroom",/"name": "W3C-DID",/;
-      s/"start": "ZENCODE_DIR=contracts node restroom.mjs"/"start": "node restroom.mjs",\n    "init": "node init.mjs"/'
-        restroom/package.json
+    shell: >
+      jq '.scripts = { init: "node init.mjs", start: "node restroom.mjs" } | .name = "W3C-DID"'
+      restroom/package.json > "{{ tempfile_1.path }}" &&
+      mv "{{ tempfile_1.path }}" restroom/package.json
     args:
       chdir: "{{ controller_root }}"
-
 
   - name: Copy contracts (permissions may be wrong)
     become: true
