@@ -8,6 +8,9 @@ help: ## Display this help.
 install: ## Install controller
 	$(call ANSIPLAY, install-controller.yaml)
 
+announce: ## Announce controller
+	$(call ANSIPLAY, announce-controller.yaml)
+
 start: ## Start controller
 	$(call ANSIPLAY, start-controller.yaml)
 
