@@ -1,24 +1,28 @@
 - name: Announce Controller
   hosts: all
-  remote_user: root
-  become_user: controller
-  become_method: su
+  remote_user: controller
   vars:
     controller_root: "/controller"
   tasks:
-  
-  - name: Check keyring
-    stat:
-      path: "{{ controller_root }}/contracts/keyring.json"
-    register: keyring_found
 
-  - name: Create keyring
-    become: true
+  - name: Create keyring and public keys
     command: yarn run init
     args:
       chdir: "{{ controller_root }}/restroom"
-    when: keyring_found.stat.exists
 
   - name: Create Controller DID document
     uri:
-      url: https://did.dyne.org:443/api/W3C-DID-Controller-create-DID-document.chain
+      url: https://did.dyne.org/api/W3C-DID-Controller-create-DID-document.chain
+    failed_when: false
+    register: response
+    delegate_to: localhost
+
+  - debug:
+      msg: "{{ response.json }}"
+    failed_when: response.status == 500
+
+  - name: Download the public keys
+    fetch:
+      src: "{{ controller_root }}/contracts/public_keys.json"
+      dest: "publickeys/{{ inventory_hostname }}.json"
+      flat: yes
