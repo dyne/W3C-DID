@@ -53,11 +53,17 @@
       owner: controller
       group: controller
 
-#  - name: importing restroom
-#    become: true
-#    command: npx -y create-restroom@next --all restroom
-#    args:
-#      chdir: "{{ controller_root }}"
+  - name: Check restroom
+    stat:
+      path: "{{ controller_root }}/restroom"
+    register: restroom_found
+
+  - name: Importing restroom
+    become: true
+    command: npx -y create-restroom@next --all restroom
+    args:
+      chdir: "{{ controller_root }}"
+    when: not restroom_found.stat.exists
 
   - name: Download init.mjs
     become: true
