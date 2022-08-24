@@ -1,0 +1,14 @@
+Scenario ecdh
+Scenario eddsa
+Scenario ethereum
+
+Given I am 'Issuer'
+Given I have my 'keyring'
+
+When I create the ecdh public key
+When I create the eddsa public key
+When I create the ethereum address
+
+Then print my 'ecdh public key'
+Then print my 'eddsa public key'
+Then print my 'ethereum address'
