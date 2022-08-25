@@ -87,7 +87,7 @@
         CHAIN_EXT=chain
         OPENAPI=true
         YML_EXT=yml
-        HOST=did.dyne.org
+        HOST={{ domain_name }}
         RESOLVER_HOST=localhost
         RESOLVER_PORT=12002
 
@@ -195,6 +195,6 @@
             proxy_pass http://127.0.0.1:12002;
           }
           location / {
-            proxy_pass http://did.dyne.org:12001;
+            proxy_pass http://{{ domain_name }}:12001;
           }
         }
