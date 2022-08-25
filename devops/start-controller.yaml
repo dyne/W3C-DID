@@ -7,6 +7,11 @@
   vars:
     controller_root: "/controller"
   tasks:
+  - name: Delete old logs
+    file:
+      path: "/home/controller/.pm2/logs/"
+      state: absent
+
   - name: Start services
     become: true
     command: pm2 start ecosystem.config.js
