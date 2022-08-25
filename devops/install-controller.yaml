@@ -54,17 +54,24 @@
       owner: controller
       group: controller
 
-  - name: Check restroom
-    stat:
+  - name: Create restroom dir
+    file:
       path: "{{ controller_root }}/restroom"
-    register: restroom_found
+      state: directory
+      owner: controller
+      group: controller
 
-  - name: Importing restroom
+  - name: Importing package.json (restroom)
     become: true
-    command: npx -y create-restroom@next --all restroom
-    args:
-      chdir: "{{ controller_root }}"
-    when: not restroom_found.stat.exists
+    get_url:
+      url: "https://raw.githubusercontent.com/dyne/W3C-DID/main/restroom/package.json"
+      dest: "{{ controller_root }}/restroom/package.json"
+
+  - name: Importing restroom.mjs
+    become: true
+    get_url:
+      url: "https://raw.githubusercontent.com/dyne/W3C-DID/main/restroom/restroom.mjs"
+      dest: "{{ controller_root }}/restroom/restroom.mjs"
 
   - name: Download init.mjs
     become: true
@@ -97,25 +104,6 @@
       src: "{{ controller_root }}/.env"
       dest: "{{ controller_root }}/restroom/.env"
       state: link
-
-  - name: Create temporary file
-    become: true
-    tempfile:
-      state: file
-      suffix: temp
-    register: tempfile_1
-
-  - debug:
-      msg: "{{ tempfile_1.path }}"
-
-  - name: Modify package.json in restroom
-    become: true
-    shell: >
-      jq '.scripts = { init: "node init.mjs", start: "node restroom.mjs" } | .name = "W3C-DID"'
-      restroom/package.json > "{{ tempfile_1.path }}" &&
-      mv "{{ tempfile_1.path }}" restroom/package.json
-    args:
-      chdir: "{{ controller_root }}"
 
   - name: Copy contracts (permissions may be wrong)
     become: true
