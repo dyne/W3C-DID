@@ -35,7 +35,10 @@ blocks:
       When I create the array by splitting 'serviceEndpoint' at '/'
 
       # compose the uid
-      When I set 'uid' to 'https://' as 'string'
+      When I create the copy of element '1' in array 'array'
+      When I rename the 'copy' to 'uid'
+      When I append '/' to 'uid'
+      When I append '/' to 'uid'
       When I create the copy of element '2' in array 'array'
       When I append 'copy' to 'uid'
 
