@@ -7,12 +7,12 @@
   vars:
     controller_root: "/controller"
   tasks:
-  - name: Start services
+  - name: Stop services
     become: true
     command: pm2 kill
     args:
       chdir: "{{ controller_root }}"
 
-  - name: Restart nginx
+  - name: Stop nginx
     become: false
     service: name=nginx state=stopped
