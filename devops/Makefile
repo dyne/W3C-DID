@@ -16,3 +16,16 @@ start: ## Start controller
 
 stop: ## Stop controller
 	$(call ANSIPLAY, stop-controller.yaml)
+
+##@ Docker image management
+docker-build:
+	docker rm $$(docker ps -aq -f "ancestor=w3cdid") || echo "No container"
+	docker rmi w3cdid || echo "No image"
+	docker build -t w3cdid .
+docker-start:
+	docker run -it --name w3cdid w3cdid bash
+docker-ip:
+	sudo docker inspect -f "{{ .NetworkSettings.IPAddress }}" w3cdid
+docker-commit:
+	$(if ${ID},,$(error Container ID is not defined))
+	docker commit --change 'CMD ["/bin/bash","/startup.sh"]' ${ID} dyne/w3c-did-driver:latest

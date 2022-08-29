@@ -12,7 +12,7 @@
 
   - name: Create Controller DID document
     uri:
-      url: https://did.dyne.org/api/W3C-DID-Controller-create-DID-document.chain
+      url: "http://{{inventory_hostname}}:12000/api/W3C-DID-Controller-create-DID-document.chain"
     failed_when: false
     register: response
     delegate_to: localhost

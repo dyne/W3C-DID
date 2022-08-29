@@ -45,7 +45,11 @@
        - rsync
        - nodejs
        - jq
+       - redis-server
       state: latest
+
+  - name: Start redis
+    service: name=redis-server state=started enabled=yes
 
   - name: Create root for controller
     file:
@@ -161,10 +165,29 @@
       url: "https://raw.githubusercontent.com/dyne/W3C-DID/main/ecosystem.config.js"
       dest: "{{ controller_root }}/ecosystem.config.js"
 
+
+  - name: Install yarn
+    community.general.npm:
+      name: yarn
+      global: yes
+      state: latest
+
+  - name: Install yarn
+    community.general.npm:
+      name: pm2
+      global: yes
+      state: latest
+
   - name: Update packages of resolver
     become: true
     community.general.yarn:
       path: "{{ controller_root }}/resolver"
+      state: latest
+
+  - name: Update packages of restroom
+    become: true
+    community.general.yarn:
+      path: "{{ controller_root }}/restroom"
       state: latest
 
   - name: Nginx service
@@ -173,8 +196,8 @@
       create: true
       block: |
         server {
-          listen 12000 default_server;
-          listen [::]:12000 default_server;
+          listen 8080 default_server;
+          listen [::]:8080 default_server;
 
           server_name _;
           include /etc/nginx/mime.types;
