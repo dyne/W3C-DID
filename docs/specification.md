@@ -2,9 +2,9 @@
 
 ## Abstract
 
-The first focus for the Dyne.org's DID method was to register [Zenswarm Oracles](https://github.com/dyne/zenswarm) identities, in a way that is both machine and human readable. We have introduced some classes and properties to cover all the public keys that we are using inside the DID document, including also a post quantum public key. The DID and the DID Document are produced and resolved by our [Controller](https://did.dyne.org/docs/), who also notarizes the DID Document on [fabchain.net](https://www.fabchain.net/).
+The first focus for the Dyne.org's DID method was to register [Zenswarm Oracles](https://github.com/dyne/zenswarm) identities, in a way that is both machine and human readable. We have introduced some new classes and properties to cover all the public keys that we are using inside the DID document, including also a **post quantum** public key. The DID and the DID Document are produced and resolved by our [Controller](https://did.dyne.org/docs/), who also notarizes the DID Document on [fabchain.net](https://www.fabchain.net/).
 
-For the moment only Zenswarm Oracles, through a dedicated procedure, can posses a Dyne.org's DID. This thing will change in the following months, and this document will be updated with the changes.
+For the moment only Zenswarm Oracles, through a dedicated procedure, can posses a Dyne.org's DID. This will change in the following months, and this document will be updated with the changes.
 
 
 ### State of the document 
@@ -31,8 +31,7 @@ base58char := "1" / "2" / "3" / "4" / "5" / "6" / "7" / "8" / "9" / "A" / "B" / 
               / "q" / "r" / "s" / "t" / "u" / "v" / "w" / "x" / "y" / "z"
 ```
 
-The prefix **did:dyne:id:** represent a Zenswarm Oracle and **did:dyne:fabchain:** is used to store the transaction id in which the DID document is store on the chain. In each Zenswarm Oracle DID document is present the field "AlsoKnownAs" with value **did:dyne:fabchain:...**. The prefix **did:dyne:controller:** is used by the Controller
-to differentiate its DID from the others.
+The prefix **did:dyne:id:** represent a Zenswarm Oracle and inside each Zenswarm Oracle DID document is present the field "alsoKnownAs" with value **did:dyne:fabchain:...**, this DID can be resolved and contains the DID of the Oracle and the transaction id in which the DID document is store on the chain. The prefix **did:dyne:controller:** is used by the Controller to differentiate its DID from the others.
 
 An example of Dyne.org's DID is:
 ```
@@ -246,6 +245,29 @@ that is associated to the following DID document:
    ]
 }
 ```
+
+Below is an example of a DID Document resolved using the DID contained in "alsoKnownAs": 
+
+```json
+{
+   "id":"did:dyne:id:E3H6tgCWZwXMXc8qbFAw22KBCjNxHnhKhG31tqreg3wm",
+   "txid":"b209e18d074f820c44bbc052c86add6c66beb319cfbc8b2ac1b47b3102e5df40"
+}
+```
+
+The data stored in the transation represented by the transaction id "txid" can be retrieved by querying the resolve-alsoKnownAs API:
+
+```bash
+curl -X 'POST' \
+  'https://did.dyne.org:443/api/W3C-DID-resolve-alsoKnownAs' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "data": {"alsoKnownAs": "b209e18d074f820c44bbc052c86add6c66beb319cfbc8b2ac1b47b3102e5df40"},
+  "keys": {}
+}'
+```
+
 ## CRUD Operation Definitions
 
 ### DID Document Creation
