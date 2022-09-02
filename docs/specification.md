@@ -31,7 +31,7 @@ base58char := "1" / "2" / "3" / "4" / "5" / "6" / "7" / "8" / "9" / "A" / "B" / 
               / "q" / "r" / "s" / "t" / "u" / "v" / "w" / "x" / "y" / "z"
 ```
 
-The prefix **did:dyne:id:** represent a Zenswarm Oracle and inside each Zenswarm Oracle DID document is present the field "alsoKnownAs" with value **did:dyne:fabchain:...**, this DID can be resolved and contains the DID of the Oracle and the transaction id in which the DID document is store on the chain. The prefix **did:dyne:controller:** is used by the Controller to differentiate its DID from the others.
+The prefix <b>did:</b><b>dyne:</b><b>id:</b> represent a Zenswarm Oracle and inside each Zenswarm Oracle DID document is present the field "alsoKnownAs" with value <b>did:</b><b>dyne:</b><b>fabchain:...</b>, this DID can be resolved and contains the DID of the Oracle and the transaction id in which the DID document is store on the chain. The prefix <b>did:</b><b>dyne:</b><b>controller:</b> is used by the Controller to differentiate its DID from the others.
 
 An example of Dyne.org's DID is:
 ```
@@ -384,4 +384,6 @@ passing the DID to delete/revoke inside the "data" field.
 
 ## Privacy Considerations
 
+- As stated in the [abstract](specification.md?id=abstract) this DID method is not intended for general users yet, but only for Zensarm Oracles. Thus no personally identifiable information (PII) is included in a DID document retrieved by Dyne.org's DID resolver.
+- DID Document details published on the blockchain ledger are necessary only for authentication by other parties.
 - The private key only exists on the user's device and will not be known to any third party.
