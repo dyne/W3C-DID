@@ -1,5 +1,8 @@
 # Dyne.org's DID Method
 
+The first focus for the Dyne.org's DID method was to register [Zenswarm Oracles](https://github.com/dyne/zenswarm) identities, in a way that is both machine and human readable. We haven’t been able to use the standard specs to record public keys, since we found the existing standards incomplete or incompatible. We also have been unable to find a standard to record a Dilithium2 (quantum-proof) and Schnorr public keys, that we created according to the best practices we are aware of. 
+The DID and the DID Document are produced and resolved by our [Controller](https://did.dyne.org/docs/), who also notarizes the DID Document on [fabchain.net](https://www.fabchain.net/).
+
 The content of the Dyne.org's DID document includes: 
 * A list of API endpoints, as an array “serviceEndpoint”. 
 * The “Country” and the “State”
