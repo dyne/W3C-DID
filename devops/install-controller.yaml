@@ -190,6 +190,13 @@
       path: "{{ controller_root }}/restroom"
       state: latest
 
+  - name: Start controller by hand
+    blockinfile:
+      dest: "/root/start-controller.sh"
+      create: true
+      block: |
+        su - controller -c "cd /{{ controller_root }}; pm2 start ecosystem.config.js; cd -"
+
   - name: Nginx service
     blockinfile:
       dest: "/etc/nginx/conf.d/controller.conf"
