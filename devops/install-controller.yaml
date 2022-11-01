@@ -83,6 +83,15 @@
       url: "https://raw.githubusercontent.com/dyne/W3C-DID/main/init.mjs"
       dest: "{{ controller_root }}/restroom/init.mjs"
 
+
+  - name: Config restroom in private network
+    ansible.builtin.lineinfile:
+      path: /etc/hosts
+      line: 127.0.0.1 {{ domain_name }}
+      owner: root
+      group: root
+      mode: '0644'
+
   - name: Create .env
     become: true
     blockinfile:
@@ -98,7 +107,7 @@
         CHAIN_EXT=chain
         OPENAPI=true
         YML_EXT=yml
-        HOST=127.0.0.1
+        HOST={{ domain_name }}
         RESOLVER_HOST=localhost
         RESOLVER_PORT=12002
 
@@ -153,7 +162,6 @@
       url: "https://raw.githubusercontent.com/dyne/W3C-DID/main/ecosystem.config.js"
       dest: "{{ controller_root }}/ecosystem.config.js"
 
-
   - name: Install yarn
     community.general.npm:
       name: yarn
@@ -164,12 +172,6 @@
     community.general.npm:
       name: pm2
       global: yes
-      state: latest
-
-  - name: Update packages of resolver
-    become: true
-    community.general.yarn:
-      path: "{{ controller_root }}/resolver"
       state: latest
 
   - name: Update packages of restroom
