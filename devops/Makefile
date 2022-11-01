@@ -17,6 +17,9 @@ start: ## Start controller
 stop: ## Stop controller
 	$(call ANSIPLAY, stop-controller.yaml)
 
+tls: ## Install SSL/TLS certificate
+	$(call ANSIPLAY, acme-certificate.yaml)
+
 ##@ Docker image management
 docker-build:
 	docker rm $$(docker ps -aq -f "ancestor=w3cdid") || echo "No container"

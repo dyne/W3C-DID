@@ -98,7 +98,7 @@
         CHAIN_EXT=chain
         OPENAPI=true
         YML_EXT=yml
-        HOST={{ domain_name }}
+        HOST=127.0.0.1
         RESOLVER_HOST=localhost
         RESOLVER_PORT=12002
 
@@ -147,18 +147,6 @@
       owner: controller
       group: controller
 
-  - name: Download resolver
-    become: true
-    get_url:
-      url: "https://raw.githubusercontent.com/dyne/W3C-DID/main/resolver/resolver.js"
-      dest: "{{ controller_root }}/resolver/resolver.js"
-
-  - name: Download package.json resolver
-    become: true
-    get_url:
-      url: "https://raw.githubusercontent.com/dyne/W3C-DID/main/resolver/package.json"
-      dest: "{{ controller_root }}/resolver/package.json"
-
   - name: Download pm2 ecosystem
     become: true
     get_url:
@@ -203,16 +191,20 @@
       create: true
       block: |
         server {
-          listen 8080 default_server;
-          listen [::]:8080 default_server;
-
-          server_name _;
+          listen 443 ssl;
+          root /var/www/html;
+          server_name {{ domain_name }};
           include /etc/nginx/mime.types;
-
-          location /1.0/identifiers {
-            proxy_pass http://127.0.0.1:12002;
+          ssl_certificate /etc/letsencrypt/live/{{ domain_name}}/fullchain.pem;
+          ssl_certificate_key /etc/letsencrypt/live/{{ domain_name}}/privkey.pem;
+          include /etc/letsencrypt/options-ssl-nginx.conf; # Redirect non-https traffic to https
+          if ($scheme != "https") {
+              return 301 https://$host$request_uri;
+          }
+          location ~ ^/1.0/identifiers/(.*) {
+                proxy_pass http://127.0.0.1:12001/api/W3C-DID-resolve-did?data=%7B%22id%22%3A%22$1%22%7D;
           }
           location / {
-            proxy_pass http://{{ domain_name }}:12001;
+            proxy_pass http://127.0.0.1:12001;
           }
         }

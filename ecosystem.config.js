@@ -4,9 +4,5 @@ module.exports = {
         name : "did",
         script : "./restroom.mjs",
         cwd: "restroom"
-    },{
-        name : "resolver",
-        script: "./resolver.js",
-        cwd: "resolver"
     }]
 }
