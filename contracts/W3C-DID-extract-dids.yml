@@ -1,0 +1,31 @@
+zenchain: 1.0
+start: controller_retrieve-did-id_1_retrieve-dids.zen
+blocks:
+  controller_retrieve-did-id_1_retrieve-dids.zen:
+    zenContent: >-
+      Rule caller restroom-mw
+
+
+      Given I have a valid redis connection on 'redis://localhost:6379'
+
+      Given I read from redis the data under the keys containing 'type' and save
+      the output into 'W3C-DIDs'
+
+      Given I have a 'string array' named 'W3C-DIDs'
+
+      Then print 'W3C-DIDs'
+    next: >-
+      controller_retrieve-did-id_2_for-each-did-doc-extract-id.zen
+  controller_retrieve-did-id_2_for-each-did-doc-extract-id.zen:
+    forEach: W3C-DIDs
+    index: temp
+    zenContent: |-
+      Given I have a 'string dictionary' named 'temp'
+      Then print the 'id' from 'temp'
+    next: controller_retrieve-did-id_3_flat.zen
+  controller_retrieve-did-id_3_flat.zen:
+    zenContent: |
+      Given I have a 'string array' named 'W3C-DIDs' 
+      When I create the flat array of contents in 'W3C-DIDs' 
+      When I rename the 'flat array' to 'W3C-DIDs list'
+      Then print the 'W3C-DIDs list'
