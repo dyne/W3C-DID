@@ -1,0 +1,11 @@
+Rule caller restroom-mw
+
+Given I have a valid redis connection on 'redis://localhost:6379'
+Given I read from redis the data under the keys containing 'token' and save the output into 'tokens'
+
+Given I have a 'string array' named 'tokens'
+
+When I create the length of 'tokens'
+When I rename the 'length' to 'token_left'
+
+Then print the 'token_left'
