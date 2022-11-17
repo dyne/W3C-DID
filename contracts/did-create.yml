@@ -1,0 +1,156 @@
+zenchain: 1.0
+start: did-create-1-extract-eddsa-key.zen
+blocks:
+  did-create-1-extract-eddsa-key.zen:
+    zenContent: |
+      Scenario 'eddsa': verify signature
+      Scenario 'w3c': extract verificationMethod
+
+      Given I have a 'did document'
+      Given I have a 'eddsa signature'
+      Given I have a 'eddsa signature' named 'token signature'
+
+      When I create the verificationMethod
+      When I pickup from path 'verificationMethod.eddsa_public_key'
+
+      Then print the 'did_document'
+      Then print the 'eddsa_signature'
+      Then print the 'token_signature'
+      Then print the 'eddsa_public_key'
+    next: did-create-2-extract-token-key.zen
+  did-create-2-extract-token-key.zen:
+    zenContent: |
+      Scenario 'eddsa': public key
+
+      Given I have a 'string dictionary' named 'did document'
+      Given I have a 'eddsa public key'
+      Given I have a 'eddsa signature'
+      Given I have a 'eddsa signature' named 'token signature'
+
+      When I pickup from path 'did_document.id'
+      When I set ':' to ':' as 'string'
+      When I create the array by splitting 'id' at ':'
+      When I create the copy of element '4' in array 'array'
+      When I rename the 'copy' to 'token_public_key'
+
+      When I set 'sent' to 'sent:' as 'string'
+      When I append 'token_public_key' to 'sent'
+
+      Then print the 'did_document'
+      Then print the 'eddsa_signature'
+      Then print the 'token_signature'
+      Then print the 'eddsa_public_key'
+      Then print the 'token_public_key'
+      Then print the 'sent'
+    next: did-create-3-check-and-save-on-redis.zen
+  did-create-3-check-and-save-on-redis.zen:
+    zenContent: >
+      Rule caller restroom-mw
+
+      Scenario 'eddsa': verify singatures
+
+      Scenario 'w3c': proof
+
+
+      Given I have a valid redis connection on 'redis://localhost:6379'
+
+
+      # timestamp in proof
+
+      Given I fetch the local timestamp and store it into 'created'
+
+      Given I have a 'string' named 'created'
+
+
+      # check if token public key has been sent
+
+      Given I read from redis the data under the key 'sent' and save the output
+      into 'test'
+
+      Given I have a 'string' named 'test'
+
+
+      # controller did-document needed for id in proof
+
+      Given I read from redis the data under the keys containing
+      'did:dyne:controller:' and save the output into 'controller_did_document'
+
+      Given I have a 'string dictionary' named 'controller_did_document'
+
+
+      # controller keyring
+
+      Given I am 'Issuer'
+
+      Given I read the content of 'contracts/keyring.json'
+
+      Given I have my 'keyring'
+
+
+      # all the other stuff
+
+      Given I have a 'string' named 'sent'
+
+      Given I have a 'string dictionary' named 'proof'
+
+      Given I have a 'string dictionary' named 'did document'
+
+      Given I have a 'eddsa public key'
+
+      Given I have a 'eddsa signature'
+
+      Given I have a 'eddsa public key' named 'token public key'
+
+      Given I have a 'eddsa signature' named 'token signature'
+
+
+      # verify singautres
+
+      When I verify the 'did document' has a eddsa signature in 'eddsa
+      signature' by 'eddsa public key'
+
+      When I verify the 'did document' has a eddsa signature in 'token
+      signature' by 'token public key'
+
+
+      # create proof
+
+      When I create the jws signature of 'did document'
+
+      When I insert 'jws' in 'proof'
+
+      When I insert 'created' in 'proof'
+
+      # proof's verification method
+
+      When I pickup from path 'controller_did_document.id'
+
+      When I rename the 'id' to 'verificationMethod'
+
+      When I set '#key_ecdsa1' to '#key_ecdsa1' as 'string'
+
+      When I append '#key_ecdsa1' to 'verificationMethod'
+
+      When I insert 'verificationMethod' in 'proof'
+
+      When I insert 'proof' in 'did document'
+
+
+      # needed for redis key
+
+      When I pickup from path 'did_document.id'
+
+
+      Then print the 'did document'
+
+      Then print the 'id'
+
+      Then print the 'sent'
+
+
+      # save did document and remove sent token on redis
+
+      Then I write 'did_document' into redis under the key named by 'id'
+
+      Then I remove the key 'sent' in redis
+    keysFile: did-create-3-check-and-save-on-redis.keys
