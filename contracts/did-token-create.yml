@@ -18,14 +18,9 @@ blocks:
       When I remove 'temp'
       When I create the eddsa key
       When I create the eddsa public key
-      # if codec==keyring and name != keyring then it will not be printed
-      # this is used to overcome this limitation
-      When I create the 'base58 dictionary'
-      When I move 'eddsa' from 'keyring' to 'base58 dictionary'
-      When I pickup from path 'base58_dictionary.eddsa'
 
       Then print the 'eddsa public key'
-      Then print the 'eddsa'
+      Then print the 'keyring'
     next: did-token-create-3-pksk.zen
   did-token-create-3-pksk.zen:
     forEach: keypairs
@@ -36,12 +31,15 @@ blocks:
 
       Given I have a valid redis connection on 'redis://localhost:6379'
 
-      Given I have a 'string' named 'eddsa' in 'temp'
-      Given I have a 'string' named 'eddsa public key' in 'temp'
+      Given I have a 'string dictionary' named 'temp'
+      Given I have a 'string' named 'token'
 
-      When I set 'token' to 'tokens:' as 'string'
+      When I pickup from path 'temp.keyring.eddsa'
+      When I pickup from path 'temp.eddsa_public_key'
       When I append 'eddsa_public_key' to 'token'
+
       Then print the 'token'
       Then print the 'eddsa'
 
       Then I write 'eddsa' into redis under the key named by 'token'
+    keysFile: did-token-create-3-pksk.keys
