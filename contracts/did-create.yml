@@ -154,3 +154,131 @@ blocks:
 
       Then I remove the key 'sent' in redis
     keysFile: did-create-3-check-and-save-on-redis.keys
+    next: did-create-4-save-on-blockchain.zen
+  did-create-4-save-on-blockchain.zen:
+    zenContent: >-
+      Rule unknown ignore
+
+
+      Scenario 'ethereum': store did on blockchain
+
+
+
+
+      Given I have a valid redis connection on 'redis://localhost:6379'
+
+
+      Given I read into 'ethereum_nonce' and increment the key named by 'nonce'
+
+
+
+
+      # controller ethereum address
+
+
+      Given I am 'Issuer'
+
+
+      Given I read the content of 'contracts/public_keys.json'
+
+
+      Given I have my 'ethereum address'
+
+
+      Given I have the 'keyring'
+
+
+
+
+      Given I have a ethereum endpoint named 'blockchain'
+
+
+
+
+      Given I have a 'ethereum address' named 'storage contract'
+
+
+      Given I have a 'gas limit'
+
+
+      Given I have a 'ethereum nonce'
+
+
+      Given I have a 'gas price'
+
+
+
+
+      Given I have a 'string dictionary' named 'did document'
+
+
+      Given I have a 'string' named 'id'
+
+
+      Given I have a 'string' named 'alsoKnownAs'
+
+
+      Given I have a 'string' named 'timestamp-create'
+
+
+
+
+      # prepare dictionary for AlsoKnowAs
+
+
+      When I create the 'string dictionary' named 'AlsoKnownAs'
+
+
+      When I insert 'id' in 'AlsoKnownAs'
+
+
+      When I insert 'timestamp-create' in 'AlsoKnownAs'
+
+
+
+
+      When I create the mpack of 'did document'
+
+
+      When I rename the 'mpack' to 'data'
+
+
+      When I create the ethereum transaction to 'storage contract'
+
+
+      When I use the ethereum transaction to store 'data'
+
+
+      When I create the signed ethereum transaction for chain 'fabt'
+
+
+
+
+      Then print the 'signed ethereum transaction'
+
+
+      Then print the 'AlsoKnownAs'
+
+
+      Then print the 'alsoKnownAs'
+
+
+      Then I ask ethereum to broadcast the 'signed_ethereum_transaction' and
+      save the transaction id in 'txid-create'
+    keysFile: did-create-4-save-on-blockchain.keys
+    next: did-create-5-save-alsoknownas-redis.zen
+  did-create-5-save-alsoknownas-redis.zen:
+    zenContent: |-
+      Rule caller restroom-mw
+
+      Given I have a valid redis connection on 'redis://localhost:6379'
+      Given I have a 'string' named 'txid-create'
+      Given I have a 'string' named 'alsoKnownAs'
+      Given I have a 'string dictionary' named 'AlsoKnownAs'
+
+      When I insert 'txid-create' in 'AlsoKnownAs'
+
+      Then print the 'AlsoKnownAs'
+      Then print the 'alsoKnownAs'
+
+      Then I write 'AlsoKnownAs' into redis under the key named by 'alsoKnownAs'
