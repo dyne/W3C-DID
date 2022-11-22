@@ -1,0 +1,193 @@
+zenchain: 1.0
+start: did-delete-1-remove-from-redis.zen
+blocks:
+  did-delete-1-remove-from-redis.zen:
+    zenContent: >
+      Rule caller restroom-mw
+
+      Scenario 'eddsa': signature
+
+      Scenario 'w3c': verifcationMethod
+
+
+      Given I have a valid redis connection on 'redis://localhost:6379'
+
+      Given I read from redis the data under the key 'id' and save the output
+      into 'old_did_document'
+
+
+      Given I fetch the local timestamp and store it into 'timestamp-delete'
+
+      Given I have a 'string' named 'timestamp-delete'
+
+
+      # controller keyring
+
+      Given I am 'Issuer'
+
+      Given I read the content of 'contracts/keyring.json'
+
+      Given I have my 'keyring'
+
+
+      Given I have a 'string' named 'id'
+
+      Given I have a 'eddsa signature'
+
+      Given I have a 'did document' named 'old_did_document'
+
+
+      When I create the verificationMethod of 'old_did_document'
+
+      When I pickup from path 'verificationMethod.eddsa_public_key'
+
+
+      When I verify the 'id' has a signature in 'eddsa_signature' by
+      'eddsa_public_key'
+
+
+      When I create the mpack of 'old did document'
+
+      When I rename the 'mpack' to 'data'
+
+
+      When I pickup from path 'old_did_document.alsoKnownAs'
+
+
+      Then print the 'id'
+
+      Then print the 'timestamp-delete'
+
+      Then print the 'data'
+
+      Then print the 'keyring'
+
+      Then print the 'alsoKnownAs'
+
+
+      Then I remove the key 'id' in redis
+    next: did-delete-2-remove-blockchain.zen
+  did-delete-2-remove-blockchain.zen:
+    zenContent: >-
+      Rule unknown ignore
+
+
+      Scenario 'ethereum': store did on blockchain
+
+
+
+
+      Given I have a valid redis connection on 'redis://localhost:6379'
+
+
+      Given I read from redis the data under the key 'alsoKnownAs' and save the
+      output into 'AlsoKnownAs'
+
+
+      Given I read into 'ethereum_nonce' and increment the key named by 'nonce'
+
+
+
+
+      # controller ethereum address
+
+
+      Given I am 'Issuer'
+
+
+      Given I read the content of 'contracts/public_keys.json'
+
+
+      Given I have my 'ethereum address'
+
+
+      Given I have the 'keyring'
+
+
+
+
+      Given I have a ethereum endpoint named 'blockchain'
+
+
+
+
+      Given I have a 'ethereum address' named 'storage contract'
+
+
+      Given I have a 'gas limit'
+
+
+      Given I have a 'ethereum nonce'
+
+
+      Given I have a 'gas price'
+
+
+
+
+      Given I have a 'string dictionary' named 'AlsoKnownAs'
+
+
+      Given I have a 'string' named 'data'
+
+
+      Given I have a 'string' named 'id'
+
+
+      Given I have a 'string' named 'alsoKnownAs'
+
+
+      Given I have a 'string' named 'timestamp-delete'
+
+
+
+
+      # prepare dictionary for AlsoKnowAs
+
+
+      When I insert 'timestamp-delete' in 'AlsoKnownAs'
+
+
+
+
+      When I create the ethereum transaction to 'storage contract'
+
+
+      When I use the ethereum transaction to store 'data'
+
+
+      When I create the signed ethereum transaction for chain 'fabt'
+
+
+
+
+      Then print the 'signed ethereum transaction'
+
+
+      Then print the 'AlsoKnownAs'
+
+
+      Then print the 'alsoKnownAs'
+
+
+
+
+      Then I ask ethereum to broadcast the 'signed_ethereum_transaction' and
+      save the transaction id in 'txid-delete'
+    keysFile: did-delete-2-remove-blockchain.keys
+    next: did-delete-3-save-alsoknownas-redis.zen
+  did-delete-3-save-alsoknownas-redis.zen:
+    zenContent: |
+      Rule caller restroom-mw
+
+      Given I have a valid redis connection on 'redis://localhost:6379'
+      Given I have a 'string' named 'txid-delete'
+      Given I have a 'string' named 'alsoKnownAs'
+      Given I have a 'string dictionary' named 'AlsoKnownAs'
+
+      When I insert 'txid-delete' in 'AlsoKnownAs'
+
+      Then print the 'AlsoKnownAs'
+      Then print the 'alsoKnownAs'
+
+      Then I write 'AlsoKnownAs' into redis under the key named by 'alsoKnownAs'
