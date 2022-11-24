@@ -225,7 +225,7 @@ blocks:
       When I create the mpack of 'did document'
 
 
-      When I rename the 'mpck' to 'data'
+      When I rename the 'mpack' to 'data'
 
 
       When I create the ethereum transaction to 'storage contract'
