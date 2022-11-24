@@ -10,9 +10,14 @@
     args:
       chdir: "{{ controller_root }}/restroom"
 
+  - name: Setup information in redis
+    uri:
+      url: "http://{{inventory_hostname}}:12000/api/did-setup.chain"
+    delegate_to: localhost
+
   - name: Create Controller DID document
     uri:
-      url: "http://{{inventory_hostname}}:12000/api/W3C-DID-Controller-create-DID-document.chain"
+      url: "http://{{inventory_hostname}}:12000/api/did-controller.chain"
     failed_when: false
     register: response
     delegate_to: localhost
