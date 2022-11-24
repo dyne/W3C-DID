@@ -1,7 +1,7 @@
 Rule caller restroom-mw
 
 Given I have a valid redis connection on 'redis://localhost:6379'
-Given I read from redis the data under the keys containing 'token' and save the output into 'tokens'
+Given I read from redis the data under the keys containing 'token:' and save the output into 'tokens'
 
 Given I have a 'string array' named 'tokens'
 

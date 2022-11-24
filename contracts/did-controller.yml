@@ -166,7 +166,7 @@ blocks:
       Then print the 'id'
 
 
-      Then I write 'did document' into redis under the key named by 'id'
+      Then I write 'did_document' into redis under the key named by 'id'
     keysFile: did-controller-2-create-did-doc.keys
     next: did-controller-3-save-on-blockchain.zen
   did-controller-3-save-on-blockchain.zen:
