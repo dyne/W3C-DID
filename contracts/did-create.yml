@@ -2,7 +2,7 @@ zenchain: 1.0
 start: did-create-1-extract-eddsa-key.zen
 blocks:
   did-create-1-extract-eddsa-key.zen:
-    zenContent: |
+    zenContent: |-
       Scenario 'eddsa': verify signature
       Scenario 'w3c': extract verificationMethod
 
@@ -10,7 +10,7 @@ blocks:
       Given I have a 'eddsa signature'
       Given I have a 'eddsa signature' named 'token signature'
 
-      When I create the verificationMethod
+      When I create the verificationMethod of 'did document'
       When I pickup from path 'verificationMethod.eddsa_public_key'
 
       Then print the 'did_document'
