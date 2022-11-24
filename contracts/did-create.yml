@@ -2,20 +2,35 @@ zenchain: 1.0
 start: did-create-1-extract-eddsa-key.zen
 blocks:
   did-create-1-extract-eddsa-key.zen:
-    zenContent: |-
+    zenContent: >-
       Scenario 'eddsa': verify signature
+
       Scenario 'w3c': extract verificationMethod
 
+
+      Given I have a 'string' named 'url' inside 'did document'
+
       Given I have a 'did document'
+
       Given I have a 'eddsa signature'
+
       Given I have a 'eddsa signature' named 'token signature'
 
+
       When I create the verificationMethod of 'did document'
-      When I pickup from path 'verificationMethod.eddsa_public_key'
+
+      When I pickup a 'eddsa public key' from path
+      'verificationMethod.eddsa_public_key'
+
 
       Then print the 'did_document'
+
+      Then print 'url' as 'string' in the 'did document'
+
       Then print the 'eddsa_signature'
+
       Then print the 'token_signature'
+
       Then print the 'eddsa_public_key'
     next: did-create-2-extract-token-key.zen
   did-create-2-extract-token-key.zen:
@@ -44,8 +59,10 @@ blocks:
       Then print the 'sent'
     next: did-create-3-check-and-save-on-redis.zen
   did-create-3-check-and-save-on-redis.zen:
-    zenContent: >
+    zenContent: >-
       Rule caller restroom-mw
+
+      Scenario 'ethereum': address
 
       Scenario 'eddsa': verify singatures
 
@@ -62,12 +79,15 @@ blocks:
       Given I have a 'string' named 'created'
 
 
-      # check if token public key has been sent
+      # check if token public key has been sent, if not sent then the restroom
+      statement will return 
+
+      # an empty array [] causing the given statement after it to fail
 
       Given I read from redis the data under the key 'sent' and save the output
-      into 'test'
+      into 'sent_token'
 
-      Given I have a 'string' named 'test'
+      Given I have a 'string dictionary' named 'sent_token'
 
 
       # controller did-document needed for id in proof
@@ -104,6 +124,10 @@ blocks:
       Given I have a 'eddsa signature' named 'token signature'
 
 
+      # verify token
+
+      When 'eddsa' is found in 'sent_token'
+
       # verify singautres
 
       When I verify the 'did document' has a eddsa signature in 'eddsa
@@ -111,6 +135,11 @@ blocks:
 
       When I verify the 'did document' has a eddsa signature in 'token
       signature' by 'token public key'
+
+
+      # copy of created for the AlsoKnowAs
+
+      When I copy 'created' to 'timestamp-create'
 
 
       # create proof
@@ -136,16 +165,27 @@ blocks:
       When I insert 'proof' in 'did document'
 
 
-      # needed for redis key
+      # needed for did doc redis key
 
       When I pickup from path 'did_document.id'
+
+
+      # need for AlsoKnowAs redis key
+
+      When I pickup from path 'did_document.alsoKnownAs'
 
 
       Then print the 'did document'
 
       Then print the 'id'
 
+      Then print the 'alsoKnownAs'
+
       Then print the 'sent'
+
+      Then print the 'keyring'
+
+      Then print the 'timestamp-create'
 
 
       # save did document and remove sent token on redis
