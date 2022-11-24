@@ -148,14 +148,6 @@
       group: controller
       recurse: yes
 
-  - name: Create root for resolver
-    become: true
-    file:
-      path: "{{ controller_root }}/resolver"
-      state: directory
-      owner: controller
-      group: controller
-
   - name: Download pm2 ecosystem
     become: true
     get_url:

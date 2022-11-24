@@ -12,12 +12,12 @@
 
   - name: Setup information in redis
     uri:
-      url: "http://{{inventory_hostname}}:12000/api/did-setup.chain"
+      url: "https://{{domain_name}}/api/did-setup.chain"
     delegate_to: localhost
 
   - name: Create Controller DID document
     uri:
-      url: "http://{{inventory_hostname}}:12000/api/did-controller.chain"
+      url: "https://{{domain_name}}/api/did-controller.chain"
     failed_when: false
     register: response
     delegate_to: localhost
