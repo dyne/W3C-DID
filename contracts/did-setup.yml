@@ -5,7 +5,7 @@ blocks:
     zenContent: |
       Rule caller restroom-mw
 
-      Given I read the content of 'contracts/public_keys.json.json'
+      Given I read the content of 'contracts/public_keys.json'
       Given I have a 'string' named 'ethereum address' in 'Issuer'
 
       Then print the 'ethereum address'
