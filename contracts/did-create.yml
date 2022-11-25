@@ -130,11 +130,13 @@ blocks:
 
       # verify singautres
 
-      When I verify the 'did document' has a eddsa signature in 'eddsa
-      signature' by 'eddsa public key'
+      When I create the json of 'did document'
 
-      When I verify the 'did document' has a eddsa signature in 'token
-      signature' by 'token public key'
+      When I verify the 'json' has a eddsa signature in 'eddsa signature' by
+      'eddsa public key'
+
+      When I verify the 'json' has a eddsa signature in 'token signature' by
+      'token public key'
 
 
       # copy of created for the AlsoKnowAs

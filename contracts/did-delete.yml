@@ -2,7 +2,7 @@ zenchain: 1.0
 start: did-delete-1-remove-from-redis.zen
 blocks:
   did-delete-1-remove-from-redis.zen:
-    zenContent: >
+    zenContent: >-
       Rule caller restroom-mw
 
       Scenario 'eddsa': signature
@@ -39,8 +39,11 @@ blocks:
 
       When I create the verificationMethod of 'old_did_document'
 
-      When I pickup from path 'verificationMethod.eddsa_public_key'
+      When I pickup a 'eddsa public key' from path
+      'verificationMethod.eddsa_public_key'
 
+
+      # verify signature
 
       When I verify the 'id' has a signature in 'eddsa_signature' by
       'eddsa_public_key'
