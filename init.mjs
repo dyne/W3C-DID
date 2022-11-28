@@ -1,6 +1,7 @@
 import {
     promises as fsp
 } from 'fs';
+import web3 from 'web3';
 import fs from 'fs';
 import path from 'path';
 import dotenv from "dotenv";
@@ -33,30 +34,36 @@ if(!fs.existsSync(path.join(ZENCODE_DIR, "keyring.json"))){
     const keys = await zen(generatePrivateKeysScript, null, null);
     if (!keys) {
 	console.error("Error in generate private keys");
-	process.exit(-1)
+	process.exit(-1);
     }
 
-    Object.assign(keyring, JSON.parse(keys.result))
+    Object.assign(keyring, JSON.parse(keys.result));
     await fsp.writeFile(
 	path.join(ZENCODE_DIR, "keyring.json"),
-	JSON.stringify(keyring), {mode: 0o600})
+	JSON.stringify(keyring), {mode: 0o600});
 }
 else {
     keyring = await fsp.readFile(path.join(ZENCODE_DIR, "keyring.json"), 'utf8');
 }
 
+// generate public keys
 const generatePublicKeysScript = await fsp.readFile(path.join(PRIVATE_ZENCODE_DIR, "create_pub_keys.zen"), 'utf8');
 let publicKeys = {};
 const pubKeys = await zen(generatePublicKeysScript, keyring, null);
 if (!pubKeys) {
     console.error("Error in generate public keys");
-    process.exit(-1)
+    process.exit(-1);
 }
 
+// Ethereum address checksum
+let result = JSON.parse(pubKeys.result);
+result.Issuer.ethereum_address = web3.utils.toChecksumAddress(
+    result.Issuer.ethereum_address).replace('0x', '');
+
 try {
-    await fsp.unlink(path.join(ZENCODE_DIR, "public_keys.json"))
+    await fsp.unlink(path.join(ZENCODE_DIR, "public_keys.json"));
 } catch(e) {}
-Object.assign(publicKeys, JSON.parse(pubKeys.result))
+Object.assign(publicKeys, result);
 await fsp.writeFile(
     path.join(ZENCODE_DIR, "public_keys.json"),
-    JSON.stringify(publicKeys), {mode: 0o600})
+    JSON.stringify(publicKeys), {mode: 0o600});

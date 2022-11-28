@@ -1,0 +1,8 @@
+Rule caller restroom-mw
+
+Given I have a valid redis connection on 'redis://localhost:6379'
+Given I read from redis the data under the keys containing 'did:dyne:' and save the output into 'did_documents'
+
+Given I have a 'string array' named 'did_documents'
+
+then print 'did_documents'

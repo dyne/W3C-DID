@@ -1,0 +1,293 @@
+zenchain: 1.0
+start: did-update-1-update-redis.zen
+blocks:
+  did-update-1-update-redis.zen:
+    zenContent: >-
+      Rule caller restroom-mw
+
+      Scenario 'eddsa': signature
+
+      Scenario 'w3c': verifcationMethod
+
+
+      Given I have a valid redis connection on 'redis://localhost:6379'
+
+      Given I read from redis the data under the key 'id' and save the output
+      into 'old_did_document'
+
+
+      # timestamp in proof
+
+      Given I fetch the local timestamp and store it into 'created'
+
+      Given I have a 'string' named 'created'
+
+
+      # controller did-document needed for id in proof
+
+      Given I read from redis the data under the keys containing
+      'did:dyne:controller:' and save the output into 'controller_did_document'
+
+      Given I have a 'string dictionary' named 'controller_did_document'
+
+
+      # controller keyring for proof
+
+      Given I am 'Issuer'
+
+      Given I read the content of 'contracts/keyring.json'
+
+      Given I have my 'keyring'
+
+
+      Given I have a 'string dictionary' named 'did_document'
+
+      Given I have a 'string dictionary' named 'proof'
+
+      Given I have a 'did document' named 'old_did_document'
+
+      Given I have a 'eddsa signature'
+
+
+      When I create the verificationMethod of 'old_did_document'
+
+      When I pickup a 'eddsa public key' from path
+      'verificationMethod.eddsa_public_key'
+
+
+      # verify signature
+
+      When I create the json of 'did document'
+
+      When I verify the 'json' has a signature in 'eddsa_signature' by
+      'eddsa_public_key'
+
+
+      # copy of created for the AlsoKnowAs
+
+      When I copy 'created' to 'timestamp'
+
+
+      # create proof
+
+      When I create the jws signature of 'did document'
+
+      When I insert 'jws' in 'proof'
+
+      When I insert 'created' in 'proof'
+
+      # proof's verification method
+
+      When I pickup from path 'controller_did_document.id'
+
+      When I rename the 'id' to 'verificationMethod'
+
+      When I set '#key_ecdsa1' to '#key_ecdsa1' as 'string'
+
+      When I append '#key_ecdsa1' to 'verificationMethod'
+
+      When I insert 'verificationMethod' in 'proof'
+
+      When I insert 'proof' in 'did document'
+
+
+      # needed for did doc redis key
+
+      When I pickup from path 'did_document.id'
+
+
+      # need for AlsoKnownAs redis key
+
+      When I pickup from path 'did_document.alsoKnownAs'
+
+
+      Then print the 'id'
+
+      Then print the 'did_document'
+
+      Then print the 'keyring'
+
+      Then print the 'alsoKnownAs'
+
+      Then print the 'timestamp'
+
+
+      Then I write 'did_document' into redis under the key named by 'id'
+    keysFile: did-update-1-update-redis.keys
+    next: did-update-2-store-blockchain.zen
+  did-update-2-store-blockchain.zen:
+    zenContent: >+
+      Rule unknown ignore
+
+
+      Scenario 'ethereum': store did on blockchain
+
+
+
+
+      Given I have a valid redis connection on 'redis://localhost:6379'
+
+
+      Given I read from redis the data under the key 'alsoKnownAs' and save the
+      output into 'AlsoKnownAs'
+
+
+      Given I read into 'ethereum_nonce' and increment the key named by 'nonce'
+
+
+
+
+      # controller ethereum address
+
+
+      Given I am 'Issuer'
+
+
+      Given I read the content of 'contracts/public_keys.json'
+
+
+      Given I have my 'ethereum address'
+
+
+      Given I have the 'keyring'
+
+
+
+
+      Given I have a ethereum endpoint named 'blockchain'
+
+
+
+
+      Given I have a 'ethereum address' named 'storage contract'
+
+
+      Given I have a 'gas limit'
+
+
+      Given I have a 'ethereum nonce'
+
+
+      Given I have a 'gas price'
+
+
+
+
+      Given I have a 'string dictionary' named 'did document'
+
+
+      Given I have a 'string dictionary' named 'AlsoKnownAs'
+
+
+      Given I have a 'string' named 'id'
+
+
+      Given I have a 'string' named 'alsoKnownAs'
+
+
+      Given I have a 'string' named 'timestamp'
+
+
+
+
+      # prepare dictionary for AlsoKnowAs
+
+
+      If 'timestamp-update' is found in 'AlsoKnownAs'
+
+
+      When I pickup from path 'AlsoKnownAs.timestamp-update'
+
+
+      When I insert 'timestamp' in 'timestamp-update'
+
+
+      When I insert 'timestamp-update' in 'AlsoKnownAs'
+
+
+      EndIf
+
+
+
+
+      If 'timestamp-update' is not found in 'AlsoKnownAs'
+
+
+      When I create the 'string array' named 'timestamp-update'
+
+
+      When I insert 'timestamp' in 'timestamp-update'
+
+
+      When I insert 'timestamp-update' in 'AlsoKnownAs'
+
+
+      EndIf
+
+
+
+
+      When I create the mpack of 'did document'
+
+
+      When I rename the 'mpack' to 'data'
+
+
+      When I create the ethereum transaction to 'storage contract'
+
+
+      When I use the ethereum transaction to store 'data'
+
+
+      When I create the signed ethereum transaction for chain 'fabt'
+
+
+
+
+      Then print the 'signed ethereum transaction'
+
+
+      Then print the 'AlsoKnownAs'
+
+
+      Then print the 'alsoKnownAs'
+
+
+      Then I ask ethereum to broadcast the 'signed_ethereum_transaction' and
+      save the transaction id in 'txid'
+
+
+
+
+
+
+
+
+
+    keysFile: did-update-2-store-blockchain.keys
+    next: did-update-3-save-alsoknownas-redis.zen
+  did-update-3-save-alsoknownas-redis.zen:
+    zenContent: |
+      Rule caller restroom-mw
+
+      Given I have a valid redis connection on 'redis://localhost:6379'
+      Given I have a 'string' named 'txid'
+      Given I have a 'string' named 'alsoKnownAs'
+      Given I have a 'string dictionary' named 'AlsoKnownAs'
+
+      If 'txid-update' is found in 'AlsoKnownAs'
+      When I pickup from path 'AlsoKnownAs.txid-update'
+      When I insert 'txid' in 'txid-update'
+      When I insert 'txid-update' in 'AlsoKnownAs'
+      EndIf
+
+      If 'txid-update' is not found in 'AlsoKnownAs'
+      When I create the 'string array' named 'txid-update'
+      When I insert 'txid' in 'txid-update'
+      When I insert 'txid-update' in 'AlsoKnownAs'
+      EndIf
+
+      Then print the 'AlsoKnownAs'
+      Then print the 'alsoKnownAs'
+
+      Then I write 'AlsoKnownAs' into redis under the key named by 'alsoKnownAs'

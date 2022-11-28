@@ -18,6 +18,3 @@ Endif
 If 'id' is  found in 'W3C-DID'
 Then print data from 'W3C-DID'
 Endif
-
-
-

@@ -1,0 +1,54 @@
+zenchain: 1.0
+start: did-token-create-1.zen
+blocks:
+  did-token-create-1.zen:
+    zenContent: |-
+      Given I have a 'string array' named 'keypairs'
+
+      Then print 'keypairs'
+    keysFile: did-token-create-1.keys
+    next: did-token-create-2-keypair.zen
+  did-token-create-2-keypair.zen:
+    forEach: keypairs
+    index: temp
+    zenContent: >-
+      Rule caller restroom-mw
+
+      Scenario 'eddsa': Generate keypair
+
+
+      Given I have a valid redis connection on 'redis://localhost:6379'
+
+      Given I read into 'token_created' and increment the key named by 'key'
+
+
+      Given I have a 'string' named 'token_created'
+
+      Given I have a 'string' named 'temp'
+
+
+      When I set 'token:' to 'token:' as 'string'
+
+      When I append 'token_created' to 'token:'
+
+
+      When I create the eddsa key
+
+      When I create the eddsa public key
+
+
+      When I create the 'base58 dictionary'
+
+      When I move 'eddsa' from 'keyring' to 'base58 dictionary'
+
+      When I move 'eddsa public key' in 'base58 dictionary'
+
+
+      Then print the 'base58 dictionary'
+
+      Then print the 'token:'
+
+
+      Then I write 'base58_dictionary' into redis under the key named by
+      'token:'
+    keysFile: did-token-create-2-keypair.keys

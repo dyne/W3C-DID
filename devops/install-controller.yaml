@@ -148,14 +148,6 @@
       group: controller
       recurse: yes
 
-  - name: Create root for resolver
-    become: true
-    file:
-      path: "{{ controller_root }}/resolver"
-      state: directory
-      owner: controller
-      group: controller
-
   - name: Download pm2 ecosystem
     become: true
     get_url:
@@ -204,7 +196,7 @@
               return 301 https://$host$request_uri;
           }
           location ~ ^/1.0/identifiers/(.*) {
-                proxy_pass http://127.0.0.1:12001/api/W3C-DID-resolve-did?data=%7B%22id%22%3A%22$1%22%7D;
+                proxy_pass http://127.0.0.1:12001/api/did-resolve?data=%7B%22id%22%3A%22$1%22%7D;
           }
           location / {
             proxy_pass http://127.0.0.1:12001;

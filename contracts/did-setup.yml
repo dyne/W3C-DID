@@ -1,0 +1,64 @@
+zenchain: 1.0
+start: did-setup-1-read-ethereum-address.zen
+blocks:
+  did-setup-1-read-ethereum-address.zen:
+    zenContent: |
+      Rule caller restroom-mw
+
+      Given I read the content of 'contracts/public_keys.json'
+      Given I have a 'string' named 'ethereum address' in 'Issuer'
+
+      Then print the 'ethereum address'
+    next: did-setup-2-nonce-created-sent.zen
+  did-setup-2-nonce-created-sent.zen:
+    zenContent: |
+      Rule caller restroom-mw
+      Scenario ethereum: read nonce
+
+      Given I have a valid redis connection on 'redis://localhost:6379'
+
+      Given I have a ethereum endpoint named 'blockchain'
+      Given I read the ethereum nonce for 'ethereum_address'
+
+      Given I have a 'number' named 'ethereum_nonce'
+
+      # ethereum nonce
+      When I set 'nonce' to 'nonce' as 'string'
+
+      # token created
+      When I set 'token_created' to 'token_created' as 'string'
+      When I set 'created' to '0' base '10'
+
+      # token sent
+      When I set 'token_sent' to 'token_sent' as 'string'
+      When I set 'sent' to '0' base '10'
+
+      # prepare post for did-token-create
+      When I create the 'string dictionary' named 'post'
+
+      Then print the 'ethereum_nonce'
+      Then print the 'nonce'
+      Then print the 'token_created'
+      Then print the 'created'
+      Then print the 'token_sent'
+      Then print the 'sent'
+      Then print the 'post'
+
+      Then I write 'ethereum_nonce' into redis under the key named by 'nonce'
+      Then I write 'created' into redis under the key named by 'token_created'
+      Then I write 'sent' into redis under the key named by 'token_sent'
+    keysFile: did-setup-2-nonce-created-sent.keys
+    next: did-setup-3-create-tokens.zen
+  did-setup-3-create-tokens.zen:
+    zenContent: >
+      Rule caller restroom-mw
+
+
+      Given I have an endpoint named 'endpoint'
+
+      Given I connect to 'endpoint' and pass it the content of 'post' and save
+      the output into 'result'
+
+
+      Then print the string 'setup ended'
+    keysFile: did-setup-3-create-tokens.keys
