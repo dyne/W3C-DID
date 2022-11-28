@@ -142,7 +142,7 @@ blocks:
 
       When I verify 'copy' is not equal to 'controller_check'
 
-      When I set 'ganache_check' to 'controller' as 'string'
+      When I set 'ganache_check' to 'ganache' as 'string'
 
       When I verify 'copy' is not equal to 'ganache_check'
 
