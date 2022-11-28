@@ -8,8 +8,6 @@ blocks:
       Scenario 'w3c': extract verificationMethod
 
 
-      Given I have a 'string' named 'url' inside 'did document'
-
       Given I have a 'did document'
 
       Given I have a 'eddsa signature'
@@ -24,8 +22,6 @@ blocks:
 
 
       Then print the 'did_document'
-
-      Then print 'url' as 'string' in the 'did document'
 
       Then print the 'eddsa_signature'
 
@@ -127,6 +123,31 @@ blocks:
       # verify token
 
       When 'eddsa' is found in 'sent_token'
+
+      # verify that id is not:
+
+      # - did:dyne:controller reserved for controller
+
+      # - did:dyne:ganache reserved for alsoKnownAs
+
+      When I pickup from path 'did_document.id'
+
+      When I set ':' to ':' as 'string'
+
+      When I create the array by splitting 'id' at ':'
+
+      When I create the copy of element '3' in array 'array'
+
+      When I set 'controller_check' to 'controller' as 'string'
+
+      When I verify 'copy' is not equal to 'controller_check'
+
+      When I set 'ganache_check' to 'controller' as 'string'
+
+      When I verify 'copy' is not equal to 'ganache_check'
+
+      When I remove 'id'
+
 
       # verify singautres
 

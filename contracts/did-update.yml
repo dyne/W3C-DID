@@ -40,6 +40,8 @@ blocks:
       Given I have my 'keyring'
 
 
+      Given I have a 'string' named 'id'
+
       Given I have a 'string dictionary' named 'did_document'
 
       Given I have a 'string dictionary' named 'proof'
@@ -55,7 +57,15 @@ blocks:
       'verificationMethod.eddsa_public_key'
 
 
-      # verify signature
+      # verify id and signature
+
+      When I rename the 'id' to 'old_id'
+
+      When I pickup from path 'did_document.id'
+
+      When I verify 'old_id' is equal to 'id'
+
+      When I remove 'id'
 
       When I create the json of 'did document'
 
