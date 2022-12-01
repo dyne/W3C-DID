@@ -13,6 +13,77 @@ blocks:
 
       Given I have a 'string array' named 'W3C-DIDs'
 
+      Given I have a 'string' named 'type'
+
+
+      # utility
+
+      When I set 'did_check' to 'did' as 'string'
+
+      When I set 'dyne_check' to 'dyne' as 'string'
+
+      When I set 'check' to 'true' as 'string'
+
+      When I set 'true' to 'true' as 'string'
+
+      When I set ':' to ':' as 'string'
+
+      When I set 'min_length' to '2' base '10'
+
+
+      # verify that type starts with did:dyne:
+
+      When I create the array by splitting 'type' at ':'
+
+      # it should contains at least 2 elements
+
+      When I create the length of 'array'
+
+      If number 'length' is less than 'min_length'
+
+      When I remove 'W3C-DIDs'
+
+      When I create the 'string array' named 'W3C-DIDs'
+
+      EndIf
+
+
+      When I create the copy of element '1' in array 'array'
+
+      When I rename the 'copy' to 'did'
+
+      When I create the copy of element '2' in array 'array'
+
+      When I rename the 'copy' to 'dyne'
+
+
+      If I verify 'did' is not equal to 'did_check'
+
+      When I remove 'W3C-DIDs'
+
+      When I create the 'string array' named 'W3C-DIDs'
+
+      When I remove 'check'
+
+      When I set 'check' to 'false' as 'string'
+
+      EndIf
+
+      If I verify 'dyne' is not equal to 'dyne_check'
+
+      When I remove 'W3C-DIDs'
+
+      When I create the 'string array' named 'W3C-DIDs'
+
+      When I remove 'check'
+
+      When I set 'check' to 'false' as 'string'
+
+      EndIf
+
+      When I verify 'check' is equal to 'true'
+
+
       Then print 'W3C-DIDs'
     next: >-
       controller_retrieve-did-id_2_for-each-did-doc-extract-id.zen
