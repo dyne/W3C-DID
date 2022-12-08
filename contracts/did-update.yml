@@ -1,7 +1,43 @@
 zenchain: 1.0
-start: did-update-1-update-redis.zen
+start: did-update-1-collect-pks.zen
 blocks:
-  did-update-1-update-redis.zen:
+  did-update-1-collect-pks.zen:
+    zenContent: |-
+      Scenario 'eddsa': signature
+
+      Given I have a 'string' named 'id'
+      Given I have a 'string dictionary' named 'did_document'
+      Given I have a 'eddsa signature'
+
+      When I create the 'string array' named 'dids'
+      When I copy 'id' to 'did'
+      When I move 'did' in 'dids'
+
+      If 'controller' is found in 'did_document'
+      When I pickup from path 'did_document.controller'
+      When I move 'controller' in 'dids'
+      EndIf
+      # i don't know if controller is array or string
+      # if string nothing change, otherwise it simply flat the contents
+      When I create the flat array of contents in 'dids'
+
+      When I create the 'string array' named 'eddsa_public_keys'
+      When I set ':' to ':' as 'string'
+
+      Foreach 'did' in 'flat_array'
+      When I create the array by splitting 'did' at ':'
+      When I create the copy of element '4' in array 'array'
+      When I move 'copy' in 'eddsa_public_keys'
+      When I remove 'array'
+      EndForeach
+
+      Then print the 'id'
+      Then print the 'did_document'
+      Then print the 'eddsa_signature'
+      Then print the 'eddsa_public_keys'
+    keysFile: W3CDIDController/did-update-1-update-redis.keys
+    next: did-update-2-checks.zen
+  did-update-2-checks.zen:
     zenContent: >-
       Rule caller restroom-mw
 
@@ -14,6 +50,8 @@ blocks:
 
       Given I read from redis the data under the key 'id' and save the output
       into 'old_did_document'
+
+      Given I have a 'string dictionary' named 'old_did_document'
 
 
       # timestamp in proof
@@ -40,24 +78,25 @@ blocks:
       Given I have my 'keyring'
 
 
+      # constants
+
+      Given I have a 'string dictionary' named 'proof'
+
+      Given I have a 'string' named '@context'
+
+
+      # data input
+
       Given I have a 'string' named 'id'
 
       Given I have a 'string dictionary' named 'did_document'
 
-      Given I have a 'string dictionary' named 'proof'
-
-      Given I have a 'did document' named 'old_did_document'
-
       Given I have a 'eddsa signature'
 
-
-      When I create the verificationMethod of 'old_did_document'
-
-      When I pickup a 'eddsa public key' from path
-      'verificationMethod.eddsa_public_key'
+      Given I have a 'base58 array' named 'eddsa_public_keys'
 
 
-      # verify id and signature
+      # verify id has not changed 
 
       When I rename the 'id' to 'old_id'
 
@@ -69,8 +108,25 @@ blocks:
 
       When I create the json of 'did document'
 
-      When I verify the 'json' has a signature in 'eddsa_signature' by
-      'eddsa_public_key'
+      # verify signature
+
+      When I set 'signature_test' to 'false' as 'string'
+
+      When I set 'true' to 'true' as 'string'
+
+      Foreach 'pk' in 'eddsa_public_keys'
+
+      If I verify the 'json' has a eddsa signature in 'eddsa_signature' by 'pk'
+
+      When I remove 'signature_test'
+
+      When I set 'signature_test' to 'true' as 'string'
+
+      EndIf
+
+      EndForeach
+
+      When I verify 'signature_test' is equal to 'true'
 
 
       # copy of created for the AlsoKnowAs
@@ -82,23 +138,23 @@ blocks:
 
       When I create the jws signature of 'did document'
 
-      When I insert 'jws' in 'proof'
+      When I move 'jws' in 'proof'
 
-      When I insert 'created' in 'proof'
+      When I move 'created' in 'proof'
 
       # proof's verification method
 
-      When I pickup from path 'controller_did_document.id'
+      When I pickup from path 'controller_did_document.didDocument.id'
 
       When I rename the 'id' to 'verificationMethod'
 
-      When I set '#key_ecdsa1' to '#key_ecdsa1' as 'string'
+      When I set '#ecdh_public_key' to '#ecdh_public_key' as 'string'
 
-      When I append '#key_ecdsa1' to 'verificationMethod'
+      When I append '#ecdh_public_key' to 'verificationMethod'
 
-      When I insert 'verificationMethod' in 'proof'
+      When I move 'verificationMethod' in 'proof'
 
-      When I insert 'proof' in 'did document'
+      When I move 'proof' in 'did document'
 
 
       # needed for did doc redis key
@@ -106,26 +162,52 @@ blocks:
       When I pickup from path 'did_document.id'
 
 
-      # need for AlsoKnownAs redis key
+      When I create the 'string dictionary' named 'result'
 
-      When I pickup from path 'did_document.alsoKnownAs'
+      When I rename 'did_document' to 'didDocument'
+
+      When I move 'didDocument' in 'result'
+
+      When I pickup from path 'old_did_document.didDocumentMetadata'
+
+
+      # prepare dictionary for AlsoKnowAs
+
+      If 'updated' is found in 'didDocumentMetadata'
+
+      When I pickup from path 'didDocumentMetadata.updated'
+
+      When I remove the 'updated' from 'didDocumentMetadata'
+
+      When I move 'timestamp' in 'updated'
+
+      When I move 'updated' in 'didDocumentMetadata'
+
+      EndIf
+
+
+      If 'updated' is not found in 'didDocumentMetadata'
+
+      When I create the 'string array' named 'updated'
+
+      When I move 'timestamp' in 'updated'
+
+      When I move 'updated' in 'didDocumentMetadata'
+
+      EndIf
+
+
+      When I move '@context' in 'result'
 
 
       Then print the 'id'
 
-      Then print the 'did_document'
+      Then print the 'result'
 
       Then print the 'keyring'
-
-      Then print the 'alsoKnownAs'
-
-      Then print the 'timestamp'
-
-
-      Then I write 'did_document' into redis under the key named by 'id'
-    keysFile: did-update-1-update-redis.keys
-    next: did-update-2-store-blockchain.zen
-  did-update-2-store-blockchain.zen:
+    keysFile: did-update-2-checks.keys
+    next: did-update-3-broadcast.zen
+  did-update-3-broadcast.zen:
     zenContent: >+
       Rule unknown ignore
 
@@ -138,10 +220,6 @@ blocks:
       Given I have a valid redis connection on 'redis://localhost:6379'
 
 
-      Given I read from redis the data under the key 'alsoKnownAs' and save the
-      output into 'AlsoKnownAs'
-
-
       Given I read into 'ethereum_nonce' and increment the key named by 'nonce'
 
 
@@ -151,12 +229,6 @@ blocks:
 
 
       Given I am 'Issuer'
-
-
-      Given I read the content of 'contracts/public_keys.json'
-
-
-      Given I have my 'ethereum address'
 
 
       Given I have the 'keyring'
@@ -183,61 +255,18 @@ blocks:
 
 
 
-      Given I have a 'string dictionary' named 'did document'
-
-
-      Given I have a 'string dictionary' named 'AlsoKnownAs'
+      Given I have a 'string dictionary' named 'result'
 
 
       Given I have a 'string' named 'id'
 
 
-      Given I have a 'string' named 'alsoKnownAs'
 
 
-      Given I have a 'string' named 'timestamp'
+      When I pickup from path 'result.didDocument'
 
 
-
-
-      # prepare dictionary for AlsoKnowAs
-
-
-      If 'timestamp-update' is found in 'AlsoKnownAs'
-
-
-      When I pickup from path 'AlsoKnownAs.timestamp-update'
-
-
-      When I insert 'timestamp' in 'timestamp-update'
-
-
-      When I insert 'timestamp-update' in 'AlsoKnownAs'
-
-
-      EndIf
-
-
-
-
-      If 'timestamp-update' is not found in 'AlsoKnownAs'
-
-
-      When I create the 'string array' named 'timestamp-update'
-
-
-      When I insert 'timestamp' in 'timestamp-update'
-
-
-      When I insert 'timestamp-update' in 'AlsoKnownAs'
-
-
-      EndIf
-
-
-
-
-      When I create the mpack of 'did document'
+      When I create the mpack of 'didDocument'
 
 
       When I rename the 'mpack' to 'data'
@@ -257,10 +286,10 @@ blocks:
       Then print the 'signed ethereum transaction'
 
 
-      Then print the 'AlsoKnownAs'
+      Then print the 'id'
 
 
-      Then print the 'alsoKnownAs'
+      Then print the 'result'
 
 
       Then I ask ethereum to broadcast the 'signed_ethereum_transaction' and
@@ -274,30 +303,35 @@ blocks:
 
 
 
-    keysFile: did-update-2-store-blockchain.keys
-    next: did-update-3-save-alsoknownas-redis.zen
-  did-update-3-save-alsoknownas-redis.zen:
-    zenContent: |
+    keysFile: did-update-3-broadcast.keys
+    next: did-update-4-redis.zen
+  did-update-4-redis.zen:
+    zenContent: |-
       Rule caller restroom-mw
 
       Given I have a valid redis connection on 'redis://localhost:6379'
       Given I have a 'string' named 'txid'
-      Given I have a 'string' named 'alsoKnownAs'
-      Given I have a 'string dictionary' named 'AlsoKnownAs'
+      Given I have a 'string dictionary' named 'result'
+      Given I have a 'string' named 'id'
 
-      If 'txid-update' is found in 'AlsoKnownAs'
-      When I pickup from path 'AlsoKnownAs.txid-update'
-      When I insert 'txid' in 'txid-update'
-      When I insert 'txid-update' in 'AlsoKnownAs'
+      When I pickup from path 'result.didDocumentMetadata'
+      When I remove the 'didDocumentMetadata' from 'result'
+
+      If 'txid-updated' is found in 'didDocumentMetadata'
+      When I pickup from path 'didDocumentMetadata.txid-updated'
+      When I move 'txid' in 'txid-updated'
+      When I move 'txid-updated' in 'didDocumentMetadata'
       EndIf
 
-      If 'txid-update' is not found in 'AlsoKnownAs'
-      When I create the 'string array' named 'txid-update'
-      When I insert 'txid' in 'txid-update'
-      When I insert 'txid-update' in 'AlsoKnownAs'
+      If 'txid-updated' is not found in 'didDocumentMetadata'
+      When I create the 'string array' named 'txid-updated'
+      When I move 'txid' in 'txid-updated'
+      When I move 'txid-updated' in 'didDocumentMetadata'
       EndIf
 
-      Then print the 'AlsoKnownAs'
-      Then print the 'alsoKnownAs'
+      When I move 'didDocumentMetadata' in 'result'
 
-      Then I write 'AlsoKnownAs' into redis under the key named by 'alsoKnownAs'
+      Then print the 'id'
+      Then print the 'result'
+
+      Then I write 'result' into redis under the key named by 'id'

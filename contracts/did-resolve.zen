@@ -5,7 +5,7 @@ Given I read from redis the data under the key named 'id' and save the output in
 
 Given I have a 'string dictionary' named 'W3C-DID'
 
-If 'id' is not found in 'W3C-DID'
+If 'didDocument' is not found in 'W3C-DID'
 When I set 'title' to 'Identifier Not Found' as 'string'
 When I set 'type' to 'about:blank' as 'string'
 When I set 'status' to '404' as 'number'
@@ -15,6 +15,7 @@ Then print 'type'
 Then print 'title'
 Endif
 
-If 'id' is  found in 'W3C-DID'
-Then print data from 'W3C-DID'
+If 'didDocument' is  found in 'W3C-DID'
+When I pickup from path 'W3C-DID.didDocument'
+Then print data from 'didDocument'
 Endif
