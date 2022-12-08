@@ -1,21 +1,23 @@
 # W3C-DID
-[Dyne.org's](http://dyne.org/) W3C-DID implementation. 
+[Dyne.org](http://dyne.org/) W3C-DID implementation. 
 
 The documentation of the W3C-DID Document specs is at [https://dyne.github.io/W3C-DID/](https://dyne.github.io/W3C-DID/)
 
 The OpenAPI of the W3C-DID controller can be seen at [https://did.dyne.org/docs/](https://did.dyne.org/docs/)
 
+[![software by Dyne.org](https://files.dyne.org/software_by_dyne.png)](http://www.dyne.org)
+
 # Quickstart
 
-The installation of our DID Controller is done via ansible and operated via ssh using a Makefile.
+Users need not to run a DID, but can use our official instance at https://did.dyne.org/docs
 
-See documentation in: [devops](devops)
+To generate DID documents one needs a keyring and its registered EDDSA public key to be listed in an admin did, i.e: `did:dyne:operator`
 
-Users do not need to run their own, but can refer to our official DID Controller running at https://did.dyne.org
+To run simple tests one can generate a fake key: `zenroom -z private_contracts/fake_keygen.zen > client_keyring.json`
 
-To generate the first DID documents one needs a keyring and its registered EDDSA public key in `did:dyne:elohim`.
+The public key of this fake key is able to write inside `did:dyne:sandbox` for testing purposes (saved data will be lost once in a while!)
 
-> TODO: example of curl to use elohim for CRUD operations on did:dyne:operator DIDs
+> TODO: example of curl to use client_keyring.json for CRUD operations on did:dyne:sandbox DIDs
 
 ## DID document specs
 
@@ -23,9 +25,17 @@ We call "DID spec" any word following the `did:dyne:` namespace. DID specs are g
 
 Our DID implementation makes available some base DID specs to enable authenticated operators (`did:dyne:operator`) to register generic DID documents (`did:dyne:generic`).
 
-> TODO: curl examples to use operator for CRUD on did:dyne:generic
-
 We have also project specific implementations that introduce ad-hoc schemas like `did:dyne:zenflows`) manages DIDs for the `did:dyne:ifacer` namespace.
+
+So far we have:
+
+| did spec | admin spec |
+|:--------:|:----------:|
+| generic  | operator   |
+| ifacer   | zenflows   |
+| sandbox  | (fake)     |
+
+The special `did:dyne:elohim` spec is the one governing all admin specs and can create, update and delete admins.
 
 ## Controller Keyring (setup once)
 

@@ -1,20 +1,15 @@
+
+
+The installation of our DID Controller is done via ansible and operated via ssh using a Makefile.
+
+The instructions below may be outdated and lack precision
+
 ## Setup 
 
 - **git clone https://github.com/dyne/W3C-DID.git**
 - **cd W3C-DID**
 - In order to You need to generate an ED25519 keypair, using the command **ssh-keygen -t ed25519**, then:
-- Copy the private key in ./devops/sshkey and set the privileges:
-
-```bash
-echo "-----BEGIN OPENSSH PRIVATE KEY-----
-b3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABC2APqVI+
-sQsoxakCzy5PTuAAAAEAAAAAEAAAGzAAAAB3NzaC1kc3MAAACBAOquyMT+8c+HE5cl+zxk
-wv0tDWtK3u5KXTWioagnTX8BkzZLoM4EvWR1N12hufo3WQbdtFnBD3IvPt52HX5K0IogKw
-cA0W/bUNrhuuLSJqG46/ud5POGRHrq/+qET3hpsTP0ig1JLczwdaNR73HYNhcA93ajAX8o
-DqjEWYf3ZB0UAzjUE6P4AAAADGFsYnlAcGMtYXN1cwE=
------END OPENSSH PRIVATE KEY-----" > ./devops/sshkey; chmod 600 ./devops/sshkey
-```
-
+- Copy the private key in ./devops/sshkey and set it to be accessed only by the used (not group or others)
 - Copy the ED25519 pubkey in **~/.ssh/authorized_keys** of the server where the Controller will be running
 
 
