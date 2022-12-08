@@ -39,8 +39,10 @@
     "zenroom": "latest"
   },
   "devDependencies": {
+    "ava": "^5.1.0",
     "chalk": "5.0.1",
     "morgan": "1.10.0",
-    "readdirp": "3.6.0"
+    "readdirp": "3.6.0",
+    "supertest": "^6.3.3"
   }
 }
