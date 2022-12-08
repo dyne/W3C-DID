@@ -11,13 +11,23 @@ The OpenAPI of the W3C-DID controller can be seen at [https://did.dyne.org/docs/
 
 Users need not to run a DID, but can use our official instance at https://did.dyne.org/docs
 
-To generate DID documents one needs a keyring and its registered EDDSA public key to be listed in an admin did, i.e: `did:dyne:operator`
+To run a local instance however, make sure npm is installed and use:
+```
+make install-deps
+make setup-local
+make run-local
+```
+
+To generate DID documents one needs a registered EDDSA public key to be listed as admin did, i.e: `did:dyne:operator`
 
 To run simple tests one can generate a fake key: `zenroom -z private_contracts/fake_keygen.zen > client_keyring.json`
 
-The public key of this fake key is able to write inside `did:dyne:sandbox` for testing purposes (saved data will be lost once in a while!)
+This fake key is able to write inside `did:dyne:sandbox` for testing purposes (saved data will be lost once in a while!)
 
-> TODO: example of curl to use client_keyring.json for CRUD operations on did:dyne:sandbox DIDs
+To test the creation of a DID document on the local running instance:
+```
+make run-local
+```
 
 ## DID document specs
 
