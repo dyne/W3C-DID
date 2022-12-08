@@ -7,7 +7,6 @@ Given I fetch the local timestamp and store it into 'created'
 and I have a 'string' named 'created'
 
 # controller keyring
-
 # keys in did-create.keys the snakeoil fake keyring
 Given I am 'Issuer'
 and I have my 'keyring'
@@ -17,14 +16,14 @@ and I have my 'eddsa public key'
 Given I have a 'string dictionary' named 'proof'
 and I have a 'string dictionary' named 'did document'
 and I have a 'eddsa signature'
-and I have a 'string' named '@context'
 
+# I needd the eddsa_public_key as string for controller id
+Given I have a 'string dictionary' named 'Issuer'
 
 # utilities
 When I set 'did_check' to 'did' as 'string'
 and I set 'dyne_check' to 'dyne' as 'string'
-and I set 'controller_check' to 'sandbox' as 'string'
-and I set 'true' to 'true' as 'string'
+and I set 'sandbox_check' to 'sandbox' as 'string'
 and I set ':' to ':' as 'string'
 
 # verify that did_document.id is did:dyne:sandbox
@@ -42,16 +41,9 @@ and I verify 'dyne' is equal to 'dyne_check'
 and I verify 'idspec' is equal to 'sandbox_check'
 and I remove 'id'
 
-
 # verify singautres
 When I create the json of 'did document'
-When I create the verificationMethod of 'signer_did_document'
-When I pickup a 'eddsa public key' from path 'verificationMethod.eddsa_public_key'
 When I verify the 'json' has a eddsa signature in 'eddsa signature' by 'eddsa public key'
-When I remove 'verificationMethod'
-
-
-When I copy 'created' to 'timestamp-create'
 
 # create proof
 When I create the jws signature of 'did document'
@@ -59,29 +51,14 @@ and I move 'jws' in 'proof'
 and I move 'created' in 'proof'
 
 # proof's verification method
-When I pickup from path 'controller_did_document.didDocument.id'
-and I rename the 'id' to 'verificationMethod'
+When I set 'verificationMethod' to 'did:dyne:controller:' as 'string'
 and I set '#ecdh_public_key' to '#ecdh_public_key' as 'string'
+and I remove the 'eddsa_public_key'
+
+When I pickup from path 'Issuer.eddsa_public_key'
+and I append 'eddsa_public_key' to 'verificationMethod'
 and I append '#ecdh_public_key' to 'verificationMethod'
 and I move 'verificationMethod' in 'proof'
 and I move 'proof' in 'did document'
 
-
-# needed for did doc redis key
-When I pickup from path 'did_document.id'
-and I rename 'did document' to 'didDocument'
-
-
-# metadata
-When I create the 'string dictionary' named 'didDocumentMetadata'
-and I rename the 'timestamp-create' to 'created'
-and I move 'created' in 'didDocumentMetadata'
-and I create the 'string dictionary' named 'result'
-and I move '@context' in 'result'
-and I move 'didDocument' in 'result'
-and I move 'didDocumentMetadata' in 'result'
-
-
-Then print the 'result'
-and print the 'id'
-
+Then print the 'did document'
