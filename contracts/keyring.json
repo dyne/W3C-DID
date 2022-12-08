@@ -1,0 +1,9 @@
+{
+  "Issuer":{
+    "keyring": {
+      "ecdh": "4EHaWCfBXD5xDhFu4123Q5f6SLjHlBgKfHWZAnkGaNo=",
+      "eddsa": "AkL6i4UySMQxcNrSu7bhfKVi8RjAsbRtxUiRoFTmYnwk",
+      "ethereum": "d5d6508270c97ccd34e9ee0c05688b5973e4fbca3cf75a16ba408518df29cbf7"
+      }
+    }
+}

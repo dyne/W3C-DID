@@ -1,18 +1,29 @@
 zenchain: 1.0
-start: did-create-1-extract-eddsa-key.zen
+start: did-create-1-extract-public-keys.zen
 blocks:
-  did-create-1-extract-eddsa-key.zen:
+  did-create-1-extract-public-keys.zen:
     zenContent: >-
       Scenario 'eddsa': verify signature
 
       Scenario 'w3c': extract verificationMethod
 
 
-      Given I have a 'did document'
+      Given I have a 'string dictionary' named 'did document'
 
       Given I have a 'eddsa signature'
 
       Given I have a 'eddsa signature' named 'token signature'
+
+
+      When I pickup a 'string' from path 'did_document.id'
+
+      When I set ':' to ':' as 'string'
+
+      When I create the array by splitting 'id' at ':'
+
+      When I create the copy of element '4' in array 'array'
+
+      When I rename the 'copy' to 'token_public_key'
 
 
       When I create the verificationMethod of 'did document'
@@ -21,48 +32,30 @@ blocks:
       'verificationMethod.eddsa_public_key'
 
 
+      When I set 'sent:' to 'sent:' as 'string'
+
+      When I append 'token_public_key' to 'sent:'
+
+
       Then print the 'did_document'
 
       Then print the 'eddsa_signature'
 
       Then print the 'token_signature'
 
-      Then print the 'eddsa_public_key'
-    next: did-create-2-extract-token-key.zen
-  did-create-2-extract-token-key.zen:
-    zenContent: |
-      Scenario 'eddsa': public key
-
-      Given I have a 'string dictionary' named 'did document'
-      Given I have a 'eddsa public key'
-      Given I have a 'eddsa signature'
-      Given I have a 'eddsa signature' named 'token signature'
-
-      When I pickup from path 'did_document.id'
-      When I set ':' to ':' as 'string'
-      When I create the array by splitting 'id' at ':'
-      When I create the copy of element '4' in array 'array'
-      When I rename the 'copy' to 'token_public_key'
-
-      When I set 'sent' to 'sent:' as 'string'
-      When I append 'token_public_key' to 'sent'
-
-      Then print the 'did_document'
-      Then print the 'eddsa_signature'
-      Then print the 'token_signature'
-      Then print the 'eddsa_public_key'
       Then print the 'token_public_key'
-      Then print the 'sent'
-    next: did-create-3-check-and-save-on-redis.zen
-  did-create-3-check-and-save-on-redis.zen:
+
+      Then print the 'eddsa_public_key'
+
+      Then print the 'sent:'
+    next: did-create-2-checks.zen
+  did-create-2-checks.zen:
     zenContent: >-
       Rule caller restroom-mw
 
-      Scenario 'ethereum': address
-
       Scenario 'eddsa': verify singatures
 
-      Scenario 'w3c': proof
+      Scenario 'w3c': jws signature
 
 
       Given I have a valid redis connection on 'redis://localhost:6379'
@@ -78,7 +71,7 @@ blocks:
       # check if token public key has been sent, if not sent then the restroom
       statement will return 
 
-      # an empty array [] causing the given statement after it to fail
+      # an empty array [] causing the verify token step to fail
 
       Given I read from redis the data under the key 'sent' and save the output
       into 'sent_token'
@@ -105,6 +98,8 @@ blocks:
 
       # all the other stuff
 
+      Given I have a 'string' named '@context'
+
       Given I have a 'string' named 'sent'
 
       Given I have a 'string dictionary' named 'proof'
@@ -124,27 +119,65 @@ blocks:
 
       When 'eddsa' is found in 'sent_token'
 
+
+      # utility
+
+      When I set 'did_check' to 'did' as 'string'
+
+      When I set 'dyne_check' to 'dyne' as 'string'
+
+      When I set 'controller_check' to 'controller' as 'string'
+
+      When I set 'ganache_check' to 'ganache' as 'string'
+
+      When I set 'zenflows_check' to 'zenflows' as 'string'
+
+      When I set 'elohim_check' to 'elohim' as 'string'
+
+      When I set ':' to ':' as 'string'
+
+
+      When I pickup from path 'did_document.id'
+
+      When I create the array by splitting 'id' at ':'
+
+      When I create the copy of element '1' in array 'array'
+
+      When I rename the 'copy' to 'did'
+
+      When I create the copy of element '2' in array 'array'
+
+      When I rename the 'copy' to 'dyne'
+
+      When I create the copy of element '3' in array 'array'
+
+      When I rename the 'copy' to 'idspec'
+
+
+      # verify that id statrs with did:dyne:
+
+      When I verify 'did' is equal to 'did_check'
+
+      When I verify 'dyne' is equal to 'dyne_check'
+
+
       # verify that id is not:
 
       # - did:dyne:controller reserved for controller
 
       # - did:dyne:ganache reserved for alsoKnownAs
 
-      When I pickup from path 'did_document.id'
+      # - did:dyne:zenflows reserved for interfacer backend
 
-      When I set ':' to ':' as 'string'
+      # - did:dyne:elohim 
 
-      When I create the array by splitting 'id' at ':'
+      When I verify 'idspec' is not equal to 'controller_check'
 
-      When I create the copy of element '3' in array 'array'
+      When I verify 'idspec' is not equal to 'ganache_check'
 
-      When I set 'controller_check' to 'controller' as 'string'
+      When I verify 'idspec' is not equal to 'zenflows_check'
 
-      When I verify 'copy' is not equal to 'controller_check'
-
-      When I set 'ganache_check' to 'ganache' as 'string'
-
-      When I verify 'copy' is not equal to 'ganache_check'
+      When I verify 'idspec' is not equal to 'elohim_check'
 
       When I remove 'id'
 
@@ -169,9 +202,9 @@ blocks:
 
       When I create the jws signature of 'did document'
 
-      When I insert 'jws' in 'proof'
+      When I move 'jws' in 'proof'
 
-      When I insert 'created' in 'proof'
+      When I move 'created' in 'proof'
 
       # proof's verification method
 
@@ -179,13 +212,13 @@ blocks:
 
       When I rename the 'id' to 'verificationMethod'
 
-      When I set '#key_ecdsa1' to '#key_ecdsa1' as 'string'
+      When I set '#ecdh_public_key' to '#ecdh_public_key' as 'string'
 
-      When I append '#key_ecdsa1' to 'verificationMethod'
+      When I append '#ecdh_public_key' to 'verificationMethod'
 
-      When I insert 'verificationMethod' in 'proof'
+      When I move 'verificationMethod' in 'proof'
 
-      When I insert 'proof' in 'did document'
+      When I move 'proof' in 'did document'
 
 
       # needed for did doc redis key
@@ -193,32 +226,42 @@ blocks:
       When I pickup from path 'did_document.id'
 
 
-      # need for AlsoKnowAs redis key
-
-      When I pickup from path 'did_document.alsoKnownAs'
+      When I rename 'did document' to 'didDocument'
 
 
-      Then print the 'did document'
+      # metadata
+
+      When I create the 'string dictionary' named 'didDocumentMetadata'
+
+      When I rename the 'timestamp-create' to 'created'
+
+      When I move 'created' in 'didDocumentMetadata'
+
+
+      When I create the 'string dictionary' named 'result'
+
+      When I move '@context' in 'result'
+
+      When I move 'didDocument' in 'result'
+
+      When I move 'didDocumentMetadata' in 'result'
+
+
+      Then print the 'result'
 
       Then print the 'id'
-
-      Then print the 'alsoKnownAs'
 
       Then print the 'sent'
 
       Then print the 'keyring'
 
-      Then print the 'timestamp-create'
 
-
-      # save did document and remove sent token on redis
-
-      Then I write 'did_document' into redis under the key named by 'id'
+      # remove sent token on redis
 
       Then I remove the key 'sent' in redis
-    keysFile: did-create-3-check-and-save-on-redis.keys
-    next: did-create-4-save-on-blockchain.zen
-  did-create-4-save-on-blockchain.zen:
+    keysFile: did-create-2-checks.keys
+    next: did-create-3-broadcast.zen
+  did-create-3-broadcast.zen:
     zenContent: >-
       Rule unknown ignore
 
@@ -272,32 +315,15 @@ blocks:
 
 
 
-      Given I have a 'string dictionary' named 'did document'
+      Given I have a 'string dictionary' named 'result'
 
 
       Given I have a 'string' named 'id'
 
 
-      Given I have a 'string' named 'alsoKnownAs'
 
 
-      Given I have a 'string' named 'timestamp-create'
-
-
-
-
-      # prepare dictionary for AlsoKnowAs
-
-
-      When I create the 'string dictionary' named 'AlsoKnownAs'
-
-
-      When I insert 'id' in 'AlsoKnownAs'
-
-
-      When I insert 'timestamp-create' in 'AlsoKnownAs'
-
-
+      When I pickup from path 'result.did_document'
 
 
       When I create the mpack of 'did document'
@@ -320,17 +346,14 @@ blocks:
       Then print the 'signed ethereum transaction'
 
 
-      Then print the 'AlsoKnownAs'
-
-
-      Then print the 'alsoKnownAs'
+      Then print the 'id'
 
 
       Then I ask ethereum to broadcast the 'signed_ethereum_transaction' and
-      save the transaction id in 'txid-create'
-    keysFile: did-create-4-save-on-blockchain.keys
-    next: did-create-5-save-alsoknownas-redis.zen
-  did-create-5-save-alsoknownas-redis.zen:
+      save the transaction id in 'txid-created'
+    keysFile: did-create-3-broadcast.keys
+    next: did-create-4-redis.zen
+  did-create-4-redis.zen:
     zenContent: |-
       Rule caller restroom-mw
 
@@ -345,3 +368,4 @@ blocks:
       Then print the 'alsoKnownAs'
 
       Then I write 'AlsoKnownAs' into redis under the key named by 'alsoKnownAs'
+    keysFile: W3CDIDController/did-create-4-save-on-blockchain.keys

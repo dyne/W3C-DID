@@ -1,54 +1,110 @@
 zenchain: 1.0
-start: did-token-create-1.zen
+start: did-token-create-1-tokens.zen
 blocks:
-  did-token-create-1.zen:
-    zenContent: |-
-      Given I have a 'string array' named 'keypairs'
-
-      Then print 'keypairs'
-    keysFile: did-token-create-1.keys
-    next: did-token-create-2-keypair.zen
-  did-token-create-2-keypair.zen:
-    forEach: keypairs
-    index: temp
+  did-token-create-1-tokens.zen:
     zenContent: >-
       Rule caller restroom-mw
 
-      Scenario 'eddsa': Generate keypair
+      Scenario 'eddsa': token creations
 
 
       Given I have a valid redis connection on 'redis://localhost:6379'
 
-      Given I read into 'token_created' and increment the key named by 'key'
+      # 0 means it is not running, different from 0 it means that is running
+
+      Given I read into 'token_creation' and increment the key named by
+      'creation'
+
+      Given I have a 'float' named 'token_creation'
 
 
-      Given I have a 'string' named 'token_created'
+      Given I have a 'float' named 'zero'
 
-      Given I have a 'string' named 'temp'
+      Given I have a 'float' named 'hundred'
+
+      Given I have a 'float' named 'one'
 
 
-      When I set 'token:' to 'token:' as 'string'
+      Given I have a 'string' named 'create'
 
-      When I append 'token_created' to 'token:'
+      Given I have a 'string' named 'creation'
 
+
+      When I set 'true' to 'true' as 'string'
+
+
+      If I verify 'create' is not equal to 'true'
+
+      When I remove 'hundred'
+
+      When I set 'hundred' to '0' base '10'
+
+      EndIf
+
+
+      If I verify 'token_creation' is not equal to 'zero'
+
+      When I remove 'hundred'
+
+      When I set 'hundred' to '0' base '10'
+
+      EndIf
+
+
+      When I create the 'base58 array' named 'tokens'
+
+
+      Foreach 'i' in sequence from 'zero' to 'hundred' with step 'one'
+
+      When I create the 'base58 dictionary' named 'token'
 
       When I create the eddsa key
 
       When I create the eddsa public key
 
+      When I move 'eddsa' from 'keyring' to 'token'
 
-      When I create the 'base58 dictionary'
+      When I move 'eddsa public key' in 'token'
 
-      When I move 'eddsa' from 'keyring' to 'base58 dictionary'
+      When I move 'token' in 'tokens'
 
-      When I move 'eddsa public key' in 'base58 dictionary'
-
-
-      Then print the 'base58 dictionary'
-
-      Then print the 'token:'
+      Endforeach
 
 
-      Then I write 'base58_dictionary' into redis under the key named by
-      'token:'
-    keysFile: did-token-create-2-keypair.keys
+      Then print 'tokens'
+    keysFile: did-token-create-1-tokens.keys
+    next: did-token-create-2-foreach-token-save-on-redis.zen
+  did-token-create-2-foreach-token-save-on-redis.zen:
+    forEach: tokens
+    index: temp
+    zenContent: |-
+      Rule caller restroom-mw
+      Scenario 'eddsa': Generate keypair
+
+      Given I have a valid redis connection on 'redis://localhost:6379'
+      Given I read into 'token_created' and increment the key named by 'key'
+
+      Given I have a 'string' named 'token_created'
+      Given I have a 'string' named 'token'
+      Given I have a 'base58 dictionary' named 'temp'
+
+      When I append 'token_created' to 'token'
+
+      Then print the 'temp'
+      Then print the 'token'
+      Then I write 'temp' into redis under the key named by 'token'
+    keysFile: did-token-create-2-foreach-token-save-on-redis.keys
+    next: did-token-create-3-reset-creation.zen
+  did-token-create-3-reset-creation.zen:
+    zenContent: |-
+      Rule caller restroom-mw
+
+      Given I have a valid redis connection on 'redis://localhost:6379'
+
+      Given I have a 'float' named 'zero'
+      Given I have a 'string' named 'creation'
+
+      Then print 'zero'
+      Then print 'creation'
+      Then I write 'zero' into redis under the key named by 'creation'
+    keysFile: did-token-create-3-reset-creation.keys

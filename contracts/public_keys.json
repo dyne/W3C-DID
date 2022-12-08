@@ -1,0 +1,7 @@
+{
+    "Issuer":{
+	"ecdh_public_key": "QXcSe2vDxjv5fDMUWcTropv38em5cdn5nNVXFFS7XTHRP7mzVyohx18tf1LhgCMqy4QwmZ6DAMpf4jpfhTSTaMRb",
+	"eddsa_public_key": "6zv2wcKFrki4DzkQTD7CMEakciwomDfwG8Po2BdAwF3P",
+	"ethereum_address":"c32510251F77382bb9214144D2c488408Ec2047C"
+    }
+}

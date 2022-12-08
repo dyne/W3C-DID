@@ -1,3 +1,1 @@
-{
-	"endpoint": "https://did.dyne.org:443/api/did-token-create.chain"
-}
+{"endpoint":"https://apiroom.net/api/W3CDIDController/did-token-create.chain","post":{"data":{"create":"true"}}}

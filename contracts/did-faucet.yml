@@ -2,23 +2,68 @@ zenchain: 1.0
 start: did-faucet-1-select-token.zen
 blocks:
   did-faucet-1-select-token.zen:
-    zenContent: |
+    zenContent: >-
       Rule caller restroom-mw
 
+
       Given I have a valid redis connection on 'redis://localhost:6379'
+
       Given I read into 'token_sent' and increment the key named by 'key'
+
+      Given I read from redis the data under the key 'token_created' and save
+      the output into 'token_created' 
+
 
       Given I have a 'string' named 'token_sent'
 
+      Given I have a 'string' named 'token_created'
+
+
+      When I create the result of 'token_created' - 'token_sent'
+
+      When I set 'twenty' to '20' base '10'
+
+
+      If number 'result' is less than 'twenty'
+
+      When I set 'create' to 'true' as 'string'
+
+      Endif
+
+
+      If number 'result' is more or equal than 'twenty'
+
+      When I set 'create' to 'false' as 'string'
+
+      Endif
+
+
       When I set 'token:' to 'token:' as 'string'
+
       When I append 'token_sent' to 'token:'
 
+
+      # prepare the post
+
+      When I create the 'string dictionary' named 'data'
+
+      When I insert 'create' in 'data'
+
+
       Then print the 'token:'
+
+      Then print the 'data' as 'string' in 'post'
     keysFile: did-faucet-1-select-token.keys
     next: did-faucet-2-sent.zen
   did-faucet-2-sent.zen:
-    zenContent: >
+    zenContent: >-
       Rule caller restroom-mw
+
+
+      # this create new tokens if create is equal to true
+
+      Given I connect to 'endpoint' and pass it the content of 'post' and save
+      the output into 'result'
 
 
       Given I have a valid redis connection on 'redis://localhost:6379'
@@ -39,9 +84,9 @@ blocks:
 
       Then print the 'token'
 
-      Then print 'sent:'
-
+      Then print the 'sent:'
 
       Then I remove the key 'token:' in redis
 
       Then I write 'token' into redis under the key named by 'sent:'
+    keysFile: did-faucet-2-sent.keys

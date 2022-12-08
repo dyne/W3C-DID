@@ -1,32 +1,19 @@
 zenchain: 1.0
-start: did-controller-1-setup-id.zen
+start: did-controller-1-did-doc.zen
 blocks:
-  did-controller-1-setup-id.zen:
-    zenContent: |
-      Rule caller restroom-mw
-
-      Given I read the content of 'contracts/public_keys.json'
-
-      Given I have a 'string' named 'eddsa public key' inside 'Issuer'
-
-      When I set 'id' to 'did:dyne:controller:' as 'string'
-      When I append 'eddsa public key' to 'id'
-
-      Then print the 'id'
-    next: did-controller-2-create-did-doc.zen
-  did-controller-2-create-did-doc.zen:
-    zenContent: >
+  did-controller-1-did-doc.zen:
+    zenContent: >-
       Rule caller restroom-mw
 
 
-      Given I have a valid redis connection on 'redis://localhost:6379'
-
       Given I read the content of 'contracts/public_keys.json'
 
-      Given I fetch the local timestamp and store it into 'timestamp-create'
+      Given I fetch the local timestamp and store it into 'created'
 
 
-      Given I have a 'string' named 'timestamp-create'
+      Given I have a 'string' named 'created'
+
+      Given I have a 'string' named 'external context'
 
       Given I have a 'string' named 'eddsa public key' inside 'Issuer'
 
@@ -34,34 +21,27 @@ blocks:
 
       Given I have a 'string' named 'ethereum address' inside 'Issuer'
 
-      Given I have a 'string' named 'id'
-
 
       Given I have a 'string array' named '@context'
 
 
-      When I create the 'string dictionary' named 'did document'
+      When I create the 'string dictionary' named 'didDocument'
 
 
       # id
 
+      When I set 'id' to 'did:dyne:controller:' as 'string'
+
+      When I append 'eddsa public key' to 'id'
+
       When I copy 'id' to 'did:dyne:controller:'
 
-      When I insert 'id' in 'did document'
+      When I move 'id' in 'didDocument'
 
 
       # @context
 
-      When I insert '@context' in 'did document'
-
-
-      # alsoKnownAs
-
-      When I set 'alsoKnownAs' to 'did:dyne:ganache:' as 'string'
-
-      When I append 'eddsa public key' to 'alsoKnownAs'
-
-      When I insert 'alsoKnownAs' in 'did document'
+      When I move '@context' in 'didDocument'
 
 
       # verificationMethod
@@ -72,27 +52,27 @@ blocks:
 
       When I create the 'string dictionary' named 'ecdh'
 
-      When I copy 'ecdh public key' to 'publicKeyBase64'
+      When I copy 'ecdh public key' to 'publicKeyBase58'
 
-      When I insert 'publicKeyBase64' in 'ecdh'
+      When I move 'publicKeyBase58' in 'ecdh'
 
-      When I set 'type' to 'EcdsaSecp256k1VerificationKey_b64' as 'string'
+      When I set 'type' to 'EcdsaSecp256k1VerificationKey2019' as 'string'
 
-      When I insert 'type' in 'ecdh'
+      When I move 'type' in 'ecdh'
 
       When I copy 'did:dyne:controller:' to 'id'
 
-      When I set '#key1' to '#key1' as 'string'
+      When I set '#ecdh_public_key' to '#ecdh_public_key' as 'string'
 
-      When I append '#key1' to 'id'
+      When I append '#ecdh_public_key' to 'id'
 
-      When I insert 'id' in 'ecdh'
+      When I move 'id' in 'ecdh'
 
       When I copy 'did:dyne:controller:' to 'controller'
 
-      When I insert 'controller' in 'ecdh'
+      When I move 'controller' in 'ecdh'
 
-      When I insert 'ecdh' in 'verificationMethod'
+      When I move 'ecdh' in 'verificationMethod'
 
       # eddsa 
 
@@ -100,23 +80,25 @@ blocks:
 
       When I copy 'eddsa public key' to 'publicKeyBase58'
 
-      When I insert 'publicKeyBase58' in 'eddsa'
+      When I move 'publicKeyBase58' in 'eddsa'
 
       When I set 'type' to 'Ed25519VerificationKey2018' as 'string'
 
-      When I insert 'type' in 'eddsa'
+      When I move 'type' in 'eddsa'
 
       When I copy 'did:dyne:controller:' to 'id'
 
-      When I append '#key1' to 'id'
+      When I set '#eddsa_public_key' to '#eddsa_public_key' as 'string'
 
-      When I insert 'id' in 'eddsa'
+      When I append '#eddsa_public_key' to 'id'
+
+      When I move 'id' in 'eddsa'
 
       When I copy 'did:dyne:controller:' to 'controller'
 
-      When I insert 'controller' in 'eddsa'
+      When I move 'controller' in 'eddsa'
 
-      When I insert 'eddsa' in 'verificationMethod'
+      When I move 'eddsa' in 'verificationMethod'
 
       # ethereum
 
@@ -128,131 +110,172 @@ blocks:
 
       # thus it is: namespace + ":" + chain_id + ":" + address
 
-      When I set 'blockchainAccountId' to 'eip155:1717658228:0x' as 'string'
+      When I set 'blockchainAccountId' to 'eip155:1:0x' as 'string'
 
       When I append 'ethereum address' to 'blockchainAccountId'
 
-      When I insert 'blockchainAccountId' in 'ethereum'
+      When I move 'blockchainAccountId' in 'ethereum'
 
       When I set 'type' to 'EcdsaSecp256k1RecoveryMethod2020' as 'string'
 
-      When I insert 'type' in 'ethereum'
+      When I move 'type' in 'ethereum'
 
       When I copy 'did:dyne:controller:' to 'id'
 
-      When I set '#fabchainAccountId' to '#fabchainAccountId' as 'string'
+      When I set '#ethereum_address' to '#ethereum_address' as 'string'
 
-      When I append '#fabchainAccountId' to 'id'
+      When I append '#ethereum_address' to 'id'
 
-      When I insert 'id' in 'ethereum'
+      When I move 'id' in 'ethereum'
 
       When I copy 'did:dyne:controller:' to 'controller'
 
-      When I insert 'controller' in 'ethereum'
+      When I move 'controller' in 'ethereum'
 
-      When I insert 'ethereum' in 'verificationMethod'
+      When I move 'ethereum' in 'verificationMethod'
 
 
-      When I insert 'verificationMethod' in 'did document'
+      When I move 'verificationMethod' in 'didDocument'
 
 
       When I copy 'did:dyne:controller:' to 'id'
 
 
-      Then print the 'timestamp-create'
+      # metadata
 
-      Then print the 'did document'
+      When I create the 'string dictionary' named 'didDocumentMetadata'
+
+      When I move 'created' in 'didDocumentMetadata'
+
+
+      # result
+
+      When I create the 'string dictionary' named 'result'
+
+      When I rename the 'external_context' to '@context'
+
+      When I move '@context' in 'result'
+
+      When I move 'didDocument' in 'result'
+
+      When I move 'didDocumentMetadata' in 'result'
+
+
+      Then print the 'result'
 
       Then print the 'id'
-
-
-      Then I write 'did_document' into redis under the key named by 'id'
-    keysFile: did-controller-2-create-did-doc.keys
-    next: did-controller-3-save-on-blockchain.zen
-  did-controller-3-save-on-blockchain.zen:
-    zenContent: >
+    keysFile: did-controller-1-did-doc.keys
+    next: did-controller-2-broadcast.zen
+  did-controller-2-broadcast.zen:
+    zenContent: >-
       Rule unknown ignore
 
-      Scenario 'ethereum': store did on blockchain
+
+      Scenario 'ethereum': broadcast
+
+
 
 
       Given I have a valid redis connection on 'redis://localhost:6379'
 
+
       Given I read into 'ethereum_nonce' and increment the key named by 'nonce'
+
+
 
 
       # controller keyring
 
+
       Given I am 'Issuer'
+
 
       Given I read the content of 'contracts/keyring.json'
 
+
       Given I have my 'keyring'
+
+
 
 
       Given I have a ethereum endpoint named 'blockchain'
 
 
+
+
       Given I have a 'ethereum address' named 'storage contract'
+
 
       Given I have a 'gas limit'
 
+
       Given I have a 'ethereum nonce'
+
 
       Given I have a 'gas price'
 
 
-      Given I have a 'string dictionary' named 'did document'
+
+
+      Given I have a 'string dictionary' named 'result'
+
 
       Given I have a 'string' named 'id'
 
-      Given I have a 'string' named 'timestamp-create'
 
 
-      # prepare dictionary for alsoKnownAs
 
-      When I pickup from path 'did_document.alsoKnownAs'
-
-      When I create the 'string dictionary' named 'AlsoKnownAs'
-
-      When I insert 'id' in 'AlsoKnownAs'
-
-      When I insert 'timestamp-create' in 'AlsoKnownAs'
+      When I pickup from path 'result.didDocument'
 
 
-      When I create the mpack of 'did document'
+
+
+      When I create the mpack of 'didDocument'
+
 
       When I rename the 'mpack' to 'data'
 
+
       When I create the ethereum transaction to 'storage contract'
 
+
       When I use the ethereum transaction to store 'data'
+
 
       When I create the signed ethereum transaction for chain 'fabt'
 
 
+
+
       Then print the 'signed ethereum transaction'
 
-      Then print the 'AlsoKnownAs'
 
-      Then print the 'alsoKnownAs'
+      Then print the 'id'
+
+
+      Then print the 'result'
+
 
       Then I ask ethereum to broadcast the 'signed_ethereum_transaction' and
-      save the transaction id in 'txid-create'
-    keysFile: did-controller-3-save-on-blockchain.keys
-    next: did-controller-4-save-alsoknownas-redis.zen
-  did-controller-4-save-alsoknownas-redis.zen:
-    zenContent: |
+      save the transaction id in 'txid-created'
+    keysFile: did-controller-2-broadcast.keys
+    next: did-controller-3-redis.zen
+  did-controller-3-redis.zen:
+    zenContent: |-
       Rule caller restroom-mw
 
       Given I have a valid redis connection on 'redis://localhost:6379'
-      Given I have a 'string' named 'txid-create'
-      Given I have a 'string' named 'alsoKnownAs'
-      Given I have a 'string dictionary' named 'AlsoKnownAs'
+      Given I have a 'string' named 'txid-created'
+      Given I have a 'string' named 'id'
+      Given I have a 'string dictionary' named 'result'
 
-      When I insert 'txid-create' in 'AlsoKnownAs'
+      When I pickup from path 'result.didDocumentMetadata'
+      When I remove the 'didDocumentMetadata' from 'result'
+      When I move 'txid-created' in 'didDocumentMetadata'
+      When I move 'didDocumentMetadata' in 'result'
 
-      Then print the 'AlsoKnownAs'
-      Then print the 'alsoKnownAs'
+      Then print the 'id'
+      Then print the 'result'
 
-      Then I write 'AlsoKnownAs' into redis under the key named by 'alsoKnownAs'
+      Then I write 'result' into redis under the key named by 'id'
+    keysFile: W3CDIDController/did-controller-3-save-on-blockchain.keys

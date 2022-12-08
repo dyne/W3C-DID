@@ -2,7 +2,7 @@ zenchain: 1.0
 start: did-setup-1-read-ethereum-address.zen
 blocks:
   did-setup-1-read-ethereum-address.zen:
-    zenContent: |
+    zenContent: |-
       Rule caller restroom-mw
 
       Given I read the content of 'contracts/public_keys.json'
