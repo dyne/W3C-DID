@@ -10,9 +10,8 @@ jobs:
   restroom-tests:
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 1
       matrix:
-        node-version: [14.18.0, 16.13.0]
+        node-version: [16.x, 18.x]
     defaults:
       run:
         working-directory: restroom
