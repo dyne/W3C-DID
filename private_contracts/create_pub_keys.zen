@@ -1,14 +1,17 @@
 Scenario ecdh
 Scenario eddsa
 Scenario ethereum
+Scenario credential
 
 Given I am 'Issuer'
 Given I have my 'keyring'
 
-When I create the ecdh public key
 When I create the eddsa public key
 When I create the ethereum address
+When I create the ecdh public key
+When I create the issuer public key
 
-Then print my 'ecdh public key'
 Then print my 'eddsa public key'
 Then print my 'ethereum address'
+Then print my 'ecdh public key' as 'base58'
+Then print my 'issuer public key' as 'base58'

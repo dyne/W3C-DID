@@ -1,9 +1,13 @@
 Scenario ecdh
 Scenario eddsa
 Scenario ethereum
+Scenario credential
 
 Given I am 'Issuer'
+
 When I create the ecdh key
 When I create the eddsa key
-When I create the ethereum key    
+When I create the ethereum key
+When I create the issuer key
+
 Then print my 'keyring'
