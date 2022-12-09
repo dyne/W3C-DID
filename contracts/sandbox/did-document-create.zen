@@ -1,13 +1,28 @@
 Scenario 'eddsa': signature
+Scenario 'ethereum': address
 
 Given I am 'Issuer' 
 and I have my 'keyring'
 
 # public keys and description
-Given I have a 'string' named 'ecdh_public_key'
-Given I have a 'string' named 'reflow_public_key'
-Given I have a 'string' named 'ethereum_address'
+Given I have a 'eddsa_public_key'
+Given I rename 'eddsa_public_key' to 'base58_eddsa_public_key'
 Given I have a 'string' named 'eddsa_public_key'
+
+Given I have a 'ethereum_address'
+Given I rename 'ethereum_address' to 'hex_ethereum_address'
+Given I have a 'string' named 'ethereum_address'
+
+Given I have a 'base58' named 'ecdh_public_key'
+Given I rename 'ecdh_public_key' to 'base58_ecdh_public_key'
+Given I have a 'string' named 'ecdh_public_key'
+
+Given I have a 'base58' named 'reflow_public_key'
+Given I rename 'reflow_public_key' to 'base58_reflow_public_key'
+Given I have a 'string' named 'reflow_public_key'
+
+Given I have a 'base58' named 'bitcoin_public_key'
+Given I rename 'bitcoin_public_key' to 'base58_bitcoin_public_key'
 Given I have a 'string' named 'bitcoin_public_key'
 
 # context
