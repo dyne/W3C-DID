@@ -27,7 +27,7 @@ setup-local: ## Setup to run on localhost
 
 install-deps: ## Install all NodeJS dependencies
 	$(info Installing NodeJS dependencies - need npm installed)
-	test -d restroom/node_modules || cd restroom && npm i
+	@test -d restroom/node_modules || (cd restroom && npm i)
 
 clean: ## Clean all NodeJS dependencies
 	$(info Cleaning all dependencies - need a new install-deps)
