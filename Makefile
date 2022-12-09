@@ -29,7 +29,7 @@ setup-local: ## Setup to run on localhost
 
 update-npm:
 	$(info Updating to latest packages)
-	@cd restroom && rm -f package-lock.json && npm i zenroom@latest @restroom-mw/files@next && npm list
+	@rm -rf restroom && npx -y create-restroom@next -a --no-@restroom-mw/sawroom --no-@restroom-mw/fabric restroom
 
 install-deps: ## Install all NodeJS dependencies
 	$(info Installing NodeJS dependencies - need npm installed)
