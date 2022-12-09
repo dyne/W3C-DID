@@ -14,7 +14,7 @@ and I have my 'eddsa public key'
 
 # all the other stuff
 Given I have a 'string dictionary' named 'proof'
-and I have a 'string dictionary' named 'did document'
+and I have a 'did document'
 and I have a 'eddsa signature'
 
 # I needd the eddsa_public_key as string for controller id
@@ -39,7 +39,7 @@ and I rename the 'copy' to 'idspec'
 When I verify 'did' is equal to 'did_check'
 and I verify 'dyne' is equal to 'dyne_check'
 and I verify 'idspec' is equal to 'sandbox_check'
-and I remove 'id'
+# and I remove 'id'
 
 # verify singautres
 When I create the json of 'did document'
@@ -62,3 +62,7 @@ and I move 'verificationMethod' in 'proof'
 and I move 'proof' in 'did document'
 
 Then print the 'did document'
+and print the 'id'
+
+# Restroom
+Then store 'did_document' in the file 'id'
