@@ -23,6 +23,7 @@ Given I have a 'string dictionary' named 'Issuer'
 # utilities
 When I set 'did_check' to 'did' as 'string'
 and I set 'dyne_check' to 'dyne' as 'string'
+and I set 'admin_check' to 'admin' as 'string'
 and I set 'sandbox_check' to 'sandbox' as 'string'
 and I set ':' to ':' as 'string'
 
@@ -35,10 +36,13 @@ and I create the copy of element '2' in array 'array'
 and I rename the 'copy' to 'dyne'
 and I create the copy of element '3' in array 'array'
 and I rename the 'copy' to 'idspec'
+and I create the copy of element '4' in array 'array'
+and I rename the 'copy' to 'idpk'
 
 When I verify 'did' is equal to 'did_check'
 and I verify 'dyne' is equal to 'dyne_check'
 and I verify 'idspec' is equal to 'sandbox_check'
+and I verify 'idpk' is not equal to 'admin_check'
 # and I remove 'id'
 
 # verify singautres
@@ -62,9 +66,14 @@ and I move 'verificationMethod' in 'proof'
 and I move 'proof' in 'did document'
 
 # path where did file is created
+When I set 'path' to 'data/' as 'string'
+and  I set 'slash' to '/' as 'string'
+and I append 'idspec' to 'path'
+and I append 'slash' to 'path'
+and I append 'idpk' to 'path'
 
 Then print the 'did document'
-and print the 'id'
+and print the 'path'
 
 # Restroom
-Then store 'did_document' in the file 'id'
+Then store 'did_document' in the file 'path'
