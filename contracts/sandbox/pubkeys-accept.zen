@@ -9,7 +9,7 @@ and I have a 'string' named 'created'
 # controller keyring
 # keys in did-create.keys the snakeoil fake keyring
 Given I am 'Issuer'
-and I have my 'keyring'
+# and I have my 'keyring'
 and I have my 'eddsa public key'
 
 # all the other stuff
