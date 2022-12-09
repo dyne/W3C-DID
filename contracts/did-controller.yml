@@ -19,6 +19,8 @@ blocks:
 
       Given I have a 'string' named 'ecdh public key' inside 'Issuer'
 
+      Given I have a 'string dictionary' named 'issuer public key' inside 'Issuer'
+
       Given I have a 'string' named 'ethereum address' inside 'Issuer'
 
 
@@ -99,6 +101,32 @@ blocks:
       When I move 'controller' in 'eddsa'
 
       When I move 'eddsa' in 'verificationMethod'
+
+      # issuer
+
+      When I create the 'string dictionary' named 'issuer'
+
+      When I copy 'issuer public key' to 'publicKeyBase58'
+
+      When I move 'publicKeyBase58' in 'issuer'
+
+      When I set 'type' to 'IssuerVerificationKey' as 'string'
+
+      When I move 'type' in 'issuer'
+
+      When I copy 'did:dyne:controller:' to 'id'
+
+      When I set '#issuer_public_key' to '#issuer_public_key' as 'string'
+
+      When I append '#issuer_public_key' to 'id'
+
+      When I move 'id' in 'issuer'
+
+      When I copy 'did:dyne:controller:' to 'controller'
+
+      When I move 'controller' in 'issuer'
+
+      When I move 'issuer' in 'verificationMethod'
 
       # ethereum
 
