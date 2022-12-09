@@ -14,7 +14,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
       - name: Start restroom
-        uses: dyne/restroom-github-action
+        uses: dyne/restroom-github-action@v1
         with:
           restroom-contracts: "${{ github.workspace }}/contracts"
       - name: Install curl
