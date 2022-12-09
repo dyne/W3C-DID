@@ -7,20 +7,17 @@ on:
     branches: [ main ]
 
 jobs:
-  restroom-tests:
+  restroom_job:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x, 18.x]
-    defaults:
-      run:
-        working-directory: restroom
-
+    name: Start restroom and request a simple contract
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: yarn
-    - run: yarn ava
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Start restroom
+        uses: dyne/restroom-github-action
+        with:
+          restroom-contracts: "${{ github.workspace }}/contracts"
+      - name: Install curl
+        run: sudo apt install curl
+      - name: Run tests
+        run: ./test/run.sh
