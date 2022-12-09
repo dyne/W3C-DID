@@ -14,7 +14,7 @@ jobs:
         node-version: [16.x, 18.x]
     defaults:
       run:
-        working-directory: oldrestroom
+        working-directory: restroom
 
     steps:
     - uses: actions/checkout@v2
