@@ -27,6 +27,10 @@ setup-local: ## Setup to run on localhost
 	@ls -l contracts/keyring.json contracts/public_keys.json
 	@cp restroom/local-config.site .env
 
+update-npm:
+	$(info Updating to latest packages)
+	@cd restroom && rm -f package-lock.json && npm i zenroom@latest @restroom-mw/files@next && npm list
+
 install-deps: ## Install all NodeJS dependencies
 	$(info Installing NodeJS dependencies - need npm installed)
 	@test -d restroom/node_modules || (cd restroom && npm i)

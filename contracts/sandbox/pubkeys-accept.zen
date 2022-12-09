@@ -9,12 +9,12 @@ and I have a 'string' named 'created'
 # controller keyring
 # keys in did-create.keys the snakeoil fake keyring
 Given I am 'Issuer'
-# and I have my 'keyring'
+and I have my 'keyring'
 and I have my 'eddsa public key'
 
 # all the other stuff
 Given I have a 'string dictionary' named 'proof'
-and I have a 'did document'
+and I have a 'string dictionary' named 'did document'
 and I have a 'eddsa signature'
 
 # I needd the eddsa_public_key as string for controller id
@@ -60,6 +60,8 @@ and I append 'eddsa_public_key' to 'verificationMethod'
 and I append '#ecdh_public_key' to 'verificationMethod'
 and I move 'verificationMethod' in 'proof'
 and I move 'proof' in 'did document'
+
+# path where did file is created
 
 Then print the 'did document'
 and print the 'id'
