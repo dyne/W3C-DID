@@ -26,9 +26,8 @@ and I create the reflow public key
 # and I move 'reflow public key' in 'did document'
 # and I move 'ethereum address' in 'did document'
 
-Then I print the 'ecdh public key'
-and I print the 'eddsa public key'
+Then I print the 'eddsa public key'
 and I print the 'ethereum address'
-and I print the 'bitcoin public key'
-and I print the 'reflow public key'
-
+and I print the 'ecdh public key' as 'base58'
+and I print the 'bitcoin public key' as 'base58'
+and I print the 'reflow public key' as 'base58'
