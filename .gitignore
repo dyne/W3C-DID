@@ -1,9 +1,17 @@
 \#*
 .\#*
 *~
+
+# restroom files
 .env
 .envrc
 package-lock.json
+restroom/node_modules
+
+# generated test files
 contracts/keyring.json
 contracts/public_keys.json
-restroom/node_modules
+contracts/did_document.json
+
+# utility
+restroom-test
