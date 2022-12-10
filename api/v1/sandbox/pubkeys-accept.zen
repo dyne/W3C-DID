@@ -1,0 +1,79 @@
+Rule caller restroom-mw
+Scenario 'eddsa': verify singatures
+Scenario 'w3c': proof
+
+# timestamp in proof
+Given I fetch the local timestamp and store it into 'created'
+and I have a 'string' named 'created'
+
+# controller keyring
+# keys in did-create.keys the snakeoil fake keyring
+Given I am 'Issuer'
+and I have my 'keyring'
+and I have my 'eddsa public key'
+
+# all the other stuff
+Given I have a 'string dictionary' named 'proof'
+and I have a 'string dictionary' named 'did document'
+and I have a 'eddsa signature'
+
+# I needd the eddsa_public_key as string for controller id
+Given I have a 'string dictionary' named 'Issuer'
+
+# utilities
+When I set 'did_check' to 'did' as 'string'
+and I set 'dyne_check' to 'dyne' as 'string'
+and I set 'admin_check' to 'admin' as 'string'
+and I set 'sandbox_check' to 'sandbox' as 'string'
+and I set ':' to ':' as 'string'
+
+# verify that did_document.id is did:dyne:sandbox
+When I pickup from path 'did_document.id'
+and I create the array by splitting 'id' at ':'
+and I create the copy of element '1' in array 'array'
+and I rename the 'copy' to 'did'
+and I create the copy of element '2' in array 'array'
+and I rename the 'copy' to 'dyne'
+and I create the copy of element '3' in array 'array'
+and I rename the 'copy' to 'idspec'
+and I create the copy of element '4' in array 'array'
+and I rename the 'copy' to 'idpk'
+
+When I verify 'did' is equal to 'did_check'
+and I verify 'dyne' is equal to 'dyne_check'
+and I verify 'idspec' is equal to 'sandbox_check'
+and I verify 'idpk' is not equal to 'admin_check'
+# and I remove 'id'
+
+# verify singautres
+When I create the json of 'did document'
+When I verify the 'json' has a eddsa signature in 'eddsa signature' by 'eddsa public key'
+
+# create proof
+When I create the jws signature of 'did document'
+and I move 'jws' in 'proof'
+and I move 'created' in 'proof'
+
+# proof's verification method
+When I set 'verificationMethod' to 'did:dyne:controller:' as 'string'
+and I set '#ecdh_public_key' to '#ecdh_public_key' as 'string'
+and I remove the 'eddsa_public_key'
+
+When I pickup from path 'Issuer.eddsa_public_key'
+and I append 'eddsa_public_key' to 'verificationMethod'
+and I append '#ecdh_public_key' to 'verificationMethod'
+and I move 'verificationMethod' in 'proof'
+and I move 'proof' in 'did document'
+
+# path where did file is created
+When I set 'path' to 'data/' as 'string'
+and  I set 'slash' to '/' as 'string'
+and I append 'idspec' to 'path'
+and I append 'slash' to 'path'
+and I append 'idpk' to 'path'
+
+Then print the 'did document'
+and print the 'path'
+
+# Restroom
+Then store 'did_document' in the file 'path'

@@ -1,0 +1,151 @@
+Scenario ecdh
+Scenario eddsa
+Scenario ethereum
+Scenario reflow
+
+# load the spec admin keyring to sign the request
+Given my name is in a 'string' named 'controller'
+and I have my 'keyring'
+
+# load the request settings
+Given I have a 'string array' named '@context'
+
+# load the new identity public keys and description
+Given I have a 'string' named 'identity'
+and I rename 'identity' to 'description'
+Given I have a 'eddsa_public_key'
+Given I rename 'eddsa_public_key' to 'base58_eddsa_public_key'
+Given I have a 'string' named 'eddsa_public_key'
+Given I rename 'eddsa_public_key' to 'id_eddsa_public_key'
+Given I have a 'ethereum_address'
+Given I rename 'ethereum_address' to 'hex_ethereum_address'
+Given I have a 'string' named 'ethereum_address'
+Given I have a 'base58' named 'ecdh_public_key'
+Given I rename 'ecdh_public_key' to 'base58_ecdh_public_key'
+Given I have a 'string' named 'ecdh_public_key'
+Given I have a 'base58' named 'reflow_public_key'
+Given I rename 'reflow_public_key' to 'base58_reflow_public_key'
+Given I have a 'string' named 'reflow_public_key'
+Given I have a 'base58' named 'bitcoin_public_key'
+Given I rename 'bitcoin_public_key' to 'base58_bitcoin_public_key'
+Given I have a 'string' named 'bitcoin_public_key'
+
+#TODO: validate eddsa public key
+
+### Formulate the DID creation request
+When I create the 'string dictionary' named 'did document'
+and I move '@context' in 'did document'
+and I move 'description' in 'did document'
+
+## did spec and id
+When I set 'did:dyne:' to 'did:dyne:sandbox:' as 'string'
+#and I append 'spec' to 'did:dyne:'
+and I append 'eddsa public key' to 'did:dyne:'
+and I copy the 'did:dyne:' to 'id'
+and I move 'id' in 'did document'
+
+## controller id
+When I set 'controller' to 'did:dyne:sandbox:admin:' as 'string'
+and I create the eddsa public key
+and I append the 'base58' of 'eddsa public key' to 'controller'
+
+## veririfcationMethod
+When I create the 'string array' named 'verificationMethod'
+
+# 1-ecdsa public key
+When I create the 'string dictionary' named 'verification-key'
+# pk
+When I copy 'ecdh public key' to 'publicKeyBase58' 
+When I move 'publicKeyBase58' in 'verification-key'
+# type
+When I set 'type' to 'EcdsaSecp256k1VerificationKey2019' as 'string'
+When I move 'type' in 'verification-key'
+# id
+When I copy 'did:dyne:' to 'id'
+When I set '#key_ecdsa1' to '#ecdh_public_key' as 'string'
+When I append '#key_ecdsa1' to 'id'
+When I move 'id' in 'verification-key'
+# controller
+When I copy 'controller' in 'verification-key'
+When I move 'verification-key' in 'verificationMethod'
+
+# 2-reflow public key
+When I create the 'string dictionary' named 'verification-key'
+# pk
+When I copy 'reflow public key' to 'publicKeyBase58' 
+When I move 'publicKeyBase58' in 'verification-key'
+# type
+When I set 'type' to 'ReflowBLS12381VerificationKey' as 'string'
+When I move 'type' in 'verification-key'
+# id
+When I copy 'did:dyne:' to 'id'
+When I set '#key_reflow1' to '#reflow_public_key' as 'string'
+When I append '#key_reflow1' to 'id'
+When I move 'id' in 'verification-key'
+# controller
+When I copy 'controller' in 'verification-key'
+When I move 'verification-key' in 'verificationMethod'
+
+# 3-bitcoin public key
+When I create the 'string dictionary' named 'verification-key'
+# pk
+When I copy 'bitcoin public key' to 'publicKeyBase58' 
+When I move 'publicKeyBase58' in 'verification-key'
+# type
+When I set 'type' to 'EcdsaSecp256k1VerificationKey2019' as 'string'
+When I move 'type' in 'verification-key'
+# id
+When I copy 'did:dyne:' to 'id'
+When I set '#key_bitcoin1' to '#bitcoin_public_key' as 'string'
+When I append '#key_bitcoin1' to 'id'
+When I move 'id' in 'verification-key'
+# controller
+When I copy 'controller' in 'verification-key'
+When I move 'verification-key' in 'verificationMethod'
+
+# 4-eddsa public key
+When I create the 'string dictionary' named 'verification-key'
+# pk
+When I copy 'id_eddsa_public_key' to 'publicKeyBase58' 
+When I move 'publicKeyBase58' in 'verification-key'
+# type
+When I set 'type' to 'Ed25519VerificationKey2018' as 'string'
+When I move 'type' in 'verification-key'
+# id
+When I copy 'did:dyne:' to 'id'
+When I set '#key_eddsa1' to '#eddsa_public_key' as 'string'
+When I append '#key_eddsa1' to 'id'
+When I move 'id' in 'verification-key'
+# controller
+When I copy 'controller' in 'verification-key'
+When I move 'verification-key' in 'verificationMethod'
+
+# 5-ethereum address
+When I create the 'string dictionary' named 'verification-key'
+# address
+# this follows the CAIP-10(https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-10.md) spec
+# thus it is: namespace + ":" + chain_id + ":" + address
+When I set 'blockchainAccountId' to 'eip155:1:0x' as 'string'
+When I append 'ethereum address' to 'blockchainAccountId' 
+When I move 'blockchainAccountId' in 'verification-key'
+# type
+When I set 'type' to 'EcdsaSecp256k1RecoveryMethod2020' as 'string'
+When I move 'type' in 'verification-key'
+# id
+When I copy 'did:dyne:' to 'id'
+When I set '#fabchainAccountId' to '#ethereum_address' as 'string'
+When I append '#fabchainAccountId' to 'id'
+When I move 'id' in 'verification-key'
+# controller
+When I copy 'controller' in 'verification-key'
+When I move 'verification-key' in 'verificationMethod'
+
+When I move 'verificationMethod' in 'did document'
+### DID-Document ended
+
+When I create the json of 'did document'
+When I create the eddsa signature of 'json'
+
+### save DID document
+Then print the 'did document'
+Then print the 'eddsa signature'
