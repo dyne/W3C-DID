@@ -28,7 +28,10 @@ setup-local: ## Setup to run on localhost
 	@test -r contracts/keyring.json || zenroom -z private_contracts/create_keys.zen > contracts/keyring.json
 	@chmod go-rwx contracts/keyring.json
 	@test -r contracts/public_keys.json || zenroom -z private_contracts/create_pub_keys.zen -k contracts/keyring.json > contracts/public_keys.json
-	@ls -l contracts/keyring.json contracts/public_keys.json
+	@test -r contracts/did_document.json || zenroom -z private_contracts/create_did_doc.zen \
+								-k private_contracts/create_did_doc.keys \
+								-a contracts/public_keys.json > contracts/did_document.json
+	@ls -l contracts/keyring.json contracts/public_keys.json contracts/did_document.json
 	@cp restroom/local-config.site .env
 
 update-npm:
