@@ -1,10 +1,11 @@
 Scenario 'eddsa': signature
 Scenario 'ethereum': address
 
-Given I am 'Issuer' 
-and I have my 'keyring'
+Given I have the 'keyring' inside 'Signer'
+and I have a 'string' named 'id' inside 'Signer'
+and I rename 'id' to 'signer_id'
 
-# public keys and description
+# public keys
 Given I have a 'eddsa_public_key'
 Given I rename 'eddsa_public_key' to 'base58_eddsa_public_key'
 Given I have a 'string' named 'eddsa_public_key'
@@ -146,6 +147,9 @@ When I move 'verificationMethod' in 'did document'
 When I create the json of 'did document'
 When I create the eddsa signature of 'json'
 
+When I rename 'signer_id' to 'id'
+
 ### save DID document
 Then print the 'did document'
 Then print the 'eddsa signature'
+Then print the 'id'
