@@ -1,0 +1,51 @@
+# setup paths for BATS test units
+setup() {
+    bats_require_minimum_version 1.5.0
+    T="$BATS_TEST_DIRNAME"
+    TR=`cd "$T"/.. && pwd`
+    R=`cd "$TR"/.. && pwd`
+    TMP="$BATS_TEST_TMPDIR"
+    load "$TR"/test_helper/bats-support/load
+    load "$TR"/test_helper/bats-assert/load
+    load "$TR"/test_helper/bats-file/load
+    ZTMP="$BATS_FILE_TMPDIR"
+    if [ "$ZENROOM_EXECUTABLE" == "" ]; then
+	ZENROOM_EXECUTABLE="${TR}/zenroom"
+    fi
+    cd $ZTMP
+}
+
+teardown() { >&3 echo; cd -; }
+
+Z() {
+    tmptmp=0
+    if ! [ "$TMP" ]; then
+	TMP=`mktemp -d`; tmptmp=1
+    fi
+    script=$1
+    if [ "$script" == "-" ]; then
+	cat > $TMP/script_stdin
+	script=$TMP/script_stdin
+    else
+	if ! [ -r "$script" ]; then
+	    script=$T/$script
+	fi
+    fi
+    if ! [ -r $script ]; then
+	>&2 echo "Error - script not found: $script"
+	return 1
+    fi
+    shift 1
+    if [ "${1##*.}"  == "zen" ]; then
+	$ZENROOM_EXECUTABLE $@ -z $script
+    else
+	$ZENROOM_EXECUTABLE $@ $script
+    fi
+    if [ $tmptmp = 1 ]; then
+	rm -f $TMP/*
+	rmdir $TMP
+    fi
+}
+
+
+
