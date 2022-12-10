@@ -11,7 +11,7 @@ test-local: ## Test a local DID document creation
 	zenroom -z contracts/sandbox/pubkeys-request.zen \
 			-k contracts/sandbox/did-document-create.keys -a /tmp/pubkeys.json \
 			| tee /tmp/pubkeys-request.json | jq .
-	./restroom-test -p 12001 -u sandbox/pubkeys-accept -a /tmp/pubkeys-request.json
+	./restroom-test -p 12001 -u sandbox/pubkeys-accept.chain -a /tmp/pubkeys-request.json
 	@rm -f /tmp/pubkeys.json /tmp/pubkeys-request.json
 
 #	curl -s -X 'POST' 'http://localhost:12001/api/sandbox/did-create' \

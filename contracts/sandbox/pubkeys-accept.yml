@@ -1,0 +1,230 @@
+zenchain: 1.0
+start: sandbox/pubkeys-accept-1-path.zen
+blocks:
+  sandbox/pubkeys-accept-1-path.zen:
+    zenContent: |
+      Rule caller restroom-mw
+      Scenario 'eddsa': pk
+      Scenario 'w3c': did document
+
+      # load eddsa public key for broadcast
+      Given I am 'Issuer'
+      and I read the content of 'contracts/public_keys.json'
+      and I have my 'eddsa public key'
+
+      Given I have a 'did document' named 'did document'
+      and I have a 'eddsa signature'
+      and I have a 'string' named 'id'
+
+      When I set ':' to ':' as 'string'
+      and I set '/' to '/' as 'string'
+      and I set 'signer_path' to 'data/' as 'string'
+      and I set 'admin' to 'admin' as 'string'
+
+      # path
+      When I create the array by splitting 'id' at ':'
+      and I create the copy of element '3' in array 'array'
+      and I rename the 'copy' to 'signer_idspec'
+      and I append 'signer_idspec' to 'signer_path'
+      and I append '/' to 'signer_path'
+      and I create the copy of element '4' in array 'array'
+      and I rename the 'copy' to 'signer_idpk'
+      and I append 'signer_idpk' to 'signer_path'
+
+      If I verify 'signer_idpk' is equal to 'admin'
+      When I append '/' to 'signer_path'
+      and I create the copy of element '5' in array 'array'
+      and I rename the 'copy' to 'signer_pk'
+      and I append 'signer_pk' to 'signer_path'
+      EndIf
+
+      When I rename the 'did document' to 'request did document'
+      When I rename the 'eddsa public key' to 'controller eddsa public key'
+      
+      Then print the 'signer_path'
+      Then print the 'signer_idspec'
+      Then print the 'signer_idpk'
+      Then print the 'request did document'
+      Then print the 'eddsa signature'
+      Then print the 'controller eddsa public key'
+    next: sandbox/pubkeys-accept-2-checks.zen
+  sandbox/pubkeys-accept-2-checks.zen:
+    zenContent: |
+      Rule caller restroom-mw
+      Scenario 'eddsa': verify singatures
+      Scenario 'w3c': proof
+      Scenario 'ethereum': address
+      
+      ## proof needs:
+      # - timestamp
+      Given I fetch the local timestamp and store it into 'created'
+      and I have a 'string' named 'created'
+      # - controller keyring for jws signature
+      Given I am 'Issuer'
+      and I read the content of 'contracts/keyring.json'
+      and I have my 'keyring'
+      
+      # signer did document
+      Given I read the content of 'data/sandbox/admin/8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ'
+      Given I have a 'did document' named 'didDocument'
+      Given I rename 'didDocument' to 'signer_did_document'
+      
+      # controller did document
+      Given I read the content of 'contracts/did_document.json'
+      Given I have a 'did document'
+      Given I rename 'did document' to 'controller_did_document'
+
+      # key
+      Given I have a 'string dictionary' named 'proof'
+      and I have a 'string' named '@context'
+      # data
+      Given I have a 'did document' named 'request did document'
+      and I have a 'eddsa signature'
+      and I have a 'eddsa public key' named 'controller eddsa public key'
+      and I have a 'string' named 'signer_idspec'
+      and I have a 'string' named 'signer_idpk'
+
+      # utilities
+      When I set 'did_check' to 'did' as 'string'
+      and I set 'dyne_check' to 'dyne' as 'string'
+      and I set 'admin_check' to 'admin' as 'string'
+      and I set 'sandbox_check' to 'sandbox' as 'string'
+      and I set ':' to ':' as 'string'
+      and I set '/' to '/' as 'string'
+
+      # request_path is where did_document will be stored
+      and I set 'request_path' to 'data/' as 'string'
+
+      # ids are request, signer and controller
+      When I pickup from path 'request_did_document.id'
+      and I rename the 'id' to 'request_id'
+      and I pickup from path 'signer_did_document.id'
+      and I rename the 'id' to 'signer_id'
+      and I pickup from path 'controller_did_document.id'
+      and I rename the 'id' to 'controller_id'
+      
+      # verify that request_id strats with did:dyne:sandbox
+      When I create the array by splitting 'request_id' at ':'
+      and I create the copy of element '1' in array 'array'
+      and I rename the 'copy' to 'request_did'
+      and I create the copy of element '2' in array 'array'
+      and I rename the 'copy' to 'request_dyne'
+      and I create the copy of element '3' in array 'array'
+      and I rename the 'copy' to 'request_idspec'
+      and I append 'request_idspec' to 'request_path'
+      and I append '/' to 'request_path'
+      and I create the copy of element '4' in array 'array'
+      and I rename the 'copy' to 'request_idpk'
+      and I append 'request_idpk' to 'request_path'
+      
+      When I verify 'request_did' is equal to 'did_check'
+      and I verify 'request_dyne' is equal to 'dyne_check'
+      and I verify 'request_idspec' is equal to 'sandbox_check'
+
+      # if request_idspec != signer_idspec then singer_idspec == admin
+      If I verify 'signer_idspec' is not equal to 'request_idspec'
+      When I verify 'signer_idpsec' is equal to 'admin_check'
+      EndIf
+      
+      # if request_idpsec == signer_idspec then signer_idpk == admin
+      If I verify 'request_idpk' is equal to 'signer_idspec'
+      When I verify 'signer_idpk' is equal to 'admin_check'
+      EndIf
+
+      # request_idpk can be admin so we need to take one more element for the request_path
+      If I verify 'request_idpk' is equal to 'admin_check'
+      When I append '/' to 'request_path'
+      and I create the copy of element '5' in array 'array'
+      and I rename the 'copy' to 'request_pk'
+      and I append 'request_pk' to 'request_path'
+      EndIf
+      # verify singautres
+      When I create the verificationMethod of 'signer_did_document'
+      and I pickup a 'eddsa_public_key' from path 'verificationMethod.eddsa_public_key'
+      and I create the json of 'request did document'
+      and I verify the 'json' has a eddsa signature in 'eddsa signature' by 'eddsa public key'
+      and I remove the 'verificationMethod'
+
+      # create proof
+      When I create the jws signature of 'request did document'
+      and I move 'jws' in 'proof'
+      and I copy 'created' to 'timestamp'
+      and I move 'created' in 'proof'
+
+      # proof's verification method
+      When I set '#ecdh_public_key' to '#ecdh_public_key' as 'string'
+      and I append '#ecdh_public_key' to 'controller_id'
+      and I rename 'controller_id' to 'verificationMethod'
+      and I move 'verificationMethod' in 'proof'
+      and I move 'proof' in 'request did document'
+
+      When I rename 'request_did_document' to 'didDocument'
+
+      # asset for planetmin tx
+      When I copy 'didDocument' to 'asset'
+      
+      # metadata
+      When I create the 'string dictionary' named 'didDocumentMetadata'
+      and I rename the 'timestamp' to 'created'
+      and I move 'created' in 'didDocumentMetadata'
+      
+      # result
+      When I create the 'string dictionary' named 'result'
+      and I move '@context' in 'result'
+      and I move 'didDocument' in 'result'
+      and I move 'didDocumentMetadata' in 'result'
+      
+      Then print the 'result'
+      and print the 'request_path'
+      and print the 'keyring'
+      and print the 'controller eddsa public key'
+      and print the 'asset'
+    keysFile: sandbox/pubkeys-accept-2-checks.keys
+    next: sandbox/pubkeys-accept-3-broadcast.zen
+  sandbox/pubkeys-accept-3-broadcast.zen:
+    zenContent: |
+      Rule caller restroom-mw
+      Scenario 'eddsa': keypair
+      Scenario 'planetmint': store did on blockchain
+
+      # endpoint
+      Given I have a planetmint endpoint named 'endpoint'
+      # prepare tx   
+      Given I prepare the planetmint transaction to store 'asset' from 'controller_eddsa_public_key'
+      and I have a 'string' named 'planetmint transaction'
+      # data
+      Given I have a 'keyring'
+      and I have a 'eddsa public key' named 'controller eddsa public key'
+      and I have a 'string dictionary' named 'result'
+      and I have a 'string' named 'request_path'
+
+      When I create the planetmint signatures of 'planetmint transaction'
+
+      Then print the 'planetmint_transaction'
+      and print the 'controller_eddsa_public_key'
+      and print the 'planetmint signatures'
+      and print the 'result'
+      and print the 'request_path'
+      # broadcast
+      Then I prepare the signed planetmint transaction of 'planetmint_transaction' from 'controller_eddsa_public_key'
+      Then ask planetmint to broadcast the 'signed_planetmint_transaction'
+    keysFile: sandbox/pubkeys-accept-3-boradcast.keys
+    next: sandbox/pubkeys-accept-4-store.zen
+  sandbox/pubkeys-accept-4-store.zen:
+    zenContent: |
+      Rule caller restroom-mw
+
+      Given I have a 'string' named 'txid'
+      and I have a 'string dictionary' named 'result'
+      and I have a 'string' named 'request_path'
+
+      When I pickup from path 'result.didDocumentMetadata'
+      and I remove the 'didDocumentMetadata' from 'result'
+      and I rename 'txid' to 'txid-created'
+      and I move 'txid-created' in 'didDocumentMetadata'
+      and I move 'didDocumentMetadata' in 'result'
+
+      Then print the 'request_path'
+      Then print the 'result'
+
+      Then store 'result' in the file 'request_path'
