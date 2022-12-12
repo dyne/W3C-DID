@@ -5,7 +5,11 @@ The documentation of the W3C-DID Document specs is at [https://dyne.github.io/W3
 
 The OpenAPI of the W3C-DID controller can be seen at [https://did.dyne.org/docs/](https://did.dyne.org/docs/)
 
-[![software by Dyne.org](https://files.dyne.org/software_by_dyne.png)](http://www.dyne.org)
+
+<a href="https://dyne.org">
+   <img src="https://files.dyne.org/software_by_dyne.png" width="222">
+</a>
+
 
 # Quickstart
 
