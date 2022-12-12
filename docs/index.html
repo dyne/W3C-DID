@@ -1,23 +1,314 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-  <meta charset="UTF-8">
-  <title>Dyne.org's W3C-DID specs</title>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name="description" content="Description">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+    <meta charset="utf-8" />
+    <title>Dyne.org DID Specification</title>
+    <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+    <script class="remove">
+        var respecConfig = {
+            specStatus: "base",
+            authors: [
+                {
+                    name: 'Matteo Cristino',
+                    company: 'Dyne.org',
+                    companyURL: 'https://dyne.org/',
+                },
+            ],
+            editors: [
+                {
+                    name: 'Matteo Cristino',
+                    company: 'Dyne.org',
+                    companyURL: 'https://dyne.org/',
+                },
+                {
+                    name: 'Puria Nafisi Azizi',
+                    company: 'Dyne.org',
+                    companyURL: 'https://dyne.org/',
+                    orcid: '0000-0003-3147-6354'
+                },
+            ],
+            github: {
+                repoURL: 'https://github.com/dyne/W3C-DID',
+                branch: "main",
+            },
+            tocIntroductory: true,
+            postProcess: [fixLinks, fixAbbr, prettify, fixBadMeta],
+            otherLinks: [
+                {
+                    key: 'Related Documents',
+                    data: [
+                        {
+                            value: 'DID Use Cases and Requirements',
+                            href: 'https://www.w3.org/TR/did-use-cases/',
+                        },
+                        {
+                            value: 'DID Specification Registries',
+                            href: 'https://www.w3.org/TR/did-spec-registries/',
+                        },
+                        {
+                            value: 'DID Core Implementation Report',
+                            href: 'https://w3c.github.io/did-test-suite/',
+                        },
+                    ],
+                },
+            ],
+            logos: [
+                {
+                    src: "https://files.dyne.org/software_by_dyne.png",
+                    url: "https://dyne.org",
+                    alt: "Dyne.org",
+                    width: 100,
+                    height: 100,
+                    id: "dyne-logo",
+                },
+            ],
+            localBiblio: {
+                'DID-PRIMER': {
+                    title: 'DID Primer',
+                    href: 'https://github.com/WebOfTrustInfo/rebooting-the-web-of-trust-fall2017/blob/master/topics-and-advance-readings/did-primer.md',
+                    authors: ['Drummond Reed', 'Manu Sporny'],
+                    publisher: 'Rebooting the Web of Trust 2017',
+                },
+                'DID-WEB': {
+                    title: 'did:web Method Specification',
+                    href: 'https://w3c-ccg.github.io/did-method-web/',
+                    editors: ['Michael Prorock', 'Orie Steele', 'Oliver Terbu'],
+                    status: 'Draft Community Group',
+                    publisher: 'W3C Credentials Community Group',
+                },
+                'DID-KEY': {
+                    title: 'did:key Method Specification',
+                    href: 'https://w3c-ccg.github.io/did-method-key/',
+                    editors: [
+                        'Manu Sporny',
+                        'Dmitri Zagidulin',
+                        'Dave Longley',
+                        'Orie Steele',
+                    ],
+                    status: 'Unofficial Draft',
+                    publisher: 'W3C Credentials Community Group',
+                },
+                'DID-IN-DNS': {
+                    title: 'The Decentralized Identifier (DID) in the DNS',
+                    href: 'https://tools.ietf.org/html/draft-mayrhofer-did-dns-01',
+                    authors: ['A. Mayrhofer', 'D. Klesev', 'M. Sabadello'],
+                    status: 'Internet Draft',
+                    publisher: 'IETF',
+                },
+                'WELL-KNOWN-DID': {
+                    title: 'Well Known DID Configuration',
+                    href: 'https://identity.foundation/specs/did-configuration/',
+                    editors: ['D. Buchner', 'O. Steele', 'T. Looker'],
+                    status: 'Approved Deliverable',
+                    publisher: 'DIF',
+                },
+                REST: {
+                    title:
+                        'Architectural Styles and the Design of Network-based Software Architectures',
+                    date: '2000',
+                    href: 'http://www.ics.uci.edu/~fielding/pubs/dissertation/',
+                    authors: ['Fielding, Roy Thomas'],
+                    publisher: 'University of California, Irvine.',
+                },
+                'VC-USECASES': {
+                    title: 'Verifiable Claims Use Cases',
+                    href: 'https://www.w3.org/TR/verifiable-claims-use-cases/',
+                    authors: [
+                        'Shane McCarron',
+                        'Daniel Burnett',
+                        'Gregg Kellogg',
+                        'Brian Sletten',
+                        'Manu Sporny',
+                    ],
+                    status: 'FPWD',
+                    publisher: 'Verifiable Claims Working Group',
+                },
+                'HTTP-SIGNATURES': {
+                    aliasOf: 'http-signatures',
+                },
+                MACAROONS: {
+                    title: 'Macaroons',
+                    href: 'http://macaroons.io/',
+                    authors: [
+                        'Arnar Birgisson',
+                        'Joe Gibbs Politz',
+                        'Úlfar Erlingsson',
+                        'Ankur Taly',
+                        'Michael Vrable',
+                        'Mark Lentczner',
+                    ],
+                    status: 'unofficial',
+                    publisher: 'Credentials Community Group',
+                },
+                'OPEN-BADGES': {
+                    title: 'Open Badges',
+                    href: 'https://github.com/openbadges/openbadges-specification',
+                    authors: [
+                        'Brian Brennan',
+                        'Mike Larsson',
+                        'Chris McAvoy',
+                        'Nate Otto',
+                        'Kerri Lemoie',
+                    ],
+                    status: 'BA-DRAFT',
+                    publisher: 'Badge Alliance Standard Working Group',
+                },
+                'RDF-NORMALIZATION': {
+                    title: 'RDF Dataset Normalization',
+                    href: 'http://json-ld.github.io/normalization/spec/',
+                    authors: ['Dave Longley', 'Manu Sporny'],
+                    status: 'CG-DRAFT',
+                    publisher: 'Credentials W3C Community Group',
+                },
+                'LD-PROOFS': {
+                    title: 'Linked Data Proofs',
+                    href: 'https://w3c-dvcg.github.io/ld-proofs/',
+                    authors: ['Manu Sporny', 'Dave Longley'],
+                    status: 'CG-DRAFT',
+                    publisher: 'Digital Verification Community Group',
+                },
+                'LD-SIGNATURES': {
+                    title: 'Linked Data Signatures',
+                    href: 'https://w3c-dvcg.github.io/ld-signatures/',
+                    authors: ['Manu Sporny', 'Dave Longley'],
+                    status: 'CG-DRAFT',
+                    publisher: 'Digital Verification Community Group',
+                },
+                'MATRIX-URIS': {
+                    title: 'Matrix URIs - Ideas about Web Architecture',
+                    date: 'December 1996',
+                    href: 'https://www.w3.org/DesignIssues/MatrixURIs.html',
+                    authors: ['Tim Berners-Lee'],
+                    status: 'Personal View',
+                    id: 'matrix-uris',
+                },
+                HASHLINK: {
+                    title: 'Cryptographic Hyperlinks',
+                    date: 'December 2018',
+                    href: 'https://tools.ietf.org/html/draft-sporny-hashlink-05',
+                    authors: ['Manu Sporny'],
+                    status: 'Internet-Draft',
+                    publisher: 'IETF',
+                    id: 'hashlink',
+                },
+                BASE58: {
+                    title: 'The Base58 Encoding Scheme',
+                    date: 'October 2020',
+                    href: 'https://tools.ietf.org/html/draft-msporny-base58',
+                    authors: ['Manu Sporny'],
+                    status: 'Internet-Draft',
+                    publisher: 'IETF',
+                },
+                'DNS-DID': {
+                    title: 'The Decentralized Identifier (DID) in the DNS',
+                    date: 'February 2019',
+                    href: 'https://datatracker.ietf.org/doc/draft-mayrhofer-did-dns/',
+                    authors: [
+                        'Alexander Mayrhofer',
+                        'Dimitrij Klesev',
+                        'Markus Sabadello',
+                    ],
+                    status: 'Internet-Draft',
+                    id: 'dns-did',
+                },
+                'DID-RESOLUTION': {
+                    title: 'Decentralized Identifier Resolution',
+                    href: 'https://w3c-ccg.github.io/did-resolution/',
+                    authors: ['Markus Sabadello', 'Dmitri Zagidulin'],
+                    status: 'Draft Community Group Report',
+                    publisher: 'Credentials Community Group',
+                    id: 'did-resolution',
+                },
+                'DID-RUBRIC': {
+                    title: 'Decentralized Characteristics Rubric v1.0',
+                    href: 'https://w3c.github.io/did-rubric/',
+                    authors: ['Joe Andrieu'],
+                    status: 'Draft Community Group Report',
+                    publisher: 'Credentials Community Group',
+                    id: 'did-rubric',
+                },
+                'PRIVACY-BY-DESIGN': {
+                    title: 'Privacy by Design',
+                    href: 'https://iapp.org/media/pdf/resource_center/pbd_implement_7found_principles.pdf',
+                    authors: ['Ann Cavoukian'],
+                    date: '2011',
+                    publisher: 'Information and Privacy Commissioner',
+                    id: 'privacy-by-design',
+                },
+                MULTIBASE: {
+                    title: 'The Multibase Encoding Scheme',
+                    date: 'February 2021',
+                    href: 'https://datatracker.ietf.org/doc/html/draft-multiformats-multibase-03',
+                    authors: ['Juan Benet', 'Manu Sporny'],
+                    status: 'Internet-Draft',
+                    publisher: 'IETF',
+                    id: 'multibase',
+                },
+            },
+        };
+
+        function fixLinks() {
+            const re = /\/?(options|examples)\.md$/;
+            document.querySelectorAll("section a:not(.self-link)").forEach(
+					/** @param {HTMLAnchorElement} a */ a => {
+                    if (a.host !== location.host) return;
+                    if (!re.test(a.pathname)) return;
+
+                    if (!a.hash) {
+                        a.hash = "#" + a.pathname.match(re)[1];
+                    }
+                    a.setAttribute("href", a.hash);
+                },
+            );
+        }
+
+        function fixAbbr() {
+            document.querySelectorAll("abbr").forEach(abbr => {
+                if (["W3C"].includes(abbr.textContent.trim())) {
+                    abbr.insertAdjacentText("beforebegin", abbr.textContent);
+                    abbr.remove();
+                }
+            });
+        }
+
+        function prettify() {
+            document
+                .querySelectorAll("table")
+                .forEach(table => table.classList.add("def"));
+            document
+                .querySelectorAll("pre")
+                .forEach(pre => pre.classList.add("example"));
+        }
+
+        function fixBadMeta() {
+            [...document.querySelectorAll(".head dl dt")]
+                .filter(
+                    dt =>
+                        dt.textContent === "Latest published version:" ||
+                        dt.textContent === "History:",
+                )
+                .forEach(dt => {
+                    dt.nextElementSibling.remove();
+                    dt.remove();
+                });
+        }
+    </script>
 </head>
+
 <body>
-  <div id="app"></div>
-  <script>
-    window.$docsify = {
-      repo: "dyne/W3C-DID",
-      loadSidebar: true,
-      name: ''
-    }
-  </script>
-  <!-- Docsify v4 -->
-  <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+    <p class="copyright remove"></p>
+    <section id="abstract">
+        <p>The first focus for the Dyne.org's DID [[DID-PRIMER]] method was to register Zenswarm Oracles identities, in
+            a way that is both machine and human readable. We haven’t been able to use the standard specs to record
+            public keys, since we found the existing standards incomplete or incompatible. We also have been unable to
+            find a standard to record a Dilithium2 (quantum-proof) and Schnorr public keys, that we created according to
+            the best practices we are aware of</p>
+    </section>
+    <section data-include="README.md" data-include-format="markdown"></section>
+    <section data-include="specification.md" data-include-format="markdown"></section>
+    <section data-include="security.md" data-include-format="markdown"></section>
+    <section id="conformance"></section>
 </body>
+
 </html>
