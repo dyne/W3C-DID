@@ -1,3 +1,6 @@
+rule input encoding base58
+rule output encoding base58
+
 Scenario ecdh
 Scenario eddsa
 Scenario ethereum
@@ -14,21 +17,13 @@ Given I have a 'string array' named '@context'
 Given I have a 'string' named 'identity'
 and I rename 'identity' to 'description'
 Given I have a 'eddsa_public_key'
-Given I rename 'eddsa_public_key' to 'base58_eddsa_public_key'
-Given I have a 'string' named 'eddsa_public_key'
-Given I rename 'eddsa_public_key' to 'id_eddsa_public_key'
+and I rename 'eddsa_public_key' to 'identity pk'
+and debug
 Given I have a 'ethereum_address'
-Given I rename 'ethereum_address' to 'hex_ethereum_address'
-Given I have a 'string' named 'ethereum_address'
-Given I have a 'base58' named 'ecdh_public_key'
-Given I rename 'ecdh_public_key' to 'base58_ecdh_public_key'
-Given I have a 'string' named 'ecdh_public_key'
-Given I have a 'base58' named 'reflow_public_key'
-Given I rename 'reflow_public_key' to 'base58_reflow_public_key'
-Given I have a 'string' named 'reflow_public_key'
-Given I have a 'base58' named 'bitcoin_public_key'
-Given I rename 'bitcoin_public_key' to 'base58_bitcoin_public_key'
-Given I have a 'string' named 'bitcoin_public_key'
+#Given I have a 'base58' named 'ecdh_public_key'
+Given I have a 'ecdh_public_key'
+Given I have a 'reflow_public_key'
+Given I have a 'base58' named 'bitcoin public key'
 
 #TODO: validate eddsa public key
 
@@ -40,13 +35,13 @@ and I move 'description' in 'did document'
 ## did spec and id
 When I set 'did:dyne:' to 'did:dyne:sandbox:' as 'string'
 #and I append 'spec' to 'did:dyne:'
-and I append 'eddsa public key' to 'did:dyne:'
+and I append the 'base58' of 'identity pk' to 'did:dyne:'
 and I copy the 'did:dyne:' to 'id'
 and I move 'id' in 'did document'
 
 ## controller id
+When I create the eddsa public key
 When I set 'controller' to 'did:dyne:sandbox:admin:' as 'string'
-and I create the eddsa public key
 and I append the 'base58' of 'eddsa public key' to 'controller'
 
 ## veririfcationMethod
@@ -72,15 +67,15 @@ When I move 'verification-key' in 'verificationMethod'
 # 2-reflow public key
 When I create the 'string dictionary' named 'verification-key'
 # pk
-When I copy 'reflow public key' to 'publicKeyBase58' 
-When I move 'publicKeyBase58' in 'verification-key'
+When I create the 'base58' string of 'reflow public key'
+When I move the 'base58' to 'publicKeyBase58' in 'verification-key'
+# When I move 'publicKeyBase58' in 'verification-key'
 # type
 When I set 'type' to 'ReflowBLS12381VerificationKey' as 'string'
 When I move 'type' in 'verification-key'
 # id
 When I copy 'did:dyne:' to 'id'
-When I set '#key_reflow1' to '#reflow_public_key' as 'string'
-When I append '#key_reflow1' to 'id'
+When I append the string '#reflow_public_key' to 'id'
 When I move 'id' in 'verification-key'
 # controller
 When I copy 'controller' in 'verification-key'
@@ -89,8 +84,9 @@ When I move 'verification-key' in 'verificationMethod'
 # 3-bitcoin public key
 When I create the 'string dictionary' named 'verification-key'
 # pk
-When I copy 'bitcoin public key' to 'publicKeyBase58' 
-When I move 'publicKeyBase58' in 'verification-key'
+When I create the 'base58' string of 'bitcoin public key'
+and I move the 'base58' to 'publicKeyBase58' in 'verification-key'
+# When I move 'publicKeyBase58' in 'verification-key'
 # type
 When I set 'type' to 'EcdsaSecp256k1VerificationKey2019' as 'string'
 When I move 'type' in 'verification-key'
@@ -106,7 +102,7 @@ When I move 'verification-key' in 'verificationMethod'
 # 4-eddsa public key
 When I create the 'string dictionary' named 'verification-key'
 # pk
-When I copy 'id_eddsa_public_key' to 'publicKeyBase58' 
+When I copy 'identity pk' to 'publicKeyBase58'
 When I move 'publicKeyBase58' in 'verification-key'
 # type
 When I set 'type' to 'Ed25519VerificationKey2018' as 'string'
