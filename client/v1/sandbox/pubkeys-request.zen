@@ -18,9 +18,7 @@ Given I have a 'string' named 'identity'
 and I rename 'identity' to 'description'
 Given I have a 'eddsa_public_key'
 and I rename 'eddsa_public_key' to 'identity pk'
-and debug
 Given I have a 'ethereum_address'
-#Given I have a 'base58' named 'ecdh_public_key'
 Given I have a 'ecdh_public_key'
 Given I have a 'reflow_public_key'
 Given I have a 'base58' named 'bitcoin public key'
@@ -39,10 +37,8 @@ and I append the 'base58' of 'identity pk' to 'did:dyne:'
 and I copy the 'did:dyne:' to 'id'
 and I move 'id' in 'did document'
 
-## controller id
-When I create the eddsa public key
-When I set 'controller' to 'did:dyne:sandbox:admin:' as 'string'
-and I append the 'base58' of 'eddsa public key' to 'controller'
+## controller id of pk
+When I copy the 'did:dyne:' to 'controller'
 
 ## veririfcationMethod
 When I create the 'string array' named 'verificationMethod'
@@ -50,15 +46,14 @@ When I create the 'string array' named 'verificationMethod'
 # 1-ecdsa public key
 When I create the 'string dictionary' named 'verification-key'
 # pk
-When I copy 'ecdh public key' to 'publicKeyBase58' 
-When I move 'publicKeyBase58' in 'verification-key'
+When I create the 'base58' string of 'reflow public key'
+When I move the 'base58' to 'publicKeyBase58' in 'verification-key'
 # type
 When I set 'type' to 'EcdsaSecp256k1VerificationKey2019' as 'string'
 When I move 'type' in 'verification-key'
 # id
 When I copy 'did:dyne:' to 'id'
-When I set '#key_ecdsa1' to '#ecdh_public_key' as 'string'
-When I append '#key_ecdsa1' to 'id'
+When I append the string '#ecdh_public_key' to 'id'
 When I move 'id' in 'verification-key'
 # controller
 When I copy 'controller' in 'verification-key'
@@ -86,14 +81,12 @@ When I create the 'string dictionary' named 'verification-key'
 # pk
 When I create the 'base58' string of 'bitcoin public key'
 and I move the 'base58' to 'publicKeyBase58' in 'verification-key'
-# When I move 'publicKeyBase58' in 'verification-key'
 # type
 When I set 'type' to 'EcdsaSecp256k1VerificationKey2019' as 'string'
 When I move 'type' in 'verification-key'
 # id
 When I copy 'did:dyne:' to 'id'
-When I set '#key_bitcoin1' to '#bitcoin_public_key' as 'string'
-When I append '#key_bitcoin1' to 'id'
+When I append the string '#bitcoin_public_key' to 'id'
 When I move 'id' in 'verification-key'
 # controller
 When I copy 'controller' in 'verification-key'
@@ -102,15 +95,14 @@ When I move 'verification-key' in 'verificationMethod'
 # 4-eddsa public key
 When I create the 'string dictionary' named 'verification-key'
 # pk
-When I copy 'identity pk' to 'publicKeyBase58'
-When I move 'publicKeyBase58' in 'verification-key'
+When I create the 'base58' string of 'identity pk'
+and I move the 'base58' to 'publicKeyBase58' in 'verification-key'
 # type
 When I set 'type' to 'Ed25519VerificationKey2018' as 'string'
 When I move 'type' in 'verification-key'
 # id
 When I copy 'did:dyne:' to 'id'
-When I set '#key_eddsa1' to '#eddsa_public_key' as 'string'
-When I append '#key_eddsa1' to 'id'
+When I append the string '#eddsa_public_key' to 'id'
 When I move 'id' in 'verification-key'
 # controller
 When I copy 'controller' in 'verification-key'
@@ -122,15 +114,14 @@ When I create the 'string dictionary' named 'verification-key'
 # this follows the CAIP-10(https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-10.md) spec
 # thus it is: namespace + ":" + chain_id + ":" + address
 When I set 'blockchainAccountId' to 'eip155:1:0x' as 'string'
-When I append 'ethereum address' to 'blockchainAccountId' 
+When I append the 'hex' of 'ethereum address' to 'blockchainAccountId'
 When I move 'blockchainAccountId' in 'verification-key'
 # type
 When I set 'type' to 'EcdsaSecp256k1RecoveryMethod2020' as 'string'
 When I move 'type' in 'verification-key'
 # id
 When I copy 'did:dyne:' to 'id'
-When I set '#fabchainAccountId' to '#ethereum_address' as 'string'
-When I append '#fabchainAccountId' to 'id'
+When I append the string '#ethereum_address' to 'id'
 When I move 'id' in 'verification-key'
 # controller
 When I copy 'controller' in 'verification-key'
@@ -139,9 +130,16 @@ When I move 'verification-key' in 'verificationMethod'
 When I move 'verificationMethod' in 'did document'
 ### DID-Document ended
 
+# signature
 When I create the json of 'did document'
 When I create the eddsa signature of 'json'
 
-### save DID document
+# signer id
+When I create the eddsa public key
+When I set 'id' to 'did:dyne:sandbox:admin:' as 'string'
+and I append the 'base58' of 'eddsa public key' to 'id'
+
+# print did document, signature and signer id
 Then print the 'did document'
 Then print the 'eddsa signature'
+Then print the 'id'
