@@ -1,12 +1,10 @@
 CUSTOM_404_MESSAGE=nothing to see here
 HTTP_PORT=12001
 HTTPS_PORT=443
-ZENCODE_DIR=./contracts
+ZENCODE_DIR=./api
 PRIVATE_ZENCODE_DIR=./private_contracts
 FILES_DIR=./
 CHAIN_EXT=chain
 OPENAPI=true
 YML_EXT=yml
 HOST=localhost
-RESOLVER_HOST=localhost
-RESOLVER_PORT=12002
