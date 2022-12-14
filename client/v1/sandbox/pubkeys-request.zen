@@ -136,8 +136,9 @@ When I create the eddsa signature of 'json'
 
 # signer id
 When I create the eddsa public key
-When I set 'id' to 'did:dyne:sandbox:admin:' as 'string'
+When I set 'id' to 'did:dyne:sandbox:' as 'string'
 and I append the 'base58' of 'eddsa public key' to 'id'
+and I append the string '/admin' to 'id'
 
 # print did document, signature and signer id
 Then print the 'did document'
