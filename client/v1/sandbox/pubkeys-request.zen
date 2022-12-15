@@ -34,11 +34,7 @@ and I move 'description' in 'did document'
 When I set 'did:dyne:' to 'did:dyne:sandbox:' as 'string'
 #and I append 'spec' to 'did:dyne:'
 and I append the 'base58' of 'identity pk' to 'did:dyne:'
-and I copy the 'did:dyne:' to 'id'
-and I move 'id' in 'did document'
-
-## controller id of pk
-When I copy the 'did:dyne:' to 'controller'
+and I copy the 'did:dyne:' to 'id' in 'did document'
 
 ## veririfcationMethod
 When I create the 'string array' named 'verificationMethod'
@@ -56,7 +52,7 @@ When I copy 'did:dyne:' to 'id'
 When I append the string '#ecdh_public_key' to 'id'
 When I move 'id' in 'verification-key'
 # controller
-When I copy 'controller' in 'verification-key'
+When I copy 'did:dyne:' to 'controller' in 'verification-key'
 When I move 'verification-key' in 'verificationMethod'
 
 # 2-reflow public key
@@ -73,7 +69,7 @@ When I copy 'did:dyne:' to 'id'
 When I append the string '#reflow_public_key' to 'id'
 When I move 'id' in 'verification-key'
 # controller
-When I copy 'controller' in 'verification-key'
+When I copy 'did:dyne:' to 'controller' in 'verification-key'
 When I move 'verification-key' in 'verificationMethod'
 
 # 3-bitcoin public key
@@ -89,7 +85,7 @@ When I copy 'did:dyne:' to 'id'
 When I append the string '#bitcoin_public_key' to 'id'
 When I move 'id' in 'verification-key'
 # controller
-When I copy 'controller' in 'verification-key'
+When I copy 'did:dyne:' to 'controller' in 'verification-key'
 When I move 'verification-key' in 'verificationMethod'
 
 # 4-eddsa public key
@@ -105,7 +101,7 @@ When I copy 'did:dyne:' to 'id'
 When I append the string '#eddsa_public_key' to 'id'
 When I move 'id' in 'verification-key'
 # controller
-When I copy 'controller' in 'verification-key'
+When I copy 'did:dyne:' to 'controller' in 'verification-key'
 When I move 'verification-key' in 'verificationMethod'
 
 # 5-ethereum address
@@ -124,7 +120,7 @@ When I copy 'did:dyne:' to 'id'
 When I append the string '#ethereum_address' to 'id'
 When I move 'id' in 'verification-key'
 # controller
-When I copy 'controller' in 'verification-key'
+When I copy 'did:dyne:' to 'controller' in 'verification-key'
 When I move 'verification-key' in 'verificationMethod'
 
 When I move 'verificationMethod' in 'did document'
@@ -132,13 +128,12 @@ When I move 'verificationMethod' in 'did document'
 
 # signature
 When I create the json of 'did document'
-When I create the eddsa signature of 'json'
+When I create the ecdh signature of 'json'
 
 # signer id
 When I create the eddsa public key
-When I set 'id' to 'did:dyne:sandbox:' as 'string'
+When I set 'id' to 'did:dyne:sandbox.admin:' as 'string'
 and I append the 'base58' of 'eddsa public key' to 'id'
-and I append the string '/admin' to 'id'
 
 # print did document, signature and signer id
 Then print the 'did document'
