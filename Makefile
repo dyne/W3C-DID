@@ -8,12 +8,16 @@ test-units: ## Run client-api unit tests offline
 	./test/bats/bin/bats test/zencode_units
 
 test-local: ## Test a local DID document creation
-	zenroom -z contracts/sandbox/pubkeys-create.zen > /tmp/pubkeys.json
-	zenroom -z contracts/sandbox/pubkeys-request.zen \
-			-k contracts/sandbox/did-document-create.keys -a /tmp/pubkeys.json \
+	zenroom -z client/v1/sandbox/sandbox-keygen.zen \
+			-a client/v1/did-settings.json \
+			> /tmp/controller-keyring.json
+	zenroom -z client/v1/sandbox/create-identity-pubkeys.zen \
+			> /tmp/new-id-pubkeys.json
+	zenroom -z client/v1/sandbox/pubkeys-request.zen \
+			-a /tmp/new-id-pubkeys.json -k /tmp/controller-keyring.json \
 			| tee /tmp/pubkeys-request.json | jq .
-	./restroom-test -p 12001 -u sandbox/pubkeys-accept.chain -a /tmp/pubkeys-request.json
-	@rm -f /tmp/pubkeys.json /tmp/pubkeys-request.json
+	./restroom-test -p 12001 -u v1/sandbox/pubkeys-accept.chain -a /tmp/pubkeys-request.json
+	@rm -f /tmp/controller-keyring.json /tmp/new-id-pubkeys.json /tmp/pubkeys-request.json
 
 #	curl -s -X 'POST' 'http://localhost:12001/api/sandbox/did-create' \
 		 -H 'accept: application/json' -H 'Content-Type: application/json' \
