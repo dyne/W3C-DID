@@ -13,13 +13,15 @@ blocks:
       and I have a 'string' named 'id'
       and I rename 'id' to 'signer_id'
 
+      # constants
+      Given I have a 'string dictionary' named 'request_ACL'
+      and I have a 'string dictionary' named 'signer_ACL'
+      and I have a 'string dictionary' named 'utility'
+
       When I set ':' to ':' as 'string'
       and I set '.' to '.' as 'string'
-      and I set 'true' to 'true' as 'string'
       and I set 'signer_path' to 'data/' as 'string'
       and I set 'request_path' to 'data/' as 'string'
-      and I set 'admin' to 'admin' as 'string'
-      and I set 'admin_check' to 'false' as 'string'
 
       # signer_parts
       When I create the array by splitting 'signer_id' at ':'
@@ -39,51 +41,58 @@ blocks:
       and I rename the 'copy' to 'request_idpk'
       and I remove 'array'
 
-      # can not create admin
-      When I verify 'request_idspec' is not equal to 'admin'
-
-      # admin?
-      If I verify 'signer_id' starts with 'did:dyne:admin:'
-      When I remove 'admin_check'
-      and I set 'admin_check' to 'true' as 'string'
-      and I append the string 'admin/' to 'signer_path'
-      EndIf
-      
-      # idspec.admin?
-      If I verify 'signer_idspec' ends with '.a'
-      # in this case signer_idspec has to be equal to request_idspec
+      # signer_path
       When I create the array by splitting 'signer_idspec' at '.'
+      and I create the length of 'array'
+      # no point => has to be admin
+      If I verify 'length' is equal to '1' in 'utility'
+      When I verify 'signer_idspec' is equal to 'admin' in 'utility'
+      EndIf
+      # if point => then .A or .C
+      If I verify 'length' is not equal to '1' in 'utility'
+      When I verify 'length' is equal to '2' in 'utility'
       and I create the copy of element '1' in array 'array'
-      and I verify 'copy' is equal to 'request_idspec'
-      and I append 'copy' to 'signer_path'
-      and I append the string '/admin/' to 'signer_path'
+      and I remove 'signer_idspec'
+      and I rename 'copy' to 'signer_idspec'
+      and I verify 'signer_idspec' is equal to 'request_idspec'
+      and I create the copy of element '2' in array 'array'
+      and the 'copy' is found in 'signer_ACL'
+      and I append the string '/' to 'signer_idspec'
+      and I append 'copy' to 'signer_idspec'
       and I remove 'array'
       and I remove 'copy'
-      # admin check to true
-      When I remove 'admin_check'
-      and I set 'admin_check' to 'true' as 'string'
+      and I remove 'length'
       EndIf
-      When I append 'signer_idpk' to 'signer_path'
-      and I verify 'admin_check' is equal to 'true'
+      When I append 'signer_idspec' to 'signer_path'
+      and I append the string '/' to 'signer_path'
+      and I append 'signer_idpk' to 'signer_path'
 
       # request_path
-      When I append 'request_idspec' to 'request_path'
-      If I verify 'request_path' ends with '.a'
-      When I create the array by splitting 'request_path' at '.'
+      When I create the array by splitting 'request_idspec' at '.'
+      and I create the length of 'array'
+      If I verify 'length' is not equal to '1' in 'utility'
+      When I verify 'length' is equal to '2' in 'utility'
       and I create the copy of element '1' in array 'array'
-      and I remove 'request_path'
-      and I rename the 'copy' to 'request_path'
-      and I append the string '/admin' to 'request_path'
+      and I remove 'request_idspec'
+      and I rename 'copy' to 'request_idspec'
+      and I create the copy of element '2' in array 'array'
+      and the 'copy' is found in 'request_ACL'
+      and I append the string '/' to 'request_idspec'
+      and I append 'copy' to 'request_idspec'
       and I remove 'array'
+      and I remove 'copy'
+      and I remove 'length'
       EndIf
-      When I append the string '/' to 'request_path'
-      When I append 'request_idpk' to 'request_path'
+      When I append 'request_idspec' to 'request_path'
+      and I append the string '/' to 'request_path'
+      and I append 'request_idpk' to 'request_path'
 
       Then print the 'signer_path'
       Then print the 'request_path'
       Then print the 'request_did_document'
       Then print the 'signer_id'
       Then print the 'ecdh_signature'
+    keysFile: v1/sandbox/pubkeys-accept-1-path.keys
     next: v1/sandbox/pubkeys-accept-2-checks.zen
   v1/sandbox/pubkeys-accept-2-checks.zen:
     zenContent: |

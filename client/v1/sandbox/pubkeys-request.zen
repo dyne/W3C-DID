@@ -130,7 +130,7 @@ When I create the ecdh signature of 'json'
 
 # signer id
 When I create the eddsa public key
-When I set 'id' to 'did:dyne:sandbox.a:' as 'string'
+When I set 'id' to 'did:dyne:sandbox.A:' as 'string'
 and I append the 'base58' of 'eddsa public key' to 'id'
 
 # print did document, signature and signer id
