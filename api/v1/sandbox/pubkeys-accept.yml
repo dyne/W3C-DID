@@ -50,7 +50,7 @@ blocks:
       EndIf
       
       # idspec.admin?
-      If I verify 'signer_idspec' ends with '.admin'
+      If I verify 'signer_idspec' ends with '.a'
       # in this case signer_idspec has to be equal to request_idspec
       When I create the array by splitting 'signer_idspec' at '.'
       and I create the copy of element '1' in array 'array'
@@ -68,7 +68,7 @@ blocks:
 
       # request_path
       When I append 'request_idspec' to 'request_path'
-      If I verify 'request_path' ends with '.admin'
+      If I verify 'request_path' ends with '.a'
       When I create the array by splitting 'request_path' at '.'
       and I create the copy of element '1' in array 'array'
       and I remove 'request_path'
