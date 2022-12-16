@@ -52,7 +52,7 @@ When I copy 'did:dyne:' to 'id'
 When I append the string '#ecdh_public_key' to 'id'
 When I move 'id' in 'verification-key'
 # controller
-When I copy 'did:dyne:' to 'controller' in 'verification-key'
+When I copy the 'did:dyne:' to 'controller' in 'verification-key'
 When I move 'verification-key' in 'verificationMethod'
 
 # 2-reflow public key
@@ -69,7 +69,7 @@ When I copy 'did:dyne:' to 'id'
 When I append the string '#reflow_public_key' to 'id'
 When I move 'id' in 'verification-key'
 # controller
-When I copy 'did:dyne:' to 'controller' in 'verification-key'
+When I copy the 'did:dyne:' to 'controller' in 'verification-key'
 When I move 'verification-key' in 'verificationMethod'
 
 # 3-bitcoin public key
@@ -85,7 +85,7 @@ When I copy 'did:dyne:' to 'id'
 When I append the string '#bitcoin_public_key' to 'id'
 When I move 'id' in 'verification-key'
 # controller
-When I copy 'did:dyne:' to 'controller' in 'verification-key'
+When I copy the 'did:dyne:' to 'controller' in 'verification-key'
 When I move 'verification-key' in 'verificationMethod'
 
 # 4-eddsa public key
@@ -101,7 +101,7 @@ When I copy 'did:dyne:' to 'id'
 When I append the string '#eddsa_public_key' to 'id'
 When I move 'id' in 'verification-key'
 # controller
-When I copy 'did:dyne:' to 'controller' in 'verification-key'
+When I copy the 'did:dyne:' to 'controller' in 'verification-key'
 When I move 'verification-key' in 'verificationMethod'
 
 # 5-ethereum address
@@ -120,7 +120,7 @@ When I copy 'did:dyne:' to 'id'
 When I append the string '#ethereum_address' to 'id'
 When I move 'id' in 'verification-key'
 # controller
-When I copy 'did:dyne:' to 'controller' in 'verification-key'
+When I copy the 'did:dyne:' to 'controller' in 'verification-key'
 When I move 'verification-key' in 'verificationMethod'
 
 When I move 'verificationMethod' in 'did document'
@@ -137,5 +137,5 @@ and I append the 'base58' of 'eddsa public key' to 'id'
 
 # print did document, signature and signer id
 Then print the 'did document'
-Then print the 'eddsa signature'
+Then print the 'ecdh signature'
 Then print the 'id'
