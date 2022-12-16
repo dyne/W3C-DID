@@ -41,7 +41,7 @@ When I create the 'string array' named 'verificationMethod'
 # 1-ecdsa public key
 When I create the 'string dictionary' named 'verification-key'
 # pk
-When I create the 'base58' string of 'reflow public key'
+When I create the 'base58' string of 'ecdh public key'
 When I move the 'base58' to 'publicKeyBase58' in 'verification-key'
 # type
 When I set 'type' to 'EcdsaSecp256k1VerificationKey2019' as 'string'
