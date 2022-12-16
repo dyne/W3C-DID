@@ -16,8 +16,12 @@ test-local: ## Test a local DID document creation
 	zenroom -z client/v1/sandbox/pubkeys-request.zen \
 			-a /tmp/new-id-pubkeys.json -k /tmp/controller-keyring.json \
 			| tee /tmp/pubkeys-request.json | jq .
-	./restroom-test -p 12001 -u v1/sandbox/pubkeys-accept.chain -a /tmp/pubkeys-request.json
-	@rm -f /tmp/controller-keyring.json /tmp/new-id-pubkeys.json /tmp/pubkeys-request.json
+	./restroom-test -p 12001 -u v1/sandbox/pubkeys-accept.chain -a /tmp/pubkeys-request.json | jq .
+	zenroom -z client/v1/sandbox/pubkeys-update.zen \
+			-a /tmp/new-id-pubkeys.json -k /tmp/controller-keyring.json \
+			| tee /tmp/pubkeys-update.json | jq .
+	./restroom-test -p 12001 -u v1/sandbox/pubkeys-update.chain -a /tmp/pubkeys-update.json | jq .
+	@rm -f /tmp/controller-keyring.json /tmp/new-id-pubkeys.json /tmp/pubkeys-request.json /tmp/pubkeys-update.json
 
 #	curl -s -X 'POST' 'http://localhost:12001/api/sandbox/did-create' \
 		 -H 'accept: application/json' -H 'Content-Type: application/json' \
