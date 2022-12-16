@@ -3,7 +3,6 @@ start: v1/sandbox/pubkeys-accept-1-path.zen
 blocks:
   v1/sandbox/pubkeys-accept-1-path.zen:
     zenContent: |
-      Rule caller restroom-mw
       Scenario 'ecdh': singature
       Scenario 'w3c': did document
       
@@ -30,7 +29,7 @@ blocks:
       and I remove 'array'
 
       # request_parts
-      When I pickup from path 'request_did_documet.id'
+      When I pickup from path 'request_did_document.id'
       and I rename the 'id' to 'request_id'
       and I create the array by splitting 'request_id' at ':'
       and I create the copy of element '3' in array 'array'
@@ -55,7 +54,7 @@ blocks:
       When I create the array by splitting 'signer_idspec' at '.'
       and I create the copy of element '1' in array 'array'
       and I verify 'copy' is equal to 'request_idspec'
-      and I append the 'copy' to 'signer_path'
+      and I append 'copy' to 'signer_path'
       and I append the string '/admin/' to 'signer_path'
       and I remove 'array'
       and I remove 'copy'
@@ -120,7 +119,7 @@ blocks:
       # create proof
       When I create the jws signature using the ecdh signature in 'ecdh signature'
       and I move 'jws' in 'proof'
-      and I copy 'timestamp' to 'created' in 'proof'
+      and I copy the 'timestamp' to 'created' in 'proof'
 
       # proof's verification method
       When I append the string '#ecdh_public_key' to 'signer_id'
@@ -129,12 +128,12 @@ blocks:
       
       # metadata
       When I create the 'string dictionary' named 'didDocumentMetadata'
-      and I move 'timestamp' to 'created' in 'didDocumentMetadata'
+      and I move the 'timestamp' to 'created' in 'didDocumentMetadata'
       
       # result
       When I create the 'string dictionary' named 'result'
       and I move '@context' in 'result'
-      and I move 'request_did_document' to 'didDocument' in 'result'
+      and I move the 'request_did_document' to 'didDocument' in 'result'
       and I move 'didDocumentMetadata' in 'result'
       
       Then print the 'result'
