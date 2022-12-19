@@ -24,9 +24,14 @@ load ../bats_setup
 	# >&3 jq < pubkeys-accept-api-checks.json
 }
 
-# TODO: pass path and signer document from shell
-#@test "Api pubkeys: execute (chain)" {
-#	zenroom -z $R/api/v1/sandbox/pubkeys-accept-2-checks.zen \
-#			-k $R/api/v1/sandbox/pubkeys-accept-1-path.keys \
-#			-a pubkeys-request.json > pubkeys-accept-api-checks.json
+@test "Api pubkeys: execute (chain)" {
+	tmp=$(mktemp)
+	signer_path=`jq -r '.signer_path' pubkeys-accept-api-checks.json`
+	jq -s '.[0] * .[1]' pubkeys-accept-api-checks.json $R/$signer_path > $tmp
+	jq --arg timestamp $(($(date +%s%N)/1000000)) '.timestamp = $timestamp' $tmp > pubkeys-accept-api-checks.json
+	rm $tmp
+	zenroom -z $R/api/v1/sandbox/pubkeys-accept-2-checks.zen \
+			-k $R/api/v1/sandbox/pubkeys-accept-2-checks.keys \
+			-a pubkeys-accept-api-checks.json > pubkeys-accept-api-execute.json
+	>&3 jq < pubkeys-accept-api-execute.json
 }
