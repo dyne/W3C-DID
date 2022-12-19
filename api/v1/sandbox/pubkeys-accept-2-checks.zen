@@ -1,0 +1,54 @@
+Rule caller restroom-mw
+Scenario 'ecdh': verify signature
+Scenario 'w3c': proof
+
+## proof needs:
+# - timestamp
+Given I fetch the local timestamp and store it into 'timestamp'
+and I have a 'string' named 'timestamp'
+
+# signer did document
+Given I read the content of 'signer_path'
+Given I have a 'did document' named 'didDocument'
+Given I rename 'didDocument' to 'signer_did_document'
+
+# key
+Given I have a 'string dictionary' named 'proof'
+and I have a 'string' named '@context'
+# data
+Given I have a 'did document' named 'request did document'
+and I have a 'ecdh signature'
+and I have a 'string' named 'request_path'
+and I have a 'string' named 'signer_id'
+
+# verify singautres
+When I create the verificationMethod of 'signer_did_document'
+and I pickup a 'ecdh_public_key' from path 'verificationMethod.ecdh_public_key'
+and I create the json of 'request did document'
+and I verify the 'json' has a ecdh signature in 'ecdh signature' by 'ecdh public key'
+and I remove the 'verificationMethod'
+
+# create proof
+When I create the jws signature using the ecdh signature in 'ecdh signature'
+and I move 'jws' in 'proof'
+and I copy the 'timestamp' to 'created' in 'proof'
+
+# proof's verification method
+When I append the string '#ecdh_public_key' to 'signer_id'
+and I move the 'signer_id' to 'verificationMethod' in 'proof'
+and I move 'proof' in 'request did document'
+
+# metadata
+When I create the 'string dictionary' named 'didDocumentMetadata'
+and I move the 'timestamp' to 'created' in 'didDocumentMetadata'
+
+# result
+When I create the 'string dictionary' named 'result'
+and I move '@context' in 'result'
+and I move the 'request_did_document' to 'didDocument' in 'result'
+and I move 'didDocumentMetadata' in 'result'
+
+Then print the 'result'
+and print the 'request_path'
+
+Then store 'result' in the file 'request_path'
