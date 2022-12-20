@@ -7,4 +7,4 @@ blocks:
     next: v1/sandbox/pubkeys-accept-2-checks.zen
   v1/sandbox/pubkeys-accept-2-checks.zen:
     zenFile: v1/sandbox/pubkeys-accept-2-checks.zen
-    keysFile: v1/sandbox/pubkeys-accept-2-checks.keys
+    keysFile: v1/sandbox/pubkeys-store.keys

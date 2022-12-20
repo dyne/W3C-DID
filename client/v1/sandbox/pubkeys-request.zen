@@ -1,3 +1,4 @@
+Rule caller restroom-mw
 rule input encoding base58
 rule output encoding base58
 
@@ -5,6 +6,10 @@ Scenario ecdh
 Scenario eddsa
 Scenario ethereum
 Scenario reflow
+
+# timestamp in messages to avoid replay attack
+Given I fetch the local timestamp and store it into 'timestamp'
+and I have a 'string' named 'timestamp'
 
 # load the spec admin keyring to sign the request
 Given my name is in a 'string' named 'controller'
@@ -124,9 +129,17 @@ When I move 'verification-key' in 'verificationMethod'
 When I move 'verificationMethod' in 'did document'
 ### DID-Document ended
 
-# signature
+# did document signature
 When I create the json of 'did document'
 When I create the ecdh signature of 'json'
+and I remove 'json'
+
+# result signature
+When I create the 'string dictionary' named 'result'
+and I copy 'did document' in 'result'
+and I copy 'timestamp' in 'result'
+and I create the json of 'result'
+and I create the eddsa signature of 'json'
 
 # signer id
 When I create the eddsa public key
@@ -136,4 +149,6 @@ and I append the 'base58' of 'eddsa public key' to 'id'
 # print did document, signature and signer id
 Then print the 'did document'
 Then print the 'ecdh signature'
+Then print the 'timestamp'
+Then print the 'eddsa signature'
 Then print the 'id'

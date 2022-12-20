@@ -1,10 +1,13 @@
 rule input encoding base58
 Scenario 'ecdh': singature
+Scenario 'eddsa': signature
 Scenario 'w3c': did document
 
 Given I have a 'did document' named 'did document'
 and I rename 'did_document' to 'request_did_document'
 and I have a 'ecdh signature'
+and I have a 'string' named 'timestamp'
+and I have a 'eddsa signature'
 and I have a 'string' named 'id'
 and I rename 'id' to 'signer_id'
 
@@ -87,3 +90,5 @@ Then print the 'request_path'
 Then print the 'request_did_document'
 Then print the 'signer_id'
 Then print the 'ecdh_signature'
+Then print the 'timestamp'
+Then print the 'eddsa signature'
