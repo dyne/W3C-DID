@@ -1,5 +1,4 @@
 name: W3C-DID CI
-
 on:
   push:
     branches: [ main ]
@@ -7,12 +6,27 @@ on:
     branches: [ main ]
 
 jobs:
+  test-units:
+    runs-on: ubuntu-latest
+    name: 🧪 test-units
+    steps:
+      - uses: actions/checkout@v3
+      - name: install Zenroom
+        run: |
+          sudo apt install wget
+          wget  https://sdk.dyne.org/view/zenroom/job/zenroom-static-amd64/lastSuccessfulBuild/artifact/src/zenroom -O zenroom
+          chmod +x zenroom
+          sudo cp zenroom /bin/
+      - name: tests
+        run: |
+          make test-units
+
   restroom_job:
     runs-on: ubuntu-latest
     name: Start restroom and request a simple contract
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
       - name: Start restroom
         uses: dyne/restroom-github-action@v1
         with:
