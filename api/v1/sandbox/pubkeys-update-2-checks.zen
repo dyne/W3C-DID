@@ -39,7 +39,7 @@ When I create the 'string dictionary' named 'signed_by_eddsa'
 and I copy the 'request did document' to 'did document' in 'signed_by_eddsa'
 and I copy 'timestamp' in 'signed_by_eddsa'
 and I create the json of 'signed_by_eddsa'
-and I verify 'json' has a eddsa signature in 'eddsa signature' by 'eddsa public key'
+and I verify the 'json' has a eddsa signature in 'eddsa signature' by 'eddsa public key'
 and I rename 'result' to 'timestamp_result'
 and I remove 'json'
 
