@@ -12,8 +12,7 @@ load ../bats_zencode
 }
 
 @test "Use controller to create a new identity request" {
-	tmp=$(mktemp)
-	jq --arg timestamp $(($(date +%s%N)/1000000)) '.timestamp = $timestamp' $BATS_FILE_TMPDIR/new-id-pubkeys.json > $tmp && mv $tmp $BATS_FILE_TMPDIR/new-id-pubkeys.json
+	jq_insert "timestamp" $(($(date +%s%N)/1000000)) new-id-pubkeys.json
 	zexe client/v1/sandbox/pubkeys-request.zen new-id-pubkeys.json controller-keyring.json
 	save_tmp_output pubkeys-request.json
 }
@@ -25,11 +24,9 @@ load ../bats_zencode
 
 @test "Api pubkeys: execute (chain)" {
 	# add timestamp and signer_data to data
-	tmp=$(mktemp)
-	signer_path=`jq -r '.signer_path' pubkeys-accept-api-checks.json`
-	json_join $BATS_FILE_TMPDIR/pubkeys-accept-api-checks.json $R/$signer_path > $tmp
-	jq --arg timestamp $(($(date +%s%N)/1000000)) '.accept_timestamp = $timestamp' $tmp > $BATS_FILE_TMPDIR/pubkeys-accept-api-checks.json
-	rm $tmp
+	jq_insert "accept_timestamp" $(($(date +%s%N)/1000000)) pubkeys-accept-api-checks.json
+	signer_path=`jq -r '.signer_path' $BATS_FILE_TMPDIR/pubkeys-accept-api-checks.json`
+	json_join_two $signer_path pubkeys-accept-api-checks.json
 	# execute
 	zexe api/v1/sandbox/pubkeys-accept-2-checks.zen api/v1/sandbox/pubkeys-store.keys pubkeys-accept-api-checks.json
 	save_tmp_output pubkeys-accept-api-execute.json
@@ -40,8 +37,7 @@ load ../bats_zencode
 
 @test "Use controller to create a update request" {
 	# timestamp
-	tmp=$(mktemp)
-	jq --arg timestamp $(($(date +%s%N)/1000000)) '.timestamp = $timestamp' $BATS_FILE_TMPDIR/new-id-pubkeys.json > $tmp && mv $tmp $BATS_FILE_TMPDIR/new-id-pubkeys.json
+	jq_insert "timestamp" $(($(date +%s%N)/1000000)) new-id-pubkeys.json
 	# modify a user key, e.g. ecdh public key
 	new_ecdh=`$ZENROOM_EXECUTABLE -z $R/client/v1/sandbox/create-identity-pubkeys.zen | jq -r '.ecdh_public_key'`
 	jq --arg ecdh_public_key $new_ecdh '.ecdh_public_key |= $ecdh_public_key' $BATS_FILE_TMPDIR/new-id-pubkeys.json > $BATS_FILE_TMPDIR/update-id-pubkeys.json
@@ -57,13 +53,12 @@ load ../bats_zencode
 
 @test "Api pubkeys: execute-update (chain)" {
 	# add timestamp, signer_data and request_data to data
+	jq_insert "update_timestamp" $(($(date +%s%N)/1000000)) pubkeys-update-api-checks.json
 	tmp=$(mktemp)
 	signer_path=`jq -r '.signer_path' $BATS_FILE_TMPDIR/pubkeys-update-api-checks.json`
 	request_path=`jq -r '.request_path' $BATS_FILE_TMPDIR/pubkeys-update-api-checks.json`
 	jq '.signer_data = input' $BATS_FILE_TMPDIR/pubkeys-update-api-checks.json $R/$signer_path > $tmp
 	jq '.request_data = input' $tmp $R/$request_path > $BATS_FILE_TMPDIR/pubkeys-update-api-checks.json
-	jq --arg timestamp $(($(date +%s%N)/1000000)) '.update_timestamp = $timestamp' $BATS_FILE_TMPDIR/pubkeys-update-api-checks.json \
-		> $tmp && mv $tmp $BATS_FILE_TMPDIR/pubkeys-update-api-checks.json
 	# execute
 	zexe api/v1/sandbox/pubkeys-update-2-checks.zen api/v1/sandbox/pubkeys-store.keys pubkeys-update-api-checks.json
 	save_tmp_output pubkeys-update-api-execute.json
@@ -84,8 +79,8 @@ load ../bats_zencode
 @test "Api pubkeys: execute-deactivate (chain)" {
 	# add signer_data and request_data to data
 	tmp=$(mktemp)
-	signer_path=`jq -r '.signer_path' pubkeys-deactivate-api-checks.json`
-	request_path=`jq -r '.request_path' pubkeys-deactivate-api-checks.json`
+	signer_path=`jq -r '.signer_path' $BATS_FILE_TMPDIR/pubkeys-deactivate-api-checks.json`
+	request_path=`jq -r '.request_path' $BATS_FILE_TMPDIR/pubkeys-deactivate-api-checks.json`
 	jq '.signer_data = input' $BATS_FILE_TMPDIR/pubkeys-deactivate-api-checks.json $R/$signer_path > $tmp
 	jq '.request_data = input' $tmp $R/$request_path > $BATS_FILE_TMPDIR/pubkeys-deactivate-api-checks.json
 	# execute
@@ -97,8 +92,7 @@ load ../bats_zencode
 
 @test "Api pubkeys: update a deactivated did document" {
 	## controller create the request to update a did document that has been deactivated
-	tmp=$(mktemp)
-	jq --arg timestamp $(($(date +%s%N)/1000000)) '.timestamp = $timestamp' $BATS_FILE_TMPDIR/new-id-pubkeys.json > $tmp && mv $tmp $BATS_FILE_TMPDIR/new-id-pubkeys.json
+	jq_insert "timestamp" $(($(date +%s%N)/1000000)) new-id-pubkeys.json
 	# modify ecdh public key
 	new_ecdh=`$ZENROOM_EXECUTABLE -z $R/client/v1/sandbox/create-identity-pubkeys.zen | jq -r '.ecdh_public_key'`
 	jq --arg ecdh_public_key $new_ecdh '.ecdh_public_key |= $ecdh_public_key' $BATS_FILE_TMPDIR/new-id-pubkeys.json > $BATS_FILE_TMPDIR/update-id-pubkeys.json
@@ -112,13 +106,12 @@ load ../bats_zencode
 
 	## more checks and finally update
 	# add missing things from restroom
+	jq_insert "update_timestamp" $(($(date +%s%N)/1000000)) pubkeys-update-api-checks.json
 	tmp=$(mktemp)
 	signer_path=`jq -r '.signer_path' $BATS_FILE_TMPDIR/pubkeys-update-api-checks.json`
 	request_path=`jq -r '.request_path' $BATS_FILE_TMPDIR/pubkeys-update-api-checks.json`
 	jq '.signer_data = input' $BATS_FILE_TMPDIR/pubkeys-update-api-checks.json $R/$signer_path > $tmp
 	jq '.request_data = input' $tmp $R/$request_path > $BATS_FILE_TMPDIR/pubkeys-update-api-checks.json
-	jq --arg timestamp $(($(date +%s%N)/1000000)) '.update_timestamp = $timestamp' $BATS_FILE_TMPDIR/pubkeys-update-api-checks.json \
-		> $tmp && mv $tmp $BATS_FILE_TMPDIR/pubkeys-update-api-checks.json
 	# execute
 	run $ZENROOM_EXECUTABLE -a $BATS_FILE_TMPDIR/pubkeys-update-api-checks.json \
 							-k $R/api/v1/sandbox/pubkeys-store.keys \

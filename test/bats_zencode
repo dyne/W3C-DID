@@ -11,7 +11,7 @@ getscript() {
 
 zexe() {
     if [ "$conf" = "" ]; then
-	conf="debug=1,rngseed=hex:00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+	conf="debug=1"
     fi
     script=`getscript ${1}`
     if (( $debug >= 1 )); then
@@ -56,10 +56,28 @@ zexe() {
     return $status
 }
 
-function json_join {
-	jq -s 'reduce .[] as $item ({}; . * $item)' $*
+function json_join_two {
+    tmp=$(mktemp)
+
+    file1="$BATS_FILE_TMPDIR/$1"
+    if ! [ -r $file1 ]; then file1="$R/$1"; fi
+    if ! [ -r $file1 ]; then echo "First json not found: $1"; return 1; fi
+    file2="$BATS_FILE_TMPDIR/$2"
+    if ! [ -r $file2 ]; then file2="$R/$2"; fi
+    if ! [ -r $file2 ]; then echo "Second json not found: $2"; return 1; fi
+
+    jq -s '.[0] * .[1]' $file1 $file2 > $tmp && mv $tmp $file2
 }
 
+# jq_insert key value path
+function jq_insert {
+    file=$BATS_FILE_TMPDIR/$3
+    if ! [ -r $file ]; then file="$R/$3"; fi
+    if ! [ -r $file ]; then echo "Json not found: $3"; return 1; fi
+    tmp=$(mktemp)
+    jq --arg key $1 --arg value $2 '.[$key] = $value' $file > $tmp && mv $tmp $file
+}
+#
 function save_tmp_output {
     >&3 echo " 💾 $1"
     export output=`cat $TMP/out`
