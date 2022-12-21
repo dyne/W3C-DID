@@ -5,6 +5,7 @@ help: ## Display this help.
 .PHONY: test
 
 test-units: ## Run client-api unit tests offline
+	if [ ! -f test/zenroom ]; then cp /usr/bin/zenroom test/; fi
 	./test/bats/bin/bats test/zencode_units
 
 test-local: ## Test a local DID document creation

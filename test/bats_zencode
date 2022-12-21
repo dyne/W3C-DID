@@ -1,0 +1,67 @@
+#!/bin/bash
+
+debug=0
+
+getscript() {
+    tszen="$R/$1"
+    echo $tszen
+    >&3 echo " ⚙️ $1"
+    return 0
+}
+
+zexe() {
+    if [ "$conf" = "" ]; then
+	conf="debug=1,rngseed=hex:00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+    fi
+    script=`getscript ${1}`
+    if (( $debug >= 1 )); then
+	>&3 cat $script
+    else
+	>&2 cat $script
+    fi
+    
+    if [ $? != 0 ]; then echo "Error in Zencode script: $script"; return 1; fi
+
+    if [ "$2" == "" ]; then unset $input
+    else
+	input="$BATS_FILE_TMPDIR/$2" 
+	if ! [ -r $input ]; then input="$R/$2"; fi
+	if ! [ -r $input ]; then echo "DATA input not found: $input"; return 1; fi
+	>&3 echo "   📝 `basename $input`"
+    fi
+
+    if [ "$3" == "" ]; then unset $keys
+    else
+	keys="$BATS_FILE_TMPDIR/$3"
+	if ! [ -r $keys ]; then keys="$R/$3"; fi
+	if ! [ -r $keys ]; then  echo "KEYS input not found: $keys"; return 1; fi
+	>&3 echo "   🔑 `basename $keys`"
+    fi
+
+    status=1 # BATS compatible
+
+    tmpout=$TMP/out
+    tmperr=$TMP/err
+
+    if [ "$keys" != "" ]; then
+	$ZENROOM_EXECUTABLE -c $conf -k $keys -a $input -z $script  1>$tmpout
+	status=$?
+    elif [ "$input" != "" ]; then
+	$ZENROOM_EXECUTABLE -c $conf -a $input -z $script           1>$tmpout
+	status=$?
+    else
+	$ZENROOM_EXECUTABLE -c $conf -z $script                     1>$tmpout
+	status=$?
+    fi
+    return $status
+}
+
+function json_join {
+	jq -s 'reduce .[] as $item ({}; . * $item)' $*
+}
+
+function save_tmp_output {
+    >&3 echo " 💾 $1"
+    export output=`cat $TMP/out`
+    cat $TMP/out | tee "$BATS_FILE_TMPDIR/$1"
+}

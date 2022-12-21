@@ -16,7 +16,7 @@ jobs:
           sudo apt install wget
           wget  https://sdk.dyne.org/view/zenroom/job/zenroom-static-amd64/lastSuccessfulBuild/artifact/src/zenroom -O zenroom
           chmod +x zenroom
-          sudo cp zenroom /usr/bin/
+          cp zenroom test/
       - name: tests
         run: |
           make test-units
