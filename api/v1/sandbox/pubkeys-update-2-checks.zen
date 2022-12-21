@@ -27,6 +27,11 @@ and I have a 'integer' named 'timestamp'
 and I have a 'string' named 'request_path'
 and I have a 'string' named 'signer_id'
 
+# verify did document is not deactivated
+When I set 'false' to 'false' as 'string'
+and I verify 'false' is equal to 'deactivated' in 'didDocumentMetadata'
+
+
 When I create the verificationMethod of 'signer_did_document'
 and I pickup a 'ecdh_public_key' from path 'verificationMethod.ecdh_public_key'
 and I pickup a 'eddsa_public_key' from path 'verificationMethod.eddsa_public_key'

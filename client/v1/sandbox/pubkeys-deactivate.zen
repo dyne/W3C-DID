@@ -1,0 +1,29 @@
+rule input encoding base58
+rule output encoding base58
+
+Scenario ecdh
+Scenario eddsa
+
+# load the spec admin keyring to sign the request
+Given my name is in a 'string' named 'controller'
+and I have my 'keyring'
+
+# load eddsa pk for id
+Given I have a 'eddsa_public_key'
+and I rename 'eddsa_public_key' to 'identity pk'
+
+# deactivate_id
+When I set 'deactivate_id' to 'did:dyne:sandbox:' as 'string'
+and I append the 'base58' of 'identity pk' to 'deactivate_id'
+
+# id
+When I create the eddsa public key
+and I set 'id' to 'did:dyne:sandbox.A:' as 'string'
+and I append the 'base58' of 'eddsa public key' to 'id'
+
+# ecdh singature of deactivate_id
+When I create the ecdh signature of 'deactivate_id'
+
+Then print the 'deactivate_id'
+Then print the 'id'
+Then print the 'ecdh signature'

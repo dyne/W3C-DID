@@ -1,0 +1,83 @@
+rule input encoding base58
+Scenario 'ecdh': singature
+Scenario 'w3c': did document
+
+Given I have a 'string' named 'deactivate_id'
+and I have a 'ecdh signature'
+and I have a 'string' named 'id'
+and I rename 'id' to 'signer_id'
+
+# constants
+Given I have a 'string dictionary' named 'request_ACL'
+and I have a 'string dictionary' named 'signer_ACL'
+and I have a 'string dictionary' named 'utility'
+
+When I set ':' to ':' as 'string'
+and I set '.' to '.' as 'string'
+and I set 'signer_path' to 'data/' as 'string'
+and I set 'request_path' to 'data/' as 'string'
+
+# signer_parts
+When I create the array by splitting 'signer_id' at ':'
+and I create the copy of element '3' in array 'array'
+and I rename the 'copy' to 'signer_idspec'
+and I create the copy of element '4' in array 'array'
+and I rename the 'copy' to 'signer_idpk'
+and I remove 'array'
+
+# request_parts
+When I create the array by splitting 'deactivate_id' at ':'
+and I create the copy of element '3' in array 'array'
+and I rename the 'copy' to 'request_idspec'
+and I create the copy of element '4' in array 'array'
+and I rename the 'copy' to 'request_idpk'
+and I remove 'array'
+
+# signer_path
+When I create the array by splitting 'signer_idspec' at '.'
+and I create the length of 'array'
+# no point => has to be admin
+If I verify 'length' is equal to '1' in 'utility'
+When I verify 'signer_idspec' is equal to 'admin' in 'utility'
+EndIf
+# if point => then .A or .D
+If I verify 'length' is not equal to '1' in 'utility'
+When I verify 'length' is equal to '2' in 'utility'
+and I create the copy of element '1' in array 'array'
+and I remove 'signer_idspec'
+and I rename 'copy' to 'signer_idspec'
+and I verify 'signer_idspec' is equal to 'request_idspec'
+and I create the copy of element '2' in array 'array'
+and the 'copy' is found in 'signer_ACL'
+and I append the string '/' to 'signer_idspec'
+and I append 'copy' to 'signer_idspec'
+and I remove 'array'
+and I remove 'copy'
+and I remove 'length'
+EndIf
+When I append 'signer_idspec' to 'signer_path'
+and I append the string '/' to 'signer_path'
+and I append 'signer_idpk' to 'signer_path'
+
+# request_path
+When I create the array by splitting 'request_idspec' at '.'
+and I create the length of 'array'
+If I verify 'length' is not equal to '1' in 'utility'
+When I verify 'length' is equal to '2' in 'utility'
+and I create the copy of element '1' in array 'array'
+and I remove 'request_idspec'
+and I rename 'copy' to 'request_idspec'
+and I create the copy of element '2' in array 'array'
+and the 'copy' is found in 'request_ACL'
+and I append the string '/' to 'request_idspec'
+and I append 'copy' to 'request_idspec'
+EndIf
+When I append 'request_idspec' to 'request_path'
+and I append the string '/' to 'request_path'
+and I append 'request_idpk' to 'request_path'
+
+Then print the 'signer_path'
+Then print the 'request_path'
+Then print the 'deactivate_id'
+Then print the 'signer_id'
+Then print the 'ecdh_signature'

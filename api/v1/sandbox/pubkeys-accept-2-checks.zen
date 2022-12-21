@@ -57,6 +57,8 @@ and I move 'proof' in 'request did document'
 # metadata
 When I create the 'string dictionary' named 'didDocumentMetadata'
 and I move the 'accept_timestamp' to 'created' in 'didDocumentMetadata'
+and I set 'deactivated' to 'false' as 'string'
+and I move 'deactivated' in 'didDocumentMetadata' 
 
 # result
 When I create the 'string dictionary' named 'result'
