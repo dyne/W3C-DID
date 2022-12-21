@@ -7,7 +7,7 @@ on:
 jobs:
   deploy:
     if: github.ref == 'refs/heads/main'
-    uses: interfacerproject/workflows/.github/workflows/node-staging-deploy.yml@main
+    uses: dyne/workflows/.github/workflows/node-staging-deploy.yml@main
     secrets: inherit
     with:
       deploy_url: https://explorer.did.dyne.org
