@@ -58,7 +58,7 @@ app.get('/dids', (req, res) => {
   let i = 0;
   let dids = []
 
-  const stream = readdirp(FILES_DIR, {fileFilter: '[^.]*'});
+  const stream = readdirp(path.join(FILES_DIR, 'data'), {fileFilter: '[^.]*'});
   stream.on('data', (entry) => {
       if(i >= offset)  {
         const didPath = entry.path
@@ -79,7 +79,7 @@ app.get('/dids', (req, res) => {
 })
 
 app.get('/dids/:id', (req, res) => {
-  const didPath = path.join(FILES_DIR, didIdToPath(req.params.id))
+  const didPath = path.join(path.join(FILES_DIR, 'data'), didIdToPath(req.params.id))
   validatePath(didPath);
   fs.stat(didPath, (err, _) => {
     if(err) {
