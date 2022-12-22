@@ -25,19 +25,14 @@
     - "{{ controller_root }}/restroom"
     - "{{ data_dir }}"
 
-- name: Importing package.json (restroom)
+- name: Copy app
   become: true
-  get_url:
-    url: "https://raw.githubusercontent.com/dyne/W3C-DID/main/restroom/package.json"
+  copy:
+    src: "../restroom/{{ item }}"
     dest: "{{ controller_root }}/restroom/"
-    force: true
-
-- name: Importing restroom.mjs
-  become: true
-  get_url:
-    url: "https://raw.githubusercontent.com/dyne/W3C-DID/main/restroom/restroom.mjs"
-    dest: "{{ controller_root }}/restroom/"
-    force: true
+  with_items:
+    - restroom.mjs
+    - package.json
 
 # - name: Config restroom in private network
 #   ansible.builtin.lineinfile:

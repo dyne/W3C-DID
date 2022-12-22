@@ -41,7 +41,11 @@ zencode.addMiddlewares("/api", app);
 const DID_BEGIN = "did:dyne:"
 const pathToDidId = (didPath) => {
   const folders = didPath.split(path.sep)
-  return `${DID_BEGIN}${folders[0]}.${folders.slice(1).join(':')}`;
+  if(folders.length == 3) {
+    return `${DID_BEGIN}${folders[0]}.${folders.slice(1).join(':')}`;
+  } else {
+    return `${DID_BEGIN}${folders.join(':')}`;
+  }
 }
 const didIdToPath = (didId) => {
   if(!didId.startsWith(DID_BEGIN)) {
