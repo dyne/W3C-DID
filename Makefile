@@ -1,3 +1,4 @@
+RR_PORT := 12001
 ##@ General
 help: ## Display this help.
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_0-9-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' Makefile
@@ -8,7 +9,8 @@ test-units: ## Run client-api unit tests offline
 	if [ ! -f test/zenroom ]; then cp /usr/bin/zenroom test/; fi
 	./test/bats/bin/bats test/zencode_units
 
-test-local: ## Test a local DID document creation
+.PHONY: geneate-sandbox-did
+generate-sandbox-did:
 	zenroom -z client/v1/sandbox/sandbox-keygen.zen \
 			-a client/v1/did-settings.json \
 			> /tmp/controller-keyring.json
@@ -17,7 +19,9 @@ test-local: ## Test a local DID document creation
 	zenroom -z client/v1/sandbox/pubkeys-request.zen \
 			-a /tmp/new-id-pubkeys.json -k /tmp/controller-keyring.json \
 			| tee /tmp/pubkeys-request.json | jq .
-	./restroom-test -p 12001 -u v1/sandbox/pubkeys-accept.chain -a /tmp/pubkeys-request.json | jq .
+	./restroom-test -p ${RR_PORT} -u v1/sandbox/pubkeys-accept.chain -a /tmp/pubkeys-request.json | jq .
+
+test-local: generate-sandbox-did ## Test a local DID document creation
 	zenroom -z client/v1/sandbox/pubkeys-update.zen \
 			-a /tmp/new-id-pubkeys.json -k /tmp/controller-keyring.json \
 			| tee /tmp/pubkeys-update.json | jq .
