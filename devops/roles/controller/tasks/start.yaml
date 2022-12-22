@@ -27,7 +27,7 @@
 
 - name: start and save controller with pm2
   become: true
-  shell: pm2 start ecosystem.config.js && pm2 save
+  shell: pm2 delete ecosystem.config.js && pm2 start ecosystem.config.js && pm2 save
   args:
     chdir: "{{ controller_root }}/restroom"
 

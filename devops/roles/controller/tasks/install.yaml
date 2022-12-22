@@ -29,13 +29,15 @@
   become: true
   get_url:
     url: "https://raw.githubusercontent.com/dyne/W3C-DID/main/restroom/package.json"
-    dest: "{{ controller_root }}/restroom/package.json"
+    dest: "{{ controller_root }}/restroom/"
+    force: true
 
 - name: Importing restroom.mjs
   become: true
   get_url:
     url: "https://raw.githubusercontent.com/dyne/W3C-DID/main/restroom/restroom.mjs"
-    dest: "{{ controller_root }}/restroom/restroom.mjs"
+    dest: "{{ controller_root }}/restroom/"
+    force: true
 
 # - name: Config restroom in private network
 #   ansible.builtin.lineinfile:
@@ -52,23 +54,26 @@
     create: true
     block: |
       FILES_DIR={{ data_dir }}
-      ZENCODE_DIR=../contracts
+      ZENCODE_DIR=../api
       USE_TIMESTAMP=y
       USE_FILES=y
+      USE_ETHEREUM=y
+      USE_PLANETMINT=y
+      USE_HTTP=y
       HOST={{ inventory_hostname }}
       HTTP_PORT=3000
 
 - name: Copy contracts (permissions may be wrong)
   become: true
   synchronize:
-    src: "../contracts"
+    src: "../api"
     dest: "{{ controller_root }}"
     owner: no
     group: no
 
 - name: Fix contracts permissions
   file:
-    dest: "{{ controller_root }}/contracts"
+    dest: "{{ controller_root }}/api"
     owner: controller
     group: controller
     recurse: yes
@@ -88,9 +93,25 @@
     group: controller
     recurse: yes
 
+- name: Copy data (permissions may be wrong)
+  become: true
+  synchronize:
+    src: "../data"
+    dest: "{{ data_dir }}"
+    owner: no
+    group: no
+
+- name: Fix contracts permissions
+  file:
+    dest: "{{ data_dir }}/data"
+    owner: controller
+    group: controller
+    recurse: yes
+
 - name: Download pm2 ecosystem
   become: true
   get_url:
     url: "https://raw.githubusercontent.com/dyne/W3C-DID/main/restroom/ecosystem.config.js"
-    dest: "{{ controller_root }}/restroom/ecosystem.config.js"
+    dest: "{{ controller_root }}/restroom/"
+    force: true
 
