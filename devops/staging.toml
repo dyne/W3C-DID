@@ -1,2 +1,1 @@
-# did.dyne.org domain_name=did.dyne.org ansible_port=22060 ansible_python_interpreter=/usr/bin/python3
-116.203.198.188 domain_name=did.dyne.org ansible_python_interpreter=/usr/bin/python3 ansible_port=22010
+116.203.198.188

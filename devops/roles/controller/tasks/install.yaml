@@ -1,0 +1,96 @@
+---
+- name: Update and upgrade apt packages
+  apt:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 86400 # One day
+
+- name: Install package dependencies
+  ansible.builtin.package:
+    name:
+      - nginx
+      - curl
+      - rsync
+      - jq
+    state: latest
+
+- name: Create working dirs
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: controller
+    group: controller
+  with_items:
+    - "{{ controller_root }}"
+    - "{{ controller_root }}/restroom"
+    - "{{ data_dir }}"
+
+- name: Importing package.json (restroom)
+  become: true
+  get_url:
+    url: "https://raw.githubusercontent.com/dyne/W3C-DID/main/restroom/package.json"
+    dest: "{{ controller_root }}/restroom/package.json"
+
+- name: Importing restroom.mjs
+  become: true
+  get_url:
+    url: "https://raw.githubusercontent.com/dyne/W3C-DID/main/restroom/restroom.mjs"
+    dest: "{{ controller_root }}/restroom/restroom.mjs"
+
+# - name: Config restroom in private network
+#   ansible.builtin.lineinfile:
+#     path: /etc/hosts
+#     line: 127.0.0.1 {{ domain_name }}
+#     owner: root
+#     group: root
+#     mode: '0644'
+
+- name: Create .env
+  become: true
+  blockinfile:
+    path: "{{ controller_root }}/restroom/.env"
+    create: true
+    block: |
+      FILES_DIR={{ data_dir }}
+      ZENCODE_DIR=../contracts
+      USE_TIMESTAMP=y
+      USE_FILES=y
+      HOST={{ inventory_hostname }}
+      HTTP_PORT=3000
+
+- name: Copy contracts (permissions may be wrong)
+  become: true
+  synchronize:
+    src: "../contracts"
+    dest: "{{ controller_root }}"
+    owner: no
+    group: no
+
+- name: Fix contracts permissions
+  file:
+    dest: "{{ controller_root }}/contracts"
+    owner: controller
+    group: controller
+    recurse: yes
+
+- name: Copy private_contracts
+  become: true
+  synchronize:
+    src: "../private_contracts"
+    dest: "{{ controller_root }}"
+    owner: no
+    group: no
+
+- name: Fix private_contracts permissions
+  file:
+    dest: "{{ controller_root }}/private_contracts"
+    owner: controller
+    group: controller
+    recurse: yes
+
+- name: Download pm2 ecosystem
+  become: true
+  get_url:
+    url: "https://raw.githubusercontent.com/dyne/W3C-DID/main/restroom/ecosystem.config.js"
+    dest: "{{ controller_root }}/restroom/ecosystem.config.js"
+

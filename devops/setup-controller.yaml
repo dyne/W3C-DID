@@ -1,0 +1,9 @@
+---
+- name: Install controller
+  hosts: all
+  gather_facts: false
+  remote_user: root
+  become_user: controller
+  become_method: su
+  roles:
+    - controller

@@ -1,0 +1,19 @@
+---
+- name: Add the user 'controller'
+  ansible.builtin.user:
+    name: controller
+    shell: /bin/bash
+- name: Create .ssh directory
+  file:
+    path: /home/controller/.ssh
+    state: directory
+    owner: controller
+    group: controller
+- name: Set authorized keys for user controller
+  copy:
+    src: /root/.ssh/authorized_keys
+    remote_src: true
+    dest: /home/controller/.ssh/authorized_keys
+    owner: controller
+    group: controller
+

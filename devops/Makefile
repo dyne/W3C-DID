@@ -1,4 +1,4 @@
-ANSIPLAY = ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --inventory hosts.toml --ssh-common-args '-o StrictHostKeyChecking=accept-new -o IdentitiesOnly=yes' --private-key ./sshkey $(1)
+ANSIPLAY = ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook --inventory staging.toml --ssh-common-args '-o StrictHostKeyChecking=accept-new -o IdentitiesOnly=yes' --private-key ./sshkey $(1)
 
 ##@ General
 help: ## Display this help.
@@ -6,23 +6,8 @@ help: ## Display this help.
 
 ##@ Server management
 install: ## Install controller
-	$(call ANSIPLAY, install-controller.yaml)
-
-announce: ## Announce controller
-	$(call ANSIPLAY, announce-controller.yaml)
+	$(call ANSIPLAY, setup-controller.yaml)
 
 tls: ## Install SSL/TLS certificate
 	$(call ANSIPLAY, acme-certificate.yaml)
 
-##@ Docker image management
-docker-build:
-	docker rm $$(docker ps -aq -f "ancestor=w3cdid") || echo "No container"
-	docker rmi w3cdid || echo "No image"
-	docker build -t w3cdid .
-docker-start:
-	docker run -it --name w3cdid w3cdid bash
-docker-ip:
-	sudo docker inspect -f "{{ .NetworkSettings.IPAddress }}" w3cdid
-docker-commit:
-	$(if ${ID},,$(error Container ID is not defined))
-	docker commit --change 'CMD ["/bin/bash","/startup.sh"]' ${ID} dyne/w3c-did-driver:latest
