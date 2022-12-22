@@ -9,15 +9,11 @@ const resolver = new Resolver({
         options: DIDResolutionOptions
     ): Promise<DIDResolutionResult> {
         // {method: 'mymethod', id: 'abcdefg', did: 'did:mymethod:abcdefg/some/path#fragment=123', path: '/some/path', fragment: 'fragment=123'}
-        const didDoc = await getData(`did-resolve?data={"id": "${did}"}`);
+        const didDoc = await getData(`dids/${did}`);
         // If you need to lookup another did as part of resolving this did document, the primary DIDResolver object is passed in as well
         // const parentDID = await didResolver.resolve(...)
         // Return the DIDResolutionResult object
-        return {
-            didResolutionMetadata: { contentType: 'application/did+ld+json' },
-            didDocument: didDoc,
-            didDocumentMetadata: {}
-        }
+        return didDoc
     }
 })
 

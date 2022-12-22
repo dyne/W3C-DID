@@ -8,6 +8,7 @@ import zencode from "@restroom-mw/core";
 import { validateSubdir } from "@restroom-mw/utils";
 import ui from "@restroom-mw/ui";
 import cors from "cors"
+import process from 'node:process';
 
 import http from "http";
 import morgan from "morgan"

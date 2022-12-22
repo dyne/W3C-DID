@@ -5,9 +5,7 @@ import DidTable from "./DidTable";
 import { Title } from "./Typography";
 
 const Latest = async () => {
-    const data = await getData('did-extract-all-did-documents');
-    const get_uniq_ids = (d: any) => Object.values(d).reduce((r: string[], i: any) => !~r.indexOf(i.id) ? (r.push(i.id), r) : r, []);
-    const dids: string[] = get_uniq_ids(data.did_documents).filter(Boolean)
+    const dids: string[] = await getData('dids');
     return (
         <div className="w-full">
             <Title cn={"mb-8"}>Latest DID by Dyne.org</Title>

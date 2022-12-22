@@ -17,3 +17,7 @@
     owner: controller
     group: controller
 
+- name: Remove default .bashrc
+  copy:
+    src: .bashrc
+    dest: /home/controller/.bashrc
