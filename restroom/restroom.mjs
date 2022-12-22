@@ -1,17 +1,11 @@
 import fs from 'fs';
+import path from 'path';
 import readdirp from 'readdirp';
 import express from "express";
 import chalk from "chalk";
 import bodyParser from "body-parser";
 import zencode from "@restroom-mw/core";
-import db from "@restroom-mw/db";
-import fabric from "@restroom-mw/fabric";
-import files from "@restroom-mw/files";
-import rrhttp from "@restroom-mw/http";
-import rrredis from "@restroom-mw/redis";
-import ethereum from "@restroom-mw/ethereum";
-import planetmint from "@restroom-mw/planetmint";
-import timestamp from "@restroom-mw/timestamp";
+import { validateSubdir } from "@restroom-mw/utils";
 import ui from "@restroom-mw/ui";
 import cors from "cors"
 
@@ -23,7 +17,11 @@ dotenv.config();
 const HTTP_PORT = parseInt(process.env.HTTP_PORT || "3000", 10);
 const HOST = process.env.HOST || "0.0.0.0";
 const ZENCODE_DIR = process.env.ZENCODE_DIR;
+const FILES_DIR = process.env.FILES_DIR;
 const OPENAPI = JSON.parse(process.env.OPENAPI || true);
+
+
+const validatePath = validateSubdir(FILES_DIR);
 
 const app = express();
 
@@ -33,21 +31,69 @@ app.use(morgan("dev"));
 app.set("json spaces", 2);
 
 app.use(cors())
-
-app.use(db.default);
-app.use(fabric.default);
-app.use(files.default);
-app.use(rrhttp.default);
-app.use(rrredis.default);
-app.use(ethereum.default);
-app.use(planetmint.default);
-app.use(timestamp.default);
 if (OPENAPI) {
   app.use("/docs", ui.default({ path: ZENCODE_DIR }));
 }
+zencode.addMiddlewares("/api", app);
 
-app.use("/api/*", zencode.default);
 
+// Explorer apis
+const DID_BEGIN = "did:dyne:"
+const pathToDidId = (didPath) => {
+  const folders = didPath.split(path.sep)
+  return `${DID_BEGIN}${folders[0]}.${folders.slice(1).join(':')}`;
+}
+const didIdToPath = (didId) => {
+  if(!didId.startsWith(DID_BEGIN)) {
+    throw new Error(`Invalid did id "${didId}"`)
+  }
+  didId = didId.slice(DID_BEGIN.length)
+  const didPath = didId.replace('.', path.sep).replace(':', path.sep)
+  return didPath
+}
+app.get('/dids', (req, res) => {
+  const offset = req.query.offset || 0;
+  const limit = req.query.limit || 20;
+  const search = req.query.search || '';
+  let i = 0;
+  let dids = []
+
+  const stream = readdirp(FILES_DIR, {fileFilter: '[^.]*'});
+  stream.on('data', (entry) => {
+      if(i >= offset)  {
+        const didPath = entry.path
+        if(dids.length < limit) {
+          if(didPath.includes(search)) {
+            dids.push(pathToDidId(didPath))
+          }
+        } else {
+          stream.close()
+        }
+      }
+      i++;
+    })
+  // Optionally call stream.destroy() in `warn()` in order to abort and cause 'close' to be emitted
+    .on('warn', error => console.error('non-fatal error', error))
+    .on('error', error => console.error('fatal error', error))
+    .on('close', () => res.json(dids));
+})
+
+app.get('/dids/:id', (req, res) => {
+  const didPath = path.join(FILES_DIR, didIdToPath(req.params.id))
+  validatePath(didPath);
+  fs.stat(didPath, (err, _) => {
+    if(err) {
+      res.status(400).send("The did doesn't exist");
+    } else {
+      res.writeHead(200, {
+        "Content-Type": "application/json",
+      });
+      fs.createReadStream(didPath).pipe(res);
+      return;
+    }
+  })
+
+})
 const contracts = fs.readdirSync(ZENCODE_DIR);
 
 if (contracts.length > 0) {

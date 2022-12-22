@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node restroom.mjs",
-    "init": "node init.mjs"
+    "dev": "nodemon -q restroom.mjs"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.5.0",
@@ -41,7 +41,9 @@
   "devDependencies": {
     "ava": "^5.1.0",
     "chalk": "5.0.1",
+    "concurrently": "^7.6.0",
     "morgan": "1.10.0",
+    "nodemon": "^2.0.20",
     "readdirp": "3.6.0",
     "supertest": "^6.3.3"
   }
