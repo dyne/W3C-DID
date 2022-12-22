@@ -1,0 +1,31 @@
+Scenario ecdh
+Scenario eddsa
+Scenario ethereum
+Scenario bitcoin
+Scenario reflow
+
+Given my name is in a 'string' named 'identity'
+and I have a 'string array' named '@context'
+and I have a 'string dictionary' named 'proof'
+
+When I create the ecdh key
+and I create the eddsa key
+and I create the ethereum key
+and I create the reflow key
+and I create the bitcoin key
+
+
+When I create the ecdh public key
+and I create the eddsa public key
+and I create the ethereum address
+and I create the bitcoin public key
+and I create the reflow public key
+
+Then I print the 'eddsa public key' as 'base58'
+and I print the 'ethereum address'
+and I print the 'ecdh public key' as 'base58'
+and I print the 'bitcoin public key' as 'base58'
+and I print the 'reflow public key' as 'base58'
+and I print my name in 'identity'
+and print the '@context'
+and print the 'proof'
