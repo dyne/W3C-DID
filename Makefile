@@ -16,6 +16,7 @@ generate-sandbox-did:
 			> /tmp/controller-keyring.json
 	zenroom -z client/v1/sandbox/create-identity-pubkeys.zen \
 			> /tmp/new-id-pubkeys.json
+	@jq --arg value $$(($$(date +%s%N)/1000000)) '.timestamp = $$value' /tmp/new-id-pubkeys.json > /tmp/new-id-pubkeys-tmp.json && mv /tmp/new-id-pubkeys-tmp.json /tmp/new-id-pubkeys.json
 	zenroom -z client/v1/sandbox/pubkeys-request.zen \
 			-a /tmp/new-id-pubkeys.json -k /tmp/controller-keyring.json \
 			| tee /tmp/pubkeys-request.json | jq .
@@ -25,28 +26,13 @@ test-local: generate-sandbox-did ## Test a local DID document creation
 	zenroom -z client/v1/sandbox/pubkeys-update.zen \
 			-a /tmp/new-id-pubkeys.json -k /tmp/controller-keyring.json \
 			| tee /tmp/pubkeys-update.json | jq .
-	./restroom-test -p 12001 -u v1/sandbox/pubkeys-update.chain -a /tmp/pubkeys-update.json | jq .
+	./restroom-test -p 12001 -u v1/sandbox/pubkeys-update.chain -a /tmp/pubkeys-update.json
 	@rm -f /tmp/controller-keyring.json /tmp/new-id-pubkeys.json /tmp/pubkeys-request.json /tmp/pubkeys-update.json
 
-#	curl -s -X 'POST' 'http://localhost:12001/api/sandbox/did-create' \
-		 -H 'accept: application/json' -H 'Content-Type: application/json' \
-		 -d "{ \"data\": `cat /tmp/did-request.json`, \"keys\": {} }"
-
 run-local: ## Run an instance on localhost
+	cp restroom/local-config.site .env
 	@if ! [ -r restroom/node_modules ]; then echo "Deps missing, first run: make install-deps"; return 1; fi
-	@if ! [ -r .env ]; then echo "Setup missing, first run: make setup-local"; return 1; fi
 	node restroom/restroom.mjs
-
-setup-local: ## Setup to run on localhost
-	$(info Generating the DID-DYNE-Controller keyring)
-	@test -r contracts/keyring.json || zenroom -z private_contracts/create_keys.zen > contracts/keyring.json
-	@chmod go-rwx contracts/keyring.json
-	@test -r contracts/public_keys.json || zenroom -z private_contracts/create_pub_keys.zen -k contracts/keyring.json > contracts/public_keys.json
-	@test -r contracts/did_document.json || zenroom -z private_contracts/create_did_doc.zen \
-								-k private_contracts/create_did_doc.keys \
-								-a contracts/public_keys.json > contracts/did_document.json
-	@ls -l contracts/keyring.json contracts/public_keys.json contracts/did_document.json
-	@cp restroom/local-config.site .env
 
 update-npm:
 	$(info Updating to latest packages)

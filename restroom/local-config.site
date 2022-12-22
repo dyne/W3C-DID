@@ -8,3 +8,5 @@ CHAIN_EXT=chain
 OPENAPI=true
 YML_EXT=yml
 HOST=localhost
+USE_TIMESTAMP=y
+USE_FILES=y
