@@ -25,13 +25,13 @@ load ../bats_zencode
 @test "Api pubkeys: execute (chain)" {
 	# add timestamp and signer_data to data
 	jq_insert "accept_timestamp" $(($(date +%s%N)/1000000)) pubkeys-accept-api-checks.json
-	signer_path=`jq -r '.signer_path' $BATS_FILE_TMPDIR/pubkeys-accept-api-checks.json`
+	signer_path=`jq_extract_raw "signer_path" pubkeys-accept-api-checks.json`
 	json_join_two $signer_path pubkeys-accept-api-checks.json
 	# execute
 	zexe api/v1/sandbox/pubkeys-accept-2-checks.zen api/v1/sandbox/pubkeys-store.keys pubkeys-accept-api-checks.json
 	save_tmp_output pubkeys-accept-api-execute.json
 	# save result
-	request_path=`jq -r '.request_path' pubkeys-accept-api-execute.json`
+	request_path=`jq_extract_raw "request_path" pubkeys-accept-api-execute.json`
 	jq '.result' pubkeys-accept-api-execute.json > $R/$request_path
 }
 
@@ -54,11 +54,10 @@ load ../bats_zencode
 @test "Api pubkeys: execute-update (chain)" {
 	# add timestamp, signer_data and request_data to data
 	jq_insert "update_timestamp" $(($(date +%s%N)/1000000)) pubkeys-update-api-checks.json
-	tmp=$(mktemp)
-	signer_path=`jq -r '.signer_path' $BATS_FILE_TMPDIR/pubkeys-update-api-checks.json`
-	request_path=`jq -r '.request_path' $BATS_FILE_TMPDIR/pubkeys-update-api-checks.json`
-	jq '.signer_data = input' $BATS_FILE_TMPDIR/pubkeys-update-api-checks.json $R/$signer_path > $tmp
-	jq '.request_data = input' $tmp $R/$request_path > $BATS_FILE_TMPDIR/pubkeys-update-api-checks.json
+	signer_path=`jq_extract_raw "signer_path" pubkeys-update-api-checks.json`
+	jq_insert_json "signer_data" $signer_path pubkeys-update-api-checks.json
+	request_path=`jq_extract_raw "request_path" pubkeys-update-api-checks.json`
+	jq_insert_json "request_data" $request_path pubkeys-update-api-checks.json
 	# execute
 	zexe api/v1/sandbox/pubkeys-update-2-checks.zen api/v1/sandbox/pubkeys-store.keys pubkeys-update-api-checks.json
 	save_tmp_output pubkeys-update-api-execute.json
@@ -78,11 +77,10 @@ load ../bats_zencode
 
 @test "Api pubkeys: execute-deactivate (chain)" {
 	# add signer_data and request_data to data
-	tmp=$(mktemp)
-	signer_path=`jq -r '.signer_path' $BATS_FILE_TMPDIR/pubkeys-deactivate-api-checks.json`
-	request_path=`jq -r '.request_path' $BATS_FILE_TMPDIR/pubkeys-deactivate-api-checks.json`
-	jq '.signer_data = input' $BATS_FILE_TMPDIR/pubkeys-deactivate-api-checks.json $R/$signer_path > $tmp
-	jq '.request_data = input' $tmp $R/$request_path > $BATS_FILE_TMPDIR/pubkeys-deactivate-api-checks.json
+	signer_path=`jq_extract_raw "signer_path" pubkeys-deactivate-api-checks.json`
+	jq_insert_json "signer_data" $signer_path pubkeys-deactivate-api-checks.json
+	request_path=`jq_extract_raw "request_path" pubkeys-deactivate-api-checks.json`
+	jq_insert_json "request_data" $request_path pubkeys-deactivate-api-checks.json
 	# execute
 	zexe api/v1/sandbox/pubkeys-deactivate-2-checks.zen pubkeys-deactivate-api-checks.json
 	save_tmp_output pubkeys-deactivate-api-execute.json
@@ -104,14 +102,12 @@ load ../bats_zencode
 	zexe api/v1/sandbox/pubkeys-create-paths.zen api/v1/sandbox/pubkeys-update-1-path.keys pubkeys-update-request.json
 	save_tmp_output pubkeys-update-api-checks.json
 
-	## more checks and finally update
-	# add missing things from restroom
+	## update
 	jq_insert "update_timestamp" $(($(date +%s%N)/1000000)) pubkeys-update-api-checks.json
-	tmp=$(mktemp)
-	signer_path=`jq -r '.signer_path' $BATS_FILE_TMPDIR/pubkeys-update-api-checks.json`
-	request_path=`jq -r '.request_path' $BATS_FILE_TMPDIR/pubkeys-update-api-checks.json`
-	jq '.signer_data = input' $BATS_FILE_TMPDIR/pubkeys-update-api-checks.json $R/$signer_path > $tmp
-	jq '.request_data = input' $tmp $R/$request_path > $BATS_FILE_TMPDIR/pubkeys-update-api-checks.json
+	signer_path=`jq_extract_raw "signer_path" pubkeys-update-api-checks.json`
+	jq_insert_json "signer_data" $signer_path pubkeys-update-api-checks.json
+	request_path=`jq_extract_raw "request_path" pubkeys-update-api-checks.json`
+	jq_insert_json "request_data" $request_path pubkeys-update-api-checks.json
 	# execute
 	run $ZENROOM_EXECUTABLE -a $BATS_FILE_TMPDIR/pubkeys-update-api-checks.json \
 							-k $R/api/v1/sandbox/pubkeys-store.keys \

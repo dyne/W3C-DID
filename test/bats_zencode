@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 debug=0
 
 getscript() {
@@ -7,6 +9,13 @@ getscript() {
     echo $tszen
     >&3 echo " ⚙️ $1"
     return 0
+}
+
+getfile() {
+    file=$BATS_FILE_TMPDIR/$1
+    if [[ ! -r $file ]]; then file="$R/$1"; fi
+    if [[ ! -r $file ]]; then >&2 echo "Json not found: $1"; exit 1; fi
+    echo $file;
 }
 
 zexe() {
@@ -19,22 +28,19 @@ zexe() {
     else
 	>&2 cat $script
     fi
-    
-    if [ $? != 0 ]; then echo "Error in Zencode script: $script"; return 1; fi
+    if [ $? != 0 ]; then >&2 echo "Error in Zencode script: $script"; return 1; fi
 
     if [ "$2" == "" ]; then unset $input
     else
-	input="$BATS_FILE_TMPDIR/$2" 
-	if ! [ -r $input ]; then input="$R/$2"; fi
-	if ! [ -r $input ]; then echo "DATA input not found: $input"; return 1; fi
+	input=`getfile ${2}`
+    if [[ $? != 0 ]]; then exit 1; fi
 	>&3 echo "   📝 `basename $input`"
     fi
 
     if [ "$3" == "" ]; then unset $keys
     else
-	keys="$BATS_FILE_TMPDIR/$3"
-	if ! [ -r $keys ]; then keys="$R/$3"; fi
-	if ! [ -r $keys ]; then  echo "KEYS input not found: $keys"; return 1; fi
+	keys=`getfile ${3}`
+    if [[ $? != 0 ]]; then exit 1; fi
 	>&3 echo "   🔑 `basename $keys`"
     fi
 
@@ -56,28 +62,41 @@ zexe() {
     return $status
 }
 
+# jq_join_two path_file_1 path_file_2
+# save the result in path_file_2
 function json_join_two {
     tmp=$(mktemp)
-
-    file1="$BATS_FILE_TMPDIR/$1"
-    if ! [ -r $file1 ]; then file1="$R/$1"; fi
-    if ! [ -r $file1 ]; then echo "First json not found: $1"; return 1; fi
-    file2="$BATS_FILE_TMPDIR/$2"
-    if ! [ -r $file2 ]; then file2="$R/$2"; fi
-    if ! [ -r $file2 ]; then echo "Second json not found: $2"; return 1; fi
-
+    file1=`getfile ${1}`
+    if [[ $? != 0 ]]; then exit 1; fi
+    file2=`getfile ${2}`
+    if [[ $? != 0 ]]; then exit 1; fi
     jq -s '.[0] * .[1]' $file1 $file2 > $tmp && mv $tmp $file2
 }
 
 # jq_insert key value path
 function jq_insert {
-    file=$BATS_FILE_TMPDIR/$3
-    if ! [ -r $file ]; then file="$R/$3"; fi
-    if ! [ -r $file ]; then echo "Json not found: $3"; return 1; fi
+    file=`getfile ${3}`
     tmp=$(mktemp)
     jq --arg key $1 --arg value $2 '.[$key] = $value' $file > $tmp && mv $tmp $file
 }
-#
+
+# jq_extract_raw key path
+function jq_extract_raw {
+    file=`getfile ${2}`
+    if [[ $? != 0 ]]; then exit 1; fi
+    jq -r --arg key $1 '.[$key]' $file
+}
+
+# jq_insert_json key path_json path_file
+function jq_insert_json {
+    json=`getfile ${2}`
+    if [[ $? != 0 ]]; then exit 1; fi
+    file=`getfile ${3}`
+    if [[ $? != 0 ]]; then exit 1; fi
+    tmp=$(mktemp)
+    jq --arg key $1 '.[$key] = input' $file $json > $tmp && mv $tmp $file
+}
+
 function save_tmp_output {
     >&3 echo " 💾 $1"
     export output=`cat $TMP/out`
