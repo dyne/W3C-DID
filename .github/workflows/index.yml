@@ -31,6 +31,7 @@ jobs:
         uses: dyne/restroom-github-action@v1
         with:
           restroom-contracts: "${{ github.workspace }}/contracts"
+          restroom-files: "${{ github.workspace }}/"
       - name: Install curl
         run: sudo apt install curl
       - name: Run tests
