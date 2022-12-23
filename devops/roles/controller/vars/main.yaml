@@ -1,5 +1,5 @@
 controller_root: "/controller"
 node_version: 18
-data_dir: "/controller"
+data_dir: "/var/w3cdid"
 local_port: 3000
 

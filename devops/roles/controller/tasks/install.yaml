@@ -33,6 +33,7 @@
   with_items:
     - restroom.mjs
     - package.json
+    - yarn.lock
 
 # - name: Config restroom in private network
 #   ansible.builtin.lineinfile:

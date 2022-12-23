@@ -1,4 +1,4 @@
-const base_url = 'http://95.217.212.123';
+const base_url = 'https://did.dyne.org';
 
 export const getData = async (endpoint: string) => {
     const res = await fetch(`${base_url}/${endpoint}`);
