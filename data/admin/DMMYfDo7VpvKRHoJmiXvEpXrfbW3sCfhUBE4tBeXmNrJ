@@ -13,6 +13,13 @@
       ],
       "description":"did dyne admin",
       "id":"did:dyne:admin:DMMYfDo7VpvKRHoJmiXvEpXrfbW3sCfhUBE4tBeXmNrJ",
+      "proof": {
+         "created": "1671805540866",
+         "jws": "eyJhbGciOiJFUzI1NksiLCJiNjQiOnRydWUsImNyaXQiOiJiNjQifQ..c-ZsQNm-thjXJZlUofx67h9IKoLUUBV4piL6_HBPShBoQeYcQbnZmuIYepYYkOdI8VoO9YGJScB0YLhExABO5g",
+         "proofPurpose": "assertionMethod",
+         "type": "EcdsaSecp256k1Signature2019",
+         "verificationMethod": "did:dyne:admin:DMMYfDo7VpvKRHoJmiXvEpXrfbW3sCfhUBE4tBeXmNrJ#ecdh_public_key"
+      },
       "verificationMethod":[
          {
             "controller":"did:dyne:admin:DMMYfDo7VpvKRHoJmiXvEpXrfbW3sCfhUBE4tBeXmNrJ",
@@ -47,6 +54,6 @@
       ]
    },
    "didDocumentMetadata":{
-      "created":"1671728297021"
+      "created":"1671805540866"
    }
 }
