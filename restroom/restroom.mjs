@@ -60,27 +60,19 @@ app.get('/dids', (req, res) => {
   const offset = req.query.offset || 0;
   const limit = req.query.limit || 20;
   const search = req.query.search || '';
-  let i = 0;
   let dids = []
 
   const stream = readdirp(path.join(FILES_DIR, 'data'), {fileFilter: '[^.]*'});
   stream.on('data', (entry) => {
-      if(i >= offset)  {
-        const didPath = entry.path
-        if(dids.length < limit) {
-          if(didPath.includes(search)) {
-            dids.push(pathToDidId(didPath))
-          }
-        } else {
-          stream.close()
-        }
-      }
-      i++;
-    })
+    const didPath = entry.path
+    if(didPath.includes(search)) {
+      dids.push(pathToDidId(didPath))
+    }
+  })
   // Optionally call stream.destroy() in `warn()` in order to abort and cause 'close' to be emitted
     .on('warn', error => console.error('non-fatal error', error))
     .on('error', error => console.error('fatal error', error))
-    .on('close', () => res.json(dids));
+    .on('close', () => res.json({moreDids: dids.length > offset+limit, dids: dids.slice(offset, offset+limit)}));
 })
 
 app.get('/dids/:id', (req, res) => {
