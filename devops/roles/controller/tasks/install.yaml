@@ -58,6 +58,8 @@
       USE_HTTP=y
       HOST=127.0.0.1
       HTTP_PORT={{ local_port }}
+      CHAIN_EXT=chain
+      YML_EXT=yml
 
 - name: Copy contracts (permissions may be wrong)
   become: true

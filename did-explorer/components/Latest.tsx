@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import DidTable from "./DidTable";
 import { Title } from "./Typography";
 
-const limit = 10
+const limit = 20
 
 type Page = {current: number, more: boolean}
 type Query = {text: string, page: number}
