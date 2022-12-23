@@ -6,7 +6,7 @@ help: ## Display this help.
 .PHONY: test
 
 test-units: ## Run client-api unit tests offline
-	if [ ! -f test/zenroom ]; then cp /usr/bin/zenroom test/; fi
+	-if [ ! -f test/zenroom ]; then cp /usr/local/bin/zenroom test/; fi
 	./test/bats/bin/bats test/zencode_units
 
 .PHONY: geneate-sandbox-did
