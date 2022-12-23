@@ -11,6 +11,8 @@ and I have a 'integer' named 'accept_timestamp'
 Given I read the content of 'signer_path'
 Given I have a 'did document' named 'didDocument'
 Given I rename 'didDocument' to 'signer_did_document'
+Given I have a 'string dictionary' named 'didDocumentMetadata'
+Given I rename 'didDocumentMetadata' to 'signer_metadata'
 
 # key
 Given I have a 'string dictionary' named 'proof'
@@ -26,6 +28,10 @@ and I have a 'string' named 'signer_id'
 When I create the verificationMethod of 'signer_did_document'
 and I pickup a 'ecdh_public_key' from path 'verificationMethod.ecdh_public_key'
 and I pickup a 'eddsa_public_key' from path 'verificationMethod.eddsa_public_key'
+
+# verify signer is not deactivated
+When I set 'false' to 'false' as 'string'
+and I verify 'false' is equal to 'deactivated' in 'signer_metadata'
 
 # verify timestamp (10s) + eddsa_signature
 When I create the result of 'accept_timestamp' - 'timestamp'

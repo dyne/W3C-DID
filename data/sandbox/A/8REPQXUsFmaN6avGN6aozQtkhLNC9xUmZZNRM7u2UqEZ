@@ -54,6 +54,7 @@
       ]
    },
    "didDocumentMetadata":{
-      "created":"1671805668826"
+      "created":"1671805668826",
+      "deactivated": "false"
    }
 }

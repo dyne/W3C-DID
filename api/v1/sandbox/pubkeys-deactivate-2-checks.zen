@@ -8,19 +8,27 @@ Scenario 'w3c': proof
 
 # signer did document
 Given I read the content of 'signer_path' and save the output into 'signer_data'
-Given I have a 'did document' named 'didDocument' in 'signer_data'
-Given I rename 'didDocument' to 'signer_did_document'
+and I have a 'did document' named 'didDocument' in 'signer_data'
+and I rename 'didDocument' to 'signer_did_document'
+and I have a 'string dictionary' named 'didDocumentMetadata' in 'signer_data'
+and I rename 'didDocumentMetadata' to 'signer_metadata'
 
 # request did document
 Given I read the content of 'request_path' and save the output into 'request_data'
 and I have a 'string dictionary' named 'request_data'
 and I have a 'string dictionary' named 'didDocumentMetadata' in 'request_data'
+and I rename 'didDocumentMetadata' to 'request_metadata'
 
 # data
 Given I have a 'string' named 'deactivate_id'
 and I have a 'ecdh signature'
 and I have a 'string' named 'request_path'
 and I have a 'string' named 'signer_id'
+
+# verify both did documents are not deactivated
+When I set 'false' to 'false' as 'string'
+and I verify 'false' is equal to 'deactivated' in 'signer_metadata'
+and I verify 'false' is equal to 'deactivated' in 'request_metadata'
 
 # verify singautres
 When I create the verificationMethod of 'signer_did_document'
@@ -30,10 +38,10 @@ and I remove the 'verificationMethod'
 
 # metadata
 When I set 'deactivated' to 'true' as 'string'
-and I remove the 'deactivated' from 'didDocumentMetadata'
-and I move 'deactivated' in 'didDocumentMetadata'
+and I remove the 'deactivated' from 'request_metadata'
+and I move 'deactivated' in 'request_metadata'
 and I remove the 'didDocumentMetadata' from 'request_data'
-and I move 'didDocumentMetadata' in 'request_data'
+and I move the 'request_metadata' to 'didDocumentMetadata' in 'request_data'
 
 Then print the 'request_data'
 and print the 'request_path'
