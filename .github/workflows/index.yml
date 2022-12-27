@@ -36,7 +36,7 @@ jobs:
       - name: Start restroom
         uses: dyne/restroom-github-action@v1
         with:
-          restroom-contracts: "${{ github.workspace }}/contracts"
+          restroom-contracts: "${{ github.workspace }}/api"
           restroom-files: "${{ github.workspace }}/"
       - name: Run tests
         run: ./test/run.sh
