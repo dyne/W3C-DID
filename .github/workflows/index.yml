@@ -14,7 +14,7 @@ jobs:
       - name: install Zenroom
         run: |
           sudo apt install wget
-          wget  https://sdk.dyne.org/view/zenroom/job/zenroom-static-amd64/lastSuccessfulBuild/artifact/src/zenroom -O zenroom
+          wget https://github.com/dyne/zenroom/releases/latest/download/zenroom -O zenroom
           chmod +x zenroom
           cp zenroom test/
       - name: tests
@@ -23,16 +23,20 @@ jobs:
 
   restroom_job:
     runs-on: ubuntu-latest
-    name: Start restroom and request a simple contract
+    name: 🧪 restroom tests
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Install deps
+        run: sudo spt install curl wget
+      - name: install Zenroom
+        run: |
+          wget https://github.com/dyne/zenroom/releases/latest/download/zenroom -O zenroom
+          chmod +x zenroom
       - name: Start restroom
         uses: dyne/restroom-github-action@v1
         with:
           restroom-contracts: "${{ github.workspace }}/contracts"
           restroom-files: "${{ github.workspace }}/"
-      - name: Install curl
-        run: sudo apt install curl
       - name: Run tests
         run: ./test/run.sh
