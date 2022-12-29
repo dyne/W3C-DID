@@ -17,10 +17,10 @@ A DID that uses this method *MUST* begin with the following prefix: **did:dyne**
 
 ## Method Specific Identifier
 
-Dyne DIDs have the following format:
+Dyne DIDs is a URI conformant with [[RFC3986]] specification. The ABNF definition of our DIDs can be found in the following specification which uses the syntax provided in both [[RFC5234]] and [[RFC3986]] specifications:
 ```
 dyne-did   := did:dyne:<idspec>:<idchar>
-idspec     := *(ALPHA)
+idspec     := *(ALPHA) *1("." ALPHA)
 idchar     := 1*44(base58char)
 base58char := "1" / "2" / "3" / "4" / "5" / "6" / "7" / "8" / "9" / "A" / "B" / "C"
               / "D" / "E" / "F" / "G" / "H" / "J" / "K" / "L" / "M" / "N" / "P" / "Q"
@@ -30,304 +30,169 @@ base58char := "1" / "2" / "3" / "4" / "5" / "6" / "7" / "8" / "9" / "A" / "B" / 
 ```
 
 For the moment the main used prefix are:
-- <b>did:</b><b>dyne:</b><b>oracle:</b> thawt represent a Zenswarm Oracle and inside each Zenswarm Oracle DID document is present the field "alsoKnownAs" with value <b>did:</b><b>dyne:</b><b>ganache:...</b>, this DID can be resolved and contains the DID of the Oracle and the transaction ids in which the DID document was store on chain during creation, update and removal. 
-- <b>did:</b><b>dyne:</b><b>controller:</b> is used only by the Controller to differentiate its DID from the others.
+- <b>did:</b><b>dyne:</b><b>sandbox:</b> that is used for testing purposes.
+- <b>did:</b><b>dyne:</b><b>zenflows:</b>
+- <b>did:</b><b>dyne:</b><b>zenflows.A:</b>
 
 An example of Dyne.org's DID is:
 ```
-did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe
+did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ
 ```
 that is associated to the following DID document:
 ```json
 {
    "@context":[
       "https://www.w3.org/ns/did/v1",
-      "https://dyne.github.io/W3C-DID/specs/EcdsaSecp256k1_b64.json",
-      "https://dyne.github.io/W3C-DID/specs/ReflowBLS12381_b64.json",
-      "https://dyne.github.io/W3C-DID/specs/SchnorrBLS12381_b64.json",
-      "https://dyne.github.io/W3C-DID/specs/Dilithium2_b64.json",
-      "https://w3id.org/security/suites/secp256k1-2020/v1",
       "https://w3id.org/security/suites/ed25519-2018/v1",
+      "https://w3id.org/security/suites/secp256k1-2019/v1",
+      "https://w3id.org/security/suites/secp256k1-2020/v1",
+      "https://dyne.github.io/W3C-DID/specs/ReflowBLS12381.json",
       {
-         "Country":"https://schema.org/Country",
-         "State":"https://schema.org/State",
-         "description":"https://schema.org/description",
-         "url":"https://schema.org/url"
+         "description":"https://schema.org/description"
       }
    ],
-   "Country":"IT",
-   "State":"NONE",
-   "alsoKnownAs":"did:dyne:ganache:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe",
-   "description":"restroom-mw",
-   "id":"did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe",
-   "proof":{
-      "created":"1669312940937",
-      "jws":"eyJhbGciOiJFUzI1NksiLCJiNjQiOnRydWUsImNyaXQiOiJiNjQifQ..PLloczDxLJrDplw4_CaLoQAW1mZvH2dIQ3LsxZtF_C5ax5-hPXQ00ytTOUNQyr4HklnrstZPhKNC6SkvdM_SlQ",
-      "proofPurpose":"assertionMethod",
-      "type":"EcdsaSecp256k1Signature2019",
-      "verificationMethod":"did:dyne:controller:6zv2wcKFrki4DzkQTD7CMEakciwomDfwG8Po2BdAwF3P#key_ecdsa1"
-   },
-   "service":[
-      {
-         "id":"did:dyne:zenswarm-api#zenswarm-oracle-announce",
-         "serviceEndpoint":"http://172.104.233.185:28634/api/zenswarm-oracle-announce",
-         "type":"LinkedDomains"
+   "description":"fake sandbox-admin",
+   "id":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
+   "proof": {
+      "created": "1671805668826",
+      "jws": "eyJhbGciOiJFUzI1NksiLCJiNjQiOnRydWUsImNyaXQiOiJiNjQifQ..0RywWwpi-26gwNhPC4lBcTce80WMDDygtlYu8EzyXa-PZRrG64Bt46z-wp_QXhF-FIbtgf_zfIVHDBeR7sPGGw",
+      "proofPurpose": "assertionMethod",
+      "type": "EcdsaSecp256k1Signature2019",
+      "verificationMethod": "did:dyne:admin:DMMYfDo7VpvKRHoJmiXvEpXrfbW3sCfhUBE4tBeXmNrJ#ecdh_public_key"
       },
-      {
-         "id":"did:dyne:zenswarm-api#ethereum-to-ethereum-notarization.chain",
-         "serviceEndpoint":"http://172.104.233.185:28634/api/ethereum-to-ethereum-notarization.chain",
-         "type":"LinkedDomains"
-      },
-      {
-         "id":"did:dyne:zenswarm-api#zenswarm-oracle-get-identity",
-         "serviceEndpoint":"http://172.104.233.185:28634/api/zenswarm-oracle-get-identity",
-         "type":"LinkedDomains"
-      },
-      {
-         "id":"did:dyne:zenswarm-api#zenswarm-oracle-http-post",
-         "serviceEndpoint":"http://172.104.233.185:28634/api/zenswarm-oracle-http-post",
-         "type":"LinkedDomains"
-      },
-      {
-         "id":"did:dyne:zenswarm-api#zenswarm-oracle-key-issuance.chain",
-         "serviceEndpoint":"http://172.104.233.185:28634/api/zenswarm-oracle-key-issuance.chain",
-         "type":"LinkedDomains"
-      },
-      {
-         "id":"did:dyne:zenswarm-api#zenswarm-oracle-ping.zen",
-         "serviceEndpoint":"http://172.104.233.185:28634/api/zenswarm-oracle-ping.zen",
-         "type":"LinkedDomains"
-      },
-      {
-         "id":"did:dyne:zenswarm-api#sawroom-to-ethereum-notarization.chain",
-         "serviceEndpoint":"http://172.104.233.185:28634/api/sawroom-to-ethereum-notarization.chain",
-         "type":"LinkedDomains"
-      },
-      {
-         "id":"did:dyne:zenswarm-api#zenswarm-oracle-get-timestamp.zen",
-         "serviceEndpoint":"http://172.104.233.185:28634/api/zenswarm-oracle-get-timestamp.zen",
-         "type":"LinkedDomains"
-      },
-      {
-         "id":"did:dyne:zenswarm-api#zenswarm-oracle-update",
-         "serviceEndpoint":"http://172.104.233.185:28634/api/zenswarm-oracle-update",
-         "type":"LinkedDomains"
-      }
-   ],
-   "url":"https://swarm2.dyne.org:20004",
    "verificationMethod":[
       {
-         "controller":"did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe",
-         "id":"did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe#key_ecdsa1",
-         "publicKeyBase64":"BMBshJCfEXccpJ+KJ830Ro/niwEBvzU2Rt9lZIXn7wpGqARUWn53Z2dlgRR9nJfrtkwhSuybG7i7KYjpeaML9Oc=",
-         "type":"EcdsaSecp256k1VerificationKey_b64"
+         "controller":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
+         "id":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#ecdh_public_key",
+         "publicKeyBase58":"S1bs1YRaGcfeUjAQh3jigvAXuV8bff2AHjERoHaBPKtBLnXLKDcGPrnB4j5bY8ZHVu9fQGkUW5XzDa9bdhGYbjPf",
+         "type":"EcdsaSecp256k1VerificationKey2019"
       },
       {
-         "controller":"did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe",
-         "id":"did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe#key_reflow1",
-         "publicKeyBase64":"DjXU13pWGlSbQdLA91FiSh+GE8VdTqYS/BhglCo5+XpVEVPIaFhgTTrTPJf7WcGFA/zjJU0gDzRFhNIXQ14gdBwIwhl4vVlczhXbiYOoqY9JCcNE84rQ45CO0htuJ5QKFcjUxnDAXARx+9N3NECJuuMHDRsQ5gnRdrrZISzYkzfj4rxTjFW0+oBRVg4IROmMDLBSoMsjRI/nFylMpdWrAL7y1VBNg/m9J/JTWDiDytT7ZCedVTJof1txfrZ1Rlge",
-         "type":"ReflowBLS12381VerificationKey_b64"
+         "controller":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
+         "id":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#reflow_public_key",
+         "publicKeyBase58":"9kPV92zSUok2Do2RJKx3Zn7ZY9WScvBZoorMQ8FRcoH7m1eo3mAuGJcrSpaw1YrSKeqAhJnpcFdQjLhTBEve3qvwGe7qZsam3kLo85CpTM84TaEnxVyaTZVYxuY4ytmGX2Yz1scayfSdJYASvn9z12VnmC8xM3D1cXMHNDN5zMkLZ29hgq631ssT55UQif6Pj371HUC5g6u2xYQ2mGYiQ6bQt1NWSMJDzzKTr9y7bEMPKq5bDfYEBab6a4fzk6Aqixr1P3",
+         "type":"ReflowBLS12381VerificationKey"
       },
       {
-         "controller":"did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe",
-         "id":"did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe#key_schnorr1",
-         "publicKeyBase64":"GDS7kEM8ekwEMMbj2OwjSkZY5qMfyhyHHmHcJA/yiN5tQG2/8JJHffksLo+R3ItA",
-         "type":"SchnorrBLS12381VerificationKey_b64"
+         "controller":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
+         "id":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#bitcoin_public_key",
+         "publicKeyBase58":"rjXTCrGHFMtQhfnPMZz5rak6DDAtavVTrv2AEMXvZSBj",
+         "type":"EcdsaSecp256k1VerificationKey2019"
       },
       {
-         "controller":"did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe",
-         "id":"did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe#key_dilithium1",
-         "publicKeyBase64":"d+Zxp+osTxJmSzKjYrSivU59O3tbNcEEcDeHPGr3CaZRIwQPnLY8hWUSb3IvK/NWmS8qF1WjITZO/eQGpibmmBzht1C+1XhTXHYX9SZ+Q1By0WpMKuDqoRdFaDEEMXtG2wY8hQYP3yzuiQfLfpmfn04hWzTgdRJdL6juaBfuPeq35RADyDaqtSFRIBtW8IigQndwc6fdk/eqHkEKgTVlsKAVrEfR6GLv7RbJqcTE3Z7s1Qp569EJPzUciBUX4DIJjWGS5z2l4Xef3otEYijdDDwKyEF4U98EJX67wF5TIOBw5hzsTRZRgXhpJhhY94D9DGuGIdspOv8gSI+AQ7pEGRVUtfLtWDqVDzwOSeY2rqGBkiBUUEyFZS6yGZzjRtVaW8YuyEwXlr7uOJfNg2sXBcvE4tZIYI1IT9BZNxCqcD5fnsKhVmpf45SLWDN+qSjtbZLOKKa+1/3lntS9DbU3nSbboXec0wpMiOoQIaAh9A0i80dRrpzGVOqEJ2Ar7q0PV/F3sOaHtdRujZ4eAlGIvXZrRAqTQ02HVmEO0fHIfVp/SvR5dkG4uz8IsmKUvfi73gPT4NdbTUjpDaMOkLAduw4MdoQs/99KKMTMCf9/aiTPW1Vz3frQudvXQ0C65vesowbLSsUNuRMcPI2GbHCn8yi1pEaKqrNP/6MegR0LyHHkgLSXnGZWOnEAAZa73IuZi1iC7nnyg56/N6MSURZeCzNa9E3ofRGUhboBLxa68/Z3dUul5E2pIL51MlMXzdaAUMhFosT4XtQBTuGdgDqHMP+hbyy7c/NXtXDgo6Ze4Csm8R9ABhcr/QsZQrmLKvuaMxDqA48XuWWNXqpLho8zHoR58aZWlQFFxyk7AmiN+hJbKiBkW8WxOe1qO8nJkUvjx4gcXhEqrJmtXlZzMZ8L43J4S5iExXKZ6qVgdsE2UZTpfqRSJEC/xaDJjiF8bt59qFVMhyUUy8Pk5tLN0C3zykC4LtSn5o0bcWRYQWuJkHcHRavaRYWef+XxphZyohkXZwE80IQG41YoCq4DAy/wBrpWLBQ7Z5WU3vqd8efGWXMJjjKI+6zb4ZQ2CTAwxIOcRNcBUplh/AEbGbKyIux0W2k9W7V7nDexWWXAy/DYvbUJxhpZ9msjCVijC+DSzwndPHQbDixXtnO/OPc1iT6/E28aiZGBLd20YaNAraRLJx2V0kofjsMpIsnMQCDu2Lp6WbLIaEk9mM3yJEahAcP2phmtA2ajdXn8XMByU1/Q6IvdxJx6zTybLaht4gnsOxvOnnqD3b1MtxuHeQEYGO4Kt5CqGoYwrY+45PCXc1J/0SRSNcih/WRWyDVwOcd5CP9wsIIAFYtQ6jV9NkZkly32CsNC9XUuwoTdwkJw1eo1U3v006JJI5RIBbqwr/LARPzzs/dh4fHooiAVHOJTsx1TyzmJkl9dMkEJvdC9CfMHUymkXG3SoDaypw9cogUjY4JWn5xxsWkPD2N/cbyYO4OjhI6YTicNB4NTK+slOJMzFtN7xoRtXxIZG/t8ILGcg/N4SfGLJugcybExaGh1dL6qUnNn+afEh6OEx3ZoGdQgmzeUMgDpGn7x3mMp8RqUsGmcyTWTqwKHN523UHk0DhBSCMuD5dd5D1o9KKGZjseBSpaVYpjM7ERGSq5KNjAN0HYJje9Is+HBm6l/dyLeB37KBIDTd9G+n9Ak12MqCMkMhbJb0owOtNFfw6FoILd1GeVb/Br1XV4GO11dc2rkN/iG4w==",
-         "type":"Dilithium2VerificationKey_b64"
-      },
-      {
-         "controller":"did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe",
-         "id":"did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe#key_eddsa1",
-         "publicKeyBase58":"2eFibJG2GaBxSfL7CUyt18cg14CsNxAD1FtsSMMTC3r7",
+         "controller":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
+         "id":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#eddsa_public_key",
+         "publicKeyBase58":"8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
          "type":"Ed25519VerificationKey2018"
       },
       {
-         "blockchainAccountId":"eip155:1717658228:0xbce1915aac95b986bbf54d05e52e0fe9abc90240",
-         "controller":"did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe",
-         "id":"did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe#fabchainAccountId",
+         "blockchainAccountId":"eip155:1:0xd3765bb6f5917d1a91adebadcfad6c248e721294",
+         "controller":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
+         "id":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#ethereum_address",
          "type":"EcdsaSecp256k1RecoveryMethod2020"
       }
    ]
 }
 ```
-
-Below is an example of a DID Document resolved using the DID contained in *alsoKnownAs*: 
-
-```json
+moreover with each did document metadata are also stored, for example the above did document is associated with the following metadata:
+```
 {
-   "id":"did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe",
-   "timestamp-create":"1669312940937",
-   "txid-create":"7208d3f1853ec905ef0af5ff1c2556ec00321a6ca788fe6a55f518f14db652ba"
+   "created":"1671805668826",
+   "deactivated": "false"
 }
 ```
-
-The data stored in the transation represented by the transaction id *txid-create* can be retrieved by querying the resolve-txid API:
-
-```bash
-curl -X 'POST' \
-  'https://did.dyne.org:443/api/did-resolve-txid' \
-  -H 'accept: application/json' \
-  -H 'Content-Type: application/json' \
-  -d '{
-  "data": {"txid":"7208d3f1853ec905ef0af5ff1c2556ec00321a6ca788fe6a55f518f14db652ba"},
-  "keys": {}
-}'
-```
+that represent the unix time of creation and the fact that it is still valid.
 
 ## CRUD Operation Definitions
 
+In this moment all the CRUD operations, execpt for the reading operation, are permissioned. There are mainly three levels inside this hierarchy:
+- <b>did:</b><b>dyne:</b><b>admin:</b>: only one of it is present and it posses the master key to create second levels admins that are specific to their own method specific identifier.
+- <b>did:</b><b>dyne:</b><b>idspec.A:</b>: represents second-level admins and they can create, update and delete any did document whose DID starts with <b>did:</b><b>dyne:</b><b>idpsec:</b>. The power of these second-level admins can also be reduced to a single operation using the following notation:
+   - <b>did:</b><b>dyne:</b><b>idspec.C:</b> can only create DID documents
+   - <b>did:</b><b>dyne:</b><b>idspec.U:</b> can only update DID documents
+   - <b>did:</b><b>dyne:</b><b>idspec.D:</b> can only delete DID documents
+- <b>did:</b><b>dyne:</b><b>idpsec:</b>: represents the users.
+
 ### DID Document Creation
 
-The first step to create a DID document is to retrieve a **token**, that is an eddsa keypair, from the DID controller. In this moment it can be obtained by quering the did-faucet API:
+As stated before, this operation is permissioned, thus in order to create a DID document a secret keyring is needed. In order to create a second-level admin DID document the admin keyring is needed, while in order to create a user DID document a second-level admin keyring is needed. Once the user creates the DID document the latter has to be encoded into a string removing all new lines and withespaces and escaping double quotes and backslashes. Finally an eddsa signature of this string is computed to certify that on receipt the DID document has not been tumpered with.
 
-```bash
-curl -X 'GET' \ 
-  'https://did.dyne.org:443/api/did-faucet.chain' \
-  -H 'accept: application/json'
-```
+In order to avoid reply attack a second signature is needed. This time the did document along with a timestamp are inserted into a dictionary, also in this case the dictionary is encoded into a string and finally eddsa signed.
 
-The response will look like:
+Thus at the end of the clinet side creation of the DID document, the client will end up with a DID document, a ecdh signature, a timestamp, a eddsa signature and the DID of signer. This should look like this:
 
 ```json
 {
-  "sent:": "sent:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe",
-  "token": {
-    "eddsa": "HShhAKcbNHBAaWoDnXDB1r965sM5VLaemUeefCc79JeE",
-    "eddsa_public_key": "6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe"
-  }
-}
-```
-
-At this point the DID document is created from the client, that will use the **eddsa public key** contained in the token as its *\<idchar\>* inside the [id](specification.md?id=Method-Specific-Identifier), and it will look like:
-
-```json
-{
-   "@context":[
+  "did_document": {
+    "@context": [
       "https://www.w3.org/ns/did/v1",
-      "https://dyne.github.io/W3C-DID/specs/EcdsaSecp256k1_b64.json",
-      "https://dyne.github.io/W3C-DID/specs/ReflowBLS12381_b64.json",
-      "https://dyne.github.io/W3C-DID/specs/SchnorrBLS12381_b64.json",
-      "https://dyne.github.io/W3C-DID/specs/Dilithium2_b64.json",
-      "https://w3id.org/security/suites/secp256k1-2020/v1",
       "https://w3id.org/security/suites/ed25519-2018/v1",
+      "https://w3id.org/security/suites/secp256k1-2019/v1",
+      "https://w3id.org/security/suites/secp256k1-2020/v1",
+      "https://dyne.github.io/W3C-DID/specs/ReflowBLS12381.json",
       {
-         "Country":"https://schema.org/Country",
-         "State":"https://schema.org/State",
-         "description":"https://schema.org/description",
-         "url":"https://schema.org/url"
+        "description": "https://schema.org/description"
       }
-   ],
-   "Country":"IT",
-   "State":"NONE",
-   "alsoKnownAs":"did:dyne:ganache:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe",
-   "description":"restroom-mw",
-   "id":"did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe",
-   "service":[
+    ],
+    "description": "Alice",
+    "id": "did:dyne:sandbox:CmR8HZwNaV3Xw7ZVdvaa4oQDmsiVmoiULEiWJABe7EHV",
+    "verificationMethod": [
       {
-         "id":"did:dyne:zenswarm-api#zenswarm-oracle-announce",
-         "serviceEndpoint":"http://172.104.233.185:28634/api/zenswarm-oracle-announce",
-         "type":"LinkedDomains"
+        "controller": "did:dyne:sandbox:CmR8HZwNaV3Xw7ZVdvaa4oQDmsiVmoiULEiWJABe7EHV",
+        "id": "did:dyne:sandbox:CmR8HZwNaV3Xw7ZVdvaa4oQDmsiVmoiULEiWJABe7EHV#ecdh_public_key",
+        "publicKeyBase58": "PFJZ6vu7p1bDMaAE28Shkgydd2NwPy8n1KZdH3yTSYYtyXVc8jSVoXZqu7GFK7UTozUvkGyZkDPcroKEVAThrFPF",
+        "type": "EcdsaSecp256k1VerificationKey2019"
       },
       {
-         "id":"did:dyne:zenswarm-api#ethereum-to-ethereum-notarization.chain",
-         "serviceEndpoint":"http://172.104.233.185:28634/api/ethereum-to-ethereum-notarization.chain",
-         "type":"LinkedDomains"
+        "controller": "did:dyne:sandbox:CmR8HZwNaV3Xw7ZVdvaa4oQDmsiVmoiULEiWJABe7EHV",
+        "id": "did:dyne:sandbox:CmR8HZwNaV3Xw7ZVdvaa4oQDmsiVmoiULEiWJABe7EHV#reflow_public_key",
+        "publicKeyBase58": "DxNbADPkQnsJuTsu7E4orFYT175sios3Kuh3L5ssECgJeotUBaRtWqZuqk52QT97YTfNo4a5FZ5ibv3pX3BR4Ci5FPeXWV5J9U8Y4AnZHkP6iVRgfw2swnf6gtVBfFjoboKcn2UokDqq2wLE3cgzxU7zdAzV7rurPxpbeuQH7tXQbNSc7bwzJq8vjwP8bADtUQyfpqCGMNeP1VnacP2AHojBXfhRazAwWv7xcuthLpyp2q5Jh1pHZL4qSRKGPf6qNXyX8D",
+        "type": "ReflowBLS12381VerificationKey"
       },
       {
-         "id":"did:dyne:zenswarm-api#zenswarm-oracle-get-identity",
-         "serviceEndpoint":"http://172.104.233.185:28634/api/zenswarm-oracle-get-identity",
-         "type":"LinkedDomains"
+        "controller": "did:dyne:sandbox:CmR8HZwNaV3Xw7ZVdvaa4oQDmsiVmoiULEiWJABe7EHV",
+        "id": "did:dyne:sandbox:CmR8HZwNaV3Xw7ZVdvaa4oQDmsiVmoiULEiWJABe7EHV#bitcoin_public_key",
+        "publicKeyBase58": "dQz3xoUpQWkqVutfKyY1U1VwyACWUyBXaYExh7DZNv3p",
+        "type": "EcdsaSecp256k1VerificationKey2019"
       },
       {
-         "id":"did:dyne:zenswarm-api#zenswarm-oracle-http-post",
-         "serviceEndpoint":"http://172.104.233.185:28634/api/zenswarm-oracle-http-post",
-         "type":"LinkedDomains"
+        "controller": "did:dyne:sandbox:CmR8HZwNaV3Xw7ZVdvaa4oQDmsiVmoiULEiWJABe7EHV",
+        "id": "did:dyne:sandbox:CmR8HZwNaV3Xw7ZVdvaa4oQDmsiVmoiULEiWJABe7EHV#eddsa_public_key",
+        "publicKeyBase58": "CmR8HZwNaV3Xw7ZVdvaa4oQDmsiVmoiULEiWJABe7EHV",
+        "type": "Ed25519VerificationKey2018"
       },
       {
-         "id":"did:dyne:zenswarm-api#zenswarm-oracle-key-issuance.chain",
-         "serviceEndpoint":"http://172.104.233.185:28634/api/zenswarm-oracle-key-issuance.chain",
-         "type":"LinkedDomains"
-      },
-      {
-         "id":"did:dyne:zenswarm-api#zenswarm-oracle-ping.zen",
-         "serviceEndpoint":"http://172.104.233.185:28634/api/zenswarm-oracle-ping.zen",
-         "type":"LinkedDomains"
-      },
-      {
-         "id":"did:dyne:zenswarm-api#sawroom-to-ethereum-notarization.chain",
-         "serviceEndpoint":"http://172.104.233.185:28634/api/sawroom-to-ethereum-notarization.chain",
-         "type":"LinkedDomains"
-      },
-      {
-         "id":"did:dyne:zenswarm-api#zenswarm-oracle-get-timestamp.zen",
-         "serviceEndpoint":"http://172.104.233.185:28634/api/zenswarm-oracle-get-timestamp.zen",
-         "type":"LinkedDomains"
-      },
-      {
-         "id":"did:dyne:zenswarm-api#zenswarm-oracle-update",
-         "serviceEndpoint":"http://172.104.233.185:28634/api/zenswarm-oracle-update",
-         "type":"LinkedDomains"
+        "blockchainAccountId": "eip155:1:0xdb26948a4d17061c0d8242822423738bf16ee1ce",
+        "controller": "did:dyne:sandbox:CmR8HZwNaV3Xw7ZVdvaa4oQDmsiVmoiULEiWJABe7EHV",
+        "id": "did:dyne:sandbox:CmR8HZwNaV3Xw7ZVdvaa4oQDmsiVmoiULEiWJABe7EHV#ethereum_address",
+        "type": "EcdsaSecp256k1RecoveryMethod2020"
       }
-   ],
-   "url":"https://swarm2.dyne.org:20004",
-   "verificationMethod":[
-      {
-         "controller":"did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe",
-         "id":"did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe#key_ecdsa1",
-         "publicKeyBase64":"BMBshJCfEXccpJ+KJ830Ro/niwEBvzU2Rt9lZIXn7wpGqARUWn53Z2dlgRR9nJfrtkwhSuybG7i7KYjpeaML9Oc=",
-         "type":"EcdsaSecp256k1VerificationKey_b64"
-      },
-      {
-         "controller":"did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe",
-         "id":"did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe#key_reflow1",
-         "publicKeyBase64":"DjXU13pWGlSbQdLA91FiSh+GE8VdTqYS/BhglCo5+XpVEVPIaFhgTTrTPJf7WcGFA/zjJU0gDzRFhNIXQ14gdBwIwhl4vVlczhXbiYOoqY9JCcNE84rQ45CO0htuJ5QKFcjUxnDAXARx+9N3NECJuuMHDRsQ5gnRdrrZISzYkzfj4rxTjFW0+oBRVg4IROmMDLBSoMsjRI/nFylMpdWrAL7y1VBNg/m9J/JTWDiDytT7ZCedVTJof1txfrZ1Rlge",
-         "type":"ReflowBLS12381VerificationKey_b64"
-      },
-      {
-         "controller":"did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe",
-         "id":"did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe#key_schnorr1",
-         "publicKeyBase64":"GDS7kEM8ekwEMMbj2OwjSkZY5qMfyhyHHmHcJA/yiN5tQG2/8JJHffksLo+R3ItA",
-         "type":"SchnorrBLS12381VerificationKey_b64"
-      },
-      {
-         "controller":"did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe",
-         "id":"did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe#key_dilithium1",
-         "publicKeyBase64":"d+Zxp+osTxJmSzKjYrSivU59O3tbNcEEcDeHPGr3CaZRIwQPnLY8hWUSb3IvK/NWmS8qF1WjITZO/eQGpibmmBzht1C+1XhTXHYX9SZ+Q1By0WpMKuDqoRdFaDEEMXtG2wY8hQYP3yzuiQfLfpmfn04hWzTgdRJdL6juaBfuPeq35RADyDaqtSFRIBtW8IigQndwc6fdk/eqHkEKgTVlsKAVrEfR6GLv7RbJqcTE3Z7s1Qp569EJPzUciBUX4DIJjWGS5z2l4Xef3otEYijdDDwKyEF4U98EJX67wF5TIOBw5hzsTRZRgXhpJhhY94D9DGuGIdspOv8gSI+AQ7pEGRVUtfLtWDqVDzwOSeY2rqGBkiBUUEyFZS6yGZzjRtVaW8YuyEwXlr7uOJfNg2sXBcvE4tZIYI1IT9BZNxCqcD5fnsKhVmpf45SLWDN+qSjtbZLOKKa+1/3lntS9DbU3nSbboXec0wpMiOoQIaAh9A0i80dRrpzGVOqEJ2Ar7q0PV/F3sOaHtdRujZ4eAlGIvXZrRAqTQ02HVmEO0fHIfVp/SvR5dkG4uz8IsmKUvfi73gPT4NdbTUjpDaMOkLAduw4MdoQs/99KKMTMCf9/aiTPW1Vz3frQudvXQ0C65vesowbLSsUNuRMcPI2GbHCn8yi1pEaKqrNP/6MegR0LyHHkgLSXnGZWOnEAAZa73IuZi1iC7nnyg56/N6MSURZeCzNa9E3ofRGUhboBLxa68/Z3dUul5E2pIL51MlMXzdaAUMhFosT4XtQBTuGdgDqHMP+hbyy7c/NXtXDgo6Ze4Csm8R9ABhcr/QsZQrmLKvuaMxDqA48XuWWNXqpLho8zHoR58aZWlQFFxyk7AmiN+hJbKiBkW8WxOe1qO8nJkUvjx4gcXhEqrJmtXlZzMZ8L43J4S5iExXKZ6qVgdsE2UZTpfqRSJEC/xaDJjiF8bt59qFVMhyUUy8Pk5tLN0C3zykC4LtSn5o0bcWRYQWuJkHcHRavaRYWef+XxphZyohkXZwE80IQG41YoCq4DAy/wBrpWLBQ7Z5WU3vqd8efGWXMJjjKI+6zb4ZQ2CTAwxIOcRNcBUplh/AEbGbKyIux0W2k9W7V7nDexWWXAy/DYvbUJxhpZ9msjCVijC+DSzwndPHQbDixXtnO/OPc1iT6/E28aiZGBLd20YaNAraRLJx2V0kofjsMpIsnMQCDu2Lp6WbLIaEk9mM3yJEahAcP2phmtA2ajdXn8XMByU1/Q6IvdxJx6zTybLaht4gnsOxvOnnqD3b1MtxuHeQEYGO4Kt5CqGoYwrY+45PCXc1J/0SRSNcih/WRWyDVwOcd5CP9wsIIAFYtQ6jV9NkZkly32CsNC9XUuwoTdwkJw1eo1U3v006JJI5RIBbqwr/LARPzzs/dh4fHooiAVHOJTsx1TyzmJkl9dMkEJvdC9CfMHUymkXG3SoDaypw9cogUjY4JWn5xxsWkPD2N/cbyYO4OjhI6YTicNB4NTK+slOJMzFtN7xoRtXxIZG/t8ILGcg/N4SfGLJugcybExaGh1dL6qUnNn+afEh6OEx3ZoGdQgmzeUMgDpGn7x3mMp8RqUsGmcyTWTqwKHN523UHk0DhBSCMuD5dd5D1o9KKGZjseBSpaVYpjM7ERGSq5KNjAN0HYJje9Is+HBm6l/dyLeB37KBIDTd9G+n9Ak12MqCMkMhbJb0owOtNFfw6FoILd1GeVb/Br1XV4GO11dc2rkN/iG4w==",
-         "type":"Dilithium2VerificationKey_b64"
-      },
-      {
-         "controller":"did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe",
-         "id":"did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe#key_eddsa1",
-         "publicKeyBase58":"2eFibJG2GaBxSfL7CUyt18cg14CsNxAD1FtsSMMTC3r7",
-         "type":"Ed25519VerificationKey2018"
-      },
-      {
-         "blockchainAccountId":"eip155:1717658228:0xbce1915aac95b986bbf54d05e52e0fe9abc90240",
-         "controller":"did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe",
-         "id":"did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe#fabchainAccountId",
-         "type":"EcdsaSecp256k1RecoveryMethod2020"
-      }
-   ]
+    ]
+  },
+  "ecdh_signature": {
+    "r": "5w8hD5GYbQUr7ytBrmTY1GhAZryKuyxQK1fLbady15Ev",
+    "s": "AjCmqMXUXBD1Wc66nFabcnTxRodpHTcFepcyHLwRGoiS"
+  },
+  "eddsa_signature": "54jSisfb17KqjYuDsUn4rdGkmAoJFUAA4aRVHW75sa7chAWoBTpJiGSdUxegfTKQpVi7UoNFuteVEtCndKwBKaMp",
+  "id": "did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
+  "timestamp": "1672319885685"
 }
 ```
 
-The last step is to encode the DID document as a string using json encoding, whituout withespaces, and sign the latter with both the **client eddsa key** and the **token eddsa key**. The DID document and the relative signatures are finally sent to the Controller and the the *HTTP POST* wil be of the form:
+All these informations are now sent to the Dyne's DID server that will verify the signatures and the timestamp and create a new DID document. Moreover the ecdh signature will be converted into a jws signature and inserted inside the DID document proof in order to matain its integrity.
+Thus the last step from a Client prospective is an *HTTP POST* that will be of the form:
 
 ```bash
-curl -X 'POST' \
-  'https://did.dyne.org:443/api/did-create.chain' \
+curl -X 'POST' 'https://did.dyne.org:443/api/v1/sandbox/pubkeys-accept.chain' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
   "data": {
-	  "did_document": { ... },
-	  "eddsa_signature": " ... ",
-	  "token_signature": " ... "
+     "did_document": { ... },
+     "ecdh_siganture": "...",
+     "timestamp": "...",
+     "eddsa_signature": " ... ",
+     "id": " ... "
   },
   "keys": {}
 }'
@@ -335,37 +200,41 @@ curl -X 'POST' \
 
 ### DID Document Read
 
+Not implemented yet?
+
+**Old version:**
+
 To read the DID document for some DID, you simply have to perform an *HTTP GET*:
 ```bash
-curl -X 'GET' \
-  'https://did.dyne.org:443/1.0/identifiers/<DID>' \
+curl -X 'GET' 'https://explorer.did.dyne.org/details/<DID>' \
   -H 'accept: application/json'
 ```
 It returns a did document for that DID, if it is found. For example the DID 
 ```
-did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe
+did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ
 ```
 can be resolved by
 ```bash
 curl -X 'GET' \
-  'https://did.dyne.org:443/1.0/identifiers/did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe' \
+  'https://explorer.did.dyne.org/details/did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ' \
   -H 'accept: application/json'
 ```
 
 ### DID Document Update
 
-During update the **token** is no more required, only the client eddsa key is needed. In order to update the DID document the clinet will modify its DID document, encoding it has a string using json encoding and finally sign it with the **eddsa key** that matches the **eddsa public key** present in the previous DID document. At the end the new DID document, the DID and the singature will be sent to the DID controller and the *POST* will lok like:
+As stated at the beginning also this operation is permissioned. The procedure is almost identical to the creation one: a new update DID document is created by the client, that encodes it as a string and sign the latter with an admin or second-level admin ecdh key, creating an ecdsa siganture. As before we also sign it along with a timestamp to avoid reply attacks creating an eddsa signature.
 
 ```bash
-curl -X 'POST' \
-  'https://did.dyne.org:443/api/did-update.chain' \
+curl -X 'POST' 'https://did.dyne.org:443/api/v1/sandbox/pubkeys-update.chain' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
   "data": {
-	  "did_document": { ... },
-	  "eddsa_signature": " ... ",
-	  "id": " ... "
+     "did_document": { ... },
+     "ecdh_siganture": "...",
+     "timestamp": "...",
+     "eddsa_signature": " ... ",
+     "id": " ... "
   },
   "keys": {}
 }'
@@ -373,33 +242,32 @@ curl -X 'POST' \
 
 ### DID Document Revocation
 
-To delete/revocate a DID document, it is enough to perform a *HTTP POST* request as follow where the **id** is the DID to be removed and the **eddsa signature** is its signature using the **client eddsa key**:
+To revocate/deactivate a DID document, it is enough to perform a *HTTP POST* request as follow where the **deactivate_id** is the DID to be deactivated, the **ecdh signature** is its eddsa signature using the admin or second-level admin ecdh key and the **id** is te signer DID:
+
 ```bash
 curl -X 'POST' \
-  'https://did.dyne.org:443/api/did-delete.chain' \
+  'https://did.dyne.org:443/api/did-deactivate.chain' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
   "data": {
-	  "eddsa_signature": "M3So52B9TN7N8pGXywGd62gtWiYz532Z2FJXv1QUf62HSzZ37qUkERsiyB7y2DPFEuzz62jJgSfGdRnJmfeWUAR",
-	  "id": "did:dyne:oracle:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe"
+     "deactivate_id": "...",
+     "ecdh_signature": "...",
+     "id": "..."
   },
   "keys": {}
 }'
 ```
 
-The did document will be removed and it will be not possible to resolve its did anymore, but its *alsoKnownAs* field, in this case *did:dyne:ganache:6hz2jnExz5qSKNAN7XMkcZsHr8HYaHxu6RNuWyG19SVe*, will still be resolvable and it will contains all the history of the DID document:
-- timestamp and txid of creation
-- timestamps and txids of all the updates, if performed
-- timestamp and txid of removal
+The did document will not be removed, but inside its metadata the field **deactivated** will be set to **true** and it will not be possible for this DID document to perform any operations.
 
 ## Security Considerations
 
-- DID documents are stored from the Controller both on redis and on ganache blockchain, thus the correctness of the DID document can always be verified.
+- DID documents are stored from the Server on filesystem and any change is tracked using git and logifles, thus any change can be track and controlled.
 - DID documents use ECDSA signature technology to prevent tampering.
 
 ## Privacy Considerations
 
 - No personally identifiable information (PII) is included in a DID document retrieved by Dyne.org's DID resolver.
-- DID Document details published on the blockchain ledger are necessary only for authentication by other parties.
+- *DID Document details published on the blockchain ledger are necessary only for authentication by other parties*.
 - The private key only exists on the user's device and will not be known to any third party.
