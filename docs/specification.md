@@ -2,7 +2,12 @@
 
 ## Abstract
 
-The first focus for the Dyne.org's DID method was to register [Zenswarm Oracles](https://github.com/dyne/zenswarm) identities, in a way that is both machine and human readable. We have introduced some new classes and properties to cover all the public keys that we are using inside the DID document, including also a **post quantum** public key. The DID Document and the DID are respectively stored and resolved by our [Controller](https://did.dyne.org/docs/), who also notarizes the DID Document on creation, update and removal on ganache blockchain, which will soon be replaced by planetmint.
+The first focus for the Dyne.org's DID method was to register [Zenswarm Oracles](https://github.com/dyne/zenswarm) identities, in a way that is both machine and human readable. We have introduced some new classes and properties to cover all the public keys that we are using inside the DID document, including also a **post quantum** public key. The DID Document and the DID are respectively stored and resolved by our [Controller](https://did.dyne.org/docs/).
+
+<!-- To be added as soon as notarization is back
+ who also notarizes the DID Document on creation, update and removal on [planetmint blockchain]().
+-->
+
 
 
 ### State of the document 
@@ -106,7 +111,7 @@ that represent the unix time of creation and the fact that it is still valid.
 ## CRUD Operation Definitions
 
 In this moment all the CRUD operations, execpt for the reading operation, are permissioned. There are mainly three levels inside this hierarchy:
-- <b>did:</b><b>dyne:</b><b>admin:</b>: only one of it is present and it posses the master key to create second levels admins that are specific to their own method specific identifier.
+- <b>did:</b><b>dyne:</b><b>admin:</b>: it is unique and it posses the master key needed to create second levels admins that are specific to their own method specific identifier.
 - <b>did:</b><b>dyne:</b><b>idspec.A:</b>: represents second-level admins and they can create, update and delete any did document whose DID starts with <b>did:</b><b>dyne:</b><b>idpsec:</b>. The power of these second-level admins can also be reduced to a single operation using the following notation:
    - <b>did:</b><b>dyne:</b><b>idspec.C:</b> can only create DID documents
    - <b>did:</b><b>dyne:</b><b>idspec.U:</b> can only update DID documents
@@ -200,23 +205,20 @@ curl -X 'POST' 'https://did.dyne.org:443/api/v1/sandbox/pubkeys-accept.chain' \
 
 ### DID Document Read
 
-Not implemented yet?
-
-**Old version:**
-
-To read the DID document for some DID, you simply have to perform an *HTTP GET*:
+To read the DID document associated with a DID, you simply have to perform an *HTTP GET*:
 ```bash
-curl -X 'GET' 'https://explorer.did.dyne.org/details/<DID>' \
+curl -X 'GET' \
+ 'https://did.dyne.org:443/dids/<DID>' \
   -H 'accept: application/json'
 ```
-It returns a did document for that DID, if it is found. For example the DID 
+It resolve the DID into a DID document, if it is found. For example the DID 
 ```
 did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ
 ```
-can be resolved by
+can be resolved with:
 ```bash
 curl -X 'GET' \
-  'https://explorer.did.dyne.org/details/did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ' \
+  'https://did.dyne.org:443/dids/did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ' \
   -H 'accept: application/json'
 ```
 
