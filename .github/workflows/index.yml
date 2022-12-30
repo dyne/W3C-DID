@@ -1,4 +1,4 @@
-name: W3C-DID CI
+name: W3C-DID
 on:
   push:
     branches: [ main ]
@@ -10,33 +10,31 @@ jobs:
     runs-on: ubuntu-latest
     name: 🧪 test-units
     steps:
-      - uses: actions/checkout@v3
-      - name: install Zenroom
+      - name: 🛎️ Checkout
+        uses: actions/checkout@v3
+      - name: ⏬ Install Zenroom
         run: |
-          sudo apt install wget
           wget https://github.com/dyne/zenroom/releases/latest/download/zenroom -O zenroom
           chmod +x zenroom
           cp zenroom test/
-      - name: tests
+      - name: 🧪 Run tests
         run: |
           make test-units
 
   restroom_job:
     runs-on: ubuntu-latest
-    name: 🧪 restroom tests
+    name: 🔬 restroom tests
     steps:
-      - name: Checkout
+      - name: 🛎️ Checkout
         uses: actions/checkout@v3
-      - name: Install deps
-        run: sudo apt install curl wget jq
-      - name: install Zenroom
+      - name: ⏬ Install Zenroom
         run: |
           wget https://github.com/dyne/zenroom/releases/latest/download/zenroom -O zenroom
           chmod +x zenroom
-      - name: Start restroom
+      - name: 🛫 Start restroom
         uses: dyne/restroom-github-action@v1
         with:
           restroom-contracts: "${{ github.workspace }}/api"
           restroom-files: "${{ github.workspace }}/"
-      - name: Run tests
+      - name: 🧪 Run tests
         run: ./test/run.sh
