@@ -31,10 +31,8 @@ and I verify 'false' is equal to 'deactivated' in 'signer_metadata'
 and I verify 'false' is equal to 'deactivated' in 'request_metadata'
 
 # verify singautres
-When I create the verificationMethod of 'signer_did_document'
-and I pickup a 'ecdh_public_key' from path 'verificationMethod.ecdh_public_key'
+When I create the 'ecdh' public key from did document 'signer_did_document'
 and I verify the 'deactivate_id' has a ecdh signature in 'ecdh signature' by 'ecdh public key'
-and I remove the 'verificationMethod'
 
 # metadata
 When I set 'deactivated' to 'true' as 'string'

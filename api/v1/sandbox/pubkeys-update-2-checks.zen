@@ -36,9 +36,8 @@ and I verify 'false' is equal to 'deactivated' in 'signer_metadata'
 and I verify 'false' is equal to 'deactivated' in 'request_metadata'
 
 
-When I create the verificationMethod of 'signer_did_document'
-and I pickup a 'ecdh_public_key' from path 'verificationMethod.ecdh_public_key'
-and I pickup a 'eddsa_public_key' from path 'verificationMethod.eddsa_public_key'
+When I create the 'ecdh' public key from did document 'signer_did_document'
+and I create the 'eddsa' public key from did document 'signer_did_document'
 
 # verify timestamp (10s) + eddsa_signature
 When I create the result of 'update_timestamp' - 'timestamp'
@@ -55,7 +54,6 @@ and I remove 'json'
 # verify singautres
 When I create the json of 'request did document'
 and I verify the 'json' has a ecdh signature in 'ecdh signature' by 'ecdh public key'
-and I remove the 'verificationMethod'
 
 # create proof
 When I create the jws signature using the ecdh signature in 'ecdh signature'
