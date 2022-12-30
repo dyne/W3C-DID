@@ -6,9 +6,6 @@ and I rename 'didDocument' to 'signer_did_document'
 Given I have a 'did document' named 'didDocument' in 'check_data'
 and I rename 'didDocument' to 'check_did_document'
 
-When I create the verificationMethod of 'signer_did_document'
-and I pickup a 'ecdh public key' from path 'verificationMethod.ecdh_public_key'
-
-When I verify the did document named 'check_did_document'
+When I verify the did document named 'check_did_document' is signed by 'signer_did_document'
 
 Then print the string 'OK'
