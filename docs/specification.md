@@ -99,24 +99,34 @@ that is associated to the following DID document:
    ]
 }
 ```
-moreover with each did document metadata are also stored, for example the above did document is associated with the following metadata:
+The informations about the DID document are store in the DidDocumentMetadata field outstide of the DID document, for example the above did document is associated with the following metadata:
 ```
 {
    "created":"1671805668826",
    "deactivated": "false"
 }
 ```
-that represent the unix time of creation and the fact that it is still valid.
+Metadata includes information such as the timestamp (unix time) the document was created, the timestamp (unix time) it was last modified, and whether it has been deactivated or is still active.
+
+If a DID document has been deactivated, *i.e.* **deactivated** field is set to true, it means that it is no longer active or available for use. This mean that the DID associated to the DID document can not be used anymore to prove the user identity under any circumstance.
 
 ## CRUD Operation Definitions
 
-In this moment all the CRUD operations, execpt for the reading operation, are permissioned. There are mainly three levels inside this hierarchy:
-- <b>did:</b><b>dyne:</b><b>admin:</b>: it is unique and it posses the master key needed to create second levels admins that are specific to their own method specific identifier.
-- <b>did:</b><b>dyne:</b><b>idspec.A:</b>: represents second-level admins and they can create, update and delete any did document whose DID starts with <b>did:</b><b>dyne:</b><b>idpsec:</b>. The power of these second-level admins can also be reduced to a single operation using the following notation:
+CRUD operations refer to the four basic functions that are commonly used to manipulate data in a database or system. These operations are:
+- **Create**: This operation is used to create new data, such as adding a new document or record to a database.
+- **Read**: This operation is used to read or retrieve data from a database or system. Reading data does not modify or change the data in any way.
+- **Update**: This operation is used to update or modify existing data in a database or system.
+- **Delete**: This operation is used to delete or remove data from a database or system.
+
+In this moment all the CRUD operations, execpt for the Reading operation, are permissioned. This means that Create, Update and Delete operations are restricted to certain users or groups of users. In other words, only users who have been granted permission can perform these operations.
+
+This permissioned system is set up following a linear hierarchy and the level of each user in this hierarchy is defined inside their own DID. There are mainly three levels:
+- **admin**: there exist only one admin for all the system and its DID starts with <b>did:</b><b>dyne:</b><b>admin:</b>. It posses the master key needed to create second levels admins that are specific to their own specific identifier.
+- **second-level admins**: there can be more than one second-level admin and its DID starts with <b>did:</b><b>dyne:</b><b>idspec.A:</b> where *idspec* can be any alphabetic string. They can create, update and delete any did document whose DID starts with <b>did:</b><b>dyne:</b><b>idpsec:</b>. The power of these second-level admins can also be reduced to a single operation using the following notation:
    - <b>did:</b><b>dyne:</b><b>idspec.C:</b> can only create DID documents
    - <b>did:</b><b>dyne:</b><b>idspec.U:</b> can only update DID documents
    - <b>did:</b><b>dyne:</b><b>idspec.D:</b> can only delete DID documents
-- <b>did:</b><b>dyne:</b><b>idpsec:</b>: represents the users.
+- **users**: their DID starts with <b>did:</b><b>dyne:</b><b>idpsec:</b> and they can not perform any operation on DID documents, excpet for reading.
 
 ### DID Document Creation
 

@@ -19,8 +19,7 @@ Thank you for choosing our decentralized identity solution. We hope that it empo
   * BLS381 [“Reflow”](https://medium.com/think-do-tank/reflow-crypto-material-passports-for-the-circular-economy-d75b3aa63678) [[REFLOW]], for multisignature and advanced zero-knowledge proof operations
   * Dilithium2, for [quantum-proof signatures](https://medium.com/think-do-tank/quantum-proof-cryptography-e23b165b3bbd)
   * Ethereum public addresses (“blockchainAccountId”), following the eip155 standard 
-* The DID whose document contains the txId on Ethereum-based blockchain ganache where the DID document was stored, stored in the string “alsoKnownAs”
-* The JWS signature of the DID Document operated by the [Controller](https://did.dyne.org/docs/) inside the "proof"
+* The JWS signature of the DID Document operated by an admin inside the "proof" field in order to ensure data integrity.
 
 To have more information about the specification of our DID method you can jump to the [Specification Section](specification.md?id=specification). 
 
