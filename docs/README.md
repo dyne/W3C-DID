@@ -10,9 +10,10 @@ In this documentation, we will provide an overview of the decentralized identity
 
 Thank you for choosing our decentralized identity solution. We hope that it empowers you to take control of your own identity and personal data.
 
-## Our W3C DID implementation supports: 
+## Supported fields
+Our W3C DID implementation supports:
 * A list of API endpoints, as an array “serviceEndpoint”.
-* Geolocation fiels as “Country” and “State”
+* Geolocation fields as “Country” and “State”
 * Public keys for:
   * Secp256k1 ECDSA, widely used for single signatures
   * ED25519 EDDSA widely used for single signatures
@@ -21,6 +22,6 @@ Thank you for choosing our decentralized identity solution. We hope that it empo
   * Ethereum public addresses (“blockchainAccountId”), following the eip155 standard 
 * The JWS signature of the DID Document operated by an admin inside the "proof" field in order to ensure data integrity.
 
-To have more information about the specification of our DID method you can jump to the [Specification Section](specification.md?id=specification). 
+To have more information about the specification of our DID method you can jump to the [Specification Section](/specification#specification).
 
-If you are more interested in understanding what type of keys we have used inside the DID document you can visit our [Security Vocabulary](security.md).
+If you are more interested in understanding what type of keys we have used inside the DID document you can visit our [Security Vocabulary](/specification#dyne-org-s-w3c-did-security-vocabulary).

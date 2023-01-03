@@ -36,8 +36,8 @@ base58char := "1" / "2" / "3" / "4" / "5" / "6" / "7" / "8" / "9" / "A" / "B" / 
 
 For the moment the main used prefix are:
 - <b>did:</b><b>dyne:</b><b>sandbox:</b> that is used for testing purposes.
-- <b>did:</b><b>dyne:</b><b>zenflows:</b>
-- <b>did:</b><b>dyne:</b><b>zenflows.A:</b>
+- <b>did:</b><b>dyne:</b><b>zenflows:</b> that is used in our [zenflows project](https://github.com/interfacerproject/zenflows) to create the user identity.
+- <b>did:</b><b>dyne:</b><b>zenflows.A:</b> that is used in our [zenflows project](https://github.com/interfacerproject/zenflows) to create the back-end identity.
 
 An example of Dyne.org's DID is:
 ```
@@ -100,7 +100,7 @@ that is associated to the following DID document:
 }
 ```
 The informations about the DID document are store in the DidDocumentMetadata field outstide of the DID document, for example the above did document is associated with the following metadata:
-```
+```json
 {
    "created":"1671805668826",
    "deactivated": "false"
@@ -130,7 +130,7 @@ This permissioned system is set up following a linear hierarchy and the level of
 
 ### DID Document Creation
 
-As stated before, this operation is permissioned, thus in order to create a DID document a secret keyring is needed. In order to create a second-level admin DID document the admin keyring is needed, while in order to create a user DID document a second-level admin keyring is needed. Once the user creates the DID document the latter has to be encoded into a string removing all new lines and withespaces and escaping double quotes and backslashes. Finally an eddsa signature of this string is computed to certify that on receipt the DID document has not been tumpered with.
+As stated before, this operation is permissioned, thus in order to create a DID document a secret keyring is needed. In order to create a second-level admin DID document the admin keyring is needed, while in order to create a user DID document a second-level admin keyring is needed. Once the user creates the DID document the latter has to be encoded into a string removing all new lines and withespaces (outside of the values of DID document) and escaping double quotes and backslashes. Finally an eddsa signature of this string is computed to certify that on receipt the DID document has not been tumpered with.
 
 In order to avoid reply attack a second signature is needed. This time the did document along with a timestamp are inserted into a dictionary, also in this case the dictionary is encoded into a string and finally eddsa signed.
 
@@ -198,7 +198,8 @@ All these informations are now sent to the Dyne's DID server that will verify th
 Thus the last step from a Client prospective is an *HTTP POST* that will be of the form:
 
 ```bash
-curl -X 'POST' 'https://did.dyne.org:443/api/v1/sandbox/pubkeys-accept.chain' \
+curl -X 'POST' \
+  'https://did.dyne.org:443/api/v1/sandbox/pubkeys-accept.chain' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -234,10 +235,11 @@ curl -X 'GET' \
 
 ### DID Document Update
 
-As stated at the beginning also this operation is permissioned. The procedure is almost identical to the creation one: a new update DID document is created by the client, that encodes it as a string and sign the latter with an admin or second-level admin ecdh key, creating an ecdsa siganture. As before we also sign it along with a timestamp to avoid reply attacks creating an eddsa signature.
+As stated at the beginning also this operation is permissioned. The procedure is almost identical to the creation one: a new updated DID document is created by the client, that encodes it as a string and sign the latter with an admin or second-level admin ecdh key, creating an ecdsa siganture. As before we also sign it along with a timestamp to avoid reply attacks creating an eddsa signature. Then an *HTTP POST*, of the following form, is performed:
 
 ```bash
-curl -X 'POST' 'https://did.dyne.org:443/api/v1/sandbox/pubkeys-update.chain' \
+curl -X 'POST' \
+  'https://did.dyne.org:443/api/v1/sandbox/pubkeys-update.chain' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -281,5 +283,8 @@ The did document will not be removed, but inside its metadata the field **deacti
 ## Privacy Considerations
 
 - No personally identifiable information (PII) is included in a DID document retrieved by Dyne.org's DID resolver.
-- *DID Document details published on the blockchain ledger are necessary only for authentication by other parties*.
 - The private key only exists on the user's device and will not be known to any third party.
+
+<!-- To be added as soon as notarization is back
+- DID Document details published on the blockchain ledger are necessary only for authentication by other parties
+-->
