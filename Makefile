@@ -11,25 +11,21 @@ test-units: ## Run client-api unit tests offline
 	-if [ ! -f test/zenroom ]; then cp /usr/local/bin/zenroom test/; fi
 	./test/bats/bin/bats test/zencode_units
 
-.PHONY: geneate-sandbox-did
-generate-sandbox-did:
-	zenroom -z client/v1/sandbox/sandbox-keygen.zen \
-			-a client/v1/did-settings.json \
+.PHONY: prepare-generation
+prepare-generation:
+	zenroom -a client/v1/did-settings.json \
+			-z client/v1/sandbox/sandbox-keygen.zen \
 			> /tmp/controller-keyring.json 2>/dev/null
 	zenroom -z client/v1/sandbox/create-identity-pubkeys.zen \
 			> /tmp/new-id-pubkeys.json 2>/dev/null
 	@jq --arg value $$(($$(date +%s%N)/1000000)) '.timestamp = $$value' /tmp/new-id-pubkeys.json > /tmp/new-id-pubkeys-tmp.json && mv /tmp/new-id-pubkeys-tmp.json /tmp/new-id-pubkeys.json
-	zenroom -z client/v1/sandbox/pubkeys-request.zen \
-			-a /tmp/new-id-pubkeys.json -k /tmp/controller-keyring.json \
+	zenroom -a /tmp/new-id-pubkeys.json -k /tmp/controller-keyring.json \
+			-z client/v1/sandbox/pubkeys-request.zen \
 			> /tmp/pubkeys-request.json 2>/dev/null
+generate-sandbox-did: prepare-generation
 	./restroom-test -s ${RR_SCHEMA} -h ${RR_HOST} -p ${RR_PORT} -u v1/sandbox/pubkeys-accept.chain -a /tmp/pubkeys-request.json | jq .
-
-test-local: generate-sandbox-did ## Test a local DID document creation
-	zenroom -z client/v1/sandbox/pubkeys-update.zen \
-			-a /tmp/new-id-pubkeys.json -k /tmp/controller-keyring.json \
-			| tee /tmp/pubkeys-update.json | jq .
-	./restroom-test -p 12001 -u v1/sandbox/pubkeys-update.chain -a /tmp/pubkeys-update.json
-	@rm -f /tmp/controller-keyring.json /tmp/new-id-pubkeys.json /tmp/pubkeys-request.json /tmp/pubkeys-update.json
+generate-sandbox-did-local: prepare-generation
+	./restroom-test -s http -h localhost -p 12001 -u v1/sandbox/pubkeys-accept.chain -a /tmp/pubkeys-request.json | jq .
 
 run-local: ## Run an instance on localhost
 	cp restroom/local-config.site .env

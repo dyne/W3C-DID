@@ -18,39 +18,35 @@ Users need not to run a DID, but can use our official instance at https://did.dy
 To run a local instance however, make sure npm is installed and use:
 ```
 make install-deps
-make setup-local
 make run-local
 ```
 
-To generate DID documents one needs a registered EDDSA public key to be listed as admin did, i.e: `did:dyne:operator`
+To generate DID documents one needs registered ECDH and EDDSA public keys to be listed inside an admin DID document, i.e: `did:dyne:DID-spec.A` or `did:dyne:admin`.
 
-To run simple tests one can generate a fake key: `zenroom -z private_contracts/fake_keygen.zen > client_keyring.json`
+To run simple tests one can generate a fake keyring:
+```
+zenroom -k client/v1/did-setting.json -z client/v1/sandbox/sandbox-keygen.zen > sandbox-admin-keyring.json`
+```
+that is associated to the DID document whose DID id [did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ](/data/sandbox/A/8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ).
 
-This fake key is able to write inside `did:dyne:sandbox` for testing purposes (saved data will be lost once in a while!)
+This fake keyring is able to write inside `did:dyne:sandbox` for testing purposes (saved data will be lost once in a while!)
 
 To test the creation of a DID document on the local running instance:
 ```
-make run-local
+make generate-sandbox-did-local
 ```
 
 ## DID document specs
 
-We call "DID spec" any word following the `did:dyne:` namespace. DID specs are governed by specific [contracts subdirectories](/contracts) carrying the same name.
+We call "DID spec" any word following the `did:dyne:` namespace. DID specs are governed by specific [contracts subdirectories](/api/v1) carrying the same name.
 
-Our DID implementation makes available some base DID specs to enable authenticated operators (`did:dyne:operator`) to register generic DID documents (`did:dyne:generic`).
+Any "DID spec" has one or more admins that have the permission to create, update or delete the DID document under their "DID spec". These admins can be recognized from their DID, indeed it will be of the from `did:dyne:DID-spec.A:` and they will govern all the DID documents whose DID starts with `did:dyne:DID-spec:`.
 
-We have also project specific implementations that introduce ad-hoc schemas like `did:dyne:zenflows`) manages DIDs for the `did:dyne:ifacer` namespace.
+For example `did:dyne:zenflows.A` manages DIDs for the `did:dyne:zenflows:` namespace.
 
-So far we have:
+The special `did:dyne:admin` spec is the one governing all admin specs and can create, update and delete admins.
 
-| did spec | admin spec |
-|:--------:|:----------:|
-| generic  | operator   |
-| ifacer   | zenflows   |
-| sandbox  | (fake)     |
-
-The special `did:dyne:elohim` spec is the one governing all admin specs and can create, update and delete admins.
-
+<!-- Controller has no more a keyring! can be eliminated or it will be usefull when notarization will be back?
 ## Controller Keyring (setup once)
 
 Inside the [private_contracts](private_contracts) are the scripts to generate the primary controller keyring whose ECDH key will be used to sign all DID documents and whose ECDH public key can be used to verify their integrity.
@@ -77,5 +73,5 @@ The keyring has to be stored into: `contracts/keyring.json`
 
 The public keys should be generated with: `zenroom -z private_contracts/create_pub_keys.zen`
 and stored in `contracts/public_keys.json`
-
+-->
 
