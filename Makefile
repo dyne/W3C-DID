@@ -48,3 +48,7 @@ clean: ## Clean all NodeJS dependencies
 	$(info Cleaning all dependencies - need a new install-deps)
 	@rm -rf node_modules package-lock.json
 	@rm -rf restroom/node_modules restroom/package-lock.json
+
+integrity-check: ## Checks all the proof in the DID documents
+	-if [ ! -f integrity_check/zenroom ]; then cp /usr/local/bin/zenroom integrity_check/; fi
+	@cd integrity_check && ./integrity_check.sh "../data"
