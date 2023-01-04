@@ -14,6 +14,7 @@ command -v zenroom > /dev/null || {
 data="$1"
 spec="$2"
 log=scrub.log
+zlog=zenroom.log
 # TODO: scrub-`date`.log to archive multiple logs
 echo -e "-- \nStarting scrub on `date`" | >&2 tee -a $log
 
@@ -23,25 +24,33 @@ scrub() {
 		echo "scrub() :: Invalid directory: $1" | >&2 tee -a $log
 		return 1
 	}
+	spec=`basename "$1"`
+	# skip global admin
+	[ "$spec" == "admin" ] && return 1
     for pathname in "$1"/* ; do
 		# one level specs only
 		[ -d "$pathname" ] && continue
-		# >&2 echo "check $pathname"
-
+		parent=`dirname $1`
+		did=`basename $pathname`
+		# >&2 echo "pathname: $pathname"
+		# >&2 echo "parent: $parent"
 		tempsigner=`mktemp`
 		tempdid=`mktemp`
         signer_did_path=`\
 		  jq -r '.didDocument.proof.verificationMethod' $pathname \
           | cut -d "#" -f 1 \
-          | sed -e 's/:/\//g' -e 's/\./\//g' -e "s|^did/dyne|$1|g"`
-		# >&2 echo "$signer_did_path"
-		[ -f "signer_did_path" ] || {
-			echo "scrub(`basename $1`) :: Signer did not found for: `basename $pathname`" | >&2 tee -a $log
+          | sed -e 's/:/\//g' -e 's/\./\//g' -e "s|^did/dyne|$parent|g"`
+		signer_did=`basename $signer_did_path`
+		# >&2 echo "signer did path: $signer_did_path"
+		[ -f "$signer_did_path" ] || {
+			echo "scrub(`basename $1`) :: Did: $did" | >&2 tee -a $log
+			echo "scrub(`basename $1`) :: Signer not found: $signer_did" | >&2 tee -a $log
 			return 1;}
         jq '{"signer_data": .}' <${signer_did_path} >${tempsigner}
         jq '{"check_data": .}' <${pathname} >${tempdid}
-		>&2 echo -n "`basename $pathname` - "
-		cat <<EOF | >&2 zenroom -a ${tempsigner} -k ${tempdid} -z
+		echo -n "check :: $did" | >&2 tee -a $log
+		zlog=`mktemp`
+		cat <<EOF | zenroom -a ${tempsigner} -k ${tempdid} -z 1>/dev/null 2>$zlog
 Scenario 'w3c': did document
 Scenario 'ecdh': public key
 Given I have a 'did document' named 'didDocument' in 'signer_data'
@@ -51,10 +60,14 @@ and I rename 'didDocument' to 'check_did_document'
 When I verify the did document named 'check_did_document' is signed by 'signer_did_document'
 Then print the string 'OK'
 EOF
-        [ $? == 0 ] || {
-			echo "Invalid DID signature: ${pathname}" | >&2 tee -a $log
-		}
-		rm -f ${tempsigner} ${tempdid}
+        if [ $? == 0 ]; then
+			echo " :: OK sign by :: $signer_did" | >&2 tee -a $log
+		else
+			echo
+			echo "Invalid DID signature: ${did} A: $signer_did" | >&2 tee -a $log
+			tail $zlog
+		fi
+		rm -f ${tempsigner} ${tempdid} ${zres} ${zlog}
     done
 }
 
