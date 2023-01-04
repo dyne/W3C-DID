@@ -16,18 +16,18 @@ keygen: tmp := $(shell mktemp)
 keygen: ## Generate a new global admin keyring
 	$(if $(wildcard keyring.json),$(error Local authority keyring.json found, cannot overwrite))
 	@echo "{\"controller\": \"${USER}@${HOSTNAME}\"}" > ${tmp}
-	@zenroom -z client/v1/admin/keygen.zen -a client/v1/did-settings.json -k ${tmp} > keyring.json
+	@zenroom -z client/v1/admin/keygen.zen -k ${tmp} > keyring.json
 	@rm -f ${tmp}
 
 didgen: tmppk := $(shell mktemp)
 didgen: ## Generate a new global admin did document
-	@zenroom -z client/v1/admin/pubgen.zen -k keyring.json > ${tmppk}
+	@zenroom -z client/v1/admin/pubgen.zen -k keyring.json -a client/v1/did-settings.json > ${tmppk}
 	@cat ${tmppk} | jq --arg value $$(($$(date +%s%N)/1000000)) '.timestamp = $$value' > ${tmppk}
 	@zenroom -z client/v1/admin/didgen.zen -a ${tmppk} -k keyring.json > admin_did_doc.json
 	@rm -f ${tmppk}
 
 newadmin: ## Store global admin did document
-	@if [ ! "$(ls -A "${DATA}/admin")" ]; then echo "Local authority did document found, cannot overwrite"; return 1; fi
+	@if [ "$(ls -A "${DATA}/admin")" ]; then echo "Local authority did document found, cannot overwrite"; return 1; fi
 	@mv admin_did_doc.json $$(jq -r '.didDocument.id' admin_did_doc.json | sed -e 's/:/\//g' -e 's/\./\//g' -e "s|^did/dyne|${DATA}|g")
 
 scrub: ## Checks all signed proofs in DID documents (SPEC)
@@ -48,7 +48,7 @@ populate-remote-sandbox: ## Generate random DIDs in remote sandbox (RR_SCHEMA, R
 
 populate-local-sandbox: NUM ?= 100
 populate-local-sandbox: ## Generate random DIDs in local sandbox (TODO)
-	bash scripts/fakeid.sh ${NUM}
+	bash scripts/fakedid.sh ${NUM}
 
 test-units: ## Run client-api unit tests offline
 	-if [ ! -f test/zenroom ]; then cp /usr/local/bin/zenroom test/; fi

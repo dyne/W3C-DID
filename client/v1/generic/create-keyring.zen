@@ -14,4 +14,3 @@ When I create the reflow key
 # keyring and explicit owner identity
 Then print my 'keyring'
 and print my name in 'controller'
-

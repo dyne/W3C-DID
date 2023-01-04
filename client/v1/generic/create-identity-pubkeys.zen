@@ -6,8 +6,8 @@ Scenario reflow
 
 Given my name is in a 'string' named 'controller'
 and I have my 'keyring'
-and I have a 'string dictionary' named 'proof'
 and I have a 'string array' named '@context'
+and I have a 'string dictionary' named 'proof'
 
 When I create the ecdh public key
 and I create the eddsa public key
