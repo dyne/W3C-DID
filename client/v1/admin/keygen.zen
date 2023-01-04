@@ -3,7 +3,7 @@ Scenario eddsa
 Scenario ethereum
 Scenario reflow
 
-Given I my name is in a 'string' named 'admin name'
+Given I my name is in a 'string' named 'controller'
 
 # load the DID settings
 Given I have a 'string array' named '@context'

@@ -4,7 +4,7 @@ Scenario ethereum
 Scenario bitcoin
 Scenario reflow
 
-Given my name is in a 'string' named 'identity'
+Given my name is in a 'string' named 'controller'
 and I have a 'string array' named '@context'
 and I have a 'string dictionary' named 'proof'
 
