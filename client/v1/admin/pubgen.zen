@@ -5,15 +5,13 @@ Scenario bitcoin
 Scenario reflow
 
 Given my name is in a 'string' named 'controller'
-and I have a 'string array' named '@context'
-and I have a 'string dictionary' named 'proof'
+and I have my 'keyring'
 
-When I create the ecdh key
-and I create the eddsa key
-and I create the ethereum key
-and I create the reflow key
-and I create the bitcoin key
-
+#When I create the ecdh key
+#and I create the eddsa key
+#and I create the ethereum key
+#and I create the reflow key
+#and I create the bitcoin key
 
 When I create the ecdh public key
 and I create the eddsa public key
@@ -26,7 +24,3 @@ and I print the 'ethereum address'
 and I print the 'ecdh public key' as 'base58'
 and I print the 'bitcoin public key' as 'base58'
 and I print the 'reflow public key' as 'base58'
-and I print my name in 'identity'
-and print my 'keyring'
-and print the '@context'
-and print the 'proof'

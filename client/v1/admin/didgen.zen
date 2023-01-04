@@ -6,6 +6,7 @@ Scenario ecdh
 Scenario eddsa
 Scenario ethereum
 Scenario reflow
+Scenario w3c
 
 # timestamp in messages to avoid replay attack
 Given I fetch the local timestamp and store it into 'timestamp'
@@ -17,10 +18,11 @@ and I have my 'keyring'
 
 # load the request settings
 Given I have a 'string array' named '@context'
+and I have a 'string dictionary' named 'proof'
 
 # load the new identity public keys and description
-Given I have a 'string' named 'identity'
-and I rename 'identity' to 'description'
+Given I have a 'string' named 'controller'
+and I rename 'controller' to 'description'
 Given I have a 'eddsa_public_key'
 and I rename 'eddsa_public_key' to 'identity pk'
 Given I have a 'ethereum_address'
@@ -36,7 +38,7 @@ and I move '@context' in 'did document'
 and I move 'description' in 'did document'
 
 ## did spec and id
-When I set 'did:dyne:' to 'did:dyne:sandbox:' as 'string'
+When I set 'did:dyne:' to 'did:dyne:admin:' as 'string'
 and I append the 'base58' of 'identity pk' to 'did:dyne:'
 and I copy the 'did:dyne:' to 'id' in 'did document'
 
@@ -129,26 +131,25 @@ When I move 'verification-key' in 'verificationMethod'
 When I move 'verificationMethod' in 'did document'
 ### DID-Document ended
 
-# did document signature
-When I create the json of 'did document'
-When I create the ecdh signature of 'json'
-and I remove 'json'
+# add proof
+When I create the jws signature of 'did document'
+and I move 'jws' in 'proof'
+and I copy the 'timestamp' to 'created' in 'proof'
+and I append the string '#ecdh_public_key' to 'did:dyne:'
+and I copy the 'did:dyne:' to 'controller' in 'proof'
+and I move 'proof' in 'did document'
+and I rename the 'did document' to 'didDocument'
 
-# result signature
-When I create the 'string dictionary' named 'result'
-and I copy 'did document' in 'result'
-and I copy 'timestamp' in 'result'
-and I create the json of 'result'
-and I create the eddsa signature of 'json'
+# metadata
+When I create the 'string dictionary' named 'didDocumentMetadata'
+and I move the 'timestamp' to 'created' in 'didDocumentMetadata'
+and I set 'deactivated' to 'false' as 'string'
+and I move 'deactivated' in 'didDocumentMetadata'
 
-# signer id
-When I create the eddsa public key
-When I set 'id' to 'did:dyne:sandbox.A:' as 'string'
-and I append the 'base58' of 'eddsa public key' to 'id'
+# @context
+When I set '@context' to 'https://w3id.org/did-resolution/v1' as 'string'
 
 # print did document, signature and signer id
-Then print the 'did document'
-Then print the 'ecdh signature'
-Then print the 'timestamp'
-Then print the 'eddsa signature'
-Then print the 'id'
+Then print the '@context'
+and print the 'didDocument'
+and print the 'didDocumentMetadata'

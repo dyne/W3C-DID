@@ -2,6 +2,7 @@ RR_PORT := 443
 RR_HOST := did.dyne.org
 RR_SCHEMA := https
 HOSTNAME := $(shell hostname)
+DATA := $(shell pwd)/data
 
 help: ## Display this help.
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_0-9-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' Makefile
@@ -18,17 +19,17 @@ keygen: ## Generate a new global admin keyring
 	@zenroom -z client/v1/admin/keygen.zen -a client/v1/did-settings.json -k ${tmp} > keyring.json
 	@rm -f ${tmp}
 
-request: tmppk := $(shell mktemp)
-request: tmpreq := ${shell mktemp}
-request: ## Generate a new global admin request
+didgen: tmppk := $(shell mktemp)
+didgen: ## Generate a new global admin did document
 	@zenroom -z client/v1/admin/pubgen.zen -k keyring.json > ${tmppk}
 	@cat ${tmppk} | jq --arg value $$(($$(date +%s%N)/1000000)) '.timestamp = $$value' > ${tmppk}
-	@zenroom -z client/v1/admin/reqgen.zen -a ${tmppk} -k keyring.json | tee ${tmpreq}
-	@rm -f ${tmppk} ${tmpreq}
+	@zenroom -z client/v1/admin/didgen.zen -a ${tmppk} -k keyring.json > admin_did_doc.json
+	@rm -f ${tmppk}
 
-newadmin: ## TODO: Add a new global admin request
+newadmin: ## Store global admin did document
+	@if [ ! "$(ls -A "${DATA}/admin")" ]; then echo "Local authority did document found, cannot overwrite"; return 1; fi
+	@mv admin_did_doc.json $$(jq -r '.didDocument.id' admin_did_doc.json | sed -e 's/:/\//g' -e 's/\./\//g' -e "s|^did/dyne|${DATA}|g")
 
-scrub: DATA=$(shell pwd)/data
 scrub: ## Checks all signed proofs in DID documents (SPEC)
 	@bash scripts/scrub.sh "${DATA}"
 
