@@ -1,0 +1,22 @@
+Scenario ecdh
+Scenario eddsa
+Scenario ethereum
+Scenario reflow
+
+Given I my name is in a 'string' named 'admin name'
+
+# load the DID settings
+Given I have a 'string array' named '@context'
+and I have a 'string dictionary' named 'proof'
+
+When I create the ecdh key
+When I create the eddsa key
+When I create the ethereum key
+When I create the bitcoin key
+When I create the reflow key
+
+# keyring and explicit owner identity
+Then print my 'keyring'
+and print my name in 'controller'
+and print the '@context'
+and print the 'proof'
