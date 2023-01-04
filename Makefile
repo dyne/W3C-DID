@@ -9,6 +9,24 @@ help: ## Display this help.
 
 ##@ Admin
 
+keygen: tmp := $(shell mktemp)
+keygen: ## TODO: Generate a new local authority
+	echo "{\"admin_name\": \"${USER}@${HOSTNAME}\"}" > ${tmp}
+	zenroom -z client/v1/keygen.zen \
+		-a client/v1/did-settings.json -k ${tmp} \
+		> keyring.json
+	rm -f ${tmp}
+
+pubgen: ## TODO: Print the public DID of local authority
+	zenroom -z client/v1/sandbox/create-identity-pubkeys.zen \
+			> /tmp/new-id-pubkeys.json 2>/dev/null
+	@jq --arg value $$(($$(date +%s%N)/1000000)) '.timestamp = $$value' /tmp/new-id-pubkeys.json > /tmp/new-id-pubkeys-tmp.json && mv /tmp/new-id-pubkeys-tmp.json /tmp/new-id-pubkeys.json
+	zenroom -z client/v1/sandbox/pubkeys-request.zen \
+			-a /tmp/new-id-pubkeys.json -k /tmp/controller-keyring.json \
+			> /tmp/pubkeys-request.json 2>/dev/null
+
+didsign: ## TODO: Sign a DID request
+
 scrub: DATA=$(shell pwd)/data
 scrub: ## Checks all signed proofs in DID documents (SPEC)
 	@bash scripts/scrub.sh "${DATA}"
@@ -26,17 +44,9 @@ populate-remote-sandbox: ## Generate random DIDs in remote sandbox (RR_SCHEMA, R
 			> /tmp/pubkeys-request.json 2>/dev/null
 	./restroom-test -s ${RR_SCHEMA} -h ${RR_HOST} -p ${RR_PORT} -u v1/sandbox/pubkeys-accept.chain -a /tmp/pubkeys-request.json | jq .
 
+populate-local-sandbox: NUM ?= 100
 populate-local-sandbox: ## Generate random DIDs in local sandbox (TODO)
-	zenroom -z client/v1/sandbox/sandbox-keygen.zen \
-			-a client/v1/did-settings.json \
-			> /tmp/controller-keyring.json 2>/dev/null
-	zenroom -z client/v1/sandbox/create-identity-pubkeys.zen \
-			> /tmp/new-id-pubkeys.json 2>/dev/null
-	@jq --arg value $$(($$(date +%s%N)/1000000)) '.timestamp = $$value' /tmp/new-id-pubkeys.json > /tmp/new-id-pubkeys-tmp.json && mv /tmp/new-id-pubkeys-tmp.json /tmp/new-id-pubkeys.json
-	zenroom -z client/v1/sandbox/pubkeys-request.zen \
-			-a /tmp/new-id-pubkeys.json -k /tmp/controller-keyring.json \
-			> /tmp/pubkeys-request.json 2>/dev/null
-	./restroom-test -s ${RR_SCHEMA} -h ${RR_HOST} -p ${RR_PORT} -u v1/sandbox/pubkeys-accept.chain -a /tmp/pubkeys-request.json | jq .
+	bash scripts/fakeid.sh ${NUM}
 
 test-units: ## Run client-api unit tests offline
 	-if [ ! -f test/zenroom ]; then cp /usr/local/bin/zenroom test/; fi
