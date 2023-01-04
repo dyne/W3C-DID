@@ -40,7 +40,7 @@ fi
 
 echo "SERVER SIDE"
 echo "- accept request"
-curl -s -w "%{stderr}%{http_code}\n" -o /tmp/pubkeys-accept.json -X 'POST' \
+curl -s -w "%{errormsg}% and status {http_code}\n" -o /tmp/pubkeys-accept.json -X 'POST' \
   'http://localhost:3000/api/v1/sandbox/pubkeys-accept.chain' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
@@ -49,7 +49,7 @@ curl -s -w "%{stderr}%{http_code}\n" -o /tmp/pubkeys-accept.json -X 'POST' \
   \"keys\": {}
 }" 2>/tmp/status.json
 if [[ `cat /tmp/status.json` != "200" ]]; then
-  echo -n "Accepting requests failed with error status: "
+  echo -n "Accepting requests failed with error: "
   cat /tmp/status.json
   echo "and error:"
   cat /tmp/pubkeys-accept.json
