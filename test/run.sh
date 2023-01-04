@@ -40,7 +40,7 @@ fi
 
 echo "SERVER SIDE"
 echo "- accept request"
-curl -s -w "%{errormsg}% and status {http_code}\n" -o /tmp/pubkeys-accept.json -X 'POST' \
+curl -s -w "%{errormsg} and status %{http_code}\n" -o /tmp/pubkeys-accept.json -X 'POST' \
   'http://localhost:3000/api/v1/sandbox/pubkeys-accept.chain' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
