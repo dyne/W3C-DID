@@ -46,7 +46,7 @@ populate-remote-sandbox:
 	./restroom-test -s ${RR_SCHEMA} -h ${RR_HOST} -p ${RR_PORT} -u v1/sandbox/pubkeys-accept.chain -a /tmp/pubkeys-request.json | jq .
 
 fill-sandbox: NUM ?= 100
-fill-sandbox: ## Generate random DIDs in local sandbox (TODO)
+fill-sandbox: ## Generate random DIDs in local sandbox  [ NUM ]
 	bash scripts/fakedid.sh ${NUM}
 
 test-units: ## Run client-api unit tests offline

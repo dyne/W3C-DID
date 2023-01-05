@@ -1,6 +1,6 @@
 # Ifacer W3C-DID
 
-To create a Ifacer admin or a Ifacer users you should be in posses of, respectively, the Admin keyring or a Ifacer Admin keyring and its name, in the following format:
+To create a Ifacer users you should be in posses of an Ifacer Admin keyring and its name, in the following format:
 ```json
 {
     "controller": "some_sort_of_admin",
@@ -41,5 +41,5 @@ Moreover if you run this script locally without the help of restroom, then you w
 
 Once you have all this infromation you will need to merge the latter json with the [did-settings.json](./did-settings.json) and finally run:
 ```
-zenroom -z -a your_json.json -k keyring.json pubkeys-request.zen
+zenroom -z -a your_json.json -k keyring.json pubkeys-request-signed.zen
 ```
