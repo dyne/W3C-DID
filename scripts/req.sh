@@ -15,26 +15,25 @@ case $1 in
     ;;
     *)
         did_settings=client/v1/did-settings.json
-        contracts=clinet/v1/generic
+        contracts=clinet/v1
     ;;
 esac
 
 # generate pks
 tmppk=`mktemp`
 zenroom -z -k keyring.json -a ${did_settings} \
-        client/v1/generic/create-identity-pubkeys.zen > ${tmppk}
+        client/v1/create-identity-pubkeys.zen > ${tmppk}
 
 # set did_spec and extras if present
 tmp=`mktemp` && jq --arg value $1 '.did_spec = $value' ${tmppk} > ${tmp} && mv ${tmp} ${tmppk}
 if [ "$2" != "" ]; then
     tmpextras=`mktemp`
-    tmp=`mktemp`
     echo $2 > ${tmpextras}
-    jq -s '.[0] * .[1]' ${tmppk} ${tmpextras} > ${tmp} && mv ${tmp} ${tmppk}
+    tmp=`mktemp` && jq -s '.[0] * .[1]' ${tmppk} ${tmpextras} > ${tmp} && mv ${tmp} ${tmppk}
     rm -f ${tmpextras}
 fi
 cat ${tmppk} | jq .
 
 # create did doc
 zenroom -z -a ${tmppk} \
-		${contracts}/pubkeys-request.zen > did_doc.json
+		${contracts}/pubkeys-request-unsigned.zen > did_doc.json
