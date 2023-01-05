@@ -3,6 +3,10 @@ Scenario 'ecdh': verify signature
 Scenario 'eddsa': verify signature
 Scenario 'w3c': proof
 
+# request_data should be = {}
+Given I read the content of 'request_path' and save the output into 'request_data'
+and I have a 'string dictionary' named 'request_data'
+
 # timestamp
 Given I fetch the local timestamp and store it into 'accept_timestamp'
 and I have a 'integer' named 'accept_timestamp'
@@ -27,6 +31,9 @@ and I have a 'string' named 'signer_id'
 
 When I create the 'ecdh' public key from did document 'signer_did_document'
 and I create the 'eddsa' public key from did document 'signer_did_document'
+
+# verify request_data={}
+When 'didDocument' is not found in 'request_data'
 
 # verify signer is not deactivated
 When I set 'false' to 'false' as 'string'

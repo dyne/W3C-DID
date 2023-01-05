@@ -23,10 +23,16 @@ load ../bats_zencode
 }
 
 @test "Api pubkeys: execute (chain)" {
-	# add timestamp and signer_data to data
+	# add timestamp, signer_data and request_data to data
 	jq_insert "accept_timestamp" $(($(date +%s%N)/1000000)) pubkeys-accept-api-checks.json
 	signer_path=`jq_extract_raw "signer_path" pubkeys-accept-api-checks.json`
+	request_path=`jq_extract_raw "request_path" pubkeys-accept-api-checks.json`
 	json_join_two $signer_path pubkeys-accept-api-checks.json
+	if [ -f $request_path ]; then
+		json_join_two  $request_path pubkeys-accept-api-checks.json
+	else
+		cat pubkeys-accept-api-checks.json | jq '.request_data={}' > pubkeys-accept-api-checks.json
+	fi
 	# execute
 	zexe api/v1/sandbox/pubkeys-accept-2-checks.zen api/v1/sandbox/pubkeys-store.keys pubkeys-accept-api-checks.json
 	save_tmp_output pubkeys-accept-api-execute.json
