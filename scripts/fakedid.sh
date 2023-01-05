@@ -4,17 +4,13 @@
 
 # runtime checks
 command -v zenroom > /dev/null || {
-	>&2 echo "Zenroom executable missing"
-    exit 1
+	>&2 echo "Zenroom executable missing"; exit 1
 }
 [ "$1" == "" ] && { >&2 echo "$0 number_of_fakedid"; exit 1;}
 [ $1 -le 0 ] && { >&2 echo "Invalid number, it has to be positive: $1"; exit 1;}
-[ "$(ls -A data/admin)" ] && [ ! -f keyring.json ] && { >&2 echo "Admin is present, but not its keyring"; exit 1;}
 
-# if admin is not present generate an admin
-if [ ! "$(ls -A data/admin)" ]; then
-	make service-keyring
-fi
+# generate a new admin
+make service-keyring
 
 # accept request
 accept() {
@@ -36,44 +32,22 @@ accept() {
 }
 
 # sandbox admin request
-tmpctrlid=`mktemp`
-tmpctrlkey=`mktemp`
-tmpctrlpk=`mktemp`
-tmpctrlreq=`mktemp`
-
-echo "{ \"controller\": \"sandbox_admin\" }" > ${tmpctrlid}
-zenroom -z -a ${tmpctrlid} \
-		client/v1/generic/create-keyring.zen > ${tmpctrlkey}
-zenroom -z -k client/v1/did-settings.json \
-		-a ${tmpctrlkey} \
-		client/v1/generic/create-identity-pubkeys.zen > ${tmpctrlpk}
-
-tmp=`mktemp`
-jq '.specific_id = "sandbox.A"' ${tmpctrlpk} > ${tmp} && mv ${tmp} ${tmpctrlpk}
-tmp=`mktemp`
-jq '.signer_specific_id = "admin"' ${tmpctrlpk} > ${tmp} && mv ${tmp} ${tmpctrlpk}
-cat ${tmpctrlpk} | jq --arg value $(($(date +%s%N)/1000000)) '.timestamp = $value' > ${tmpctrlpk}
-
-zenroom -z -k keyring.json -a ${tmpctrlpk} \
-        client/v1/generic/pubkeys-request.zen > ${tmpctrlreq}
-
-rm -f ${tmpctrlpk} ${tmpctrlid}
+make keyring
+make request DOMAIN=sandbox.A
+make sign
 
 # sandbox admin accept
-accept ${tmpctrlreq}
-rm -f ${tmpctrlreq}
+accept signed_did_doc.json
 
 # sanbox requests
 tmpnewpk=`mktemp`
 tmpreq=`mktemp`
 tmp=`mktemp`
-jq -s '.[0] * .[1]' $tmpctrlkey client/v1/did-settings.json > ${tmp} && mv ${tmp} ${tmpctrlkey}
+jq -s '.[0] * .[1]' keyring.json client/v1/did-settings.json > ${tmp}
 for i in $(seq $1); do
-	zenroom -z client/v1/sandbox/create-identity-pubkeys.zen \
-			> ${tmpnewpk} 2>/dev/null
+	zenroom -z client/v1/sandbox/create-identity-pubkeys.zen 2>/dev/null > ${tmpnewpk}
 	cat ${tmpnewpk} | jq --arg value $(($(date +%s%N)/1000000)) '.timestamp = $value' > ${tmpnewpk}
-	zenroom -z -a ${tmpnewpk} -k ${tmpctrlkey} \
-			client/v1/sandbox/pubkeys-request.zen > ${tmpreq}
+	zenroom -z -a ${tmpnewpk} -k ${tmp} client/v1/sandbox/pubkeys-request.zen > ${tmpreq}
 	accept ${tmpreq}
 done
-rm -f ${tmpctrlkey} ${tmpnewpk} ${tmpreq}
+rm -f ${tmpctrlkey} ${tmpnewpk} ${tmpreq} ${tmp}
