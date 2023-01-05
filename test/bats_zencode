@@ -77,7 +77,11 @@ function json_join_two {
 function jq_insert {
     file=`getfile ${3}`
     tmp=$(mktemp)
-    jq --arg key $1 --arg value $2 '.[$key] = $value' $file > $tmp && mv $tmp $file
+    if [ `echo "$2" | jq type` == "\"object\"" ]; then
+        jq --arg key $1 --argjson value $2 '.[$key] = $value' $file > $tmp && mv $tmp $file
+    else
+        jq --arg key $1 --arg value $2 '.[$key] = $value' $file > $tmp && mv $tmp $file
+    fi
 }
 
 # jq_extract_raw key path

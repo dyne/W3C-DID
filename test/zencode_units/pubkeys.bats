@@ -29,9 +29,9 @@ load ../bats_zencode
 	request_path=`jq_extract_raw "request_path" pubkeys-accept-api-checks.json`
 	json_join_two $signer_path pubkeys-accept-api-checks.json
 	if [ -f $request_path ]; then
-		json_join_two  $request_path pubkeys-accept-api-checks.json
+		json_join_two $request_path pubkeys-accept-api-checks.json
 	else
-		cat $BATS_FILE_TMPDIR/pubkeys-accept-api-checks.json | jq '.request_data={}' > $BATS_FILE_TMPDIR/pubkeys-accept-api-checks.json
+		jq_insert "request_data" "{}" pubkeys-accept-api-checks.json
 	fi
 	# execute
 	zexe api/v1/sandbox/pubkeys-accept-2-checks.zen api/v1/sandbox/pubkeys-store.keys pubkeys-accept-api-checks.json
