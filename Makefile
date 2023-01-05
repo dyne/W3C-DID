@@ -19,7 +19,7 @@ keyring: tmp := $(shell mktemp)
 keyring: ## Generate a new admin keyring
 	$(if $(wildcard keyring.json),$(error Local authority keyring.json found, cannot overwrite))
 	@echo "{\"controller\": \"${USER}@${HOSTNAME}\"}" > ${tmp}
-	@zenroom -z client/v1/create-keyring.zen -k ${tmp} > keyring.json
+	@zenroom -z -k ${tmp} client/v1/create-keyring.zen > keyring.json
 	@rm -f ${tmp}
 
 request: ## Generate an admin request [ DOMAIN ]
@@ -33,14 +33,14 @@ sign: ## Sign a request and generate a DID proof [ REQUEST ]
 
 ##@ Test
 populate-remote-sandbox:
-	zenroom -z client/v1/sandbox/sandbox-keygen.zen \
-			-a client/v1/did-settings.json \
+	zenroom -z -a client/v1/did-settings.json \
+			client/v1/sandbox/sandbox-keygen.zen
 			> /tmp/controller-keyring.json 2>/dev/null
 	zenroom -z client/v1/sandbox/create-identity-pubkeys.zen \
 			> /tmp/new-id-pubkeys.json 2>/dev/null
 	@jq --arg value $$(($$(date +%s%N)/1000000)) '.timestamp = $$value' /tmp/new-id-pubkeys.json > /tmp/new-id-pubkeys-tmp.json && mv /tmp/new-id-pubkeys-tmp.json /tmp/new-id-pubkeys.json
-	zenroom -a /tmp/new-id-pubkeys.json -k /tmp/controller-keyring.json \
-			-z client/v1/sandbox/pubkeys-request.zen \
+	zenroom -z -a /tmp/new-id-pubkeys.json -k /tmp/controller-keyring.json \
+				client/v1/sandbox/pubkeys-request.zen \
 			> /tmp/pubkeys-request.json 2>/dev/null
 	./restroom-test -s ${RR_SCHEMA} -h ${RR_HOST} -p ${RR_PORT} -u v1/sandbox/pubkeys-accept.chain -a /tmp/pubkeys-request.json | jq .
 
@@ -67,17 +67,17 @@ service-keyring: tmp := $(shell mktemp)
 service-keyring: ## Create a keyring for the global service admin
 	$(if $(wildcard secrets/service-keyring.json),$(error Service keyring found, cannot overwrite))
 	@echo "{\"controller\": \"${USER}@${HOSTNAME}\"}" > ${tmp}
-	@umask 0067 && zenroom -z client/v1/create-keyring.zen -k ${tmp} 2>/dev/null > secrets/service-keyring.json
+	@umask 0067 && zenroom -z -k ${tmp} client/v1/create-keyring.zen 2>/dev/null > secrets/service-keyring.json
 	@rm -f ${tmp} ## secret keyring created
-	@zenroom -z client/v1/create-identity-pubkeys.zen -k secrets/service-keyring.json -a client/v1/did-settings.json 2>/dev/null > ${tmp}
+	@zenroom -z -k secrets/service-keyring.json -a client/v1/did-settings.json client/v1/create-identity-pubkeys.zen 2>/dev/null > ${tmp}
 	@cat ${tmp} | jq --arg value $$(($$(date +%s%N)/1000000)) '.timestamp = $$value' > ${tmp}
-	@zenroom -z client/v1/admin/didgen.zen -a ${tmp} -k keyring.json 2>/dev/null > service-admin-did.json
+	@zenroom -z -a ${tmp} -k keyring.json client/v1/admin/didgen.zen 2>/dev/null > service-admin-did.json
 	@rm -f ${tmp} ## self-signed DID created
 	make accept-admin FORCE=1 REQUEST=service-admin-did.json
 
 service-pubkeys: ## Print the public keys of the global service admin
 	$(if $(wildcard secrets/service-keyring.json),,$(error Service keyring not found))
-	@zenroom -z client/v1/create-identity-pubkeys.zen -k secrets/service-keyring.json -a client/v1/did-settings.json 2>/dev/null | jq .
+	@zenroom -z -k secrets/service-keyring.json -a client/v1/did-settings.json client/v1/create-identity-pubkeys.zen 2>/dev/null | jq .
 
 accept-admin:
 accept-admin: ## Local command to accept an admin [ REQUEST ]
