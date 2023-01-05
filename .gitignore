@@ -15,3 +15,6 @@ contracts/did_document.json
 
 # utility
 restroom-test
+
+# local secrets
+secrets

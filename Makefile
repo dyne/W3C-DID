@@ -15,26 +15,19 @@ help: ## Display this help.
 
 ##@ Admin
 
-keygen: tmp := $(shell mktemp)
-keygen: ## Generate a new global admin keyring
+keyring: tmp := $(shell mktemp)
+keyring: ## Generate a new admin keyring
 	$(if $(wildcard keyring.json),$(error Local authority keyring.json found, cannot overwrite))
 	@echo "{\"controller\": \"${USER}@${HOSTNAME}\"}" > ${tmp}
 	@zenroom -z client/v1/admin/keygen.zen -k ${tmp} > keyring.json
 	@rm -f ${tmp}
 
-didgen: tmppk := $(shell mktemp)
-didgen: ## Generate a new global admin did document
+self-DID: tmppk := $(shell mktemp)
+self-DID: ## Generate a self-signed admin DID
 	@zenroom -z client/v1/admin/pubgen.zen -k keyring.json -a client/v1/did-settings.json > ${tmppk}
 	@cat ${tmppk} | jq --arg value $$(($$(date +%s%N)/1000000)) '.timestamp = $$value' > ${tmppk}
 	@zenroom -z client/v1/admin/didgen.zen -a ${tmppk} -k keyring.json > admin_did_doc.json
 	@rm -f ${tmppk}
-
-newadmin: ## Store global admin did document
-	@if [ "$(ls -A "${DATA}/admin")" ]; then echo "Local authority did document found, cannot overwrite"; return 1; fi
-	@mv admin_did_doc.json $$(jq -r '.didDocument.id' admin_did_doc.json | sed -e 's/:/\//g' -e 's/\./\//g' -e "s|^did/dyne|${DATA}|g")
-
-scrub: ## Checks all signed proofs in DID documents (SPEC)
-	@bash scripts/scrub.sh "${DATA}"
 
 ##@ Test
 populate-remote-sandbox: ## Generate random DIDs in remote sandbox (RR_SCHEMA, RR_HOST, RR_PORT)
@@ -49,8 +42,8 @@ populate-remote-sandbox: ## Generate random DIDs in remote sandbox (RR_SCHEMA, R
 			> /tmp/pubkeys-request.json 2>/dev/null
 	./restroom-test -s ${RR_SCHEMA} -h ${RR_HOST} -p ${RR_PORT} -u v1/sandbox/pubkeys-accept.chain -a /tmp/pubkeys-request.json | jq .
 
-populate-local-sandbox: NUM ?= 100
-populate-local-sandbox: ## Generate random DIDs in local sandbox (TODO)
+populate-sandbox: NUM ?= 100
+populate-sandbox: ## Generate random DIDs in local sandbox (TODO)
 	bash scripts/fakedid.sh ${NUM}
 
 test-units: ## Run client-api unit tests offline
@@ -64,20 +57,37 @@ test-local: ## Test a local DID document creation
 	./restroom-test -p 12001 -u v1/sandbox/pubkeys-update.chain -a /tmp/pubkeys-update.json
 	@rm -f /tmp/controller-keyring.json /tmp/new-id-pubkeys.json /tmp/pubkeys-request.json /tmp/pubkeys-update.json
 
-##@ Setup
+##@ Service
 
-install-deps: ## Install all NodeJS dependencies
+build: ## Install all NodeJS dependencies
 	$(info Installing NodeJS dependencies - need npm installed)
 	@test -d restroom/node_modules || (cd restroom && npm i)
 
-run-local: ## Run an instance on localhost
-	cp restroom/local-config.site .env
-	@if ! [ -r restroom/node_modules ]; then echo "Deps missing, first run: make install-deps"; return 1; fi
+run: ## Run a service instance on localhost
+	$(if $(wildcard restroom/node_modules),,$(error Deps missing, first run: make build))
+	@cp -v restroom/local-config.site .env
 	node restroom/restroom.mjs
 
-update-npm:
+service-keyring: tmp := $(shell mktemp)
+service-keyring: UMASK := $(shell umask)
+service-keyring: ## Create a keyring for the global service admin
+	$(if $(wildcard secrets/service-keyring.json),$(error Service keyring found, cannot overwrite))
+	@echo "{\"controller\": \"${USER}@${HOSTNAME}\"}" > ${tmp}
+	@umask 0067
+	@zenroom -z client/v1/admin/keygen.zen -k ${tmp} > secrets/service-keyring.json
+	@umask ${UMASK}
+	@rm -f ${tmp}
+
+accept-admin-request: ## Local command to accept an admin request [ FORCE ]
+	$(if $(wildcard ${DATA}/admin),$(error Local authority did document found, cannot overwrite))
+	@mv admin_did_doc.json $$(jq -r '.didDocument.id' admin_did_doc.json | sed -e 's/:/\//g' -e 's/\./\//g' -e "s|^did/dyne|${DATA}|g")
+
+update: ## Update all service dependencies
 	$(info Updating to latest packages)
 	@cd restroom && rm -f package-lock.json && npm i zenroom@latest @restroom-mw/files@next && npm list
+
+scrub: ## Check all signed proofs in data/
+	@bash scripts/scrub.sh "${DATA}"
 
 clean: ## Clean all NodeJS dependencies
 	$(info Cleaning all dependencies - need a new install-deps)
