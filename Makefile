@@ -22,12 +22,6 @@ keyring: ## Generate a new admin keyring
 	@zenroom -z client/v1/admin/keygen.zen -k ${tmp} > keyring.json
 	@rm -f ${tmp}
 
-self-DID: tmppk := $(shell mktemp)
-self-DID: ## Generate a self-signed admin DID
-	@zenroom -z client/v1/admin/pubgen.zen -k keyring.json -a client/v1/did-settings.json > ${tmppk}
-	@cat ${tmppk} | jq --arg value $$(($$(date +%s%N)/1000000)) '.timestamp = $$value' > ${tmppk}
-	@zenroom -z client/v1/admin/didgen.zen -a ${tmppk} -k keyring.json > admin_did_doc.json
-	@rm -f ${tmppk}
 
 ##@ Test
 populate-remote-sandbox: ## Generate random DIDs in remote sandbox (RR_SCHEMA, RR_HOST, RR_PORT)
@@ -69,18 +63,23 @@ run: ## Run a service instance on localhost
 	node restroom/restroom.mjs
 
 service-keyring: tmp := $(shell mktemp)
-service-keyring: UMASK := $(shell umask)
-service-keyring: ## Create a keyring for the global service admin
+service-keyring: ## Create a self-signed keyring for the global service admin
 	$(if $(wildcard secrets/service-keyring.json),$(error Service keyring found, cannot overwrite))
 	@echo "{\"controller\": \"${USER}@${HOSTNAME}\"}" > ${tmp}
-	@umask 0067
-	@zenroom -z client/v1/admin/keygen.zen -k ${tmp} > secrets/service-keyring.json
-	@umask ${UMASK}
-	@rm -f ${tmp}
+	@umask 0067 && zenroom -z client/v1/admin/keygen.zen -k ${tmp} 2>/dev/null > secrets/service-keyring.json
+	@rm -f ${tmp} ## secret keyring created
+	@zenroom -z client/v1/admin/pubgen.zen -k secrets/service-keyring.json -a client/v1/did-settings.json 2>/dev/null > ${tmp}
+	@cat ${tmp} | jq --arg value $$(($$(date +%s%N)/1000000)) '.timestamp = $$value' > ${tmp}
+	@zenroom -z client/v1/admin/didgen.zen -a ${tmp} -k keyring.json 2>/dev/null > service-admin-did.json
+	@rm -f ${tmp} ## self-signed DID created
+	make accept-admin-request FORCE=1 REQUEST=service-admin-did.json
 
+accept-admin-request:
 accept-admin-request: ## Local command to accept an admin request [ FORCE ]
-	$(if $(wildcard ${DATA}/admin),$(error Local authority did document found, cannot overwrite))
-	@mv admin_did_doc.json $$(jq -r '.didDocument.id' admin_did_doc.json | sed -e 's/:/\//g' -e 's/\./\//g' -e "s|^did/dyne|${DATA}|g")
+	$(if ${REQUEST},\
+		$(info Accepting request: ${REQUEST}),\
+		$(error Missing argument: REQUEST))
+	@sh ./scripts/accept-admin-request.sh ${REQUEST}
 
 update: ## Update all service dependencies
 	$(info Updating to latest packages)
