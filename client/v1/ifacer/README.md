@@ -1,6 +1,6 @@
-# Zenflows W3C-DID
+# Ifacer W3C-DID
 
-To create a Zenflows admin or a Zenflows users you should be in posses of, respectively, the Admin keyring or a Zenflows Admin keyring and its name, in the following format:
+To create a Ifacer admin or a Ifacer users you should be in posses of, respectively, the Admin keyring or a Ifacer Admin keyring and its name, in the following format:
 ```json
 {
     "controller": "some_sort_of_admin",
@@ -26,10 +26,10 @@ Other than this you will need a json file containing:
 Moreover if you run this script locally without the help of restroom, then you will also need a **timestamp**. An example of such a file is:
 ```json
 {
-    "did_spec": "zenflows",
-    "signer_did_spec": "zenflows.A",
-    "identity": "zenflows back-end test",
-    "zenflows_id": {"identifier": "062HBVPRYQZRJE2PEN21V8HB3C"},
+    "did_spec": "ifacer",
+    "signer_did_spec": "ifacer.A",
+    "identity": "Ifacer user test",
+    "ifacer_id": {"identifier": "062HBVPRYQZRJE2PEN21V8HB3C"},
     "bitcoin_public_key": "24FWY6sMx2MvH1EEoncuWr4dh4NJ7Pmo5WDNst4oztg7s",
     "ecdh_public_key": "SJ3uY8Y5cKYsMqqvW3rZaX7h4s1ms5NpAYeHUi16A7jHMVtwSF3Gdzafh9XmvGz6uNksBnaU5fvarDw1mZF2Nkjz",
     "eddsa_public_key": "2s5wmQjZeYtpckyHakLiP5ujWKDL1M2b8CiP6vwajNrK",
@@ -40,4 +40,6 @@ Moreover if you run this script locally without the help of restroom, then you w
 ```
 
 Once you have all this infromation you will need to merge the latter json with the [did-settings.json](./did-settings.json) and finally run:
-zenroom -z -a your_json.json -k keyring.json pubkeys-request.zen 
+```
+zenroom -z -a your_json.json -k keyring.json pubkeys-request.zen
+```
