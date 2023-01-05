@@ -21,6 +21,8 @@ Other than this you will need a json file containing:
 - **ecdh_public_key**: a base58 ecdh public key
 - **reflow_public_key**: a base58 reflow public key
 - **bitcoin public key**: a base58 bitcoin public key
+
+
 Moreover if you run this script locally without the help of restroom, then you will also need a **timestamp**. An example of such a file is:
 ```json
 {
