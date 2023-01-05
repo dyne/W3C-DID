@@ -26,6 +26,7 @@ request: ## Generate an admin request [ DOMAIN ]
 	@sh ./scripts/req.sh ${DOMAIN}
 
 sign: ## Sign a request and generate a DID proof [ REQUEST ]
+	$(if ${REQUEST}, $(info Signing request: ${REQUEST}), $(error Missing argument: REQUEST))
 	$(if $(wildcard secrets/service-keyring.json),,$(error Local authority keyring.json not found, cannot sign))
 	@cat ${REQUEST} | jq --arg value $$(($$(date +%s%N)/1000000)) '.timestamp = $$value' > ${REQUEST}
 	@zenroom -z -k secrets/service-keyring.json -a ${REQUEST} \
