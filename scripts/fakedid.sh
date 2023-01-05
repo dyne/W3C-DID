@@ -13,9 +13,7 @@ command -v zenroom > /dev/null || {
 
 # if admin is not present generate an admin
 if [ ! "$(ls -A data/admin)" ]; then
-	[ ! -f keyring.json ] && make keygen
-	make didgen
-	make newadmin
+	make service-keyring
 fi
 
 # accept request
