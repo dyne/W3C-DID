@@ -1,3 +1,6 @@
+rule input encoding base58
+rule output encoding base58
+
 Scenario ecdh
 Scenario eddsa
 Scenario w3c
