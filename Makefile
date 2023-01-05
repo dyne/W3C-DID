@@ -19,13 +19,17 @@ keyring: tmp := $(shell mktemp)
 keyring: ## Generate a new admin keyring
 	$(if $(wildcard keyring.json),$(error Local authority keyring.json found, cannot overwrite))
 	@echo "{\"controller\": \"${USER}@${HOSTNAME}\"}" > ${tmp}
-	@zenroom -z client/v1/admin/keygen.zen -k ${tmp} > keyring.json
+	@zenroom -z client/v1/create-keyring.zen -k ${tmp} > keyring.json
 	@rm -f ${tmp}
 
-request: ## TODO: Generate an admin request [ DOMAIN ]
+request: ## Generate an admin request [ DOMAIN ]
+	@sh ./scripts/req.sh ${DOMAIN}
 
-sign: ## TODO: Sign a request and generate a DID proof [ REQUEST ]
-
+sign: ## Sign a request and generate a DID proof [ REQUEST ]
+	@cat did_doc.json | jq --arg value $$(($$(date +%s%N)/1000000)) '.timestamp = $$value' > did_doc.json
+	@zenroom -z -k secrets/service-keyring.json -a did_doc.json \
+				client/v1/pubkeys-sign.zen > signed_did_doc.json
+	@rm -f did_doc.json
 
 ##@ Test
 populate-remote-sandbox:
