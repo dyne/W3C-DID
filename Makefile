@@ -44,8 +44,8 @@ populate-remote-sandbox: ## Generate random DIDs in remote sandbox (RR_SCHEMA, R
 	zenroom -z client/v1/sandbox/create-identity-pubkeys.zen \
 			> /tmp/new-id-pubkeys.json 2>/dev/null
 	@jq --arg value $$(($$(date +%s%N)/1000000)) '.timestamp = $$value' /tmp/new-id-pubkeys.json > /tmp/new-id-pubkeys-tmp.json && mv /tmp/new-id-pubkeys-tmp.json /tmp/new-id-pubkeys.json
-	zenroom -z client/v1/sandbox/pubkeys-request.zen \
-			-a /tmp/new-id-pubkeys.json -k /tmp/controller-keyring.json \
+	zenroom -a /tmp/new-id-pubkeys.json -k /tmp/controller-keyring.json \
+			-z client/v1/sandbox/pubkeys-request.zen \
 			> /tmp/pubkeys-request.json 2>/dev/null
 	./restroom-test -s ${RR_SCHEMA} -h ${RR_HOST} -p ${RR_PORT} -u v1/sandbox/pubkeys-accept.chain -a /tmp/pubkeys-request.json | jq .
 

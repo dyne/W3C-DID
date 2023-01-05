@@ -10,18 +10,18 @@ In this documentation, we will provide an overview of the decentralized identity
 
 Thank you for choosing our decentralized identity solution. We hope that it empowers you to take control of your own identity and personal data.
 
-## Our W3C DID implementation supports: 
+## Supported fields
+Our W3C DID implementation supports:
 * A list of API endpoints, as an array “serviceEndpoint”.
-* Geolocation fiels as “Country” and “State”
+* Geolocation fields as “Country” and “State”
 * Public keys for:
   * Secp256k1 ECDSA, widely used for single signatures
   * ED25519 EDDSA widely used for single signatures
   * BLS381 [“Reflow”](https://medium.com/think-do-tank/reflow-crypto-material-passports-for-the-circular-economy-d75b3aa63678) [[REFLOW]], for multisignature and advanced zero-knowledge proof operations
   * Dilithium2, for [quantum-proof signatures](https://medium.com/think-do-tank/quantum-proof-cryptography-e23b165b3bbd)
   * Ethereum public addresses (“blockchainAccountId”), following the eip155 standard 
-* The DID whose document contains the txId on Ethereum-based blockchain ganache where the DID document was stored, stored in the string “alsoKnownAs”
-* The JWS signature of the DID Document operated by the [Controller](https://did.dyne.org/docs/) inside the "proof"
+* The JWS signature of the DID Document operated by an admin inside the "proof" field in order to ensure data integrity.
 
-To have more information about the specification of our DID method you can jump to the [Specification Section](specification.md?id=specification). 
+To have more information about the specification of our DID method you can jump to the [Specification Section](/specification#specification).
 
-If you are more interested in understanding what type of keys we have used inside the DID document you can visit our [Security Vocabulary](security.md).
+If you are more interested in understanding what type of keys we have used inside the DID document you can visit our [Security Vocabulary](/specification#dyne-org-s-w3c-did-security-vocabulary).
