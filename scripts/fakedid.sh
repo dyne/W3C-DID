@@ -34,7 +34,7 @@ accept() {
 # sandbox admin request
 make keyring
 make request DOMAIN=sandbox.A
-make sign
+make sign REQUEST=did_doc.json
 
 # sandbox admin accept
 accept signed_did_doc.json
