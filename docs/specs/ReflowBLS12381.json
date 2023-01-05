@@ -4,7 +4,7 @@
     "type": "@type",
     "@protected": true,
     "ReflowBLS12381VerificationKey": {
-      "@id": "https://dyne.github.io/W3C-DID/#/security?id=reflowbls12381verificationkey_b64",
+      "@id": "https://dyne.github.io/W3C-DID/#reflowbls12381verificationkey",
       "@context": {
         "@protected": true,
         "id": "@id",

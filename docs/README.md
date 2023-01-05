@@ -22,6 +22,6 @@ Our W3C DID implementation supports:
   * Ethereum public addresses (“blockchainAccountId”), following the eip155 standard 
 * The JWS signature of the DID Document operated by an admin inside the "proof" field in order to ensure data integrity.
 
-To have more information about the specification of our DID method you can jump to the [Specification Section](/specification#specification).
+To have more information about the specification of our DID method you can jump to the [Specification Section](#specification).
 
-If you are more interested in understanding what type of keys we have used inside the DID document you can visit our [Security Vocabulary](/specification#dyne-org-s-w3c-did-security-vocabulary).
+If you are more interested in understanding what type of keys we have used inside the DID document you can visit our [Security Vocabulary](#dyne-org-s-w3c-did-security-vocabulary).

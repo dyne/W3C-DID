@@ -8,7 +8,7 @@ This class represents a linked data signature verification key. See [reflow-BLS1
 **Status**:  
 *Stable*  
 **Expected properties**:  
-*id, type, controller, publicKeyBase64*
+*id, type, controller, publicKeyBase58*
 
 **Example**:
 
