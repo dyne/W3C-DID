@@ -18,14 +18,19 @@ help: ## Display this help.
 ##@ Admin
 
 keyring: tmp := $(shell mktemp)
-keyring: ## Generate a new admin keyring
-	$(if $(wildcard secrets/keyring.json),$(error Local authority secrets/keyring.json found, cannot overwrite))
-	@echo "{\"controller\": \"${USER}@${HOSTNAME}\"}" > ${tmp}
-	@zenroom -z -k ${tmp} client/v1/create-keyring.zen > secrets/keyring.json
+keyring: OUT ?= secrets/keyring.json
+keyring: CONTROLLER ?= ${USER}@${HOSTNAME}
+keyring: ## Generate a new admin keyring [ OUT, CONTROLLER ]
+	$(if $(wildcard ${OUT}),$(error Local authority ${OUT} found, cannot overwrite))
+	@echo "{\"controller\": \"${CONTROLLER}\"}" > ${tmp}
+	@zenroom -z -k ${tmp} client/v1/create-keyring.zen > ${OUT}
 	@rm -f ${tmp}
 
-request: ## Generate an admin request [ DOMAIN ]
-	@sh ./scripts/req.sh ${DOMAIN}
+request: KEYRING ?= secrets/keyring.json
+request: OUT ?= did_doc.json
+request: DOMAIN ?= sandbox
+request: ## Generate an admin request [ DOMAIN, KEYRING ]
+	@sh ./scripts/req.sh ${DOMAIN} ${KEYRING} > ${OUT}
 
 sign: ## Sign a request and generate a DID proof [ REQUEST ]
 	$(if ${REQUEST}, $(info Signing request: ${REQUEST}), $(error Missing argument: REQUEST))
@@ -89,6 +94,7 @@ accept-admin: ## Local command to accept an admin [ REQUEST ]
 	$(if ${REQUEST},\
 		$(info Accepting request: ${REQUEST}),\
 		$(error Missing argument: REQUEST))
+	$(if $(wildcard ${REQUEST}),,$(error Request not found: ${REQUEST}))
 	@sh ./scripts/accept-admin-request.sh ${REQUEST}
 
 update: ## Update all service dependencies
