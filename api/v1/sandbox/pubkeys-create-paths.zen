@@ -18,8 +18,8 @@ and I have a 'string dictionary' named 'utility'
 
 When I set ':' to ':' as 'string'
 and I set '.' to '.' as 'string'
-and I set 'signer_path' to 'data/' as 'string'
-and I set 'request_path' to 'data/' as 'string'
+and I set 'signer_path' to 'data/dyne/' as 'string'
+and I set 'request_path' to 'data/dyne/' as 'string'
 
 # signer_parts
 When I create the array by splitting 'signer_id' at ':'
