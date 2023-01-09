@@ -44,4 +44,4 @@ and I move the 'request_metadata' to 'didDocumentMetadata' in 'request_data'
 Then print the 'request_data'
 and print the 'request_path'
 
-Then store 'result' in the file 'request_path'
+Then store 'request_data' in the file 'request_path'
