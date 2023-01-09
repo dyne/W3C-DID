@@ -1,6 +1,12 @@
 #!/bin/sh
 
 didpath=`jq -r '.did_document.id' ${1}`
+[ "$didpath" = "null" ] && didpath=`jq -r '.didDocument.id' ${1}`
+[ "$didpath" = "null" ] && {
+	>&2 echo "Cannot parse DID path in: ${1}"
+	exit 1
+}
+
 did=`echo ${didpath} | cut -d: -f4`
 adminspec=`echo ${didpath} | cut -d: -f3`
 [ "$adminspec" = "admin" ] && {
