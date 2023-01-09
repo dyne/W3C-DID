@@ -1,8 +1,8 @@
+PWD ?= $(shell pwd)
 RR_PORT := 443
 RR_HOST := did.dyne.org
 RR_SCHEMA := https
 HOSTNAME := $(shell hostname)
-DATA := $(shell pwd)/data
 DOMAIN ?= sandbox
 REQUEST ?= did_doc.json
 
@@ -32,13 +32,15 @@ request: DOMAIN ?= sandbox
 request: ## Generate an admin request [ DOMAIN, KEYRING ]
 	@sh ./scripts/req.sh ${DOMAIN} ${KEYRING} > ${OUT}
 
-sign: ## Sign a request and generate a DID proof [ REQUEST ]
+sign: REQUEST ?= did_doc.json
+sign: KEYRING ?= secrets/keyring.json
+sign: OUT ?= signed_did_doc.json
+sign: ## Sign a request and generate a DID proof [ REQUEST, KEYRING ]
 	$(if ${REQUEST}, $(info Signing request: ${REQUEST}), $(error Missing argument: REQUEST))
-	$(if $(wildcard secrets/service-keyring.json),,$(error Local authority keyring.json not found, cannot sign))
+	$(if $(wildcard ${KEYRING}),,$(error Local authority ${KEYRING} not found, cannot sign))
 	@cat ${REQUEST} | jq --arg value $$(($$(date +%s%N)/1000000)) '.timestamp = $$value' > ${REQUEST}
-	@zenroom -z -k secrets/service-keyring.json -a ${REQUEST} \
-				client/v1/pubkeys-sign.zen > signed_did_doc.json
-	@rm -f did_doc.json
+	@zenroom -z -k ${KEYRING} -a ${REQUEST} \
+				client/v1/pubkeys-sign.zen > ${OUT}
 
 ##@ Test
 populate-remote-sandbox:
@@ -74,16 +76,18 @@ run: ## Run a service instance on localhost
 
 service-keyring: tmp := $(shell mktemp)
 service-keyring: tmp2 := $(shell mktemp)
+service-keyring: KEYRING ?= secrets/service-keyring.json
+service-keyring: CONTROLLER ?= ${USER}@${HOSTNAME}
 service-keyring: ## Create a keyring for the global service admin
-	$(if $(wildcard secrets/service-keyring.json),$(error Service keyring found, cannot overwrite))
-	@echo "{\"controller\": \"${USER}@${HOSTNAME}\"}" > ${tmp}
-	@umask 0067 && zenroom -z -k ${tmp} client/v1/create-keyring.zen 2>/dev/null > secrets/service-keyring.json
+	$(if $(wildcard ${KEYRING}),$(error Service keyring found, cannot overwrite))
+	@echo "{\"controller\": \"${CONTROLLER}\"}" > ${tmp}
+	@umask 0067 && zenroom -z -k ${tmp} client/v1/create-keyring.zen 2>/dev/null > ${KEYRING}
 	@rm -f ${tmp} ## secret keyring created
-	@zenroom -z -k secrets/service-keyring.json -a client/v1/did-settings.json client/v1/create-identity-pubkeys.zen 2>/dev/null > ${tmp}
+	@zenroom -z -k ${KEYRING} -a client/v1/did-settings.json client/v1/create-identity-pubkeys.zen 2>/dev/null > ${tmp}
 	@jq --arg value $$(($$(date +%s%N)/1000000)) '.timestamp = $$value' ${tmp} > ${tmp2} && mv ${tmp2} ${tmp}
-	@zenroom -z -a ${tmp} -k secrets/service-keyring.json client/v1/admin/didgen.zen 2>/dev/null > service-admin-did.json
+	@zenroom -z -a ${tmp} -k ${KEYRING} client/v1/admin/didgen.zen 2>/dev/null > service-admin-did.json
 	@rm -f ${tmp} ## self-signed DID created
-	make accept-admin FORCE=1 REQUEST=service-admin-did.json
+	make accept-admin REQUEST=service-admin-did.json
 
 service-pubkeys: ## Print the public keys of the global service admin
 	$(if $(wildcard secrets/service-keyring.json),,$(error Service keyring not found))
@@ -101,6 +105,7 @@ update: ## Update all service dependencies
 	$(info Updating to latest packages)
 	@cd restroom && rm -f package-lock.json && npm i zenroom@latest @restroom-mw/files@next && npm list
 
+scrub: DATA ?= ${PWD}/data/dyne
 scrub: ## Check all signed proofs in data/
 	@bash scripts/scrub.sh "${DATA}"
 
