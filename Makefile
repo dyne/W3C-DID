@@ -66,14 +66,15 @@ run: ## Run a service instance on localhost
 	node restroom/restroom.mjs
 
 service-keyring: tmp := $(shell mktemp)
+service-keyring: tmp2 := $(shell mktemp)
 service-keyring: ## Create a keyring for the global service admin
 	$(if $(wildcard secrets/service-keyring.json),$(error Service keyring found, cannot overwrite))
 	@echo "{\"controller\": \"${USER}@${HOSTNAME}\"}" > ${tmp}
 	@umask 0067 && zenroom -z -k ${tmp} client/v1/create-keyring.zen 2>/dev/null > secrets/service-keyring.json
 	@rm -f ${tmp} ## secret keyring created
 	@zenroom -z -k secrets/service-keyring.json -a client/v1/did-settings.json client/v1/create-identity-pubkeys.zen 2>/dev/null > ${tmp}
-	@cat ${tmp} | jq --arg value $$(($$(date +%s%N)/1000000)) '.timestamp = $$value' > ${tmp}
-	@zenroom -z -a ${tmp} -k keyring.json client/v1/admin/didgen.zen 2>/dev/null > service-admin-did.json
+	@jq --arg value $$(($$(date +%s%N)/1000000)) '.timestamp = $$value' ${tmp} > ${tmp2} && mv ${tmp2} ${tmp}
+	@zenroom -z -a ${tmp} -k secrets/service-keyring.json client/v1/admin/didgen.zen 2>/dev/null > service-admin-did.json
 	@rm -f ${tmp} ## self-signed DID created
 	make accept-admin FORCE=1 REQUEST=service-admin-did.json
 
