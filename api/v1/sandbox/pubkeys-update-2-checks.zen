@@ -67,16 +67,9 @@ and I move 'proof' in 'request did document'
 
 # metadata
 If 'updated' is found in 'request_metadata'
-When I pickup from path 'request_metadata.updated'
-and I remove the 'updated' from 'request_metadata'
-and I move 'update_timestamp' in 'updated' 
-and I move 'updated' in 'request_metadata'
+When I remove the 'updated' from 'request_metadata'
 EndIf
-If 'updated' is not found in 'request_metadata'
-When I create the 'string array' named 'updated'
-When I move 'update_timestamp' in 'updated'
-When I move 'updated' in 'request_metadata'
-EndIf
+When I move the 'update_timestamp' to 'updated' in 'request_metadata'
 
 # result
 When I create the 'string dictionary' named 'result'
