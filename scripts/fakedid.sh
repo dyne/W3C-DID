@@ -54,7 +54,7 @@ tmpnewpk=`mktemp`
 tmpreq=`mktemp`
 tmperr=`mktemp`
 tmpset=`mktemp`
-jq -s '.[0] * .[1]' keyring.json client/v1/did-settings.json > ${tmpset}
+jq -s '.[0] * .[1]' secrets/keyring.json client/v1/did-settings.json > ${tmpset}
 for i in $(seq $1); do
 	zenroom -z client/v1/sandbox/create-identity-pubkeys.zen > ${tmpnewpk} 2>${tmperr}
 	error "create-identity-pubkeys.zen" ${tmperr}
