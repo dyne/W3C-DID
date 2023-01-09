@@ -2,8 +2,8 @@ load ../bats_setup
 load ../bats_zencode
 
 @test "Create the controller keyring" {
-	mkdir -p $R/data/sandbox/A/
-	cat << EOF > $R/data/sandbox/A/8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ
+	mkdir -p $R/data/dyne/sandbox/A/
+	cat << EOF > $R/data/dyne/sandbox/A/8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ
 {
    "@context":"https://w3id.org/did-resolution/v1",
    "didDocument":{
