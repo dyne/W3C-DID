@@ -31,6 +31,10 @@ jobs:
         run: |
           wget https://github.com/dyne/zenroom/releases/latest/download/zenroom -O zenroom
           chmod +x zenroom
+      - name: ⏬ Install restroom-test
+        run: |
+          wget https://github.com/dyne/zencode-tools/releases/latest/download/restroom-test -O restroom-test
+          chmod +x restroom-test
       - name: 🛫 Start restroom
         uses: dyne/restroom-github-action@v1
         with:
