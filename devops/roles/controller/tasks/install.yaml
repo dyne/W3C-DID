@@ -91,20 +91,12 @@
     group: controller
     recurse: yes
 
-- name: Copy data (permissions may be wrong)
+# TODO: use ssh instead of http
+- name: Clone data dir
   become: true
-  synchronize:
-    src: "../data"
-    dest: "{{ data_dir }}"
-    owner: no
-    group: no
-
-- name: Fix contracts permissions
-  file:
+  ansible.builtin.git:
+    repo: https://github.com/dyne/W3C-DID-data.git
     dest: "{{ data_dir }}/data"
-    owner: controller
-    group: controller
-    recurse: yes
 
 - name: Download pm2 ecosystem
   become: true

@@ -21,3 +21,14 @@
   copy:
     src: .bashrc
     dest: /home/controller/.bashrc
+
+- name: Add ssh private key
+  copy:
+    src: "{{ github_key }}"
+    dest: /home/controller/.ssh/{{ github_key }}
+
+- name: Add ssh config
+  template:
+    src: sshconfig.j2
+    dest: /home/controller/.ssh/config
+    mode: '0600'
