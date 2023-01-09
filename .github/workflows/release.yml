@@ -1,0 +1,60 @@
+name: Release
+
+on:
+  workflow_run:
+    workflows:
+      - Tests
+    types: [completed]
+    branches:
+      - main
+      - release/**
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  semantic-release:
+    name: 🤖 Semantic release
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.pull_request.labels.*.name, 'skip-release')"
+    # if: ${{ github.ref_name == 'main' && github.event_name == 'push' }}
+    outputs:
+      release: ${{ steps.tag_release.outputs.release }}
+      version: ${{ steps.tag_release.outputs.version }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+      - name: Install semantic-release
+        run: |
+          npm i npx
+          npm i semantic-release/changelog
+      - name: Tag release
+        id: tag_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npx semantic-release | tee semantic-release.log
+          if [[ `git tag --points-at HEAD` == "" ]]; then
+            echo "release=False" >> $GITHUB_OUTPUT
+          else
+            echo "release=True" >> $GITHUB_OUTPUT
+            awk '/Published release/ { printf("version=v%s\n",$8) }' semantic-release.log >> $GITHUB_OUTPUT
+          fi
+
+  package-release:
+   name: 📦 release archives
+   needs: [semantic-release]
+   if: ${{ needs.semantic-release.outputs.release == 'True' }}
+   runs-on: ubuntu-latest
+   steps:
+     - uses: actions/checkout@v3
+     - uses: softprops/action-gh-release@v1
+       with:
+         tag_name: ${{ needs.semantic-release.outputs.version }}
+         draft: true
+         prerelease: false
+         generate_release_notes: true

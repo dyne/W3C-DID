@@ -1,5 +1,14 @@
-name: 🚀 Deploy did explorer
+name: Deploy
+
 on:
+  workflow_run:
+    workflows:
+      - Release
+    types: [completed]
+    branches:
+      - main
+      - release/**
+
   push:
     branches:
       - main
