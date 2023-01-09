@@ -6,11 +6,11 @@ adminspec=`echo ${didpath} | cut -d: -f3`
 [ "$adminspec" = "admin" ] && {
 	>&2 echo "WARNING: Adding a self-signed global admin"
 	# TODO: ask for confirmation to proceed (yes/no)
-	[ -r data/admin/$did ] && {
+	[ -r data/dyne/admin/$did ] && {
 		>&2 echo "Cannot overwrite: admin/${did}"
 		exit 1
 	}
-	mv -v ${1} data/admin/${did}
+	mv -v ${1} data/dyne/admin/${did}
 	exit 0
 }
 
@@ -20,11 +20,11 @@ spec=`echo ${adminspec} | cut -d. -f1`
 # TODO: check global admin signature
 
 [ "$adminlvl" = "A" ] && {
-	[ -r data/${spec}/A/${did} ] && {
+	[ -r data/dyne/${spec}/A/${did} ] && {
 		>&2 echo "Cannot overwrite: spec/A/${did}"
 		exit 1
 	}
-	mv -v ${1} data/${spec}/A/${did}
+	mv -v ${1} data/dyne/${spec}/A/${did}
 	exit 0
 }
 
