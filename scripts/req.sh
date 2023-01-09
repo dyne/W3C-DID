@@ -4,7 +4,8 @@
 command -v zenroom > /dev/null || {
 	>&2 echo "Zenroom executable missing"; exit 1
 }
-[ "$1" == "" ] && { >&2 echo "$0 spec"; exit 1;}
+
+[ "$1" = "" ] && { >&2 echo "$0 spec"; exit 1;}
 
 contracts=client/v1
 
@@ -20,7 +21,7 @@ esac
 
 # generate pks
 tmppk=`mktemp`
-zenroom -z -k keyring.json -a ${did_settings} \
+zenroom -z -k secrets/keyring.json -a ${did_settings} \
         ${contracts}/create-identity-pubkeys.zen > ${tmppk}
 
 # set did_spec and extras if present

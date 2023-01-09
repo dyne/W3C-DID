@@ -3,6 +3,8 @@ RR_HOST := did.dyne.org
 RR_SCHEMA := https
 HOSTNAME := $(shell hostname)
 DATA := $(shell pwd)/data
+DOMAIN ?= sandbox
+REQUEST ?= did_doc.json
 
 $(info __／________／__________／)
 $(info ／ ｄｉｄ ／ ｄｙｎｅ ／)
@@ -17,9 +19,9 @@ help: ## Display this help.
 
 keyring: tmp := $(shell mktemp)
 keyring: ## Generate a new admin keyring
-	$(if $(wildcard keyring.json),$(error Local authority keyring.json found, cannot overwrite))
+	$(if $(wildcard secrets/keyring.json),$(error Local authority secrets/keyring.json found, cannot overwrite))
 	@echo "{\"controller\": \"${USER}@${HOSTNAME}\"}" > ${tmp}
-	@zenroom -z -k ${tmp} client/v1/create-keyring.zen > keyring.json
+	@zenroom -z -k ${tmp} client/v1/create-keyring.zen > secrets/keyring.json
 	@rm -f ${tmp}
 
 request: ## Generate an admin request [ DOMAIN ]
