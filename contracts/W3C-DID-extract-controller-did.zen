@@ -1,8 +1,0 @@
-Rule caller restroom-mw
-
-Given I have a valid redis connection on 'redis://localhost:6379'
-Given I read from redis the data under the keys containing 'did:dyne:controller:' and save the output into 'controller_did_document'
-
-Given I have a 'string dictionary' named 'controller_did_document'
-When I create the copy of element '1' in array 'controller_did_document'
-Then print the 'id' from 'copy'
