@@ -95,7 +95,7 @@
 - name: Clone data dir
   become: true
   ansible.builtin.git:
-    repo: https://github.com/dyne/W3C-DID-data.git
+    repo: git@github.com:dyne/W3C-DID-data.git
     dest: "{{ data_dir }}/data"
 
 - name: Download pm2 ecosystem

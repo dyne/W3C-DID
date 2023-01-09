@@ -26,9 +26,14 @@
   copy:
     src: "{{ github_key }}"
     dest: /home/controller/.ssh/{{ github_key }}
+    mode: '0600'
+    owner: controller
+    group: controller
 
 - name: Add ssh config
   template:
     src: sshconfig.j2
     dest: /home/controller/.ssh/config
     mode: '0600'
+    owner: controller
+    group: controller
