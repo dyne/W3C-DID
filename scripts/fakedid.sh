@@ -11,6 +11,7 @@ command -v zenroom > /dev/null || {
 
 # generate a new admin
 make service-keyring
+mkdir -p data/dyne/sandbox/A/
 
 error() {
 	[ "$?" != "0" ] && { >&2 echo "Error found in contract: $1"; cat $2; exit 1; }
@@ -36,6 +37,7 @@ accept() {
 	error "pubkeys-accept-2-checks.zen" ${tmperr2}
 	path="$(jq -r '.request_path' ${tmpaccept2})"
 	cat ${tmpaccept2} | jq '.result' > $path
+	echo $path
 	rm -f ${tmpaccept1} ${tmperr1} ${tmpaccept2} ${tmperr2}
 }
 
