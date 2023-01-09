@@ -1,14 +1,25 @@
-name: W3C-DID
+name: Tests
+
 on:
   push:
-    branches: [ main ]
+    paths-ignore:
+      - 'docs/**'
+      - '*.md'
+    branches:
+      - main
+      - release/**
   pull_request:
-    branches: [ main ]
+    paths-ignore:
+      - 'docs/**'
+      - '*.md'
+    branches:
+      - main
+      - release/**
 
 jobs:
   test-units:
     runs-on: ubuntu-latest
-    name: 🧪 test-units
+    name: 🧪 Contract unit tests
     steps:
       - name: 🛎️ Checkout
         uses: actions/checkout@v3
@@ -25,7 +36,7 @@ jobs:
 
   restroom_job:
     runs-on: ubuntu-latest
-    name: 🔬 restroom tests
+    name: 🔬 API integration tests
     steps:
       - name: 🛎️ Checkout
         uses: actions/checkout@v3

@@ -1,0 +1,10 @@
+{
+  "repositoryUrl": "git@github.com:dyne/W3C-DID.git",
+  "dryRun": false,
+  "plugins": [
+    "@semantic-release/changelog",
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator"
+  ],
+  "branches": [ main ]
+}
