@@ -62,7 +62,7 @@ app.get('/dids', (req, res) => {
   const search = req.query.search || '';
   let dids = []
 
-  const stream = readdirp(path.join(FILES_DIR, 'data'), {fileFilter: '[^.]*'});
+  const stream = readdirp(path.join(FILES_DIR, 'data', 'dyne'), {fileFilter: '[^.]*'});
   stream.on('data', (entry) => {
     const didPath = pathToDidId(entry.path)
     if(didPath.includes(search)) {
@@ -78,7 +78,7 @@ app.get('/dids', (req, res) => {
 })
 
 app.get('/dids/:id', (req, res) => {
-  const didPath = path.join(path.join(FILES_DIR, 'data'), didIdToPath(req.params.id))
+  const didPath = path.join(path.join(FILES_DIR, 'data', 'dyne'), didIdToPath(req.params.id))
   validatePath(didPath);
   fs.stat(didPath, (err, _) => {
     if(err) {
