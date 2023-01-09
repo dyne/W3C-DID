@@ -76,20 +76,20 @@
     group: controller
     recurse: yes
 
-- name: Copy private_contracts
-  become: true
-  synchronize:
-    src: "../private_contracts"
-    dest: "{{ controller_root }}"
-    owner: no
-    group: no
-
-- name: Fix private_contracts permissions
-  file:
-    dest: "{{ controller_root }}/private_contracts"
-    owner: controller
-    group: controller
-    recurse: yes
+# - name: Copy private_contracts
+#   become: true
+#   synchronize:
+#     src: "../private_contracts"
+#     dest: "{{ controller_root }}"
+#     owner: no
+#     group: no
+#
+# - name: Fix private_contracts permissions
+#   file:
+#     dest: "{{ controller_root }}/private_contracts"
+#     owner: controller
+#     group: controller
+#     recurse: yes
 
 # TODO: use ssh instead of http
 - name: Clone data dir
@@ -111,7 +111,7 @@
     dest: /etc/nginx/sites-enabled/default
 
 - name: Config for nginx
-  template: src=nginx.conf.j2 dest=/etc/nginx/conf.d/default.conf
+  template: src=nginx.conf.j2 dest=/etc/nginx/conf.d/default.conf force=true
 
 - name: Restart nginx
   ansible.builtin.systemd:
