@@ -12,14 +12,17 @@ command -v zenroom > /dev/null || {
 # sandbox admin request
 make keyring CONTROLLER=${USER} OUT=secrets/sandbox-keyring.json
 make request KEYRING=secrets/sandbox-keyring.json DOMAIN=sandbox.A
+make sign KEYRING=secrets/service-keyring.json
 make accept-admin
 
 # sanbox DID requests
 newdid=`mktemp`
 newreq=`mktemp`
+newsig=`mktemp`
 for i in $(seq $1); do
-	rm -f ${newdid} ${newreq}
+	rm -f ${newdid} ${newreq} ${newsig}
 	make keyring CONTROLLER=${1} OUT=${newdid}
 	make request KEYRING=${newdid} DOMAIN=sandbox OUT=${newreq}
-	make accept-admin REQUEST=${newreq}
+	make sign KEYRING=${newdid} REQUEST=${newreq} OUT=${newsig}
+	make accept-admin REQUEST=${newsig}
 done
