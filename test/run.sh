@@ -3,7 +3,7 @@ RR_PORT=3000
 zenroom_res="^==== Zenroom result ===="
 
 # add sandbox admin did doc for test purpose
-mkdir -p data/sanbox/A/
+mkdir -p ./data/sanbox/A/
 cat << EOF > data/sanbox/A/8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ
 {
    "@context":"https://w3id.org/did-resolution/v1",
