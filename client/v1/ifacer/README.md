@@ -41,5 +41,5 @@ Moreover if you run this script locally without the help of restroom, then you w
 
 Once you have all this infromation you will need to merge the latter json with the [did-settings.json](./did-settings.json) and finally run:
 ```
-zenroom -z -a your_json.json -k keyring.json pubkeys-request-signed.zen
+zenroom -z -a your_json.json -k secrets/keyring.json pubkeys-request-signed.zen
 ```
