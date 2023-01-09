@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: 🛎️ Checkout
         uses: actions/checkout@v3
+        with:
+          submodules: 'true'
       - name: ⏬ Install Zenroom
         run: |
           wget https://github.com/dyne/zenroom/releases/latest/download/zenroom -O zenroom
@@ -27,6 +29,8 @@ jobs:
     steps:
       - name: 🛎️ Checkout
         uses: actions/checkout@v3
+        with:
+          submodules: 'true'
       - name: ⏬ Install Zenroom
         run: |
           wget https://github.com/dyne/zenroom/releases/latest/download/zenroom -O zenroom
