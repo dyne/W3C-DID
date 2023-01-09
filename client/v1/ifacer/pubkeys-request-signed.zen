@@ -9,7 +9,7 @@ Scenario reflow
 
 # timestamp in messages to avoid replay attack
 #Given I fetch the local timestamp and store it into 'timestamp'
-and I have a 'string' named 'timestamp'
+Given I have a 'string' named 'timestamp'
 
 # load the spec admin keyring to sign the request
 Given my name is in a 'string' named 'controller'
