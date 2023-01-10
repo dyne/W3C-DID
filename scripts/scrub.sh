@@ -23,6 +23,7 @@ scrub() {
 	# one level specs only
 	[ -d "$1" ] && return 0
 	did=`basename $1`
+	[ "$did" = "null" ] && return 0
 	dir=`dirname $1`;
 	spec=`basename $dir`
 	parent=`dirname $dir`
@@ -74,6 +75,9 @@ if [ "$spec" == "" ]; then
 		# skip global admin
 		[ "$spec" == "admin" ] && continue
 		parallel scrub {} ::: "$dir"/*
+		# for i in "$dir"/*; do
+		# 	scrub "$i"
+		# done
 	done
 fi
 exit $?
