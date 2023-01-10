@@ -14,6 +14,7 @@ and I have my 'keyring'
 
 # did document and signer_idspec
 Given I have a 'did document'
+and I have a 'string' named 'signer_did_spec'
 
 # did document signature
 When I create the json of 'did document'
@@ -29,7 +30,9 @@ and I create the eddsa signature of 'json'
 
 # signer id
 When I create the eddsa public key
-and I set 'id' to 'did:dyne:admin:' as 'string'
+and I set 'id' to 'did:dyne:' as 'string'
+and I append 'signer_did_spec' to 'id'
+and I append the string ':' to 'id'
 and I append the 'base58' of 'eddsa public key' to 'id'
 
 Then print the 'did document'
