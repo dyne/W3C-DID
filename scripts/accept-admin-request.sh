@@ -23,8 +23,18 @@ adminspec=`echo ${didpath} | cut -d: -f3`
 adminlvl=`echo ${adminspec} | cut -d. -f2`
 spec=`echo ${adminspec} | cut -d. -f1`
 
+# check signature and create proof and metadata
+tmp_out1=`mktemp`
+zenroom -z -k api/v1/sandbox/pubkeys-accept-1-path.keys -a ${1} \
+		api/v1/sandbox/pubkeys-create-paths.zen > ${tmp_out1}
+signerpath=`jq -r '.signer_path' ${tmp_out1}`
+cat ${tmp_out1} | jq --arg value $(($(date +%s%N)/1000000)) '.accept_timestamp = $value' > ${tmp_out1}
+tmp=`mktemp` && jq '.request_data = {}' ${tmp_out1} > ${tmp} && mv ${tmp} ${tmp_out1}
+tmp=`mktemp` && jq -s '.[0] * .[1]' $tmp_out1 $signerpath > ${tmp} && mv ${tmp} ${tmp_out1}
+zenroom -z -k api/v1/sandbox/pubkeys-store.keys -a ${tmp_out1} \
+		api/v1/sandbox/pubkeys-accept-2-checks.zen | jq -r '.result' > ${1}
+
 [ "$spec" = "sandbox" ] || {
-	# TODO: check global admin signature
 	>&2 echo "Specific domain: $spec"
 }
 
