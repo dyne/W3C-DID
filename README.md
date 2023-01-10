@@ -1,77 +1,93 @@
 # W3C-DID
 [Dyne.org](http://dyne.org/) W3C-DID implementation. 
 
-The documentation of the W3C-DID Document specs is at [https://dyne.github.io/W3C-DID/](https://dyne.github.io/W3C-DID/)
+A distributed digital identity gives users control over their personal, verified information and allows them to share it on demand in a safe and secure way.
+
+Our implementation follows the W3C-DID standard and is documented at [https://dyne.org/W3C-DID/](https://dyne.org/W3C-DID/)
+
+One can also peek at the distributed identities we registered using the [explorer.did.dyne.org](https://explorer.did.dyne.org)
 
 The OpenAPI of the W3C-DID controller can be seen at [https://did.dyne.org/docs/](https://did.dyne.org/docs/)
-
 
 <a href="https://dyne.org">
    <img src="https://files.dyne.org/software_by_dyne.png" width="222">
 </a>
 
+This software is meant to be used by developers in need of a federated and reliable environment to distribute identities along with public keys that can allow them to perform several cryptographic actions using end-to-end cryptography.
+
+Our W3C-DID implementation is opinionated:
+- it is free and open source
+- it implements 100% end-to-end crypto (no keys on server!)
+- it does not use any database, stores everything on the filesystem
+- it records history of changes in a git repository: [dyne/w3c-did-data](https://github.com/dyne/w3c-did-data)
+- it uses Zencode as a contract language for all its API to ease audits
 
 # Quickstart
 
-Users need not to run a DID, but can use our official instance at https://did.dyne.org/docs
+Participants need not to run a DID controller, but can use our official instance at https://did.dyne.org/docs
 
-To run a local instance however, make sure npm is installed and use:
+If you need a domain for your application please contact us at [info@dyne.org](mailto:info@dyne.org)
+
+To run simple tests one needs to install also [Zenroom](https://zenroom.org), the [Zencode tools](https://github.com/dyne/zencode-tools], [GNU parallel](https://www.gnu.org/parallel) and [jq](https://stedolan.github.io/jq/).
+
+A brief command-line overview is given just typing `make`:
 ```
-make install-deps
-make run-local
-```
+__／________／__________／
+／ ｄｉｄ ／ ｄｙｎｅ ／
 
-To generate DID documents one needs registered ECDH and EDDSA public keys to be listed inside an admin DID document, i.e: `did:dyne:DID-spec.A` or `did:dyne:admin`.
+Usage:
+  make <target>
+  help             Display this help.
 
-To run simple tests one can generate a fake keyring:
-```
-zenroom -k client/v1/did-setting.json -z client/v1/sandbox/sandbox-keygen.zen > sandbox-admin-keyring.json`
-```
-that is associated to the DID document whose DID id [did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ](/data/sandbox/A/8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ).
+Admin
+  keyring          Generate a new admin keyring [ OUT, CONTROLLER ]
+  request          Generate an admin request [ DOMAIN, KEYRING ]
+  sign             Sign a request and generate a DID proof [ REQUEST, KEYRING ]
 
-This fake keyring is able to write inside `did:dyne:sandbox` for testing purposes (saved data will be lost once in a while!)
+Test
+  fill-sandbox     Generate random DIDs in local sandbox  [ NUM ]
+  test-units       Run client-api unit tests offline
 
-To test the creation of a DID document on the local running instance:
-```
-make generate-sandbox-did-local
-```
-
-## DID document specs
-
-We call "DID spec" any word following the `did:dyne:` namespace. DID specs are governed by specific [contracts subdirectories](/api/v1) carrying the same name.
-
-Any "DID spec" has one or more admins that have the permission to create, update or delete the DID document under their "DID spec". These admins can be recognized from their DID, indeed it will be of the from `did:dyne:DID-spec.A:` and they will govern all the DID documents whose DID starts with `did:dyne:DID-spec:`.
-
-For example `did:dyne:zenflows.A` manages DIDs for the `did:dyne:zenflows:` namespace.
-
-The special `did:dyne:admin` spec is the one governing all admin specs and can create, update and delete admins.
-
-<!-- Controller has no more a keyring! can be eliminated or it will be usefull when notarization will be back?
-## Controller Keyring (setup once)
-
-Inside the [private_contracts](private_contracts) are the scripts to generate the primary controller keyring whose ECDH key will be used to sign all DID documents and whose ECDH public key can be used to verify their integrity.
-
-These keys will help govern further generation of DIDs: the secret keys will be needed to sign any DID creation on a system that has just started.
-
-You can optionally create a keyring manually: `zenroom -z private_contracts/create_keys.zen`
-
-The Controller keyring should look like this: 
-
-```json
-{
-   "Issuer": {
-      "keyring": {
-         "ecdh": "k3amvcaPJNSbVbK0eNh83c7k8OZqSklaPCfbnUGMDvc=",
-         "eddsa": "349aphSypm5b6YgC8M8hd7zT9mKhJg1tJxxuGscyN9TR",
-         "ethereum": "0f06a1a546612a53380c7e47755de9b7a6b2fdd55e382fd39d48d2b862a55bfd"
-      }
-   }
-}
+Service
+  build            Install all NodeJS dependencies
+  run              Run a service instance on localhost
+  service-keyring  Create a keyring for the global service admin
+  service-pubkeys  Print the public keys of the global service admin
+  accept-admin     Local command to accept an admin [ REQUEST ]
+  update           Update all service dependencies
+  scrub            Check all signed proofs in data/
+  clean            Clean all NodeJS dependencies
 ```
 
-The keyring has to be stored into: `contracts/keyring.json`
+Using the test command `fill-sandbox` one can generate a fake admin keyring and 100 fake DIDs in `did:dyne:sandbox`
+```
+make fill-sandbox
+```
 
-The public keys should be generated with: `zenroom -z private_contracts/create_pub_keys.zen`
-and stored in `contracts/public_keys.json`
--->
+See what you have created with `ls -l data/dyne/sandbox`.
+
+To test the integrity of dids we have a `scrub` function which will check they are all correctly signed by their admin. Running a scrub requires the installation of GNU parallel:
+```
+make scrub
+```
+
+Each DID is a file containing JSON formatted information about public keys and the chain of authentication granting their integrity.
+
+## did:dyne:domain
+
+We call "domain" any word following the `did:dyne:` namespace. DID domains are governed by specific [contracts subdirectories](/api/v1) carrying the same name. A domain usually corresponds to an application, for which we use standard Zencode contracts or customize them according to use-case needs.
+
+Any "domain" has one or more admins that have the permission to create, update or delete the DID document under their "domain". These admins can be recognized from their DID of the from `did:dyne:domain.A:` and they will govern all the DID documents whose DID starts with `did:dyne:domain:`.
+
+For example `did:dyne:zenflows.A` manages DIDs for the `did:dyne:zenflows:` domain.
+
+The special `did:dyne:admin` spec is the one governing all admin domainsand can create, update and delete admins.
+
+# secrets
+
+All secret keys are kept client-side and our server has none available, signing is done off-line and interactively to grant full end-to-end encryption.
+
+**Even in case our server we get hacked, your secrets will not ne leaked.**
+
+All client-side secrets created using this repository CLI setup are stored in the `secrets/` folder.
 
