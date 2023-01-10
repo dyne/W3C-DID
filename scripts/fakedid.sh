@@ -13,6 +13,7 @@ command -v zenroom > /dev/null || {
 make service-keyring
 
 # sandbox admin request
+rm -f secrets/sandbox-keyring.json
 make keyring CONTROLLER=${USER} OUT=secrets/sandbox-keyring.json
 make request KEYRING=secrets/sandbox-keyring.json DOMAIN=sandbox.A
 make sign KEYRING=secrets/service-keyring.json
