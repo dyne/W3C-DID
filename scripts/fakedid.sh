@@ -9,11 +9,14 @@ command -v zenroom > /dev/null || {
 [ "$1" == "" ] && { >&2 echo "$0 number_of_fakedid"; exit 1;}
 [ $1 -le 0 ] && { >&2 echo "Invalid number, it has to be positive: $1"; exit 1;}
 
+# create a service admin
+make service-keyring
+
 # sandbox admin request
 make keyring CONTROLLER=${USER} OUT=secrets/sandbox-keyring.json
 make request KEYRING=secrets/sandbox-keyring.json DOMAIN=sandbox.A
 make sign KEYRING=secrets/service-keyring.json
-make accept-admin
+make accept-admin REQUEST=signed_did_doc.json
 
 # sanbox DID requests
 newdid=`mktemp`
@@ -23,6 +26,6 @@ for i in $(seq $1); do
 	rm -f ${newdid} ${newreq} ${newsig}
 	make keyring CONTROLLER=${1} OUT=${newdid}
 	make request KEYRING=${newdid} DOMAIN=sandbox OUT=${newreq}
-	make sign KEYRING=${newdid} REQUEST=${newreq} OUT=${newsig}
+	make sign KEYRING=secrets/sandbox-keyring.json REQUEST=${newreq} SIGNER_DOMAIN=sandbox.A OUT=${newsig}
 	make accept-admin REQUEST=${newsig}
 done
