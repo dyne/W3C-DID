@@ -56,10 +56,18 @@
       USE_ETHEREUM=y
       USE_PLANETMINT=y
       USE_HTTP=y
-      HOST=127.0.0.1
-      HTTP_PORT={{ local_port }}
+      HOST={{ domain_name }}
+      HTTP_PORT=80
+      HTTPS_PORT=443
+      LOCAL_PORT={{ local_port }}
       CHAIN_EXT=chain
       YML_EXT=yml
+
+- lineinfile:
+    dest: /etc/hosts
+    line: "127.0.0.1 {{ domain_name }}"
+    insertafter: "127.0.0.1"
+    state: present
 
 - name: Copy contracts (permissions may be wrong)
   become: true
@@ -76,22 +84,6 @@
     group: controller
     recurse: yes
 
-# - name: Copy private_contracts
-#   become: true
-#   synchronize:
-#     src: "../private_contracts"
-#     dest: "{{ controller_root }}"
-#     owner: no
-#     group: no
-#
-# - name: Fix private_contracts permissions
-#   file:
-#     dest: "{{ controller_root }}/private_contracts"
-#     owner: controller
-#     group: controller
-#     recurse: yes
-
-# TODO: use ssh instead of http
 - name: Clone data dir
   become: true
   ansible.builtin.git:
