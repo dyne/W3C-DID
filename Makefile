@@ -74,8 +74,8 @@ build: ## Install all NodeJS dependencies
 
 run: ## Run a service instance on localhost
 	$(if $(wildcard restroom/node_modules),,$(error Deps missing, first run: make build))
-	@cp -v restroom/local-config.site .env
-	node restroom/restroom.mjs
+	@cp -v restroom/.env.example restroom/.env
+	cd restroom && node restroom.mjs
 
 service-keyring: tmp := $(shell mktemp)
 service-keyring: tmp2 := $(shell mktemp)
