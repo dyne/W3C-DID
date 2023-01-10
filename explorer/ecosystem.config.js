@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "did-explorer",
+      name: "explorer",
       time: true,
       autorestart: true,
       max_restarts: 50,
