@@ -20,15 +20,15 @@ Our W3C-DID implementation is opinionated:
 - it implements 100% end-to-end crypto (no keys on server!)
 - it does not use any database, stores everything on the filesystem
 - it records history of changes in a git repository: [dyne/w3c-did-data](https://github.com/dyne/w3c-did-data)
-- it uses Zencode as a contract language for all its API to ease audits
+- it uses [Zencode](https://dev.zenroom.org) as a contract language for all its API to ease audits
 
-# Quickstart
+# quickstart
 
 Participants need not to run a DID controller, but can use our official instance at https://did.dyne.org/docs
 
 If you need a domain for your application please contact us at [info@dyne.org](mailto:info@dyne.org)
 
-To run simple tests one needs to install also [Zenroom](https://zenroom.org), the [Zencode tools](https://github.com/dyne/zencode-tools], [GNU parallel](https://www.gnu.org/parallel) and [jq](https://stedolan.github.io/jq/).
+To run simple tests one needs to install also [Zenroom](https://zenroom.org), the [Zencode tools](https://github.com/dyne/zencode-tools), [GNU parallel](https://www.gnu.org/parallel) and [jq](https://stedolan.github.io/jq/).
 
 A brief command-line overview is given just typing `make`:
 ```
@@ -91,3 +91,20 @@ All secret keys are kept client-side and our server has none available, signing 
 
 All client-side secrets created using this repository CLI setup are stored in the `secrets/` folder.
 
+# licensing
+
+Copyright (C) 2022-2023 Dyne.org foundation
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public
+License along with this program.  If not, see
+<https://www.gnu.org/licenses/>.
