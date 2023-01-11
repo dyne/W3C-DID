@@ -3,8 +3,8 @@ Scenario 'ecdh': verify signature
 Scenario 'w3c': proof
 
 # timestamp
-# Given I fetch the local timestamp and store it into 'timestamp'
-# and I have a 'string' named 'timestamp'
+Given I fetch the local timestamp and store it into 'deactivate_timestamp'
+and I have a 'integer' named 'deactivate_timestamp'
 
 # signer did document
 Given I read the content of 'signer_path' and save the output into 'signer_data'
@@ -41,7 +41,17 @@ and I move 'deactivated' in 'request_metadata'
 and I remove the 'didDocumentMetadata' from 'request_data'
 and I move the 'request_metadata' to 'didDocumentMetadata' in 'request_data'
 
+# log
+When I write string '' in 'log_msg'
+and I append the 'integer' of 'deactivate_timestamp' to 'log_msg'
+and I append the string ';' to 'log_msg'
+and I append 'deactivate_id' to 'log_msg'
+and I append the string ';D;' to 'log_msg'
+and I append 'signer_id' to 'log_msg'
+
 Then print the 'request_data'
 and print the 'request_path'
+and print the 'log_msg'
 
 Then store 'request_data' in the file 'request_path'
+Then append the string 'log_msg' to the logfile in 'api_dyne_v1.log'

@@ -61,15 +61,16 @@ and I move 'jws' in 'proof'
 and I copy the 'update_timestamp' to 'created' in 'proof'
 
 # proof's verification method
-When I append the string '#ecdh_public_key' to 'signer_id'
-and I move the 'signer_id' to 'verificationMethod' in 'proof'
+When I copy 'signer_id' to 'verificationMethod'
+and I append the string '#ecdh_public_key' to 'verificationMethod'
+and I move 'verificationMethod' in 'proof'
 and I move 'proof' in 'request did document'
 
 # metadata
 If 'updated' is found in 'request_metadata'
 When I remove the 'updated' from 'request_metadata'
 EndIf
-When I move the 'update_timestamp' to 'updated' in 'request_metadata'
+When I copy the 'update_timestamp' to 'updated' in 'request_metadata'
 
 # result
 When I create the 'string dictionary' named 'result'
@@ -77,7 +78,20 @@ and I move '@context' in 'result'
 and I move the 'request_did_document' to 'didDocument' in 'result'
 and I move the 'request_metadata' to 'didDocumentMetadata' in 'result'
 
+# log
+When I pickup from path 'result.didDocument.id'
+and I write string '' in 'log_msg'
+and I append the 'integer' of 'update_timestamp' to 'log_msg'
+and I append the string ';' to 'log_msg'
+and I append 'id' to 'log_msg'
+and I append the string ';M;' to 'log_msg'
+and I append 'signer_id' to 'log_msg'
+and I append the string ';' to 'log_msg'
+and I append the 'integer' of 'timestamp' to 'log_msg'
+
 Then print the 'result'
 and print the 'request_path'
+and print the 'log_msg'
 
 Then store 'result' in the file 'request_path'
+Then append the string 'log_msg' to the logfile in 'api_dyne_v1.log'

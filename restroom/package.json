@@ -16,6 +16,7 @@
     "@restroom-mw/fabric": "next",
     "@restroom-mw/files": "next",
     "@restroom-mw/http": "next",
+    "@restroom-mw/logger": "next",
     "@restroom-mw/planetmint": "next",
     "@restroom-mw/redis": "next",
     "@restroom-mw/timestamp": "next",
