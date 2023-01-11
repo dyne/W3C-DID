@@ -146,6 +146,7 @@ EOF
 
 @test "Api pubkeys: execute-deactivate (chain)" {
 	# add signer_data and request_data to data
+	jq_insert "deactivate_timestamp" $(($(date +%s%N)/1000000)) pubkeys-deactivate-api-checks.json
 	signer_path=`jq_extract_raw "signer_path" pubkeys-deactivate-api-checks.json`
 	jq_insert_json "signer_data" $signer_path pubkeys-deactivate-api-checks.json
 	request_path=`jq_extract_raw "request_path" pubkeys-deactivate-api-checks.json`
