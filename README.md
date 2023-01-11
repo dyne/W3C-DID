@@ -16,17 +16,28 @@ The OpenAPI of the W3C-DID controller can be seen at [https://did.dyne.org/docs/
 This software is meant to be used by developers in need of a federated and reliable environment to distribute identities along with public keys that can allow them to perform several cryptographic actions using end-to-end cryptography.
 
 Our W3C-DID implementation is opinionated:
-- it is free and open source
-- it implements 100% end-to-end crypto (no keys on server!)
-- it does not use any database, stores everything on the filesystem
-- it records history of changes in a git repository: [dyne/w3c-did-data](https://github.com/dyne/w3c-did-data)
-- it uses [Zencode](https://dev.zenroom.org) as a contract language for all its API to ease audits
+- free, open source and human readable code
+- full coverage: unit and integration tests
+- end-to-end crypto (no keys on server!)
+- no database: filesystem storage
+- record history in git: [dyne/w3c-did-data](https://github.com/dyne/w3c-did-data)
+- share DIDs p2p using IPFS
+- [Zencode](https://dev.zenroom.org) contract language
 
 # quickstart
 
 Participants need not to run a DID controller, but can use our official instance at https://did.dyne.org/docs
 
-If you need a domain for your application please contact us at [info@dyne.org](mailto:info@dyne.org)
+If you need a domain for your application please contact us at [info@dyne.org](mailto:info@dyne.org), do:
+```
+make keyring
+make request
+```
+and send us your request to become a domain admin.
+
+**Even in case our server we get hacked, your keys will not ne leaked and your DIDs will not be lost**
+
+## test on your own
 
 To run simple tests one needs to install also [Zenroom](https://zenroom.org), the [Zencode tools](https://github.com/dyne/zencode-tools), [GNU parallel](https://www.gnu.org/parallel) and [jq](https://stedolan.github.io/jq/).
 
@@ -86,8 +97,6 @@ The special `did:dyne:admin` spec is the one governing all admin domainsand can 
 # secrets
 
 All secret keys are kept client-side and our server has none available, signing is done off-line and interactively to grant full end-to-end encryption.
-
-**Even in case our server we get hacked, your secrets will not ne leaked.**
 
 All client-side secrets created using this repository CLI setup are stored in the `secrets/` folder.
 
