@@ -100,11 +100,11 @@ const contracts = fs.readdirSync(ZENCODE_DIR);
 if (contracts.length > 0) {
   const httpServer = http.createServer(app);
   httpServer.listen(LOCAL_PORT, HOST, () => {
-    console.log(`🚻 Restroom started on http://${chalk.bold.blue(HOST)}:${HTTP_PORT}`);
+    console.log(`🚻 Restroom started on http://${chalk.bold.blue(HOST)}:${LOCAL_PORT}`);
     console.log(`📁 the ZENCODE directory is: ${chalk.magenta.underline(ZENCODE_DIR)} \n`);
 
     if (OPENAPI) {
-      console.log(`To see the OpenApi interface head your browser to: ${chalk.bold.blue.underline('http://' + HOST + ':' + HTTP_PORT + '/docs')}`);
+      console.log(`To see the OpenApi interface head your browser to: ${chalk.bold.blue.underline('http://' + HOST + ':' + LOCAL_PORT + '/docs')}`);
       console.log(`To disable OpenApi, run ${chalk.bold('OPENAPI=0 yarn start')}`);
     } else {
       console.log(`⚠️ The OpenApi is not enabled! NO UI IS SERVED. To enable it run run ${chalk.bold('OPENAPI=1 yarn start')}`);
