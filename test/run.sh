@@ -1,181 +1,123 @@
 #!/bin/bash
 RR_PORT=3000
-zenroom_res="^==== Zenroom result ===="
+domain=sandbox
 
-# add sandbox admin did doc for test purpose
-mkdir -p data/dyne/sandbox/A/
-cat << EOF > data/dyne/sandbox/A/8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ
-{
-   "@context":"https://w3id.org/did-resolution/v1",
-   "didDocument":{
-      "@context":[
-         "https://www.w3.org/ns/did/v1",
-         "https://w3id.org/security/suites/ed25519-2018/v1",
-         "https://w3id.org/security/suites/secp256k1-2019/v1",
-         "https://w3id.org/security/suites/secp256k1-2020/v1",
-         "https://dyne.github.io/W3C-DID/specs/ReflowBLS12381.json",
-         {
-            "description":"https://schema.org/description"
-         }
-      ],
-      "description":"fake sandbox-admin",
-      "id":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
-      "proof": {
-         "created": "1671805668826",
-         "jws": "eyJhbGciOiJFUzI1NksiLCJiNjQiOnRydWUsImNyaXQiOiJiNjQifQ..0RywWwpi-26gwNhPC4lBcTce80WMDDygtlYu8EzyXa-PZRrG64Bt46z-wp_QXhF-FIbtgf_zfIVHDBeR7sPGGw",
-         "proofPurpose": "assertionMethod",
-         "type": "EcdsaSecp256k1Signature2019",
-         "verificationMethod": "did:dyne:admin:DMMYfDo7VpvKRHoJmiXvEpXrfbW3sCfhUBE4tBeXmNrJ#ecdh_public_key"
-       },
-      "verificationMethod":[
-         {
-            "controller":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
-            "id":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#ecdh_public_key",
-            "publicKeyBase58":"S1bs1YRaGcfeUjAQh3jigvAXuV8bff2AHjERoHaBPKtBLnXLKDcGPrnB4j5bY8ZHVu9fQGkUW5XzDa9bdhGYbjPf",
-            "type":"EcdsaSecp256k1VerificationKey2019"
-         },
-         {
-            "controller":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
-            "id":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#reflow_public_key",
-            "publicKeyBase58":"9kPV92zSUok2Do2RJKx3Zn7ZY9WScvBZoorMQ8FRcoH7m1eo3mAuGJcrSpaw1YrSKeqAhJnpcFdQjLhTBEve3qvwGe7qZsam3kLo85CpTM84TaEnxVyaTZVYxuY4ytmGX2Yz1scayfSdJYASvn9z12VnmC8xM3D1cXMHNDN5zMkLZ29hgq631ssT55UQif6Pj371HUC5g6u2xYQ2mGYiQ6bQt1NWSMJDzzKTr9y7bEMPKq5bDfYEBab6a4fzk6Aqixr1P3",
-            "type":"ReflowBLS12381VerificationKey"
-         },
-         {
-            "controller":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
-            "id":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#bitcoin_public_key",
-            "publicKeyBase58":"rjXTCrGHFMtQhfnPMZz5rak6DDAtavVTrv2AEMXvZSBj",
-            "type":"EcdsaSecp256k1VerificationKey2019"
-         },
-         {
-            "controller":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
-            "id":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#eddsa_public_key",
-            "publicKeyBase58":"8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
-            "type":"Ed25519VerificationKey2018"
-         },
-         {
-            "blockchainAccountId":"eip155:1:0xd3765bb6f5917d1a91adebadcfad6c248e721294",
-            "controller":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
-            "id":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#ethereum_address",
-            "type":"EcdsaSecp256k1RecoveryMethod2020"
-         }
-      ]
-   },
-   "didDocumentMetadata":{
-      "created":"1671805668826",
-      "deactivated": "false"
-   }
+# check error functin
+check_error() {
+    [ "$1" != "0" ] && {
+        echo "Something went wrong:" >&2
+        cat ${2} >&2
+        rm -f ${2}
+        exit 1
+    }
+    rm -f ${2}
 }
-EOF
+tmperr=`mktemp`
 
-echo "SANDBOX CLIENT SIDE"
-echo "- generating controller keyring"
-tmpctrlkey=`mktemp`
-tmpctrlkey_err=`mktemp`
-./zenroom -z -a client/v1/did-settings.json \
-    client/v1/sandbox/sandbox-keygen.zen \
-    > ${tmpctrlkey} 2>${tmpctrlkey_err}
-[ "$?" != "0" ] && {
-    echo "Generating controller keyring failed with error: "
-    cat ${tmpctrlkey_err}
-    exit 1
-}
-rm -f ${tmpctrlkey_err}
+echo "ADMIN creation"
+# can not use make service-keyring, umask fails in github action
+# create admin did
+tmpctrl=`mktemp`
+echo "{\"controller\": \"test_admin\"}" > ${tmpctrl}
+zenroom -z -k ${tmpctrl} client/v1/create-keyring.zen >secrets/service-keyring.json 2>${tmperr}
+check_error ${?} ${tmperr}
+rm -f ${tmpctrl}
+zenroom -z -k secrets/service-keyring.json -a client/v1/did-settings.json client/v1/create-identity-pubkeys.zen >${tmpctrl} 2>${tmperr}
+check_error ${?} ${tmperr}
+cat ${tmpctrl} | jq --arg value $(($(date +%s%N)/1000000)) '.timestamp = $value' > ${tmpctrl}
+zenroom -z -a ${tmpctrl} -k secrets/service-keyring.json client/v1/admin/didgen.zen >service-admin-did.json 2>${tmperr}
+check_error ${?} ${tmperr}
+rm -f ${tmpctrl}
+# store admin did
+didpath=`jq -r '.didDocument.id' service-admin-did.json`
+did=`echo ${didpath} | cut -d: -f4`
+mv service-admin-did.json data/dyne/admin/${did}
+
+echo "${domain} SPEC ADMIN creation"
+make keyring CONTROLLER=${USER} OUT=secrets/${domain}-keyring.json 1>/dev/null 2>${tmperr}
+check_error ${?} ${tmperr}
+make request KEYRING=secrets/${domain}-keyring.json DOMAIN=${domain}.A 1>/dev/null 2>${tmperr}
+check_error ${?} ${tmperr}
+make sign KEYRING=secrets/service-keyring.json OUT=${domain}_signed_did_doc.json 1>/dev/null 2>${tmperr}
+check_error ${?} ${tmperr}
+make accept-admin REQUEST=${domain}_signed_did_doc.json 1>/dev/null 2>${tmperr}
+check_error ${?} ${tmperr}
+
+rm -f secrets/service-keyring.json did_doc.json
+
+echo "CLIENT creation"
+echo "- generating keyring"
+make keyring CONTROLLER=${domain}_test OUT=secrets/${domain}-client-keyring.json 1>/dev/null 2>${tmperr}
+check_error ${?} ${tmperr}
 
 echo "- generating pubkeys and identity"
 tmppk=`mktemp`
-tmppk_err=`mktemp`
-    ./zenroom -z client/v1/sandbox/create-identity-pubkeys.zen \
-    > ${tmppk} 2>${tmppk_err}
-[ "$?" != "0" ] && {
-    echo "Generating pubkeys and identity failed with error: "
-    cat ${tmppk_err}
-    exit 1
-}
-rm -f ${tmppk_err}
+zenroom -z -k secrets/${domain}-client-keyring.json -a client/v1/did-settings.json client/v1/create-identity-pubkeys.zen > ${tmppk} 2>${tmperr}
+check_error ${?} ${tmperr}
 
 echo "- generating request"
 tmpreq=`mktemp`
-tmpreq_err=`mktemp`
-tmp=`mktemp` && jq --arg value $(($(date +%s%N)/1000000)) '.timestamp = $value' ${tmppk} > ${tmp} && mv ${tmp} ${tmppk}
-./zenroom -z -a ${tmppk} -k ${tmpctrlkey} \
-    client/v1/sandbox/pubkeys-request.zen \
-    > ${tmpreq} 2>${tmpreq_err}
-[ "$?" != "0" ] && {
-    echo "Generating request failed with error: "
-    cat ${tmpreq_err}
-    exit 1
-}
-rm -f ${tmpreq_err}
+signer="${domain}.A"
+tmp=`mktemp` && jq --arg value $domain '.did_spec = $value' ${tmppk} > ${tmp} && mv ${tmp} ${tmppk}
+tmp=`mktemp` && jq --arg value $signer '.signer_did_spec = $value' ${tmppk} > ${tmp} && mv ${tmp} ${tmppk}
+cat ${tmppk} | jq --arg value $(($(date +%s%N)/1000000)) '.timestamp = $value' > ${tmppk}
+zenroom -z -a ${tmppk} -k secrets/${domain}-keyring.json client/v1/pubkeys-request-signed.zen > ${tmpreq} 2>${tmperr}
+check_error ${?} ${tmperr}
 
+newecdh() {
+    tmpkey=`mktemp`
+    tmpid=`mktemp` && echo "{\"controller\": \"test\"}" > ${tmpid}
+    zenroom -z -a ${tmpid} client/v1/create-keyring.zen >${tmpkey} 2>/dev/null
+    zenroom -z -k ${tmpkey} -a client/v1/did-settings.json client/v1/create-identity-pubkeys.zen 2>/dev/null | jq -r '.ecdh_public_key'
+    rm -f ${tmpkey}
+}
 
 echo "- generating update request"
 tmpupd=`mktemp`
-tmpupd_err=`mktemp`
-tmp=`mktemp` && jq --arg value $(($(date +%s%N)/1000000)) '.timestamp |= $value' ${tmppk} > ${tmp} && mv ${tmp} ${tmppk}
-new_ecdh=`./zenroom -z client/v1/sandbox/create-identity-pubkeys.zen 2>/dev/null | jq -r '.ecdh_public_key'`
+cat ${tmppk} | jq --arg value $(($(date +%s%N)/1000000)) '.timestamp |= $value' > ${tmppk}
+new_ecdh=`newecdh`
 tmp=`mktemp` && jq --arg key $new_ecdh '.ecdh_public_key |= $key' ${tmppk} > ${tmp} && mv ${tmp} ${tmppk}
-./zenroom -z -a ${tmppk} -k ${tmpctrlkey} \
-    client/v1/sandbox/pubkeys-request.zen \
-    > ${tmpupd} 2>${tmpupd_err}
-[ "$?" != "0" ] && {
-    echo "Generating update request failed with error: "
-    cat ${tmpupd_err}
-    exit 1
-}
-rm -f ${tmpupd_err}
+zenroom -z -a ${tmppk} -k secrets/${domain}-keyring.json client/v1/pubkeys-request-signed.zen > ${tmpupd} 2>${tmperr}
+check_error ${?} ${tmperr}
 
 echo "- generating deactivation request"
 tmpdct=`mktemp`
-tmpdct_err=`mktemp`
-./zenroom -z -a ${tmppk} -k ${tmpctrlkey} \
-    client/v1/sandbox/pubkeys-deactivate.zen \
-    > ${tmpdct} 2>${tmpdct_err}
-[ "$?" != "0" ] && {
-    echo "Generating deactivation request failed with error: "
-    cat ${tmpdct_err}
-    exit 1
-}
-rm -f ${tmpdct_err}
+zenroom -z -a ${tmppk} -k secrets/${domain}-keyring.json client/v1/pubkeys-deactivate.zen > ${tmpdct} 2>${tmperr}
+check_error ${?} ${tmperr}
 
-rm -f ${tmppk} ${tmpctrlkey}
+rm -f ${tmppk} secrets/${domain}-keyring.json secrets/${domain}-client-keyring.json
+
+# test contract data expected_exitcode
+test() {
+    tmpres=`mktemp`
+    tmperr=`mktemp`
+    ./restroom-test -p ${RR_PORT} -u v1/$1 -a $2 > ${tmpres} 2>${tmperr}
+    res_status=$?
+    #cat ${tmpres}
+    [ "${res_status}" != "$3" ] && {
+        echo "Request failed with code ${res_status} and error:" >&2
+        cat ${tmperr} >&2
+        [ "`cat ${tmpres}`" != "" ] && {
+            echo "and restroom response:" >&2
+            cat ${tmpres} >&2
+        }
+        exit 1
+    }
+    rm -f ${tmpres} ${tmperr}
+}
 
 echo "SERVER SIDE"
 echo "- accept request"
-tmpres=`mktemp`
-./restroom-test -p ${RR_PORT} -u v1/sandbox/pubkeys-accept.chain -a ${tmpreq} > ${tmpres} 2>/dev/null
-[ ! -z "$(grep "$zenroom_res" "$tmpres")" ] && {
-    echo "Accepting request failed with error:" >&2
-    cat ${tmpres} >&2
-    exit 1
-}
-rm -f ${tmpres}
+test ${domain}/pubkeys-accept.chain ${tmpreq} 0
 
 echo "- does not accpet the same request twice"
-tmpres_fail=`mktemp`
-./restroom-test -p ${RR_PORT} -u v1/sandbox/pubkeys-accept.chain -a ${tmpreq} > ${tmpres_fail} 2>/dev/null
-[ -z "$(grep "$zenroom_res" "$tmpres_fail")" ] && {
-    echo "Accepting request succeeded, but it should not. Response:" >&2
-    cat ${tmpres_fail} >&2
-    exit 1
-}
-rm -f ${tmpres_fail} ${tmpreq}
+test ${domain}/pubkeys-accept.chain ${tmpreq} 255
+rm -f ${tmpreq}
 
 echo "- accept update request"
-tmpupd_res=`mktemp`
-./restroom-test -p ${RR_PORT} -u v1/sandbox/pubkeys-update.chain -a ${tmpupd} > ${tmpupd_res} 2>/dev/null
-[ ! -z "$(grep "$zenroom_res" "$tmpupd_res")" ] && {
-    echo "Accepting update request failed with error:" >&2
-    cat ${tmpupd_res} >&2
-    exit 1
-}
-rm -f ${tmpupd_res} ${tmpupd}
+test ${domain}/pubkeys-update.chain ${tmpupd} 0
+rm -f ${tmpupd}
 
 echo "- accept deactivate request"
-tmpdct_res=`mktemp`
-./restroom-test -p ${RR_PORT} -u v1/sandbox/pubkeys-deactivate.chain -a ${tmpdct} > ${tmpdct_res} 2>/dev/null
-[ ! -z "$(grep "$zenroom_res" "$tmpdct_res")" ] && {
-    echo "Accepting deactivate request failed with error:" >&2
-    cat ${tmpdct_res} >&2
-    exit 1
-}
-rm -f ${tmpdct_res} ${tmpdct}
+test ${domain}/pubkeys-deactivate.chain ${tmpdct} 0
+rm -f ${tmpdct}
