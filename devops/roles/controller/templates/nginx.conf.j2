@@ -25,8 +25,5 @@ server {
   listen [::]:80;
   root /var/www/html;
   server_name {{ domain_name }};
-  location / {
-    proxy_pass http://127.0.0.1:{{ local_port }}/;
-  }
-#  return 301 https://$host$request_uri;
+  return 301 https://$host$request_uri;
 }
