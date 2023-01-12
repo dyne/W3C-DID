@@ -19,8 +19,8 @@ and I have my 'keyring'
 Given I have a 'string array' named '@context'
 
 # load the new identity public keys and description
-Given I have a 'string' named 'specific_id'
-Given I have a 'string' named 'signer_specific_id'
+Given I have a 'string' named 'did_spec'
+Given I have a 'string' named 'signer_did_spec'
 Given I have a 'string' named 'identity'
 and I rename 'identity' to 'description'
 Given I have a 'eddsa_public_key'
@@ -39,7 +39,7 @@ and I move 'description' in 'did document'
 
 ## did spec and id
 When I set 'did:dyne:' to 'did:dyne:' as 'string'
-and I append 'specific_id' to 'did:dyne:'
+and I append 'did_spec' to 'did:dyne:'
 and I append the string ':' to 'did:dyne:'
 and I append the 'base58' of 'identity pk' to 'did:dyne:'
 and I copy the 'did:dyne:' to 'id' in 'did document'
@@ -148,7 +148,7 @@ and I create the eddsa signature of 'json'
 # signer id
 When I create the eddsa public key
 When I set 'id' to 'did:dyne:' as 'string'
-and I append 'signer_specific_id' to 'id'
+and I append 'signer_did_spec' to 'id'
 and I append the string ':' to 'id'
 and I append the 'base58' of 'eddsa public key' to 'id'
 
