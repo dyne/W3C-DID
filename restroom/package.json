@@ -15,6 +15,7 @@
     "@restroom-mw/ethereum": "next",
     "@restroom-mw/fabric": "next",
     "@restroom-mw/files": "next",
+    "@restroom-mw/git": "next",
     "@restroom-mw/http": "next",
     "@restroom-mw/logger": "next",
     "@restroom-mw/planetmint": "next",
