@@ -1,6 +1,7 @@
 #!/bin/bash
 RR_PORT=3000
 domain=sandbox
+[ "$1" != "" ] && domain=$1
 
 # check error functin
 check_error() {
