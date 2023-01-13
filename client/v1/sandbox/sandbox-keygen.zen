@@ -5,10 +5,6 @@ Scenario reflow
 
 Given I am 'Sandbox'
 
-# load the DID settings
-Given I have a 'string array' named '@context'
-and I have a 'string dictionary' named 'proof'
-
 # deterministic key generation for sandbox tests
 When I set 'fake' to 'snakeoil' as 'string'
 and I create the hash of 'fake' using 'sha256'
@@ -22,5 +18,3 @@ When I create the reflow key with secret 'hash'
 # keyring and explicit owner identity
 Then print my 'keyring'
 and print my name in 'controller'
-and print the '@context'
-and print the 'proof'
