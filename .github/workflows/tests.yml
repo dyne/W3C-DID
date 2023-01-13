@@ -40,8 +40,6 @@ jobs:
     steps:
       - name: 🛎️ Checkout
         uses: actions/checkout@v3
-        with:
-          submodules: 'true'
       - name: ⏬ Install Zenroom
         run: |
           wget https://github.com/dyne/zenroom/releases/latest/download/zenroom -O zenroom
@@ -51,10 +49,26 @@ jobs:
         run: |
           wget https://github.com/dyne/zencode-tools/releases/latest/download/restroom-test -O restroom-test
           chmod +x restroom-test
+      - name: 💾 Clone W3C-DID-data in data
+        run: |
+          rm -r data
+          git clone https://github.com/dyne/W3C-DID-data.git data
       - name: 🛫 Start restroom
         uses: dyne/restroom-github-action@v1
         with:
           restroom-contracts: "${{ github.workspace }}/api"
           restroom-files: "${{ github.workspace }}/"
+          restroom-logger: "${{ github.workspace }}/"
       - name: 🧪 Run tests
-        run: ./test/run.sh
+        run: |
+          echo "SANDBOX"
+          ./test/run.sh sandbox
+          echo ""
+          echo "IFACER"
+          ./test/run.sh ifacer
+          echo ""
+          echo "RESULTS:"
+          echo "- log:"
+          cat api_dyne_v1.log
+          echo "- commits:"
+          cd data && git log HEAD~3..HEAD
