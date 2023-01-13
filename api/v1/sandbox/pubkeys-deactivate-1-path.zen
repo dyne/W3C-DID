@@ -11,6 +11,7 @@ and I rename 'id' to 'signer_id'
 Given I have a 'string dictionary' named 'request_ACL'
 and I have a 'string dictionary' named 'signer_ACL'
 and I have a 'string dictionary' named 'utility'
+and I have a 'string array' named 'allowed_spec'
 
 When I set ':' to ':' as 'string'
 and I set '.' to '.' as 'string'
@@ -32,6 +33,9 @@ and I rename the 'copy' to 'request_idspec'
 and I create the copy of element '4' in array 'array'
 and I rename the 'copy' to 'request_idpk'
 and I remove 'array'
+
+# check request_idspec is allowed
+When the 'request_idspec' is found in 'allowed_spec'
 
 # signer_path
 When I create the array by splitting 'signer_idspec' at '.'

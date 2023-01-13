@@ -1,13 +1,9 @@
 rule input encoding base58
 Scenario 'ecdh': singature
-Scenario 'eddsa': signature
 Scenario 'w3c': did document
 
-Given I have a 'did document' named 'did document'
-and I rename 'did_document' to 'request_did_document'
+Given I have a 'string' named 'deactivate_id'
 and I have a 'ecdh signature'
-and I have a 'string' named 'timestamp'
-and I have a 'eddsa signature'
 and I have a 'string' named 'id'
 and I rename 'id' to 'signer_id'
 
@@ -15,7 +11,7 @@ and I rename 'id' to 'signer_id'
 Given I have a 'string dictionary' named 'request_ACL'
 and I have a 'string dictionary' named 'signer_ACL'
 and I have a 'string dictionary' named 'utility'
-and I have a 'string array' named 'allowed_spec'
+and I have a 'string array' named 'not_allowed_spec'
 
 When I set ':' to ':' as 'string'
 and I set '.' to '.' as 'string'
@@ -31,9 +27,7 @@ and I rename the 'copy' to 'signer_idpk'
 and I remove 'array'
 
 # request_parts
-When I pickup from path 'request_did_document.id'
-and I rename the 'id' to 'request_id'
-and I create the array by splitting 'request_id' at ':'
+When I create the array by splitting 'deactivate_id' at ':'
 and I create the copy of element '3' in array 'array'
 and I rename the 'copy' to 'request_idspec'
 and I create the copy of element '4' in array 'array'
@@ -41,7 +35,7 @@ and I rename the 'copy' to 'request_idpk'
 and I remove 'array'
 
 # check request_idspec is allowed
-When the 'request_idspec' is found in 'allowed_spec'
+When the 'request_idspec' is not found in 'not_allowed_spec'
 
 # signer_path
 When I create the array by splitting 'signer_idspec' at '.'
@@ -50,7 +44,7 @@ and I create the length of 'array'
 If I verify 'length' is equal to '1' in 'utility'
 When I verify 'signer_idspec' is equal to 'admin' in 'utility'
 EndIf
-# if point => then .A or .C
+# if point => then .A or .D
 If I verify 'length' is not equal to '1' in 'utility'
 When I verify 'length' is equal to '2' in 'utility'
 and I create the copy of element '1' in array 'array'
@@ -88,8 +82,6 @@ and I append 'request_idpk' to 'request_path'
 
 Then print the 'signer_path'
 Then print the 'request_path'
-Then print the 'request_did_document'
+Then print the 'deactivate_id'
 Then print the 'signer_id'
 Then print the 'ecdh_signature'
-Then print the 'timestamp'
-Then print the 'eddsa signature'
