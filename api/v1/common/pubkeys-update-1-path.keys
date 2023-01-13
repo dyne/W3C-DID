@@ -15,7 +15,7 @@
         "true": "true",
         "admin": "admin"
         },
-    "allowed_spec": [
+    "not_allowed_spec": [
         "sandbox",
         "sandbox.A",
         "sandbox.C",

@@ -1,0 +1,72 @@
+Rule caller restroom-mw
+Scenario 'ecdh': verify signature
+Scenario 'w3c': proof
+
+# timestamp
+Given I fetch the local timestamp and store it into 'deactivate_timestamp'
+and I have a 'integer' named 'deactivate_timestamp'
+
+# signer did document
+Given I read the content of 'signer_path' and save the output into 'signer_data'
+and I have a 'did document' named 'didDocument' in 'signer_data'
+and I rename 'didDocument' to 'signer_did_document'
+and I have a 'string dictionary' named 'didDocumentMetadata' in 'signer_data'
+and I rename 'didDocumentMetadata' to 'signer_metadata'
+
+# request did document
+Given I read the content of 'request_path' and save the output into 'request_data'
+and I have a 'string dictionary' named 'request_data'
+and I have a 'string dictionary' named 'didDocumentMetadata' in 'request_data'
+and I rename 'didDocumentMetadata' to 'request_metadata'
+
+# data
+Given I have a 'string' named 'deactivate_id'
+and I have a 'ecdh signature'
+and I have a 'string' named 'request_path'
+and I have a 'string' named 'signer_id'
+
+# verify both did documents are not deactivated
+When I set 'false' to 'false' as 'string'
+and I verify 'false' is equal to 'deactivated' in 'signer_metadata'
+and I verify 'false' is equal to 'deactivated' in 'request_metadata'
+
+# verify singautres
+When I create the 'ecdh' public key from did document 'signer_did_document'
+and I verify the 'deactivate_id' has a ecdh signature in 'ecdh signature' by 'ecdh public key'
+
+# metadata
+When I set 'deactivated' to 'true' as 'string'
+and I remove the 'deactivated' from 'request_metadata'
+and I move 'deactivated' in 'request_metadata'
+and I remove the 'didDocumentMetadata' from 'request_data'
+and I move the 'request_metadata' to 'didDocumentMetadata' in 'request_data'
+
+# log
+When I write string '' in 'log_msg'
+and I append the 'integer' of 'deactivate_timestamp' to 'log_msg'
+and I append the string ';' to 'log_msg'
+and I append 'deactivate_id' to 'log_msg'
+and I append the string ';D;' to 'log_msg'
+and I append 'signer_id' to 'log_msg'
+
+# git commit
+When I create the 'string dictionary' named 'commit'
+and I set 'author' to 'did-controller' as 'string'
+and I move 'author' in 'commit'
+and I set 'email' to 'did@dyne.org' as 'string'
+and I move 'email' in 'commit'
+and I set 'message' to 'revoked by ' as 'string'
+and I append 'signer_id' to 'message'
+and I move 'message' in 'commit'
+and I create the 'string array' named 'files'
+and I copy 'request_path' in 'files'
+and I move 'files' in 'commit'
+
+Then print the 'request_data'
+and print the 'request_path'
+and print the 'log_msg'
+and print the 'commit'
+
+Then store 'request_data' in the file 'request_path'
+Then append the string 'log_msg' to the logfile in 'api_dyne_v1.log'
+Then make a new commit to the git repository in 'data'
