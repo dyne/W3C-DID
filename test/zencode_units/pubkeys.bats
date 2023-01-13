@@ -1,7 +1,7 @@
 load ../bats_setup
 load ../bats_zencode
 
-@test "Create the controller keyring" {
+@test "Spec admin did document and keyring" {
 	mkdir -p $R/data/dyne/sandbox/A/
 	cat << EOF > $R/data/dyne/sandbox/A/8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ
 {
@@ -65,23 +65,32 @@ load ../bats_zencode
    }
 }
 EOF
-	zexe client/v1/sandbox/sandbox-keygen.zen client/v1/did-settings.json
+	zexe client/v1/sandbox/sandbox-keygen.zen
 	save_tmp_output controller-keyring.json
 }
 
-@test "Create a new identity with pubkeys" {
-	zexe client/v1/sandbox/create-identity-pubkeys.zen
-	save_tmp_output new-id-pubkeys.json
+@test "New participant keyring" {
+	echo "{\"controller\":\"unit_test\"}" > controller.json
+	zexe client/v1/create-keyring.zen controller.json
+	save_tmp_output new-keyring.json
 }
 
-@test "Use controller to create a new identity request" {
+@test "Participant identity with pubkeys" {
+	zexe client/v1/create-identity-pubkeys.zen client/v1/did-settings.json new-keyring.json
+	save_tmp_output new-id-pubkeys.json
+	# add did_spec and signer_did_spec to be used in all the following contratcs
+	jq_insert "did_spec" "sandbox" new-id-pubkeys.json
+	jq_insert "signer_did_spec" "sandbox.A" new-id-pubkeys.json
+}
+
+@test "Signed accept request" {
 	jq_insert "timestamp" $(($(date +%s%N)/1000000)) new-id-pubkeys.json
-	zexe client/v1/sandbox/pubkeys-request.zen new-id-pubkeys.json controller-keyring.json
-	save_tmp_output pubkeys-request.json
+	zexe client/v1/pubkeys-request-signed.zen new-id-pubkeys.json controller-keyring.json
+	save_tmp_output signed-request.json
 }
 
 @test "Api pubkeys: accept (chain)" {
-	zexe api/v1/sandbox/pubkeys-create-paths.zen api/v1/sandbox/pubkeys-accept-1-path.keys pubkeys-request.json
+	zexe api/v1/sandbox/pubkeys-create-paths.zen api/v1/sandbox/pubkeys-accept-1-path.keys signed-request.json
 	save_tmp_output pubkeys-accept-api-checks.json
 }
 
@@ -104,14 +113,15 @@ EOF
 	jq '.result' pubkeys-accept-api-execute.json > $R/$request_path
 }
 
-@test "Use controller to create a update request" {
-	# timestamp
-	jq_insert "timestamp" $(($(date +%s%N)/1000000)) new-id-pubkeys.json
-	# modify a user key, e.g. ecdh public key
-	new_ecdh=`$ZENROOM_EXECUTABLE -z $R/client/v1/sandbox/create-identity-pubkeys.zen | jq -r '.ecdh_public_key'`
-	jq --arg ecdh_public_key $new_ecdh '.ecdh_public_key |= $ecdh_public_key' $BATS_FILE_TMPDIR/new-id-pubkeys.json > $BATS_FILE_TMPDIR/update-id-pubkeys.json
-	#execute
-	zexe client/v1/sandbox/pubkeys-request.zen update-id-pubkeys.json controller-keyring.json
+@test "Update request with request-unsigned and sign" {
+	# unsigned request
+	jq_insert "identity" "update_unit_test" new-id-pubkeys.json
+	zexe client/v1/pubkeys-request-unsigned.zen new-id-pubkeys.json
+	save_tmp_output unsigned-request.json
+	# sign the request
+	jq_insert "timestamp" $(($(date +%s%N)/1000000)) unsigned-request.json
+	jq_insert "signer_did_spec" "sandbox.A" unsigned-request.json
+	zexe client/v1/pubkeys-sign.zen unsigned-request.json controller-keyring.json
 	save_tmp_output pubkeys-update-request.json
 }
 
@@ -134,8 +144,8 @@ EOF
 	jq '.result' $BATS_FILE_TMPDIR/pubkeys-update-api-execute.json > $R/$request_path
 }
 
-@test "Use controller to deactivate a did" {
-	zexe client/v1/sandbox/pubkeys-deactivate.zen new-id-pubkeys.json controller-keyring.json
+@test "Deactivation request" {
+	zexe client/v1/pubkeys-deactivate.zen new-id-pubkeys.json controller-keyring.json
 	save_tmp_output pubkeys-deactivate-request.json
 }
 
@@ -158,14 +168,12 @@ EOF
 	jq '.request_data' $BATS_FILE_TMPDIR/pubkeys-deactivate-api-execute.json > $R/$request_path
 }
 
-@test "Api pubkeys: update a deactivated did document" {
+@test "Api pubkeys: update a deactivated did document (fail)" {
 	## controller create the request to update a did document that has been deactivated
 	jq_insert "timestamp" $(($(date +%s%N)/1000000)) new-id-pubkeys.json
-	# modify ecdh public key
-	new_ecdh=`$ZENROOM_EXECUTABLE -z $R/client/v1/sandbox/create-identity-pubkeys.zen | jq -r '.ecdh_public_key'`
-	jq --arg ecdh_public_key $new_ecdh '.ecdh_public_key |= $ecdh_public_key' $BATS_FILE_TMPDIR/new-id-pubkeys.json > $BATS_FILE_TMPDIR/update-id-pubkeys.json
-	#execute
-	zexe client/v1/sandbox/pubkeys-request.zen update-id-pubkeys.json controller-keyring.json
+	jq_insert "identity" "deactivate_unit_test" new-id-pubkeys.json
+	# execute
+	zexe client/v1/pubkeys-request-signed.zen new-id-pubkeys.json controller-keyring.json
 	save_tmp_output pubkeys-update-request.json
 
 	## check ACL and create path
