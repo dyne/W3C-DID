@@ -45,7 +45,7 @@ const DID_BEGIN = "did:dyne:"
 const pathToDidId = (didPath) => {
   const folders = didPath.split(path.sep)
   if(folders.length == 3) {
-    return `${DID_BEGIN}${folders[0]}.${folders.slice(1).join(':')}`;
+    return `${DID_BEGIN}${folders[0]}_${folders.slice(1).join(':')}`;
   } else {
     return `${DID_BEGIN}${folders.join(':')}`;
   }
@@ -55,7 +55,7 @@ const didIdToPath = (didId) => {
     throw new Error(`Invalid did id "${didId}"`)
   }
   didId = didId.slice(DID_BEGIN.length)
-  const didPath = didId.replace('.', path.sep).replace(':', path.sep)
+  const didPath = didId.replace('_', path.sep).replace(':', path.sep)
   return didPath
 }
 app.get('/dids', (req, res) => {
