@@ -79,5 +79,11 @@ if [ "$spec" == "" ]; then
 		# 	scrub "$i"
 		# done
 	done
+else
+	[ -d "$data/$spec" ] || {
+		echo "scrub() :: Invalid directory: $data/$spec" | >&2 tee -a $log
+		exit 1
+	}
+	parallel scrub {} ::: "$data/$spec"/*
 fi
 exit $?
