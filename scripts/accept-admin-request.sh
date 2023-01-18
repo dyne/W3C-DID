@@ -20,8 +20,8 @@ adminspec=`echo ${didpath} | cut -d: -f3`
 	exit 0
 }
 # >&2 echo "Admin specific domain: ${adminspec}"
-adminlvl=`echo ${adminspec} | cut -d. -f2`
-spec=`echo ${adminspec} | cut -d. -f1`
+adminlvl=`echo ${adminspec} | cut -d_ -f2`
+spec=`echo ${adminspec} | cut -d_ -f1 | cut -d. -f1`
 
 # check signature and create proof and metadata
 tmp_out1=`mktemp`
