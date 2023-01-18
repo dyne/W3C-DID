@@ -10,16 +10,12 @@
         "C":"C"
         },
     "utility": {
+        "0":"0",
         "1":"1",
         "2":"2",
         "true": "true",
-        "admin": "admin"
+        "admin": "admin",
+        "exit_code": "0"
         },
-    "not_allowed_spec": [
-        "sandbox",
-        "sandbox.A",
-        "sandbox.C",
-        "sandbox.U",
-        "sandbox.D"
-    ]
+    "not_allowed_spec": "sandbox"
 }

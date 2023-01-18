@@ -11,12 +11,16 @@ and I rename 'id' to 'signer_id'
 Given I have a 'string dictionary' named 'request_ACL'
 and I have a 'string dictionary' named 'signer_ACL'
 and I have a 'string dictionary' named 'utility'
-and I have a 'string array' named 'allowed_spec'
+and I have a 'string' named 'allowed_spec'
+and I have a 'string' named 'exit_code' inside 'utility'
+and I have a 'string' named 'admin' inside 'utility'
 
 When I set ':' to ':' as 'string'
 and I set '.' to '.' as 'string'
+and I set '_' to '_' as 'string'
 and I set 'signer_path' to 'data/dyne/' as 'string'
 and I set 'request_path' to 'data/dyne/' as 'string'
+and I write string '' in 'signer_path_permission'
 
 # signer_parts
 When I create the array by splitting 'signer_id' at ':'
@@ -33,40 +37,122 @@ and I rename the 'copy' to 'request_idspec'
 and I create the copy of element '4' in array 'array'
 and I rename the 'copy' to 'request_idpk'
 and I remove 'array'
-
-# check request_idspec is allowed
-When the 'request_idspec' is found in 'allowed_spec'
-
-# signer_path
-When I create the array by splitting 'signer_idspec' at '.'
+# request_domain
+When I create the array by splitting 'request_idspec' at '_'
 and I create the length of 'array'
-# no point => has to be admin
-If I verify 'length' is equal to '1' in 'utility'
-When I verify 'signer_idspec' is equal to 'admin' in 'utility'
-EndIf
-# if point => then .A or .D
-If I verify 'length' is not equal to '1' in 'utility'
-When I verify 'length' is equal to '2' in 'utility'
+and the 'length' is found in 'utility'
 and I create the copy of element '1' in array 'array'
-and I remove 'signer_idspec'
-and I rename 'copy' to 'signer_idspec'
-and I verify 'signer_idspec' is equal to 'request_idspec'
-and I create the copy of element '2' in array 'array'
-and the 'copy' is found in 'signer_ACL'
-and I append the string '/' to 'signer_idspec'
-and I append 'copy' to 'signer_idspec'
-and I remove 'copy'
+and I rename 'copy' to 'request_domain.request_ctx'
+and I remove 'length'
+and I remove 'array'
+and I create the array by splitting 'request_domain.request_ctx' at '.'
+and I create the length of 'array'
+and the 'length' is found in 'utility'
+and I create the copy of element '1' in array 'array'
+and I rename 'copy' to 'request_domain'
+and I remove 'length'
+and I remove 'array'
+
+## signer_path
+# signerPermission
+When I create the array by splitting 'signer_idspec' at '_'
+and I create the length of 'array'
+and I create the copy of element '1' in array 'array'
+and I rename 'copy' to 'signer_domain.signer_ctx'
+
+# no underscore => has to be admin
+If I verify 'length' is equal to '1' in 'utility'
+When I remove 'exit_code'
+and I set 'exit_code' to '1' as 'string'
+
+When I verify 'signer_idspec' is equal to 'admin' in 'utility'
+
+When I remove 'exit_code'
+and I set 'exit_code' to '0' as 'string'
 EndIf
+When I verify 'exit_code' is equal to '0' in 'utility'
+
+# underscore => then _A or _C
+If I verify 'length' is not equal to '1' in 'utility'
+When I remove 'exit_code'
+and I set 'exit_code' to '1' as 'string'
+
+When I verify 'length' is equal to '2' in 'utility'
+When I create the copy of element '2' in array 'array'
+and the 'copy' is found in 'signer_ACL'
+
+When I append the string '/' to 'signer_path_permission'
+and I append 'copy' to 'signer_path_permission'
+and I remove 'copy'
+
+When I remove 'exit_code'
+and I set 'exit_code' to '0' as 'string'
+EndIf
+When I verify 'exit_code' is equal to '0' in 'utility'
+
 When I remove 'array'
 and I remove 'length'
-When I append 'signer_idspec' to 'signer_path'
+
+# signerContext
+When I create the array by splitting 'signer_domain.signer_ctx' at '.'
+and I rename 'array' to 'signer_array_.'
+and I create the length of 'signer_array_.'
+
+# no point => signer_idspec != request_idspec and signer_domain in {admin, request_doamin}
+If I verify 'length' is equal to '1' in 'utility'
+When I remove 'exit_code'
+and I set 'exit_code' to '1' as 'string'
+
+When I verify 'signer_idspec' is not equal to 'request_idspec'
+
+When I copy 'signer_domain.signer_ctx' to 'signer_domain'
+
+When I create the 'string array' named 'allowed_domains'
+and I move 'admin' in 'allowed_domains'
+and I copy 'request_domain' in 'allowed_domains'
+
+When the 'signer_domain' is found in 'allowed_domains'
+
+# path
+When I append 'signer_domain' to 'signer_path' 
+
+When I remove 'exit_code'
+and I set 'exit_code' to '0' as 'string'
+EndIf
+When I verify 'exit_code' is equal to '0' in 'utility'
+
+# point => signer_domain.signer_ctx = request_idspec
+If I verify 'length' is equal to '2' in 'utility'
+When I remove 'exit_code'
+and I set 'exit_code' to '1' as 'string'
+
+When I verify 'signer_domain.signer_ctx' is equal to 'request_idspec'
+
+When I append 'signer_domain.signer_ctx' to 'signer_path'
+
+When I remove 'exit_code'
+and I set 'exit_code' to '0' as 'string'
+EndIf
+When I verify 'exit_code' is equal to '0' in 'utility'
+
+When I append 'signer_path_permission' to 'signer_path'
 and I append the string '/' to 'signer_path'
 and I append 'signer_idpk' to 'signer_path'
 
-# request_path
-When I create the array by splitting 'request_idspec' at '.'
+When I remove 'length'
+
+## request_path
+When I create the array by splitting 'request_idspec' at '_'
 and I create the length of 'array'
+
+# check request_domain is allowed
+When I verify 'request_domain' is equal to 'allowed_spec'
+and I verify 'request_domain' is not equal to 'admin' in 'utility'
+
 If I verify 'length' is not equal to '1' in 'utility'
+When I remove 'exit_code'
+and I set 'exit_code' to '1' as 'string'
+
 When I verify 'length' is equal to '2' in 'utility'
 and I create the copy of element '1' in array 'array'
 and I remove 'request_idspec'
@@ -75,7 +161,12 @@ and I create the copy of element '2' in array 'array'
 and the 'copy' is found in 'request_ACL'
 and I append the string '/' to 'request_idspec'
 and I append 'copy' to 'request_idspec'
+
+When I remove 'exit_code'
+and I set 'exit_code' to '0' as 'string'
 EndIf
+When I verify 'exit_code' is equal to '0' in 'utility'
+
 When I append 'request_idspec' to 'request_path'
 and I append the string '/' to 'request_path'
 and I append 'request_idpk' to 'request_path'
