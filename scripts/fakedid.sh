@@ -13,20 +13,37 @@ command -v zenroom > /dev/null || {
 make service-keyring
 
 # sandbox admin request
-rm -f secrets/sandbox-keyring.json
-make keyring CONTROLLER=${USER} OUT=secrets/sandbox-keyring.json
-make request KEYRING=secrets/sandbox-keyring.json DOMAIN=sandbox.A
+rm -f secrets/sandbox-admin-keyring.json
+make keyring CONTROLLER=${USER} OUT=secrets/sandbox-admin-keyring.json
+make request KEYRING=secrets/sandbox-admin-keyring.json DOMAIN=sandbox_A
 make sign KEYRING=secrets/service-keyring.json
 make accept-admin REQUEST=signed_did_doc.json
 
-# sanbox DID requests
-newdid=`mktemp`
-newreq=`mktemp`
-newsig=`mktemp`
-for i in $(seq $1); do
-	rm -f ${newdid} ${newreq} ${newsig}
-	make keyring CONTROLLER=${1} OUT=${newdid}
-	make request KEYRING=${newdid} DOMAIN=sandbox OUT=${newreq}
-	make sign KEYRING=secrets/sandbox-keyring.json REQUEST=${newreq} SIGNER_DOMAIN=sandbox.A OUT=${newsig}
-	make accept-admin REQUEST=${newsig}
-done
+# sandbox ctx admin request
+rm -f secrets/sandbox-keyring.json
+make keyring CONTROLLER=${USER} OUT=secrets/sandbox-keyring.json
+make request KEYRING=secrets/sandbox-keyring.json DOMAIN=sandbox.test_A
+make sign KEYRING=secrets/sandbox-admin-keyring.json SIGNER_DOMAIN=sandbox_A
+make accept-admin REQUEST=signed_did_doc.json
+
+# sanbox ctx requests
+create_request() {
+	newdid=`mktemp`
+	newreq=`mktemp`
+	newsig=`mktemp`
+	err=`mktemp`
+	rm -f ${newdid}
+	make keyring CONTROLLER=${1} OUT=${newdid} 1>/dev/null 2>${err}
+	[ "$?" != "0" ] && cat ${err}
+	make request KEYRING=${newdid} DOMAIN=sandbox.test OUT=${newreq} 1>/dev/null 2>${err}
+	[ "$?" != "0" ] && cat ${err}
+	make sign KEYRING=secrets/sandbox-keyring.json REQUEST=${newreq} SIGNER_DOMAIN=sandbox.test_A OUT=${newsig} 1>/dev/null 2>${err}
+	[ "$?" != "0" ] && cat ${err}
+	make accept-admin REQUEST=${newsig} 2>${err}
+	[ "$?" != "0" ] && cat ${err}
+	rm -f ${newdid} ${newreq} ${newsig} ${err}
+}
+
+export -f create_request
+
+parallel create_request ::: $(seq 1 $1)

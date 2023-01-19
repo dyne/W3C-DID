@@ -21,7 +21,8 @@ adminspec=`echo ${didpath} | cut -d: -f3`
 }
 # >&2 echo "Admin specific domain: ${adminspec}"
 adminlvl=`echo ${adminspec} | cut -d_ -f2`
-spec=`echo ${adminspec} | cut -d_ -f1 | cut -d. -f1`
+domain=`echo ${adminspec} | cut -d_ -f1`
+spec=`echo ${domain} | cut -d. -f1`
 
 # check signature and create proof and metadata
 tmp_out1=`mktemp`
@@ -37,23 +38,23 @@ zenroom -z -k api/v1/${spec}/pubkeys-store.keys -a ${tmp_out1} \
 [ "$?" != 0 ] && exit 1
 
 if [ "$adminlvl" = "A" ]; then
-	[ -r data/dyne/${spec}/A/${did} ] && {
-		>&2 echo "Cannot overwrite: $spec/A/${did}"
+	[ -r data/dyne/${domain}/A/${did} ] && {
+		>&2 echo "Cannot overwrite: ${domain}/A/${did}"
 		exit 1
 	}
-	mkdir -p data/dyne/${spec}/A/
-	mv -v ${1} data/dyne/${spec}/A/${did}
+	mkdir -p data/dyne/${domain}/A/
+	mv -v ${1} data/dyne/${domain}/A/${did}
 	exit 0
 else
-	[ -r data/dyne/${spec}/${did} ] && {
-		>&2 echo "Cannot overwrite: $spec/${did}"
+	[ -r data/dyne/${domain}/${did} ] && {
+		>&2 echo "Cannot overwrite: ${domain}/${did}"
 		exit 1
 	}
-	mkdir -p data/dyne/${spec}
-	mv -v ${1} data/dyne/${spec}/${did}
+	mkdir -p data/dyne/${domain}
+	mv -v ${1} data/dyne/${domain}/${did}
 	exit 0
 fi
 
 
->&2 echo "Unsupported spec: ${spec}"
+>&2 echo "Unsupported spec: ${adminspec}"
 exit 1
