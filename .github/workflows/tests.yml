@@ -62,10 +62,10 @@ jobs:
       - name: 🧪 Run tests
         run: |
           echo "SANDBOX"
-          ./test/run.sh sandbox
+          ./test/restroom/run.sh sandbox
           echo ""
           echo "IFACER"
-          ./test/run.sh ifacer
+          ./test/restroom/run.sh ifacer
           echo ""
           echo "RESULTS:"
           echo "- log:"
