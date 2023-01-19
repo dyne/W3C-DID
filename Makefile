@@ -40,7 +40,7 @@ sign: OUT ?= signed_did_doc.json
 sign: ## Sign a request and generate a DID proof [ REQUEST, KEYRING ]
 	$(if ${REQUEST}, $(info Signing request: ${REQUEST}), $(error Missing argument: REQUEST))
 	$(if $(wildcard ${KEYRING}),,$(error Local authority ${KEYRING} not found, cannot sign))
-	@cat ${REQUEST} | jq --arg value $$(($$(date +%s%N)/1000000)) '.timestamp = $$value' > ${REQUEST}
+	@jq --arg value $$(($$(date +%s%N)/1000000)) '.timestamp = $$value' ${REQUEST} > ${tmp} && mv ${tmp} ${REQUEST}
 	@jq '.signer_did_spec = "${SIGNER_DOMAIN}"' ${REQUEST} > ${tmp} && mv ${tmp} ${REQUEST}
 	@zenroom -z -k ${KEYRING} -a ${REQUEST} \
 				client/v1/pubkeys-sign.zen > ${OUT}
