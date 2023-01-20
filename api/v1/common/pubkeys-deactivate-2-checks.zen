@@ -2,6 +2,9 @@ Rule caller restroom-mw
 Scenario 'ecdh': verify signature
 Scenario 'w3c': proof
 
+# http_request.base_url
+Given I have a 'string' named 'base_url' inside 'http_request'
+
 # timestamp
 Given I fetch the local timestamp and store it into 'deactivate_timestamp'
 and I have a 'integer' named 'deactivate_timestamp'
@@ -24,6 +27,9 @@ Given I have a 'string' named 'deactivate_id'
 and I have a 'ecdh signature'
 and I have a 'string' named 'request_path'
 and I have a 'string' named 'signer_id'
+
+# verify contract is used inside the chain
+When I verify 'base_url' has suffix 'pubkeys-deactivate.chain'
 
 # verify both did documents are not deactivated
 When I set 'false' to 'false' as 'string'

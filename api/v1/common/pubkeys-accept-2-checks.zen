@@ -3,6 +3,9 @@ Scenario 'ecdh': verify signature
 Scenario 'eddsa': verify signature
 Scenario 'w3c': proof
 
+# http_request.base_url
+Given I have a 'string' named 'base_url' inside 'http_request'
+
 # verify git
 Given I verify the path 'data/' is a git repository
 
@@ -31,6 +34,9 @@ and I have a 'eddsa signature'
 and I have a 'integer' named 'timestamp'
 and I have a 'string' named 'request_path'
 and I have a 'string' named 'signer_id'
+
+# verify contract is used inside the chain
+When I verify 'base_url' has suffix 'pubkeys-accept.chain'
 
 When I create the 'ecdh' public key from did document 'signer_did_document'
 and I create the 'eddsa' public key from did document 'signer_did_document'
