@@ -18,7 +18,7 @@ load ../bats_zencode
          }
       ],
       "description":"fake sandbox-admin",
-      "id":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
+      "id":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
       "proof": {
          "created": "1671805668826",
          "jws": "eyJhbGciOiJFUzI1NksiLCJiNjQiOnRydWUsImNyaXQiOiJiNjQifQ..0RywWwpi-26gwNhPC4lBcTce80WMDDygtlYu8EzyXa-PZRrG64Bt46z-wp_QXhF-FIbtgf_zfIVHDBeR7sPGGw",
@@ -28,33 +28,33 @@ load ../bats_zencode
        },
       "verificationMethod":[
          {
-            "controller":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
-            "id":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#ecdh_public_key",
+            "controller":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
+            "id":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#ecdh_public_key",
             "publicKeyBase58":"S1bs1YRaGcfeUjAQh3jigvAXuV8bff2AHjERoHaBPKtBLnXLKDcGPrnB4j5bY8ZHVu9fQGkUW5XzDa9bdhGYbjPf",
             "type":"EcdsaSecp256k1VerificationKey2019"
          },
          {
-            "controller":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
-            "id":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#reflow_public_key",
+            "controller":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
+            "id":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#reflow_public_key",
             "publicKeyBase58":"9kPV92zSUok2Do2RJKx3Zn7ZY9WScvBZoorMQ8FRcoH7m1eo3mAuGJcrSpaw1YrSKeqAhJnpcFdQjLhTBEve3qvwGe7qZsam3kLo85CpTM84TaEnxVyaTZVYxuY4ytmGX2Yz1scayfSdJYASvn9z12VnmC8xM3D1cXMHNDN5zMkLZ29hgq631ssT55UQif6Pj371HUC5g6u2xYQ2mGYiQ6bQt1NWSMJDzzKTr9y7bEMPKq5bDfYEBab6a4fzk6Aqixr1P3",
             "type":"ReflowBLS12381VerificationKey"
          },
          {
-            "controller":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
-            "id":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#bitcoin_public_key",
+            "controller":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
+            "id":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#bitcoin_public_key",
             "publicKeyBase58":"rjXTCrGHFMtQhfnPMZz5rak6DDAtavVTrv2AEMXvZSBj",
             "type":"EcdsaSecp256k1VerificationKey2019"
          },
          {
-            "controller":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
-            "id":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#eddsa_public_key",
+            "controller":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
+            "id":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#eddsa_public_key",
             "publicKeyBase58":"8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
             "type":"Ed25519VerificationKey2018"
          },
          {
             "blockchainAccountId":"eip155:1:0xd3765bb6f5917d1a91adebadcfad6c248e721294",
-            "controller":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
-            "id":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#ethereum_address",
+            "controller":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
+            "id":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#ethereum_address",
             "type":"EcdsaSecp256k1RecoveryMethod2020"
          }
       ]
@@ -79,8 +79,8 @@ EOF
 	zexe client/v1/create-identity-pubkeys.zen client/v1/did-settings.json new-keyring.json
 	save_tmp_output new-id-pubkeys.json
 	# add did_spec and signer_did_spec to be used in all the following contratcs
-	jq_insert "did_spec" "sandbox" new-id-pubkeys.json
-	jq_insert "signer_did_spec" "sandbox.A" new-id-pubkeys.json
+	jq_insert "did_spec" "sandbox.test" new-id-pubkeys.json
+	jq_insert "signer_did_spec" "sandbox_A" new-id-pubkeys.json
 }
 
 @test "Signed accept request" {
@@ -90,6 +90,7 @@ EOF
 }
 
 @test "Api pubkeys: accept (chain)" {
+	jq_insert "http_request" '{"base_url":"/api/v1/sandbox/pubkeys-accept.chain"}' signed-request.json
 	zexe api/v1/sandbox/pubkeys-create-paths.zen api/v1/sandbox/pubkeys-accept-1-path.keys signed-request.json
 	save_tmp_output pubkeys-accept-api-checks.json
 }
@@ -110,6 +111,7 @@ EOF
 	save_tmp_output pubkeys-accept-api-execute.json
 	# save result
 	request_path=`jq_extract_raw "request_path" pubkeys-accept-api-execute.json`
+	mkdir -p $(dirname $R/$request_path)
 	jq '.result' pubkeys-accept-api-execute.json > $R/$request_path
 }
 
@@ -120,12 +122,13 @@ EOF
 	save_tmp_output unsigned-request.json
 	# sign the request
 	jq_insert "timestamp" $(($(date +%s%N)/1000000)) unsigned-request.json
-	jq_insert "signer_did_spec" "sandbox.A" unsigned-request.json
+	jq_insert "signer_did_spec" "sandbox_A" unsigned-request.json
 	zexe client/v1/pubkeys-sign.zen unsigned-request.json controller-keyring.json
 	save_tmp_output pubkeys-update-request.json
 }
 
 @test "Api pubkeys: accept-update (chain)" {
+	jq_insert "http_request" '{"base_url":"/api/v1/sandbox/pubkeys-update.chain"}' pubkeys-update-request.json
 	zexe api/v1/sandbox/pubkeys-create-paths.zen api/v1/sandbox/pubkeys-update-1-path.keys pubkeys-update-request.json
 	save_tmp_output pubkeys-update-api-checks.json
 }
@@ -150,6 +153,7 @@ EOF
 }
 
 @test "Api pubkeys: accept-deactivate (chain)" {
+	jq_insert "http_request" '{"base_url":"/api/v1/sandbox/pubkeys-deactivate.chain"}' pubkeys-deactivate-request.json
 	zexe api/v1/sandbox/pubkeys-deactivate-1-path.zen api/v1/sandbox/pubkeys-deactivate-1-path.keys pubkeys-deactivate-request.json
 	save_tmp_output pubkeys-deactivate-api-checks.json
 }
@@ -177,6 +181,7 @@ EOF
 	save_tmp_output pubkeys-update-request.json
 
 	## check ACL and create path
+	jq_insert "http_request" '{"base_url":"/api/v1/sandbox/pubkeys-update.chain"}' pubkeys-update-request.json
 	zexe api/v1/sandbox/pubkeys-create-paths.zen api/v1/sandbox/pubkeys-update-1-path.keys pubkeys-update-request.json
 	save_tmp_output pubkeys-update-api-checks.json
 
@@ -190,5 +195,30 @@ EOF
 	run $ZENROOM_EXECUTABLE -a $BATS_FILE_TMPDIR/pubkeys-update-api-checks.json \
 							-k $R/api/v1/sandbox/pubkeys-store.keys \
 							-z $R/api/v1/sandbox/pubkeys-update-2-checks.zen
+	assert_failure
+}
+
+@test "Api pubkeys: use request after 6h (fail)" {
+	## controller create the request to create a did document, but 6h before usage
+	jq_insert "timestamp" $(($(date +%s%N)/1000000 - 21600000)) new-id-pubkeys.json
+	jq_insert "identity" "reached_time_limit" new-id-pubkeys.json
+	# execute
+	zexe client/v1/pubkeys-request-signed.zen new-id-pubkeys.json controller-keyring.json
+	save_tmp_output pubkeys-create-request.json
+
+	## check ACL and create path
+	jq_insert "http_request" '{"base_url":"/api/v1/sandbox/pubkeys-accept.chain"}' pubkeys-create-request.json
+	zexe api/v1/sandbox/pubkeys-create-paths.zen api/v1/sandbox/pubkeys-accept-1-path.keys pubkeys-create-request.json
+	save_tmp_output pubkeys-create-api-checks.json
+
+	## store
+	jq_insert "accept_timestamp" $(($(date +%s%N)/1000000)) pubkeys-create-api-checks.json
+	signer_path=`jq_extract_raw "signer_path" pubkeys-create-api-checks.json`
+	json_join_two $signer_path pubkeys-create-api-checks.json
+	jq_insert "request_data" "{}" pubkeys-create-api-checks.json
+	# execute
+	run $ZENROOM_EXECUTABLE -a $BATS_FILE_TMPDIR/pubkeys-create-api-checks.json \
+							-k $R/api/v1/sandbox/pubkeys-store.keys \
+							-z $R/api/v1/sandbox/pubkeys-accept-2-checks.zen
 	assert_failure
 }
