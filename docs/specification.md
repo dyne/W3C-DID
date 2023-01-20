@@ -25,7 +25,8 @@ A DID that uses this method *MUST* begin with the following prefix: **did:dyne**
 Dyne DIDs is a URI conformant with [[RFC3986]] specification. The ABNF definition of our DIDs can be found in the following specification which uses the syntax provided in both [[RFC5234]] and [[RFC3986]] specifications:
 ```
 dyne-did   := did:dyne:<idspec>:<idchar>
-idspec     := *(ALPHA) *1("." ALPHA)
+idspec     := *(ALPHA) *1("." *(ALPHA)) *1("_" 1*1(permission))
+permission := "A" / "C" / "U" / "D"
 idchar     := 1*44(base58char)
 base58char := "1" / "2" / "3" / "4" / "5" / "6" / "7" / "8" / "9" / "A" / "B" / "C"
               / "D" / "E" / "F" / "G" / "H" / "J" / "K" / "L" / "M" / "N" / "P" / "Q"
@@ -36,8 +37,8 @@ base58char := "1" / "2" / "3" / "4" / "5" / "6" / "7" / "8" / "9" / "A" / "B" / 
 
 For the moment the main used prefix are:
 - <b>did:</b><b>dyne:</b><b>sandbox:</b> that is used for testing purposes.
-- <b>did:</b><b>dyne:</b><b>zenflows:</b> that is used in our [zenflows project](https://github.com/interfacerproject/zenflows) to create the user identity.
-- <b>did:</b><b>dyne:</b><b>zenflows.A:</b> that is used in our [zenflows project](https://github.com/interfacerproject/zenflows) to create the back-end identity.
+- <b>did:</b><b>dyne:</b><b>ifacer:</b> that is used in our [zenflows project](https://github.com/interfacerproject/zenflows) to create the user identity.
+- <b>did:</b><b>dyne:</b><b>zenflows_A:</b> that is used in our [zenflows project](https://github.com/interfacerproject/zenflows) to create the admin identity.
 
 An example of Dyne.org's DID is:
 ```
@@ -46,57 +47,57 @@ did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ
 that is associated to the following DID document:
 ```json
 {
-   "@context":[
-      "https://www.w3.org/ns/did/v1",
-      "https://w3id.org/security/suites/ed25519-2018/v1",
-      "https://w3id.org/security/suites/secp256k1-2019/v1",
-      "https://w3id.org/security/suites/secp256k1-2020/v1",
-      "https://dyne.github.io/W3C-DID/specs/ReflowBLS12381.json",
-      {
-         "description":"https://schema.org/description"
-      }
-   ],
-   "description":"fake sandbox-admin",
-   "id":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
-   "proof": {
-      "created": "1671805668826",
-      "jws": "eyJhbGciOiJFUzI1NksiLCJiNjQiOnRydWUsImNyaXQiOiJiNjQifQ..0RywWwpi-26gwNhPC4lBcTce80WMDDygtlYu8EzyXa-PZRrG64Bt46z-wp_QXhF-FIbtgf_zfIVHDBeR7sPGGw",
-      "proofPurpose": "assertionMethod",
-      "type": "EcdsaSecp256k1Signature2019",
-      "verificationMethod": "did:dyne:admin:DMMYfDo7VpvKRHoJmiXvEpXrfbW3sCfhUBE4tBeXmNrJ#ecdh_public_key"
-      },
-   "verificationMethod":[
-      {
-         "controller":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
-         "id":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#ecdh_public_key",
-         "publicKeyBase58":"S1bs1YRaGcfeUjAQh3jigvAXuV8bff2AHjERoHaBPKtBLnXLKDcGPrnB4j5bY8ZHVu9fQGkUW5XzDa9bdhGYbjPf",
-         "type":"EcdsaSecp256k1VerificationKey2019"
-      },
-      {
-         "controller":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
-         "id":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#reflow_public_key",
-         "publicKeyBase58":"9kPV92zSUok2Do2RJKx3Zn7ZY9WScvBZoorMQ8FRcoH7m1eo3mAuGJcrSpaw1YrSKeqAhJnpcFdQjLhTBEve3qvwGe7qZsam3kLo85CpTM84TaEnxVyaTZVYxuY4ytmGX2Yz1scayfSdJYASvn9z12VnmC8xM3D1cXMHNDN5zMkLZ29hgq631ssT55UQif6Pj371HUC5g6u2xYQ2mGYiQ6bQt1NWSMJDzzKTr9y7bEMPKq5bDfYEBab6a4fzk6Aqixr1P3",
-         "type":"ReflowBLS12381VerificationKey"
-      },
-      {
-         "controller":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
-         "id":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#bitcoin_public_key",
-         "publicKeyBase58":"rjXTCrGHFMtQhfnPMZz5rak6DDAtavVTrv2AEMXvZSBj",
-         "type":"EcdsaSecp256k1VerificationKey2019"
-      },
-      {
-         "controller":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
-         "id":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#eddsa_public_key",
-         "publicKeyBase58":"8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
-         "type":"Ed25519VerificationKey2018"
-      },
-      {
-         "blockchainAccountId":"eip155:1:0xd3765bb6f5917d1a91adebadcfad6c248e721294",
-         "controller":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
-         "id":"did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#ethereum_address",
-         "type":"EcdsaSecp256k1RecoveryMethod2020"
-      }
-   ]
+  "@context":[
+    "https://www.w3.org/ns/did/v1",
+    "https://w3id.org/security/suites/ed25519-2018/v1",
+    "https://w3id.org/security/suites/secp256k1-2019/v1",
+    "https://w3id.org/security/suites/secp256k1-2020/v1",
+    "https://dyne.github.io/W3C-DID/specs/ReflowBLS12381.json",
+    {
+      "description":"https://schema.org/description"
+    }
+  ],
+  "description":"fake sandbox-admin",
+  "id":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
+  "proof": {
+    "created": "1671805668826",
+    "jws": "eyJhbGciOiJFUzI1NksiLCJiNjQiOnRydWUsImNyaXQiOiJiNjQifQ..0RywWwpi-26gwNhPC4lBcTce80WMDDygtlYu8EzyXa-PZRrG64Bt46z-wp_QXhF-FIbtgf_zfIVHDBeR7sPGGw",
+    "proofPurpose": "assertionMethod",
+    "type": "EcdsaSecp256k1Signature2019",
+    "verificationMethod": "did:dyne:admin:DMMYfDo7VpvKRHoJmiXvEpXrfbW3sCfhUBE4tBeXmNrJ#ecdh_public_key"
+  },
+  "verificationMethod":[
+    {
+      "controller":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
+      "id":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#ecdh_public_key",
+      "publicKeyBase58":"S1bs1YRaGcfeUjAQh3jigvAXuV8bff2AHjERoHaBPKtBLnXLKDcGPrnB4j5bY8ZHVu9fQGkUW5XzDa9bdhGYbjPf",
+      "type":"EcdsaSecp256k1VerificationKey2019"
+    },
+    {
+      "controller":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
+      "id":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#reflow_public_key",
+      "publicKeyBase58":"9kPV92zSUok2Do2RJKx3Zn7ZY9WScvBZoorMQ8FRcoH7m1eo3mAuGJcrSpaw1YrSKeqAhJnpcFdQjLhTBEve3qvwGe7qZsam3kLo85CpTM84TaEnxVyaTZVYxuY4ytmGX2Yz1scayfSdJYASvn9z12VnmC8xM3D1cXMHNDN5zMkLZ29hgq631ssT55UQif6Pj371HUC5g6u2xYQ2mGYiQ6bQt1NWSMJDzzKTr9y7bEMPKq5bDfYEBab6a4fzk6Aqixr1P3",
+      "type":"ReflowBLS12381VerificationKey"
+    },
+    {
+      "controller":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
+      "id":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#bitcoin_public_key",
+      "publicKeyBase58":"rjXTCrGHFMtQhfnPMZz5rak6DDAtavVTrv2AEMXvZSBj",
+      "type":"EcdsaSecp256k1VerificationKey2019"
+    },
+    {
+      "controller":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
+      "id":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#eddsa_public_key",
+      "publicKeyBase58":"8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
+      "type":"Ed25519VerificationKey2018"
+    },
+    {
+      "blockchainAccountId":"eip155:1:0xd3765bb6f5917d1a91adebadcfad6c248e721294",
+      "controller":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
+      "id":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#ethereum_address",
+      "type":"EcdsaSecp256k1RecoveryMethod2020"
+    }
+  ]
 }
 ```
 The informations about the DID document are store in the DidDocumentMetadata field outstide of the DID document, for example the above did document is associated with the following metadata:
@@ -120,21 +121,22 @@ CRUD operations refer to the four basic functions that are commonly used to mani
 
 In this moment all the CRUD operations, execpt for the Reading operation, are permissioned. This means that Create, Update and Delete operations are restricted to certain users or groups of users. In other words, only users who have been granted permission can perform these operations.
 
-This permissioned system is set up following a linear hierarchy and the level of each user in this hierarchy is defined inside their own DID. There are mainly three levels:
-- **admin**: there exist only one admin for all the system and its DID starts with <b>did:</b><b>dyne:</b><b>admin:</b>. It posses the master key needed to create second levels admins that are specific to their own specific identifier.
-- **second-level admins**: there can be more than one second-level admin and its DID starts with <b>did:</b><b>dyne:</b><b>idspec.A:</b> where *idspec* can be any alphabetic string. They can create, update and delete any did document whose DID starts with <b>did:</b><b>dyne:</b><b>idpsec:</b>. The power of these second-level admins can also be reduced to a single operation using the following notation:
-   - <b>did:</b><b>dyne:</b><b>idspec.C:</b> can only create DID documents
-   - <b>did:</b><b>dyne:</b><b>idspec.U:</b> can only update DID documents
-   - <b>did:</b><b>dyne:</b><b>idspec.D:</b> can only delete DID documents
-- **users**: their DID starts with <b>did:</b><b>dyne:</b><b>idpsec:</b> and they can not perform any operation on DID documents, excpet for reading.
+This permissioned system is set up following a linear hierarchy and the level of each user in this hierarchy is defined inside their own DID. There are mainly four levels:
+- **admin**: its DID starts with <b>did:</b><b>dyne:</b><b>admin:</b>. It posses the master key needed to create all the other DID documents.
+- **second-level admins**: its DID starts with <b>did:</b><b>dyne:</b><b>domain_A:</b> where *domain* can be any alphabetic string. They can create, update and delete any did document whose DID starts with <b>did:</b><b>dyne:</b><b>domain.ctx_A:</b>, <b>did:</b><b>dyne:</b><b>domain.ctx:</b> and <b>did:</b><b>dyne:</b><b>domain:</b>, where *ctx* can be any alphabetical string and represent the context. The power of these second-level admins can also be reduced to a single operation using the following notation:
+   - <b>did:</b><b>dyne:</b><b>idspec_C:</b> can only create DID documents
+   - <b>did:</b><b>dyne:</b><b>idspec_U:</b> can only update DID documents
+   - <b>did:</b><b>dyne:</b><b>idspec_D:</b> can only delete DID documents
+- **second-level context specific admins**: its DID starts with <b>did:</b><b>dyne:</b><b>domain.ctx_A:</b> where *domain* and *ctx* can be any alphabetic string. These admin are *context specific admin* and they can only create, update and delete only DID document under the same context, *i.e.* DID documents whose DID starts with <b>did:</b><b>dyne:</b><b>domain.ctx:</b>. Also in this case their power can be reduced to a single operation as for the second-level admins.
+- **participants**: their DID starts with <b>did:</b><b>dyne:</b><b>domain.ctx:</b> or <b>did:</b><b>dyne:</b><b>domain:</b> and they can not perform any operation on DID documents, excpet for reading.
 
 ### DID Document Creation
 
-As stated before, this operation is permissioned, thus in order to create a DID document a secret keyring is needed. In order to create a second-level admin DID document the admin keyring is needed, while in order to create a user DID document a second-level admin keyring is needed. Once the user creates the DID document the latter has to be encoded into a string removing all new lines and withespaces (outside of the values of DID document) and escaping double quotes and backslashes. Finally an eddsa signature of this string is computed to certify that on receipt the DID document has not been tumpered with.
+As stated before, this operation is permissioned, thus in order to create a DID document a secret keyring is needed. In order to create a second-level (or a second-level context specific) admin DID document the admin keyring is needed, while in order to create a participant DID document a second-level (or a second-level context specific) admin keyring is needed. Once the user creates the DID document the latter has to be encoded into a string removing all new lines and withespaces (outside of the values of DID document) and escaping double quotes and backslashes. Finally an eddsa signature of this string is computed to certify that on receipt the DID document has not been tumpered with.
 
-In order to avoid reply attack a second signature is needed. This time the did document along with a timestamp are inserted into a dictionary, also in this case the dictionary is encoded into a string and finally eddsa signed.
+In order to avoid reply attack a second signature is needed. This time the DID document along with a timestamp are inserted into a dictionary, also in this case the dictionary is encoded into a string and finally ecdh signed.
 
-Thus at the end of the clinet side creation of the DID document, the client will end up with a DID document, a ecdh signature, a timestamp, a eddsa signature and the DID of signer. This should look like this:
+Thus at the end of the clinet side creation of the DID document, the client will end up with a DID document, a ecdh signature, a timestamp, a eddsa signature and the DID of the signer. This should look like this:
 
 ```json
 {
@@ -189,7 +191,7 @@ Thus at the end of the clinet side creation of the DID document, the client will
     "s": "AjCmqMXUXBD1Wc66nFabcnTxRodpHTcFepcyHLwRGoiS"
   },
   "eddsa_signature": "54jSisfb17KqjYuDsUn4rdGkmAoJFUAA4aRVHW75sa7chAWoBTpJiGSdUxegfTKQpVi7UoNFuteVEtCndKwBKaMp",
-  "id": "did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
+  "id": "did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
   "timestamp": "1672319885685"
 }
 ```
@@ -224,12 +226,12 @@ curl -X 'GET' \
 ```
 It resolve the DID into a DID document, if it is found. For example the DID 
 ```
-did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ
+did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ
 ```
 can be resolved with:
 ```bash
 curl -X 'GET' \
-  'https://did.dyne.org:443/dids/did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ' \
+  'https://did.dyne.org:443/dids/did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ' \
   -H 'accept: application/json'
 ```
 
@@ -256,7 +258,7 @@ curl -X 'POST' \
 
 ### DID Document Revocation
 
-To revocate/deactivate a DID document, it is enough to perform a *HTTP POST* request as follow where the **deactivate_id** is the DID to be deactivated, the **ecdh signature** is its eddsa signature using the admin or second-level admin ecdh key and the **id** is te signer DID:
+To revocate/deactivate a DID document, it is enough to perform a *HTTP POST* request as follow where the **deactivate_id** is the DID to be deactivated, the **ecdh signature** is its ecdh signature using the admin or second-level admin ecdh key and the **id** is te signer DID:
 
 ```bash
 curl -X 'POST' \
