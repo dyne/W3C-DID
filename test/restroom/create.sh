@@ -249,29 +249,38 @@ echo ""
 echo "DOMAIN ADMIN does not creates other domains did"
 [ "${domain}" = "sandbox" ] && second_domain="ifacer" || second_domain="sandbox" 
 
-printf "%-18s %-20s %s\n" "${domain}.${ctx}_A" "does not create" "${second_domain}"
+printf "%-18s %-20s %s\n" "${domain}_A" "does not create" "${second_domain}_A"
 create_request  test-keyring.json \
-                ${second_domain} \
-                ${domain}.${ctx}_A-keyring.json \
-                ${domain}.${ctx}_A \
+                ${second_domain}_A \
+                ${domain}_A-keyring.json \
+                ${domain}_A \
                 ${tmpreq}
 send_request ${second_domain}/pubkeys-accept.chain ${tmpreq} 255
 rm -f ${tmpreq} secrets/test-keyring.json
 
-printf "%-18s %-20s %s\n" "${domain}.${ctx}_A" "does not create" "${second_domain}_A"
+printf "%-18s %-20s %s\n" "${domain}_A" "does not create" "${second_domain}.${ctx}_A"
 create_request  test-keyring.json \
-                ${second_domain} \
-                ${domain}.${ctx}_A-keyring.json \
-                ${domain}.${ctx}_A \
+                ${second_domain}.${ctx}_A \
+                ${domain}_A-keyring.json \
+                ${domain}_A \
                 ${tmpreq}
 send_request ${second_domain}/pubkeys-accept.chain ${tmpreq} 255
 rm -f ${tmpreq} secrets/test-keyring.json
 
-printf "%-18s %-20s %s\n" "${domain}.${ctx}_A" "does not create" "${second_domain}.${ctx}_A"
+printf "%-18s %-20s %s\n" "${domain}_A" "does not create" "${second_domain}.${ctx}"
+create_request  test-keyring.json \
+                ${second_domain}.${ctx} \
+                ${domain}_A-keyring.json \
+                ${domain}_A \
+                ${tmpreq}
+send_request ${second_domain}/pubkeys-accept.chain ${tmpreq} 255
+rm -f ${tmpreq} secrets/test-keyring.json
+
+printf "%-18s %-20s %s\n" "${domain}_A" "does not create" "${second_domain}"
 create_request  test-keyring.json \
                 ${second_domain} \
-                ${domain}.${ctx}_A-keyring.json \
-                ${domain}.${ctx}_A \
+                ${domain}_A-keyring.json \
+                ${domain}_A \
                 ${tmpreq}
 send_request ${second_domain}/pubkeys-accept.chain ${tmpreq} 255
 rm -f ${tmpreq} secrets/test-keyring.json
