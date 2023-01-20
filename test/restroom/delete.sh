@@ -395,56 +395,75 @@ rm -f ${tmpreq}
 
 echo ""
 echo "DOMAIN ADMIN does not delete other domains did"
+[ "${domain}" = "sandbox" ] && second_domain="ifacer" || second_domain="sandbox" 
+
 create_request  test_A-keyring.json \
-                test_A \
+                ${second_domain}_A \
                 test-delete-service-keyring.json \
                 admin \
                 ${tmpreq}
-send_request ifacer/pubkeys-accept.chain ${tmpreq} 0
+send_request ${second_domain}/pubkeys-accept.chain ${tmpreq} 0
 rm -f ${tmpreq}
 
 create_request  test.${ctx}_A-keyring.json \
-                test.${ctx}_A \
+                ${second_domain}.${ctx}_A \
                 test-delete-service-keyring.json \
                 admin \
                 ${tmpreq}
-send_request ifacer/pubkeys-accept.chain ${tmpreq} 0
+send_request ${second_domain}/pubkeys-accept.chain ${tmpreq} 0
 rm -f ${tmpreq}
 
 create_request  test.${ctx}-keyring.json \
-                test.${ctx} \
+                ${second_domain}.${ctx} \
                 test-delete-service-keyring.json \
                 admin \
                 ${tmpreq}
-send_request ifacer/pubkeys-accept.chain ${tmpreq} 0
+send_request ${second_domain}/pubkeys-accept.chain ${tmpreq} 0
 rm -f ${tmpreq}
-printf "%-18s %-20s %s\n" "${domain}_A" "does not delete" "test_A"
+
+create_request  test-keyring.json \
+                ${second_domain} \
+                test-delete-service-keyring.json \
+                admin \
+                ${tmpreq}
+send_request ${second_domain}/pubkeys-accept.chain ${tmpreq} 0
+rm -f ${tmpreq}
+
+printf "%-18s %-20s %s\n" "${domain}_A" "does not delete" "${second_domain}_A"
 delete_request  test_A-keyring.json \
-                test_A \
+                ${second_domain}_A \
                 ${domain}_A-keyring.json \
                 ${domain}_A \
                 ${tmpreq}
-send_request ${domain}/pubkeys-deactivate.chain ${tmpreq} 255
-rm -f ${tmpreq}
+send_request ${second_domain}/pubkeys-deactivate.chain ${tmpreq} 255
+rm -f ${tmpreq} 
 
-printf "%-18s %-20s %s\n" "${domain}_A" "does not delete" "test.${ctx}_A"
+printf "%-18s %-20s %s\n" "${domain}_A" "does not delete" "${second_domain}.${ctx}_A"
 delete_request  test.${ctx}_A-keyring.json \
-                test.${ctx}_A \
+                ${second_domain}.${ctx}_A \
                 ${domain}_A-keyring.json \
                 ${domain}_A \
                 ${tmpreq}
-send_request ${domain}/pubkeys-deactivate.chain ${tmpreq} 255
+send_request ${second_domain}/pubkeys-deactivate.chain ${tmpreq} 255
 rm -f ${tmpreq}
 
-printf "%-18s %-20s %s\n" "${domain}_A" "does not delete" "test.${ctx}"
+printf "%-18s %-20s %s\n" "${domain}_A" "does not delete" "${second_domain}.${ctx}"
 delete_request  test.${ctx}-keyring.json \
-                test.${ctx} \
+                ${second_domain}.${ctx} \
                 ${domain}_A-keyring.json \
                 ${domain}_A \
                 ${tmpreq}
-send_request ${domain}/pubkeys-deactivate.chain ${tmpreq} 255
+send_request ${second_domain}/pubkeys-deactivate.chain ${tmpreq} 255
 rm -f ${tmpreq}
 
+printf "%-18s %-20s %s\n" "${domain}_A" "does not delete" "${second_domain}"
+delete_request  test-keyring.json \
+                ${second_domain} \
+                ${domain}_A-keyring.json \
+                ${domain}_A \
+                ${tmpreq}
+send_request ${second_domain}/pubkeys-deactivate.chain ${tmpreq} 255
+rm -f ${tmpreq}
 
 echo ""
 echo "OTHER TESTS"
@@ -499,4 +518,4 @@ send_request ${domain}/pubkeys-deactivate.chain ${tmpreq} 255
 rm -f ${tmpreq}
 
 # cleanup secrets
-rm secrets/test* secrets/${domain}* secrets/spec* did_doc.json
+rm -f secrets/test* secrets/${domain}* secrets/spec* did_doc.json

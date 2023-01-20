@@ -319,6 +319,15 @@ create_request  test.${ctx}-keyring.json \
 send_request ${second_domain}/pubkeys-accept.chain ${tmpreq} 0
 rm -f ${tmpreq}
 
+create_request  test-keyring.json \
+                ${second_domain} \
+                test-update-service-keyring.json \
+                admin \
+                ${tmpreq} \
+                test_original.json
+send_request ${second_domain}/pubkeys-accept.chain ${tmpreq} 0
+rm -f ${tmpreq}
+
 printf "%-18s %-20s %s\n" "${domain}_A" "does not update" "${second_domain}_A"
 update_request  test_1 \
                 test_A_original.json \
@@ -346,6 +355,13 @@ update_request  test_1 \
 send_request ${second_domain}/pubkeys-update.chain ${tmpreq} 255
 rm -f ${tmpreq}
 
-
+printf "%-18s %-20s %s\n" "${domain}_A" "does not update" "${second_domain}"
+update_request  test_1 \
+                test_original.json \
+                ${domain}_A-keyring.json \
+                ${domain}_A \
+                ${tmpreq}
+send_request ${second_domain}/pubkeys-update.chain ${tmpreq} 255
+rm -f ${tmpreq}
 
 rm secrets/test* secrets/${domain}* *_original.json
