@@ -38,15 +38,16 @@ and I have a 'string' named 'signer_id'
 # verify contract is used inside the chain
 When I verify 'base_url' has suffix 'pubkeys-accept.chain'
 
-When I create the 'ecdh' public key from did document 'signer_did_document'
-and I create the 'eddsa' public key from did document 'signer_did_document'
-
 # verify request_data={}
 When 'didDocument' is not found in 'request_data'
 
 # verify signer is not deactivated
 When I set 'false' to 'false' as 'string'
 and I verify 'false' is equal to 'deactivated' in 'signer_metadata'
+
+# extract signer pks
+When I create the 'ecdh' public key from did document 'signer_did_document'
+and I create the 'eddsa' public key from did document 'signer_did_document'
 
 # verify timestamp (6h) + eddsa_signature
 When I create the result of 'accept_timestamp' - 'timestamp'

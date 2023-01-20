@@ -15,6 +15,7 @@ and I rename 'id' to 'signer_id'
 Given I have a 'string dictionary' named 'request_ACL'
 and I have a 'string dictionary' named 'signer_ACL'
 and I have a 'string dictionary' named 'utility'
+and I have a 'float' named '2' inside 'utility'
 and I have a 'string' named 'allowed_spec'
 and I have a 'string' named 'exit_code' inside 'utility'
 and I have a 'string' named 'admin' inside 'utility'
@@ -46,24 +47,28 @@ and I rename the 'copy' to 'request_idpk'
 and I remove 'array'
 # request_domain
 When I create the array by splitting 'request_idspec' at '_'
-and I create the length of 'array'
-and the 'length' is found in 'utility'
-and I create the copy of element '1' in array 'array'
+and I rename 'array' to 'request_split_by_underscore'
+and I create the length of 'request_split_by_underscore'
+and number 'length' is less or equal than '2'
+and I rename 'length' to 'length_request_split_by_underscore'
+and I create the copy of element '1' in array 'request_split_by_underscore'
 and I rename 'copy' to 'request_domain.request_ctx'
-and I remove 'length'
-and I remove 'array'
 and I create the array by splitting 'request_domain.request_ctx' at '.'
 and I create the length of 'array'
-and the 'length' is found in 'utility'
+and number 'length' is less or equal than '2'
 and I create the copy of element '1' in array 'array'
 and I rename 'copy' to 'request_domain'
 and I remove 'length'
 and I remove 'array'
+# check request_domain is allowed
+When I verify 'request_domain' is equal to 'allowed_spec'
+and I verify 'request_domain' is not equal to 'admin' in 'utility'
 
 ## signer_path
 # signerPermission
 When I create the array by splitting 'signer_idspec' at '_'
 and I create the length of 'array'
+and number 'length' is less or equal than '2'
 and I create the copy of element '1' in array 'array'
 and I rename 'copy' to 'signer_domain.signer_ctx'
 
@@ -80,11 +85,10 @@ EndIf
 When I verify 'exit_code' is equal to '0' in 'utility'
 
 # underscore => then _A or _C
-If I verify 'length' is not equal to '1' in 'utility'
+If I verify 'length' is equal to '2' in 'utility'
 When I remove 'exit_code'
 and I set 'exit_code' to '1' as 'string'
 
-When I verify 'length' is equal to '2' in 'utility'
 When I create the copy of element '2' in array 'array'
 and the 'copy' is found in 'signer_ACL'
 
@@ -102,8 +106,8 @@ and I remove 'length'
 
 # signerContext
 When I create the array by splitting 'signer_domain.signer_ctx' at '.'
-and I rename 'array' to 'signer_array_.'
-and I create the length of 'signer_array_.'
+and I create the length of 'array'
+and number 'length' is less or equal than '2'
 
 # no point => signer_idspec != request_idspec and signer_domain in {admin, request_doamin}
 If I verify 'length' is equal to '1' in 'utility'
@@ -113,12 +117,10 @@ and I set 'exit_code' to '1' as 'string'
 When I verify 'signer_idspec' is not equal to 'request_idspec'
 
 When I copy 'signer_domain.signer_ctx' to 'signer_domain'
-
-When I create the 'string array' named 'allowed_domains'
+and I create the 'string array' named 'allowed_domains'
 and I move 'admin' in 'allowed_domains'
 and I copy 'request_domain' in 'allowed_domains'
-
-When the 'signer_domain' is found in 'allowed_domains'
+and the 'signer_domain' is found in 'allowed_domains'
 
 # path
 When I append 'signer_domain' to 'signer_path' 
@@ -134,8 +136,7 @@ When I remove 'exit_code'
 and I set 'exit_code' to '1' as 'string'
 
 When I verify 'signer_domain.signer_ctx' is equal to 'request_idspec'
-
-When I append 'signer_domain.signer_ctx' to 'signer_path'
+and I append 'signer_domain.signer_ctx' to 'signer_path'
 
 When I remove 'exit_code'
 and I set 'exit_code' to '0' as 'string'
@@ -146,25 +147,18 @@ When I append 'signer_path_permission' to 'signer_path'
 and I append the string '/' to 'signer_path'
 and I append 'signer_idpk' to 'signer_path'
 
-When I remove 'length'
+When I remove 'array'
+and I remove 'length'
 
 ## request_path
-When I create the array by splitting 'request_idspec' at '_'
-and I create the length of 'array'
-
-# check request_domain is allowed
-When I verify 'request_domain' is equal to 'allowed_spec'
-and I verify 'request_domain' is not equal to 'admin' in 'utility'
-
-If I verify 'length' is not equal to '1' in 'utility'
+If I verify 'length_request_split_by_underscore' is equal to '2' in 'utility'
 When I remove 'exit_code'
 and I set 'exit_code' to '1' as 'string'
 
-When I verify 'length' is equal to '2' in 'utility'
-and I create the copy of element '1' in array 'array'
+When I create the copy of element '1' in array 'request_split_by_underscore'
 and I remove 'request_idspec'
 and I rename 'copy' to 'request_idspec'
-and I create the copy of element '2' in array 'array'
+and I create the copy of element '2' in array 'request_split_by_underscore'
 and the 'copy' is found in 'request_ACL'
 and I append the string '/' to 'request_idspec'
 and I append 'copy' to 'request_idspec'
@@ -179,8 +173,8 @@ and I append the string '/' to 'request_path'
 and I append 'request_idpk' to 'request_path'
 
 Then print the 'signer_path'
-Then print the 'request_path'
-Then print the 'deactivate_id'
-Then print the 'signer_id'
-Then print the 'ecdh_signature'
-Then print the 'http_request'
+and print the 'request_path'
+and print the 'deactivate_id'
+and print the 'signer_id'
+and print the 'ecdh_signature'
+and print the 'http_request'

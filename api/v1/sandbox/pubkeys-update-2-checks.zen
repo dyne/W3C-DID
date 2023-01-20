@@ -41,7 +41,7 @@ When I set 'false' to 'false' as 'string'
 and I verify 'false' is equal to 'deactivated' in 'signer_metadata'
 and I verify 'false' is equal to 'deactivated' in 'request_metadata'
 
-
+# extract signer pks
 When I create the 'ecdh' public key from did document 'signer_did_document'
 and I create the 'eddsa' public key from did document 'signer_did_document'
 
@@ -54,7 +54,7 @@ and I copy the 'request did document' to 'did document' in 'signed_by_eddsa'
 and I copy 'timestamp' in 'signed_by_eddsa'
 and I create the json of 'signed_by_eddsa'
 and I verify the 'json' has a eddsa signature in 'eddsa signature' by 'eddsa public key'
-and I rename 'result' to 'timestamp_result'
+and I remove 'result'
 and I remove 'json'
 
 # verify singautres

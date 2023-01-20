@@ -5,6 +5,9 @@ Scenario 'w3c': proof
 # http_request.base_url
 Given I have a 'string' named 'base_url' inside 'http_request'
 
+# verify git
+Given I verify the path 'data/' is a git repository
+
 # timestamp
 Given I fetch the local timestamp and store it into 'deactivate_timestamp'
 and I have a 'integer' named 'deactivate_timestamp'
