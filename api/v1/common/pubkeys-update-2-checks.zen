@@ -3,6 +3,9 @@ Scenario 'ecdh': verify signature
 Scenario 'eddsa': verify signature
 Scenario 'w3c': proof
 
+# http_request.base_url
+Given I have a 'string' named 'base_url' inside 'http_request'
+
 # timestamp
 Given I fetch the local timestamp and store it into 'update_timestamp'
 and I have a 'integer' named 'update_timestamp'
@@ -29,6 +32,9 @@ and I have a 'eddsa signature'
 and I have a 'integer' named 'timestamp'
 and I have a 'string' named 'request_path'
 and I have a 'string' named 'signer_id'
+
+# verify contract is used inside the chain
+When I verify 'base_url' has suffix 'pubkeys-update.chain'
 
 # verify both did documents are not deactivated
 When I set 'false' to 'false' as 'string'

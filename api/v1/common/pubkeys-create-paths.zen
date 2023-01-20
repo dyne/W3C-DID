@@ -3,6 +3,10 @@ Scenario 'ecdh': singature
 Scenario 'eddsa': signature
 Scenario 'w3c': did document
 
+# http_request
+Given I have a 'string dictionary' named 'http_request'
+Given I have a 'string' named 'base_url' inside 'http_request'
+
 Given I have a 'did document' named 'did document'
 and I rename 'did_document' to 'request_did_document'
 and I have a 'ecdh signature'
@@ -18,6 +22,9 @@ and I have a 'string dictionary' named 'utility'
 and I have a 'string' named 'not_allowed_spec'
 and I have a 'string' named 'exit_code' inside 'utility'
 and I have a 'string' named 'admin' inside 'utility'
+
+# verify contract is used inside the chain
+When I verify 'base_url' has suffix '.chain'
 
 When I set ':' to ':' as 'string'
 and I set '.' to '.' as 'string'
@@ -184,3 +191,4 @@ Then print the 'signer_id'
 Then print the 'ecdh_signature'
 Then print the 'timestamp'
 Then print the 'eddsa signature'
+Then print the 'http_request'
