@@ -25,6 +25,7 @@ Given I rename 'didDocumentMetadata' to 'request_metadata'
 # key
 Given I have a 'string dictionary' named 'proof'
 and I have a 'string' named '@context'
+and I have a 'integer' named 'expiration_time'
 # data
 Given I have a 'did document' named 'request did document'
 and I have a 'ecdh signature'
@@ -47,8 +48,7 @@ and I create the 'eddsa' public key from did document 'signer_did_document'
 
 # verify timestamp (6h) + eddsa_signature
 When I create the result of 'update_timestamp' - 'timestamp'
-and I set '6_hours' to '21600000' as 'integer'
-and number 'result' is less or equal than '6_hours'
+and number 'result' is less or equal than 'expiration_time'
 When I create the 'string dictionary' named 'signed_by_eddsa'
 and I copy the 'request did document' to 'did document' in 'signed_by_eddsa'
 and I copy 'timestamp' in 'signed_by_eddsa'

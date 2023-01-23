@@ -61,7 +61,7 @@ and I create the copy of element '1' in array 'request_split_by_underscore'
 and I rename 'copy' to 'request_domain.request_ctx'
 and I create the array by splitting 'request_domain.request_ctx' at '.'
 and I create the length of 'array'
-and the 'length' is found in 'utility'
+and number 'length' is less or equal than '2'
 and I create the copy of element '1' in array 'array'
 and I rename 'copy' to 'request_domain'
 and I remove 'length'
@@ -81,7 +81,7 @@ and I rename 'copy' to 'signer_domain.signer_ctx'
 # no underscore => has to be admin
 If I verify 'length' is equal to '1' in 'utility'
 When I remove 'exit_code'
-and I set 'exit_code' to '1' as 'string'
+and I set 'exit_code' to 'check signer is admin' as 'string'
 
 When I verify 'signer_idspec' is equal to 'admin' in 'utility'
 
@@ -93,7 +93,7 @@ When I verify 'exit_code' is equal to '0' in 'utility'
 # underscore => then _A or _C
 If I verify 'length' is equal to '2' in 'utility'
 When I remove 'exit_code'
-and I set 'exit_code' to '1' as 'string'
+and I set 'exit_code' to 'check signer permissions' as 'string'
 
 When I create the copy of element '2' in array 'array'
 and the 'copy' is found in 'signer_ACL'
@@ -118,7 +118,7 @@ and number 'length' is less or equal than '2'
 # no point => signer_idspec != request_idspec and signer_domain in {admin, request_doamin}
 If I verify 'length' is equal to '1' in 'utility'
 When I remove 'exit_code'
-and I set 'exit_code' to '1' as 'string'
+and I set 'exit_code' to 'check signer domain' as 'string'
 
 When I verify 'signer_idspec' is not equal to 'request_idspec'
 
@@ -139,7 +139,7 @@ When I verify 'exit_code' is equal to '0' in 'utility'
 # point => signer_domain.signer_ctx = request_idspec
 If I verify 'length' is equal to '2' in 'utility'
 When I remove 'exit_code'
-and I set 'exit_code' to '1' as 'string'
+and I set 'exit_code' to 'check signer context' as 'string'
 
 When I verify 'signer_domain.signer_ctx' is equal to 'request_idspec'
 and I append 'signer_domain.signer_ctx' to 'signer_path'
@@ -159,7 +159,7 @@ and I remove 'length'
 ## request_path
 If I verify 'length_request_split_by_underscore' is equal to '2' in 'utility'
 When I remove 'exit_code'
-and I set 'exit_code' to '1' as 'string'
+and I set 'exit_code' to 'check request permissions' as 'string'
 
 When I create the copy of element '1' in array 'request_split_by_underscore'
 and I remove 'request_idspec'
