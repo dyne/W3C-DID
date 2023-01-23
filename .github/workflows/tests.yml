@@ -66,9 +66,9 @@ jobs:
           echo ""
           echo "IFACER"
           ./test/restroom/run.sh ifacer
-          echo ""
-          echo "RESULTS:"
-          echo "- log:"
-          cat api_dyne_v1.log
-          echo "- commits:"
-          cd data && git log HEAD~3..HEAD
+          mylog=`cat api_dyne_v1.log`
+          if [ "$mylog" = "" ]; then
+            echo ""
+            echo "empty log"
+            exit 1
+          fi
