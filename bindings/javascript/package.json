@@ -43,15 +43,16 @@
   "ava": {
     "failFast": true,
     "timeout": "60s",
-		"extensions": [
-			"ts"
-		],
-		"require": [
-			"ts-node/register"
-		]
-	},
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ]
+  },
   "devDependencies": {
     "@ava/typescript": "^3.0.1",
+    "dotenv": "^16.0.3",
     "ts-node": "^10.9.1"
   }
 }
