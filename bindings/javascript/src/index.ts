@@ -21,10 +21,11 @@ export const createKeyring = async (
 const preparePks = async (
   requestKeyring: string,
   requestDomain: string,
-  signerDomain: string
+  signerDomain: string,
+  additionalData: string
 ) :Promise<string> => {
   const contractPks = readFromFile('client/v1/create-identity-pubkeys.zen');
-  const data = readFromFile('client/v1/did-settings.json');
+  const data = readFromFile(additionalData);
   let {result} = await zencode_exec(contractPks, {data, keys : requestKeyring});
   result = JSON.parse(result);
   result["did_spec"] = requestDomain;
@@ -40,7 +41,23 @@ export const createRequest = async (
   signerDomain: string
 ) :Promise<string> => {
   const contractRequest = readFromFile('client/v1/pubkeys-request-signed.zen');
-  const data = await preparePks(requestKeyring, requestDomain, signerDomain);
+  const data = await preparePks(requestKeyring, requestDomain, signerDomain, 'client/v1/did-settings.json');
+  const {result} = await zencode_exec(contractRequest, {data, keys : signerKeyring});
+  return result;
+}
+
+export const createIfacerRequest = async (
+  requestKeyring: string,
+  requestDomain: string,
+  requestIdentifier: string,
+  signerKeyring: string,
+  signerDomain: string
+) :Promise<string> => {
+  const contractRequest = readFromFile('client/v1/ifacer/pubkeys-request-signed.zen');
+  let data = await preparePks(requestKeyring, requestDomain, signerDomain, 'client/v1/ifacer/did-settings.json');
+  data = JSON.parse(data);
+  data["identifier"] = requestIdentifier;
+  data = JSON.stringify(data);
   const {result} = await zencode_exec(contractRequest, {data, keys : signerKeyring});
   return result;
 }
@@ -52,7 +69,7 @@ export const deactivateRequest = async (
   signerDomain: string
 ) :Promise<string> => {
   const contractRequest = readFromFile('client/v1/pubkeys-deactivate.zen');
-  const data = await preparePks(requestKeyring, requestDomain, signerDomain);
+  const data = await preparePks(requestKeyring, requestDomain, signerDomain, 'client/v1/did-settings.json');
   const {result} = await zencode_exec(contractRequest, {data, keys : signerKeyring});
   return result;
 }

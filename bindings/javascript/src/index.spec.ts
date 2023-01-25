@@ -1,6 +1,6 @@
 import test from "ava";
 import * as dotenv from "dotenv";
-import { createKeyring, createRequest,
+import { createKeyring, createRequest, createIfacerRequest,
   deactivateRequest, sendRequest
 } from "./index";
 dotenv.config();
@@ -10,8 +10,9 @@ let acceptRequest: string = null;
 let updateRequest: string = null;
 let deleteRequest: string = null;
 let sandboxTestKeyring: string = null;
+let ifacerTestKeyring: string = null;
 
-test.serial("Create a keyring", async (t) => {
+test.serial("Create a sandbox keyring", async (t) => {
   sandboxTestKeyring = await createKeyring("sandbox_test_from_js");
   t.is(typeof sandboxTestKeyring, "string");
   const r = JSON.parse(sandboxTestKeyring);
@@ -24,7 +25,7 @@ test.serial("Create a keyring", async (t) => {
   t.is(typeof r["sandbox_test_from_js"]["keyring"]["reflow"], "string");
 })
 
-test.serial("Create an accept request", async (t) => {
+test.serial("Create a sandbox accept request", async (t) => {
   acceptRequest = await createRequest(
     sandboxTestKeyring, "sandbox.test",
     sandboxTestAKeyring, "sandbox.test_A");
@@ -111,4 +112,38 @@ test.serial("Send the delete request", async (t) => {
   t.is(typeof result["request_data"]["didDocument"], "object");
   t.is(typeof result["request_data"]["didDocumentMetadata"], "object");
   t.is(result["request_data"]["didDocumentMetadata"]["deactivated"], "true");
+})
+
+test.serial("Create a ifacer keyring", async (t) => {
+  ifacerTestKeyring = await createKeyring("ifacer_test_from_js");
+  t.is(typeof ifacerTestKeyring, "string");
+  const r = JSON.parse(ifacerTestKeyring);
+  t.is(typeof r["ifacer_test_from_js"], "object");
+  t.is(r["controller"], "ifacer_test_from_js");
+  t.is(typeof r["ifacer_test_from_js"]["keyring"]["ecdh"], "string");
+  t.is(typeof r["ifacer_test_from_js"]["keyring"]["eddsa"], "string");
+  t.is(typeof r["ifacer_test_from_js"]["keyring"]["ethereum"], "string");
+  t.is(typeof r["ifacer_test_from_js"]["keyring"]["bitcoin"], "string");
+  t.is(typeof r["ifacer_test_from_js"]["keyring"]["reflow"], "string");
+})
+
+test.serial("Create a ifacer accept request", async (t) => {
+  // the admin keyring is wrong, thus the accept request will fail if sent
+  // we do not send it, but just check that the identifier is present in the 
+  // did document
+  const ifacerAcceptRequest = await createIfacerRequest(
+    ifacerTestKeyring, "ifacer.test", "061FKNW40X4CAEEAFSW8NZRCWG",
+    sandboxTestAKeyring, "ifacer.test_A");
+  t.is(typeof ifacerAcceptRequest, "string");
+  const r = JSON.parse(ifacerAcceptRequest);
+  t.is(typeof r["did_document"]["@context"], "object");
+  t.true(r["did_document"]["@context"].map(a=>a.identifier).includes("https://schema.org/identifier"));
+  t.is(typeof r["did_document"]["id"], "string");
+  t.is(typeof r["did_document"]["verificationMethod"], "object");
+  t.is(r["did_document"]["identifier"], "061FKNW40X4CAEEAFSW8NZRCWG");
+  t.is(r["did_document"]["description"], "ifacer_test_from_js");
+  t.is(typeof r["ecdh_signature"], "object");
+  t.is(typeof r["eddsa_signature"], "string");
+  t.is(typeof r["timestamp"], "string");
+  t.is(typeof r["id"], "string");
 })
