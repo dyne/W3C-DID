@@ -32,6 +32,7 @@ create_admin() {
     didpath=`jq -r '.didDocument.id' ${out}`
     did=`echo ${didpath} | cut -d: -f4`
     cp -v ${out} ./data/dyne/admin/${did}
+    tmp=`mktemp` && jq '.["did_document"] = .didDocument | { "request": .did_document } | del(.didDocument)' ${out} > ${tmp} && mv ${tmp} ${out}
 }
 
 # create_request keyring domain signer_keyring signer_domain did_doc
@@ -51,7 +52,7 @@ create_request() {
 # update_request new_description old_did_doc signer_keyring signer_domain new_did_doc
 update_request() {
     tmperr=`mktemp`
-    tmp=`mktemp` && jq --arg value ${1} --arg value2 ${4} '.did_document.description |= $value | .signer_did_spec |= $value2 ' ${2} > ${tmp} && mv ${tmp} ${2}
+    tmp=`mktemp` && jq --arg value ${1} --arg value2 ${4} '.request.did_document.description |= $value | .signer_did_spec |= $value2 ' ${2} > ${tmp} && mv ${tmp} ${2}
     make sign KEYRING=secrets/${3} SIGNER_DOMAIN=${4} OUT=${5} REQUEST=${2} 1>/dev/null 2>${tmperr}
     check_error ${?} ${tmperr}
 }
