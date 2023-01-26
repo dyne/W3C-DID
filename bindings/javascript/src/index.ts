@@ -26,30 +26,50 @@ export const createKeyring = async (
 
 const preparePks = async (
   requestKeyring: string,
-  requestDomain: string,
   additionalData: string
 ) :Promise<string> => {
   const contractPks = readFromFile('client/v1/create-identity-pubkeys.zen');
   const data = readFromFile(additionalData);
   let {result} = await zencode_exec(contractPks, {data, keys : requestKeyring});
-  result = JSON.parse(result);
-  result["did_spec"] = requestDomain;
-  return JSON.stringify(result);
+  return result;
 }
 
+const prepareRequest= async (
+  requestDomain: string,
+  requestType: string,
+  data: string,
+  contractPath: string
+) :Promise<string> => {
+  data = JSON.parse(data);
+  data["did_spec"] = requestDomain;
+  data = JSON.stringify(data);
+  let res: string = null;
+  if (requestType == "accept" || requestType == "update") {
+    const contractRequest = readFromFile(contractPath);
+    const {result} = await zencode_exec(contractRequest, {data, keys : "{}"});
+    res = result;
+  } else if (requestType == "deactivate") {
+    const id = `did:dyne:${requestDomain}:${JSON.parse(data)["eddsa_public_key"]}`;
+    res = JSON.stringify({request: {deactivate_id: id}});
+  } else {
+    Promise.reject("requestType must be: accept, update or deactivate")
+  }
+  return res;
+}
 /**
- * create an unsigned request containig the did document of the type did:dyne:`requestDomain`
- * @param requestKeyring the keyring corresponding to the did document that will be created
+ * create an unsigned request that will be used for the action specified in the `requestType`
+ * @param requestKeyring the keyring of the user for wich the request is created
  * @param requestDomain the did domain of the request
+ * @param requestType the type of request, can be **accept**, **update** or **deactivate**
  * @returns JSON encoded as string contating the unsigned did document
  */
 export const createRequest = async (
   requestKeyring: string,
-  requestDomain: string
+  requestDomain: string,
+  requestType: string
 ) :Promise<string> => {
-  const contractRequest = readFromFile('client/v1/pubkeys-request-unsigned.zen');
-  const data = await preparePks(requestKeyring, requestDomain, 'client/v1/did-settings.json');
-  const {result} = await zencode_exec(contractRequest, {data, keys : "{}"});
+  const data = await preparePks(requestKeyring, "client/v1/did-settings.json");
+  const result = await prepareRequest(requestDomain, requestType, data, "client/v1/pubkeys-request-unsigned.zen");
   return result;
 }
 
@@ -57,20 +77,21 @@ export const createRequest = async (
  * create an unsigned request containig the did document of the type did:dyne:`requestDomain`
  * @param requestKeyring the keyring corresponding to the did document that will be created/updated
  * @param requestDomain the did domain of the request
+ * @param requestType the type of request, can be **accept**, **update** or **deactivate**
  * @param requestIdentifier the ifacer identifier
  * @returns JSON encoded as string contating the unsigned did document
  */
 export const createIfacerRequest = async (
   requestKeyring: string,
   requestDomain: string,
-  requestIdentifier: string
+  requestType: string,
+  requestIdentifier: string,
 ) :Promise<string> => {
-  const contractRequest = readFromFile('client/v1/ifacer/pubkeys-request-unsigned.zen');
-  let data = await preparePks(requestKeyring, requestDomain, 'client/v1/ifacer/did-settings.json');
+  let data = await preparePks(requestKeyring, "client/v1/ifacer/did-settings.json");
   data = JSON.parse(data);
   data["identifier"] = requestIdentifier;
   data = JSON.stringify(data);
-  const {result} = await zencode_exec(contractRequest, {data, keys : "{}"});
+  const result = await prepareRequest(requestDomain, requestType, data, "client/v1/ifacer/pubkeys-request-unsigned.zen");
   return result;
 }
 
@@ -96,30 +117,7 @@ export const signRequest = async (
 }
 
 /**
- * create and sign a did revocation request
- * @param requestKeyring the keyring corresponding to the did document that will be deactivated
- * @param requestDomain the did domain of the request
- * @param signerKeyring the keyring of the signer
- * @param signerDomain the did domain of the signer
- * @returns signed revokation request ready to be sent
- */
-export const deactivateRequest = async (
-  requestKeyring: string,
-  requestDomain: string,
-  signerKeyring: string,
-  signerDomain: string
-) :Promise<string> => {
-  const contractRequest = readFromFile('client/v1/pubkeys-deactivate.zen');
-  let data = await preparePks(requestKeyring, requestDomain, 'client/v1/did-settings.json');
-  data = JSON.parse(data);
-  data["signer_did_spec"] = signerDomain;
-  data = JSON.stringify(data);
-  const {result} = await zencode_exec(contractRequest, {data, keys : signerKeyring});
-  return result;
-}
-
-/**
- * send the `request` to https://did.dyne.org/`endpoint`
+ * send the `request` to https://did.dyne.org/ `endpoint`
  * @param endpoint api endpoint to send the request to
  * @param request the signed request to be sent
  * @returns the result of the request

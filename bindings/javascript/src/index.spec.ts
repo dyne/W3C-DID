@@ -1,7 +1,7 @@
 import test from "ava";
 import * as dotenv from "dotenv";
-import { createKeyring, createRequest, createIfacerRequest,
-  deactivateRequest, sendRequest, signRequest
+import { createKeyring, createRequest, signRequest, 
+  sendRequest, createIfacerRequest
 } from "./index";
 dotenv.config();
 
@@ -11,6 +11,7 @@ let acceptSignedRequest: string = null;
 let updateRequest: string = null;
 let updateSignedRequest: string = null;
 let deleteRequest: string = null;
+let deleteSignedRequest: string = null;
 let sandboxTestKeyring: string = null;
 let ifacerTestKeyring: string = null;
 
@@ -28,13 +29,13 @@ test.serial("Create a sandbox keyring", async (t) => {
 })
 
 test.serial("Create an unsigned sandbox request", async (t) => {
-  acceptRequest = await createRequest(sandboxTestKeyring, "sandbox.test");
+  acceptRequest = await createRequest(sandboxTestKeyring, "sandbox.test", "accept");
   t.is(typeof acceptRequest, "string");
   const r = JSON.parse(acceptRequest);
-  t.is(typeof r["did_document"]["@context"], "object");
-  t.is(typeof r["did_document"]["id"], "string");
-  t.is(typeof r["did_document"]["verificationMethod"], "object");
-  t.is(r["did_document"]["description"], "sandbox_test_from_js");
+  t.is(typeof r["request"]["did_document"]["@context"], "object");
+  t.is(typeof r["request"]["did_document"]["id"], "string");
+  t.is(typeof r["request"]["did_document"]["verificationMethod"], "object");
+  t.is(r["request"]["did_document"]["description"], "sandbox_test_from_js");
 })
 
 test.serial("Sign the sandbox accept request", async (t) => {
@@ -72,13 +73,13 @@ test.serial("Create an unsigned update request", async (t) => {
   updateDescription["sandbox_test_from_js_updated"] = updateDescription["sandbox_test_from_js"];
   delete updateDescription["sandbox_test_from_js"];
   sandboxTestKeyring = JSON.stringify(updateDescription);
-  updateRequest = await createRequest(sandboxTestKeyring, "sandbox.test");
+  updateRequest = await createRequest(sandboxTestKeyring, "sandbox.test", "update");
   t.is(typeof updateRequest, "string");
   const r = JSON.parse(updateRequest);
-  t.is(typeof r["did_document"]["@context"], "object");
-  t.is(typeof r["did_document"]["id"], "string");
-  t.is(typeof r["did_document"]["verificationMethod"], "object");
-  t.is(r["did_document"]["description"], "sandbox_test_from_js_updated");
+  t.is(typeof r["request"]["did_document"]["@context"], "object");
+  t.is(typeof r["request"]["did_document"]["id"], "string");
+  t.is(typeof r["request"]["did_document"]["verificationMethod"], "object");
+  t.is(r["request"]["did_document"]["description"], "sandbox_test_from_js_updated");
 })
 
 test.serial("Sign the sandbox update request", async (t) => {
@@ -110,21 +111,27 @@ test.serial("Send the update request", async (t) => {
   t.is(result["result"]["didDocumentMetadata"]["deactivated"], "false");
 })
 
-test.serial("Create a delete request", async (t) => {
-  deleteRequest = await deactivateRequest(
-    sandboxTestKeyring, "sandbox.test",
-    sandboxTestAKeyring, "sandbox.test_A");
+test.serial("Create an unsigned delete request", async (t) => {
+  deleteRequest = await createRequest(sandboxTestKeyring, "sandbox.test", "deactivate");
   t.is(typeof deleteRequest, "string");
   const r = JSON.parse(deleteRequest);
+  t.is(typeof r["request"]["deactivate_id"], "string");
+})
+
+test.serial("Sign the sandbox delete request", async (t) => {
+  deleteSignedRequest = await signRequest(
+    deleteRequest, sandboxTestAKeyring, "sandbox.test_A");
+  t.is(typeof deleteSignedRequest, "string");
+  const r = JSON.parse(deleteSignedRequest);
+  t.is(typeof r["id"], "string");
   t.is(typeof r["deactivate_id"], "string");
   t.is(typeof r["ecdh_signature"], "object");
-  t.is(typeof r["id"], "string");
 })
 
 test.serial("Send the delete request", async (t) => {
   const result = await sendRequest(
     "api/v1/sandbox/pubkeys-deactivate.chain",
-    deleteRequest
+    deleteSignedRequest
     );
   t.is(typeof result, "object");
   t.is(typeof result["request_data"], "object");
@@ -149,13 +156,13 @@ test.serial("Create a ifacer keyring", async (t) => {
 
 test.serial("Create a ifacer unsigned request", async (t) => {
   const ifacerAcceptRequest = await createIfacerRequest(
-    ifacerTestKeyring, "ifacer.test", "061FKNW40X4CAEEAFSW8NZRCWG");
+    ifacerTestKeyring, "ifacer.test", "accept", "061FKNW40X4CAEEAFSW8NZRCWG");
   t.is(typeof ifacerAcceptRequest, "string");
   const r = JSON.parse(ifacerAcceptRequest);
-  t.is(typeof r["did_document"]["@context"], "object");
-  t.true(r["did_document"]["@context"].map(a=>a.identifier).includes("https://schema.org/identifier"));
-  t.is(typeof r["did_document"]["id"], "string");
-  t.is(typeof r["did_document"]["verificationMethod"], "object");
-  t.is(r["did_document"]["identifier"], "061FKNW40X4CAEEAFSW8NZRCWG");
-  t.is(r["did_document"]["description"], "ifacer_test_from_js");
+  t.is(typeof r["request"]["did_document"]["@context"], "object");
+  t.true(r["request"]["did_document"]["@context"].map(a=>a.identifier).includes("https://schema.org/identifier"));
+  t.is(typeof r["request"]["did_document"]["id"], "string");
+  t.is(typeof r["request"]["did_document"]["verificationMethod"], "object");
+  t.is(r["request"]["did_document"]["identifier"], "061FKNW40X4CAEEAFSW8NZRCWG");
+  t.is(r["request"]["did_document"]["description"], "ifacer_test_from_js");
 })
