@@ -44,7 +44,7 @@ const prepareRequest= async (
   data["did_spec"] = requestDomain;
   data = JSON.stringify(data);
   let res: string = null;
-  if (requestType == "accept" || requestType == "update") {
+  if (requestType == "create" || requestType == "update") {
     const contractRequest = readFromFile(contractPath);
     const {result} = await zencode_exec(contractRequest, {data, keys : "{}"});
     res = result;
@@ -52,7 +52,7 @@ const prepareRequest= async (
     const id = `did:dyne:${requestDomain}:${JSON.parse(data)["eddsa_public_key"]}`;
     res = JSON.stringify({request: {deactivate_id: id}});
   } else {
-    Promise.reject("requestType must be: accept, update or deactivate")
+    return Promise.reject("requestType must be: accept, update or deactivate")
   }
   return res;
 }
@@ -77,7 +77,7 @@ export const createRequest = async (
  * create an unsigned request containig the did document of the type did:dyne:`requestDomain`
  * @param requestKeyring the keyring corresponding to the did document that will be created/updated
  * @param requestDomain the did domain of the request
- * @param requestType the type of request, can be **accept**, **update** or **deactivate**
+ * @param requestType the type of request, can be **create**, **update** or **deactivate**
  * @param requestIdentifier the ifacer identifier
  * @returns JSON encoded as string contating the unsigned did document
  */

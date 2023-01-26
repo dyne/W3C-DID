@@ -29,7 +29,7 @@ test.serial("Create a sandbox keyring", async (t) => {
 })
 
 test.serial("Create an unsigned sandbox request", async (t) => {
-  acceptRequest = await createRequest(sandboxTestKeyring, "sandbox.test", "accept");
+  acceptRequest = await createRequest(sandboxTestKeyring, "sandbox.test", "create");
   t.is(typeof acceptRequest, "string");
   const r = JSON.parse(acceptRequest);
   t.is(typeof r["request"]["did_document"]["@context"], "object");
@@ -156,7 +156,7 @@ test.serial("Create a ifacer keyring", async (t) => {
 
 test.serial("Create a ifacer unsigned request", async (t) => {
   const ifacerAcceptRequest = await createIfacerRequest(
-    ifacerTestKeyring, "ifacer.test", "accept", "061FKNW40X4CAEEAFSW8NZRCWG");
+    ifacerTestKeyring, "ifacer.test", "create", "061FKNW40X4CAEEAFSW8NZRCWG");
   t.is(typeof ifacerAcceptRequest, "string");
   const r = JSON.parse(ifacerAcceptRequest);
   t.is(typeof r["request"]["did_document"]["@context"], "object");

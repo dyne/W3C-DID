@@ -1,4 +1,4 @@
-# Create and manage Dyne W3C-DID in JavaScript
+# Create and manage Dyne.org's W3C-DID in JavaScript
 
 <p align="center">
  <a href="https://dyne.org">
@@ -8,7 +8,7 @@
 
 <h1 align="center">
   Dyne W3C-DID js bindings 🧰</br>
-  <sub>Dyne W3C-DID js bindings provides a javascript wrapper of <a href="https://github.com/dyne/W3C-DID">Dyne W3C-DID</a> client side.</sub>
+  <sub>Dyne W3C-DID js bindings provides a javascript wrapper of <a href="https://github.com/dyne/W3C-DID">Dyne.org's W3C-DID</a> client side.</sub>
 </h1>
 
 <p align="center">
@@ -30,9 +30,9 @@ Start by reading the documentation to understand better how Dyne.org's W3C-DID w
 Stable releases are published on https://www.npmjs.com/package/dyne-did that have a slow pace release schedule that you can install with
 
 ```bash
-yarn add dyne-did
+yarn add @dyne/yne-did
 # or if you use npm
-npm install dyne-did
+npm install @dyne/did
 ```
 
 * * *
@@ -42,10 +42,9 @@ npm install dyne-did
 The bindings are composed of four main functions:
 
  - **createKeyring**: takes as input a string that will be used as description inside the did document and return the string under the key **controller** along with your keyring.
- - **createRequest**: takes as input the output of the above function along with a string containg the domain of the did that you want to create and return an unsigned request containig the did document whose did starts with `did:dyne:*requestDomain*`
- - **signRequest**: takes as input a request, the signer keyring and the signer domain and return the signed request ready to be sent in order to create or update an did document
- - **deactivateRequest**: take
- - **sendRequest**: takes as input a an endpoint and a request and sends the latter to `did.dyne.org/*endpoint*`
+ - **createRequest**: takes as input the output of the above function along with a string containg the domain and a string containg the type of request (*create*, *update* or *deactivate*) to perform and return an unsigned request that will be signed by an admin.
+ - **signRequest**: takes as input a request, the signer keyring and the signer domain and return the signed request ready to be sent in order to create, update or deactivate a did document.
+ - **sendRequest**: takes as input an endpoint and a request and sends the latter to `did.dyne.org/*endpoint*`.
 
 **All input and output are in form of strings.** This means that if you want to pass a JSON you have to `JSON.stringify` it before.
 
@@ -53,41 +52,41 @@ There are other functions related to particular domains as well, but the functio
 
 All functions return a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
 
-To start using the Dyne.org's W3C-DID you have to create a domain admin request and send to us. This can be created by using:
+To start using the Dyne.org's W3C-DID you have to create a domain admin request and send it to us. This can be created by using:
 
 ```js
-import { createKeyring, createRequest } from "dyne-did";
+import { createKeyring, createRequest } from "@dyne/did";
 // or if you don't use >ES6
-// const { createKeyring, createRequest } = require('dyne-did')
+// const { createKeyring, createRequest } = require('@dyne/did')
 
-// Create a new did document request, the inputs can be modified
+// Create a new did document request
 const keyring = await createKeyring("new_domain_admin_request");
-const request = await createRequest(keyring, "domain_A");
+const request = await createRequest(keyring, "domain_A", "create");
 console.log(request);
 ```
 
 Once your request has been accepted people can create a request for a special context of your domain in the following way:
 ```js
-import { createKeyring, createRequest } from "dyne-did";
+import { createKeyring, createRequest } from "@dyne/did";
 // or if you don't use >ES6
-// const { createKeyring, createRequest } = require('dyne-did')
+// const { createKeyring, createRequest } = require('@dyne/did')
 
-// Create a new did document request, the inputs can be modified
+// Create a new did document request
 const keyring = await createKeyring("new_domain_context_admin_request");
-const request = await createRequest(keyring, "domain.context_A");
+const request = await createRequest(keyring, "domain.context_A", "create");
 console.log(request);
 ```
 
-This request will be sent to you and you will have to sign it and send the result to `did.dyne.org` in order to create the new did document.
+This request will be sent to you and you will have to sign it and you or the participant will send the result to `did.dyne.org` in order to create the new did document.
 
 ```js
-import { signRequest, sendRequest } from "dyne-did";
+import { signRequest, sendRequest } from "@dyne/did";
 // or if you don't use >ES6
-// const { signRequest, sendRequest } = require('dyne-did')
+// const { signRequest, sendRequest } = require('@dyne/did')
 
 //Sign did document request, the inputs can be modified
 const signedRequest = await signRequest(request, keyring, "domain_A");
-const result = await sendRequest(endpoint, signedRequest);
+const result = await sendRequest("api/v1/domain/pubkeys-accept.chain", signedRequest);
 ```
 
 
