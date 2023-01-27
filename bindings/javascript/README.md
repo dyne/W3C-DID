@@ -30,7 +30,7 @@ Start by reading the documentation to understand better how Dyne.org's W3C-DID w
 Stable releases are published on https://www.npmjs.com/package/dyne-did that have a slow pace release schedule that you can install with
 
 ```bash
-yarn add @dyne/yne-did
+yarn add @dyne/did
 # or if you use npm
 npm install @dyne/did
 ```
@@ -41,12 +41,10 @@ npm install @dyne/did
 
 The bindings are composed of four main functions:
 
- - **createKeyring**: takes as input a string that will be used as description inside the did document and return the string under the key **controller** along with your keyring.
- - **createRequest**: takes as input the output of the above function along with a string containg the domain and a string containg the type of request (*create*, *update* or *deactivate*) to perform and return an unsigned request that will be signed by an admin.
- - **signRequest**: takes as input a request, the signer keyring and the signer domain and return the signed request ready to be sent in order to create, update or deactivate a did document.
- - **sendRequest**: takes as input an endpoint and a request and sends the latter to `did.dyne.org/*endpoint*`.
-
-**All input and output are in form of strings.** This means that if you want to pass a JSON you have to `JSON.stringify` it before.
+ - `createKeyring`: takes as input a string that will be used as description inside the did document and return the string under the key **controller** along with your keyring.
+ - `createRequest`: takes as input the output of the above function along with a string containg the domain and a `DidActions` value and return an unsigned request that will later be signed by an admin.
+ - `signRequest`: takes as input an unsigned request, the signer keyring and the signer domain and return the signed request ready to be sent in order to create, update or deactivate a did document.
+ - `sendRequest`: takes as input an endpoint and a request and sends the latter to `did.dyne.org/*endpoint*`.
 
 There are other functions related to particular domains as well, but the functioning is almost identical.
 
@@ -55,25 +53,25 @@ All functions return a [Promise](https://developer.mozilla.org/en-US/docs/Web/Ja
 To start using the Dyne.org's W3C-DID you have to create a domain admin request and send it to us. This can be created by using:
 
 ```js
-import { createKeyring, createRequest } from "@dyne/did";
+import { createKeyring, createRequest, DidActions } from "@dyne/did";
 // or if you don't use >ES6
-// const { createKeyring, createRequest } = require('@dyne/did')
+// const { createKeyring, createRequest, DidActions } = require('@dyne/did')
 
 // Create a new did document request
 const keyring = await createKeyring("new_domain_admin_request");
-const request = await createRequest(keyring, "domain_A", "create");
+const request = await createRequest(keyring, "domain_A", DidActions.CREATE);
 console.log(request);
 ```
 
 Once your request has been accepted people can create a request for a special context of your domain in the following way:
 ```js
-import { createKeyring, createRequest } from "@dyne/did";
+import { createKeyring, createRequest, DidActions } from "@dyne/did";
 // or if you don't use >ES6
-// const { createKeyring, createRequest } = require('@dyne/did')
+// const { createKeyring, createRequest, DidActions } = require('@dyne/did')
 
 // Create a new did document request
 const keyring = await createKeyring("new_domain_context_admin_request");
-const request = await createRequest(keyring, "domain.context_A", "create");
+const request = await createRequest(keyring, "domain.context_A", DidActions.CREATE);
 console.log(request);
 ```
 
@@ -84,11 +82,12 @@ import { signRequest, sendRequest } from "@dyne/did";
 // or if you don't use >ES6
 // const { signRequest, sendRequest } = require('@dyne/did')
 
-//Sign did document request, the inputs can be modified
+//Sign and send did document request
 const signedRequest = await signRequest(request, keyring, "domain_A");
 const result = await sendRequest("api/v1/domain/pubkeys-accept.chain", signedRequest);
 ```
 
+Update and deactivate procedure follow the same idea.
 
 ## 😍 Acknowledgements
 
