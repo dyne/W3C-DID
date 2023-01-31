@@ -1,22 +1,20 @@
 import test from "ava";
 import * as dotenv from "dotenv";
-import { createKeyring, createRequest, signRequest, 
-  sendRequest, createIfacerRequest, DidActions
-} from "./index";
+import * as did from "./index";
 dotenv.config();
 
 const sandboxTestAKeyring = JSON.parse(process.env.SANDBOX_TEST_ADMIN_KEYRING);
-let acceptRequest: any = null;
-let acceptSignedRequest: any = null;
-let updateRequest: any = null;
-let updateSignedRequest: any = null;
-let deleteRequest: any = null;
-let deleteSignedRequest: any = null;
-let sandboxTestKeyring: any = null;
-let ifacerTestKeyring: any = null;
+let acceptRequest: did.DidRequest = null;
+let acceptSignedRequest: did.SignedDidRequest = null;
+let updateRequest: did.DidRequest = null;
+let updateSignedRequest: did.SignedDidRequest = null;
+let deleteRequest: did.DidRequest = null;
+let deleteSignedRequest: did.SignedDidRequest = null;
+let sandboxTestKeyring: did.ControllerKeyring = null;
+let ifacerTestKeyring: did.ControllerKeyring = null;
 
 test.serial("Create a sandbox keyring", async (t) => {
-  sandboxTestKeyring = await createKeyring("sandbox_test_from_js");
+  sandboxTestKeyring = await did.createKeyring("sandbox_test_from_js");
   t.is(typeof sandboxTestKeyring, "object");
   t.is(sandboxTestKeyring["controller"], "sandbox_test_from_js");
   t.is(typeof sandboxTestKeyring["keyring"], "object");
@@ -28,7 +26,7 @@ test.serial("Create a sandbox keyring", async (t) => {
 })
 
 test.serial("Create an unsigned sandbox request", async (t) => {
-  acceptRequest = await createRequest(sandboxTestKeyring, "sandbox.test", DidActions.CREATE);
+  acceptRequest = await did.createRequest(sandboxTestKeyring, "sandbox.test", did.DidActions.CREATE);
   t.is(typeof acceptRequest, "object");
   t.is(typeof acceptRequest["did_document"]["@context"], "object");
   t.is(typeof acceptRequest["did_document"]["id"], "string");
@@ -37,7 +35,7 @@ test.serial("Create an unsigned sandbox request", async (t) => {
 })
 
 test.serial("Sign the sandbox accept request", async (t) => {
-  acceptSignedRequest = await signRequest(
+  acceptSignedRequest = await did.signRequest(
     acceptRequest, sandboxTestAKeyring, "sandbox.test_A");
   t.is(typeof acceptSignedRequest, "object");
   t.is(typeof acceptSignedRequest["did_document"]["@context"], "object");
@@ -51,7 +49,7 @@ test.serial("Sign the sandbox accept request", async (t) => {
 })
 
 test.serial("Send the create request", async (t) => {
-  const result = await sendRequest(
+  const result = await did.sendRequest(
     "api/v1/sandbox/pubkeys-accept.chain",
     acceptSignedRequest
     );
@@ -66,7 +64,7 @@ test.serial("Send the create request", async (t) => {
 
 test.serial("Create an unsigned update request", async (t) => {
   sandboxTestKeyring["controller"] = "sandbox_test_from_js_updated";
-  updateRequest = await createRequest(sandboxTestKeyring, "sandbox.test", DidActions.UPDATE);
+  updateRequest = await did.createRequest(sandboxTestKeyring, "sandbox.test", did.DidActions.UPDATE);
   t.is(typeof updateRequest, "object");
   t.is(typeof updateRequest["did_document"]["@context"], "object");
   t.is(typeof updateRequest["did_document"]["id"], "string");
@@ -75,7 +73,7 @@ test.serial("Create an unsigned update request", async (t) => {
 })
 
 test.serial("Sign the sandbox update request", async (t) => {
-  updateSignedRequest = await signRequest(
+  updateSignedRequest = await did.signRequest(
     updateRequest, sandboxTestAKeyring, "sandbox.test_A");
   t.is(typeof updateSignedRequest, "object");
   t.is(typeof updateSignedRequest["did_document"]["@context"], "object");
@@ -89,7 +87,7 @@ test.serial("Sign the sandbox update request", async (t) => {
 })
 
 test.serial("Send the update request", async (t) => {
-  const result = await sendRequest(
+  const result = await did.sendRequest(
     "api/v1/sandbox/pubkeys-update.chain",
     updateSignedRequest
     );
@@ -103,13 +101,13 @@ test.serial("Send the update request", async (t) => {
 })
 
 test.serial("Create an unsigned delete request", async (t) => {
-  deleteRequest = await createRequest(sandboxTestKeyring, "sandbox.test", DidActions.DEACTIVATE);
+  deleteRequest = await did.createRequest(sandboxTestKeyring, "sandbox.test", did.DidActions.DEACTIVATE);
   t.is(typeof deleteRequest, "object");
   t.is(typeof deleteRequest["deactivate_id"], "string");
 })
 
 test.serial("Sign the sandbox delete request", async (t) => {
-  deleteSignedRequest = await signRequest(
+  deleteSignedRequest = await did.signRequest(
     deleteRequest, sandboxTestAKeyring, "sandbox.test_A");
   t.is(typeof deleteSignedRequest, "object");
   t.is(typeof deleteSignedRequest["id"], "string");
@@ -118,7 +116,7 @@ test.serial("Sign the sandbox delete request", async (t) => {
 })
 
 test.serial("Send the delete request", async (t) => {
-  const result = await sendRequest(
+  const result = await did.sendRequest(
     "api/v1/sandbox/pubkeys-deactivate.chain",
     deleteSignedRequest
     );
@@ -131,7 +129,7 @@ test.serial("Send the delete request", async (t) => {
 })
 
 test.serial("Create a ifacer keyring", async (t) => {
-  ifacerTestKeyring = await createKeyring("ifacer_test_from_js");
+  ifacerTestKeyring = await did.createKeyring("ifacer_test_from_js");
   t.is(typeof ifacerTestKeyring, "object");
   t.is(ifacerTestKeyring["controller"], "ifacer_test_from_js");
   t.is(typeof ifacerTestKeyring["keyring"], "object");
@@ -143,8 +141,8 @@ test.serial("Create a ifacer keyring", async (t) => {
 })
 
 test.serial("Create a ifacer unsigned request", async (t) => {
-  const ifacerAcceptRequest = await createIfacerRequest(
-    ifacerTestKeyring, "ifacer.test", DidActions.CREATE, "061FKNW40X4CAEEAFSW8NZRCWG");
+  const ifacerAcceptRequest = await did.createIfacerRequest(
+    ifacerTestKeyring, "ifacer.test", did.DidActions.CREATE, "061FKNW40X4CAEEAFSW8NZRCWG");
   t.is(typeof ifacerAcceptRequest, "object");
   t.is(typeof ifacerAcceptRequest["did_document"]["@context"], "object");
   t.true(ifacerAcceptRequest["did_document"]["@context"].map(a=>a.identifier).includes("https://schema.org/identifier"));

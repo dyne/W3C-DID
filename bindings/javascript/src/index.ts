@@ -3,7 +3,7 @@ import { join } from 'path';
 import axios from 'axios';
 import { zencode_exec } from 'zenroom';
 
-type Keyring = {
+export type Keyring = {
   eddsa: string,
   ecdh: string,
   ethereum: string,
@@ -11,20 +11,20 @@ type Keyring = {
   reflow?: string,
   schnorr?: string
 }
-type ControllerKeyring = {
+export type ControllerKeyring = {
   controller: string,
   keyring: Keyring
 }
 
-type DidDocument = Record<string, any>
+export type DidDocument = Record<string, any>
 
-type DidDeactivate = {
+export type DidDeactivate = {
   deactivate_id: string
 }
 
-type DidRequest = { did_document: DidDocument } | DidDeactivate
+export type DidRequest = { did_document: DidDocument } | DidDeactivate
 
-type SignedDidDocument = {
+export type SignedDidDocument = {
   did_document: DidDocument,
   eddsa_signature: string,
   ecdh_signature: {
@@ -35,7 +35,7 @@ type SignedDidDocument = {
   id: string
 }
 
-type SignedDidDeactivate = {
+export type SignedDidDeactivate = {
   deactivate_id: string,
   ecdh_signature: {
     r: string,
@@ -44,7 +44,7 @@ type SignedDidDeactivate = {
   id: string
 }
 
-type SignedDidRequest = SignedDidDocument | SignedDidDeactivate
+export type SignedDidRequest = SignedDidDocument | SignedDidDeactivate
 
 export enum DidActions {
   CREATE = "create",
