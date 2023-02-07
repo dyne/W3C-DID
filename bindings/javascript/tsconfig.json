@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "target": "es2017",
+        "outDir": "dist/main",
+        "rootDir": "src",
+        "module": "commonjs",
+        "declaration": true
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules/**"],
+    "compileOnSave": false
+  }

@@ -58,3 +58,28 @@ jobs:
          draft: true
          prerelease: false
          generate_release_notes: true
+
+  npm-release:
+    name: 📦 npm release
+    runs-on: ubuntu-latest
+    needs: [semantic-release]
+    if: ${{ needs.semantic-release.outputs.release == 'True' }}
+    steps:
+      - name: ⚙️ Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          registry-url: 'https://registry.npmjs.org'
+      - name: ⏬ Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: javascript-artifact
+          path: .
+      - name: 📌 Set version
+        run: |
+          version=${{ needs.semantic-release.outputs.version }}
+          yarn version --new-version ${version:1} --no-git-tag-version
+      - name: 📦 Publish
+        run: npm publish . --tag latest
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -23,13 +23,15 @@ jobs:
     steps:
       - name: 🛎️ Checkout
         uses: actions/checkout@v3
-        with:
-          submodules: 'true'
       - name: ⏬ Install Zenroom
         run: |
           wget https://github.com/dyne/zenroom/releases/latest/download/zenroom -O zenroom
           chmod +x zenroom
           cp zenroom test/
+      - name: 💾 Clone W3C-DID-data in data
+        run: |
+          rm -rf data
+          git clone https://github.com/dyne/W3C-DID-data.git data
       - name: 🧪 Run tests
         run: |
           make test-units
@@ -51,7 +53,7 @@ jobs:
           chmod +x restroom-test
       - name: 💾 Clone W3C-DID-data in data
         run: |
-          rm -r data
+          rm -rf data
           git clone https://github.com/dyne/W3C-DID-data.git data
       - name: 🛫 Start restroom
         uses: dyne/restroom-github-action@v1
@@ -72,3 +74,37 @@ jobs:
             echo "empty log"
             exit 1
           fi
+
+  js-build-check:
+    name: 🐯 js build & checks
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+    env:
+      SANDBOX_TEST_ADMIN_KEYRING: ${{secrets.SANDBOX_TEST_ADMIN_KEYRING}}
+    defaults:
+      run:
+        working-directory: bindings/javascript
+    steps:
+      - name: 🛎️ Checkout
+        uses: actions/checkout@v3
+      - name: ⚙️ Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: ⏬ Install dependencies
+        run: yarn
+      - name: 🏗️ Build javascript bindings
+        run: yarn build
+      - name: ⏫ Upload artifact
+        if: ${{ matrix.node-version == '16.x' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: javascript-artifact
+          path: |
+            ./bindings/javascript/package.json
+            ./bindings/javascript/README.md
+            ./bindings/javascript/dist/
+      - name: 🧪 Test bindings node-${{ matrix.node-version }}
+        run: yarn test

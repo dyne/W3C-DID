@@ -1,0 +1,11 @@
+# Dependency directories
+node_modules/
+
+# logs
+*.log
+
+# Output of 'yarn pack'
+*.tgz
+
+# Output of 'yarn build'
+dist
