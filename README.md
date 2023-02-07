@@ -94,6 +94,17 @@ For example `did:dyne:zenflows.A` manages DIDs for the `did:dyne:zenflows:` doma
 
 The special `did:dyne:admin` spec is the one governing all admin domainsand can create, update and delete admins.
 
+# user flows
+
+## CREATE a did in sandbox
+
+[![](https://mermaid.ink/img/pako:eNp1UcFqwzAM_RXhyzZoF3b1oWCaPwjbKTAUW-3EEjuT7bJQ-u9zmtAOxmwwtt_Tk550VjY4UlpF-srkLdWMR8Gh9VAW2hQEDGAE07Ol5XdESWx5RJ-gmbE6DMgejBvK-ZdTXzmTp-cgx4cIjh1EktNNcE2WU_B56EiWd73d7naNXtXfDbAjnzhNMEo4ceTgyUE33aSXMFOijIa9ECYChE-ahP0_oMyuY4LHffVa1U93Uslr4icciv3IR48py1pss6Bv2LObRa6NKa5WqTup1nB6qSJ614XvasxdqSRu0VoaC-v3Vhs1kBSXrgziPCu0Kn3QQK3S5erogLlPrWr9pVDnPjWTt0onybRReZzrWOem9AH7SJcf1ciaxA?type=png)](https://mermaid.live/edit#pako:eNp1UcFqwzAM_RXhyzZoF3b1oWCaPwjbKTAUW-3EEjuT7bJQ-u9zmtAOxmwwtt_Tk550VjY4UlpF-srkLdWMR8Gh9VAW2hQEDGAE07Ol5XdESWx5RJ-gmbE6DMgejBvK-ZdTXzmTp-cgx4cIjh1EktNNcE2WU_B56EiWd73d7naNXtXfDbAjnzhNMEo4ceTgyUE33aSXMFOijIa9ECYChE-ahP0_oMyuY4LHffVa1U93Uslr4icciv3IR48py1pss6Bv2LObRa6NKa5WqTup1nB6qSJ614XvasxdqSRu0VoaC-v3Vhs1kBSXrgziPCu0Kn3QQK3S5erogLlPrWr9pVDnPjWTt0onybRReZzrWOem9AH7SJcf1ciaxA)
+
+## READ a did in sandbox
+
+[![](https://mermaid.ink/img/pako:eNplUMlqAzEM_RUhCrmkmbsPgQGH0nN69EW1lcQwlqe2HAgh_15PkxZKJBBanp6WK_ocGA1W_mosnm2kY6HkBLqQ11xgBKowTtHzPTtT0ejjTKKwX2o2J4oCY0jdPmPsD-YivMnluKoQYoDK5fxH-BjWNEtLn1zu8fi63VoDb7sPOKnO1QxD79yEB9ES1OHl3Tr5r7jGxKVvFPpZ14XLoZ44sUPT3cAHapM6dHLr0GXq_iIejZbGa2xzIP39ApoDTZVv3-NEYfk?type=png)](https://mermaid.live/edit#pako:eNplUMlqAzEM_RUhCrmkmbsPgQGH0nN69EW1lcQwlqe2HAgh_15PkxZKJBBanp6WK_ocGA1W_mosnm2kY6HkBLqQ11xgBKowTtHzPTtT0ejjTKKwX2o2J4oCY0jdPmPsD-YivMnluKoQYoDK5fxH-BjWNEtLn1zu8fi63VoDb7sPOKnO1QxD79yEB9ES1OHl3Tr5r7jGxKVvFPpZ14XLoZ44sUPT3cAHapM6dHLr0GXq_iIejZbGa2xzIP39ApoDTZVv3-NEYfk)
+
+
 # secrets
 
 All secret keys are kept client-side and our server has none available, signing is done off-line and interactively to grant full end-to-end encryption.
