@@ -1,0 +1,20 @@
+Scenario ecdh
+Scenario eddsa
+
+Given I my name is in a 'string' named 'controller'
+and I have a 'string array' named '@context'
+and I have a 'string dictionary' named 'proof'
+
+When I create the ecdh key
+When I create the eddsa key
+
+When I create the ecdh public key
+When I create the eddsa public key
+
+# keyring and explicit owner identity
+Then print the 'eddsa public key' as 'base58'
+Then print the 'ecdh public key' as 'base58'
+Then print my 'keyring'
+Then print my name in 'identity'
+Then print the '@context'
+Then print the 'proof'
