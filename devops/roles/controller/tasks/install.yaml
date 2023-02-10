@@ -51,6 +51,7 @@
     block: |
       FILES_DIR={{ data_dir }}
       ZENCODE_DIR=../api
+      INIT_ZENCODE_DIR=../planetmint_client
       USE_TIMESTAMP=y
       USE_FILES=y
       USE_ETHEREUM=y
@@ -80,6 +81,21 @@
 - name: Fix contracts permissions
   file:
     dest: "{{ controller_root }}/api"
+    owner: controller
+    group: controller
+    recurse: yes
+
+- name: Copy init contracts (permissions may be wrong)
+  become: true
+  synchronize:
+    src: "../client/v1/planetmint_client"
+    dest: "{{ controller_root }}"
+    owner: no
+    group: no
+
+- name: Fix init contracts permissions
+  file:
+    dest: "{{ controller_root }}/planetmint_client"
     owner: controller
     group: controller
     recurse: yes
