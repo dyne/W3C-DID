@@ -25,6 +25,11 @@
     path: "{{ controller_root }}/restroom"
     state: latest
 
+- name: Create planetmint_client keys and did doc
+  command: yarn run init
+  args:
+    chdir: "{{ controller_root }}/restroom"
+
 - name: start and save controller with pm2
   become: true
   shell: pm2 delete ecosystem.config.js && pm2 start ecosystem.config.js && pm2 save
