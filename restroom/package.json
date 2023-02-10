@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node restroom.mjs",
-    "dev": "nodemon -q restroom.mjs"
+    "dev": "nodemon -q restroom.mjs",
+    "init": "node init.mjs"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.5.0",
