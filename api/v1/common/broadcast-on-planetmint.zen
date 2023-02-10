@@ -1,0 +1,23 @@
+Rule caller restroom-mw
+Scenario 'eddsa': Create the key
+Scenario 'planetmint': Create the key
+
+# keys and pks
+Given I read the content of 'planetmint_client.json'
+
+# prepare tx
+Given I have a planetmint endpoint named 'planetmint_endpoint'
+Given I prepare the planetmint transaction to store 'result' from 'eddsa_public_key'
+
+Given I have the 'keyring'
+Given I have a 'base58' named 'eddsa public key'
+Given I have a 'string' named 'planetmint transaction'
+
+When I create the planetmint signatures of 'planetmint transaction'
+
+Then print the 'planetmint transaction'
+Then print the 'planetmint signatures'
+Then print the 'eddsa_public_key'
+
+Then I prepare the signed planetmint transaction of 'planetmint_transaction' from 'eddsa_public_key'
+Then ask planetmint to broadcast the 'signed_planetmint_transaction'

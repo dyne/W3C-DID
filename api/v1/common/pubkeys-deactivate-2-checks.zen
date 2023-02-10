@@ -49,6 +49,7 @@ and I remove the 'deactivated' from 'request_metadata'
 and I move 'deactivated' in 'request_metadata'
 and I remove the 'didDocumentMetadata' from 'request_data'
 and I move the 'request_metadata' to 'didDocumentMetadata' in 'request_data'
+and I rename 'request_data' to 'result'
 
 # log
 When I write string '' in 'log_msg'
@@ -71,11 +72,11 @@ and I create the 'string array' named 'files'
 and I copy 'request_path' in 'files'
 and I move 'files' in 'commit'
 
-Then print the 'request_data'
+Then print the 'result'
 and print the 'request_path'
 and print the 'log_msg'
 and print the 'commit'
 
-Then store 'request_data' in the file 'request_path'
+Then store 'result' in the file 'request_path'
 Then append the string 'log_msg' to the logfile in 'api_dyne_v1.log'
 Then make a new commit to the git repository in 'data'

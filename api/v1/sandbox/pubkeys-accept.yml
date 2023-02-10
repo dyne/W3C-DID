@@ -8,3 +8,7 @@ blocks:
   v1/sandbox/pubkeys-accept-2-checks.zen:
     zenFile: v1/sandbox/pubkeys-accept-2-checks.zen
     keysFile: v1/sandbox/pubkeys-store.keys
+    next: v1/sandbox/broadcast-on-planetmint.zen
+  v1/sandbox/broadcast-on-planetmint.zen:
+    zenFile: v1/sandbox/broadcast-on-planetmint.zen
+    keysFile: v1/sandbox/broadcast-on-planetmint.keys

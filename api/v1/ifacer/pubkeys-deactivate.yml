@@ -7,3 +7,7 @@ blocks:
     next: v1/ifacer/pubkeys-deactivate-2-checks.zen
   v1/ifacer/pubkeys-deactivate-2-checks.zen:
     zenFile: v1/ifacer/pubkeys-deactivate-2-checks.zen
+    next: v1/ifacer/broadcast-on-planetmint.zen
+  v1/ifacer/broadcast-on-planetmint.zen:
+    zenFile: v1/ifacer/broadcast-on-planetmint.zen
+    keysFile: v1/ifacer/broadcast-on-planetmint.keys
