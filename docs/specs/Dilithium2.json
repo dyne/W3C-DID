@@ -3,8 +3,8 @@
     "id": "@id",
     "type": "@type",
     "@protected": true,
-    "Dilithium2VerificationKey_b64": {
-      "@id": "https://dyne.github.io/W3C-DID/#/security?id=dilithium2verificationkey_b64",
+    "Dilithium2VerificationKey": {
+      "@id": "https://dyne.github.io/W3C-DID/#dilithium2verificationkey",
       "@context": {
         "@protected": true,
         "id": "@id",
@@ -17,8 +17,8 @@
           "@id": "https://w3id.org/security#revoked",
           "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
         },
-        "publicKeyBase64": {
-          "@id": "https://dyne.github.io/W3C-DID/#/security?id=publickeybase64"
+        "publicKeyBase58": {
+          "@id": "https://w3id.org/security#publicKeyBase58"
         }
       }
     }

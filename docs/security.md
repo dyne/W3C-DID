@@ -21,6 +21,25 @@ This class represents a linked data signature verification key. See [reflow-BLS1
 }
 ```
 
+### Dilithium2VerificationKey
+This class represents a linked data signature verification key. See the [Dilithium paper](https://pq-crystals.org/dilithium/data/dilithium-specification-round3-20210208.pdf) for more details.
+
+**Status**:  
+*Stable*  
+**Expected properties**:  
+*id, type, controller, publicKeyBase58*
+
+**Example**:
+
+```json
+{
+	"id": "did:example:123#key1",
+	"type": "Dilithium2VerificationKey",
+	"controller": "did:example:123",
+	"publicKeyBase64": "HKJdoS2NDCYGEVVMNDAVwHiEMjcYphbeeqshLtZJ6gqeFQjEKxXzB5X7tKFqXqVjqHRf8vCQoUVRUPifATqN7bosyBPUJsytYi6pwtvpMQJ9cakZzmhZnbeh8yJd2hxZNK3yTMNpQ6Y1rymzPGxyTZ3syDPLVk8HeHeaH399gabYfjnj7knM6cfmfyyZf6Vz5JmbCtPpAGpyaGPBtixHhMc8n1b9zEiXeaY4JpkjPVATM45pYo6di2ZNfhQh72VrhaVPZ8iLiPy2YQzoRRDfWz8byoVNqBDHS48uaEQ3tXbEHxcbbUfyoXfR7hh6s43ZKtBLgR2FuxTYwvJrji2e2BmC6bs8esNMfMNsaNWQxygf9R21iZAo7kvYU318CL7Tm8raDcGsiXzB24r9XWzCs7fFEYfQjWppcVwqGG7jdMr867KaxMBq1TpkSibhtYzJ7X3zLhEZge2hmD16Wa7vBh7hdwoRrq5uS7HRYzD9cXR5WVn7M39NcHqLzio9wub66YETi5pgbdD7EKwxEDN7WPSiVvjLzqGVpMhGwzKPpD7dBQof3bdDywxpzGmzwi2wbpuHDBwRceR7zy8TVdS1oDdGXkvjPQKrLXjwZMpWY3a31CEtxLp56Xqp5m12fx5L3d46ET7GdQDHE18inNPg1qNdjgJkbJc2X6qVFB6NWgQpAng4htiZSrNTLeTbbCik5xLaBUdBWoKiHkm3c12Xh9QvEEZq9xKZNEiDBsC6vnH2jcz55kfeJyKj9872hXhHe3MgfpFTm7aVWLghFj48YMwF7v8twUuEVmvVyLSWTkrRjEgnteELXUCdfbnjRw9H2ykbYK1eB8Q3cM6T6P94W3Qxy8axHMKmzCLVVTozXiED7vQS6vr7fERzrA4QRWbzbYc9utAhJewBaDGiLUuLQze5NLBLmGQEw6jCj9UtLj9sikzc6fSMYKrE9DQ2qXMN7ZGE5vfPd3y24acPGviezmcvTYAK3JnYsDso6UmZh5RH7BERXgX8R978hYYD1AWpjDcnV5rJp59cSTGWV26DCdhr1YrnLWtAAEsooRzYwoeU23dpCrUVJdSSQMp3QDF26hGDJ3ed6tP2jSW7ZvZQYPfjE7LinQfuLhLS282uoRxFopEJ8A5SP7ofpqDEayhPsfvYbHZqv5tzuvAP6nJyKd2Be1FuLzjszBHbms2Hc5Z6JYt48xz9UDawd1UJqkcWbk8YehoEyETr4DXaDErnmmKYk5o216xJK3gdHpvPB2uxQHfGWmBx9Gsrhr7xT82jdLGdpJ1iYA4CU4KcG3PNSwUonsSNpQfb9e9CTwDoGZaDqTs283WGn1ZG1dDsPzdTMkUYRc9TJPSgeoatmjad7mM1o2wsYCvZbEbU1ZGP21rayoWif7SZSRRUrtSRtWj75buTESf5C5rr7xFQkepuuEdmm2E4FwypQpQHxGVNJxAeaFTRtTu7LK6conHmQawaXM76zE2YqiVadpfBwqpQAcq8jSTRHSsoawon2ESaRd4yvcNKfu3HkJ4MJjfySQzwrFf2Ugyt2dfat62AcVF2RN1YukKSgWgaD7VmZvkM4iQg5pEtJyEsf3D6K4rqKH1UJBvYdCSvCbeYvS91JNNR9y37X35famBXkA6XLndLRMUqYd31CXbBmaPRnHnDmoQ2Q6NcXtAKUt2DSf2U9tVv4tCBqCbD8wAxwjAMXLbSeDWvcDjnLxGDPyroNFeKP3YZfZierDpEMbgdxpfoiWd6dhYRvy6mekDSLQftb45n3CK951oJjDrdi1V4if9FkwuH"
+}
+```
+
 <!-- Old base64 public keys
 ### EcdsaSecp256k1VerificationKey_b64
 This class represents a linked data signature verification key. It is implemented as stated [here](https://w3c-ccg.github.io/lds-ecdsa-secp256k1-2019/) with the only difference that accepts base 64 encoded public key with the proprerty [**publicKeyBase64**](#publickeybase64).
@@ -38,47 +57,6 @@ This class represents a linked data signature verification key. It is implemente
 	"type": "EcdsaSecp256k1VerificationKey_b64",
 	"controller": "did:example:123",
 	"publicKeyBase64": "BMryTzTcMC42F4dOWdXM5mVAZr0dvS0jV84oBt/SQBePhxH2p3/NilU9siTfdNWv7iPcViIPDtz3JxFiQY/Gu5s="
-}
-```
-
-### ReflowBLS12381VerificationKey_b64
-
-
-### SchnorrBLS12381VerificationKey_b64
-This class represents a linked data signature verification key. It has been implemented following the [bitcoin-specification](https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki) with the only difference that it is implemented over BLS12381 instead of Secp256k1.
-
-**Status**:  
-*Stable*  
-**Expected properties**:  
-*id, type, controller, publicKeyBase64*
-
-**Example**:
-
-```json
-{
-	"id": "did:example:123#key1",
-	"type": "SchnorrBLS12381VerificationKey_b64",
-	"controller": "did:example:123",
-	"publicKeyBase64": "GCz+aD+oqmm/aA9GM0mauJjEL3a2sJuTcuOGgmkqMD7869PpTHsh8VmfNvfY20p1"
-}
-```
-
-### Dilithium2VerificationKey_b64
-This class represents a linked data signature verification key. See the [Dilithium paper](https://pq-crystals.org/dilithium/data/dilithium-specification-round3-20210208.pdf) for more details.
-
-**Status**:  
-*Stable*  
-**Expected properties**:  
-*id, type, controller, publicKeyBase64*
-
-**Example**:
-
-```json
-{
-	"id": "did:example:123#key1",
-	"type": "Dilithium2VerificationKey_b64",
-	"controller": "did:example:123",
-	"publicKeyBase64": "xJ27Sc28WRK7VuDInQbb+YwtiS++tycCYGKMVmoXMmnuHO4JAFWJd+t4EwCndchQCXRlY4dh3e2Y97LfcOYC4vxYYzMx6btyhkwOeLZduKqyRco3V5M6QfnxPGdJeSOmbxoCq+Akkwg1wnOCUOhQ7KB/106w1Na+UWYuqLXtKWjrqJWyKdZx8alTn7nYDGWzr5sjnBXnTFGEpfjbiJvYcIstBd24KropNIndVxKuFvG97Kg8w4XrEknPDK1ELTJydeN9mEw7DXrMLPnmf1rILh3Fr4dVfN7ac+ujT87eqs5vRlgnBdJNuV7I/lpuoR2MX0SeqfSGtXB0ksuYPTylmYTmDg0OOzQ86Pm27Fq9VWu9QSX/7feESlY0tVFPYi0N8n+RudAFKjDyC9jy9lUOmJ5uSUCL7PAT4hsgtAhNyXdBlwEkeTwBdQPpzgyC+wYKLe8bKKRaUOrJzmRVBaZBngqKIX8olMy1R09EkcSOs/OlORQ00Mzb1lRGvAbZ7BO4N+Dd8UVlwK3W6cDp9EWrWZ1QhRktNyaUwW0bgMjiak65c9Rl3ZY8wUye/COsit1vrHkS1635wAeFFyHKPoa9pGSenhzp2weAEIWhlXJcziGMc0gfZs8UdIUxk62jhby9wDfPwz6Jn0cmeQvOWRYbYKBg/OKFAIXN4jIENZFh8fIZ3o2zli6POlifbWnTqvAa+FB/W86p+ndAhTwoSXmp1A8LYn2kUkCRGaiZAm2hUBcoa/7QVAhOoJ/zqw+zv1v789kBGG8Mww/T2gc8ZvOLS6ZBhRbnEcgOFNyXttnNzEkWXAdbO69JN3jSPBSwRxYxgeO+uGrL6UukDpjgjEvHd59jAo30zPLfX+d3qzQypikzKRZyLqBvn2LTS991JRtHWBXSQC2fGT23MlfyLnW7l0391Iz6Qcs+zxQkaroPZRc2RZTAgPpH9VxCp5CSx91hKYT4HzUuBA0+is1g5yG1k7p2qQTYPvzf292Gj6301B7+lvji9LKb1029VHS227C+rtZwlO/nauLlMUvSWgsyyw8nhnmVP0jNCDwILIUg+XQ/gUCM63N024Wooa79+52nJo2rnrq9qQzTMkHTbS+V0eajpg2HD8TfOtjJH0FNqIsinq7m4Ntrny56t+JtWkrJumVMUBd8O9c0LhuD9iYPFEhWYEUfPyO0ocnw6BLb2ehigh0cLBfAMOSIrtrZhC/PHzQM1L/zyY+WRtnBucMRWMevOS/SkxwF7coTqh8c72yimdQqHbF7clF9c6pIpL5QnobBCNj1kgBv+9M7gztyoLUZUlb1FgonS1HHEU1804BkFWZpGxalTVbpk8H5/ZXs2JT0A2FkBX1OdsgavsrxryBg3sbWrWbIDqVabrku1tH58WDZau+YY0cWEDIccoKx04I+s5fJKaxvm32SsCK9/bWzmQGQmM9LQl4P6Q3fNDQ7mVtAYbYzkYJUFtP5TV/ErTQIlJhZAHm87f6lZXllg/kWwCPB37C3W+p7OIjNFNAbfIJASQhga/1BIFBqWnViToysVCU0l4y7y1V2qhkcHAdNlsC61DyVRdbbdlF/DwpT+0mVfDmX1UUgXlqkoYDDEg03GCTrweN/7GLJAfUB3p+YRddjUK13wfy/4hd7KneEMB571pqxGH6cSUkULreVQiLhr0YzV+gwQl8IZ60pwLTZs4wBFg6U/kJY1pyQ1oCfqjGaJLYD4KjVeaoUDPDGcZsrPeP34QNpw05k+mrIwQ=="
 }
 ```
 
