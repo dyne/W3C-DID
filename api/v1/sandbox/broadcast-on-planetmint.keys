@@ -1,1 +1,4 @@
-../common/broadcast-on-planetmint.keys
+{
+    "planetmint_endpoint": "http://node2-rddl-testnet.twilightparadox.com:9984/api/v1",
+    "zenswarm_storage": "http://65.109.162.224:8081"
+}

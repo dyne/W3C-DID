@@ -12,3 +12,6 @@ blocks:
   v1/ifacer/broadcast-on-planetmint.zen:
     zenFile: v1/ifacer/broadcast-on-planetmint.zen
     keysFile: v1/ifacer/broadcast-on-planetmint.keys
+    next: v1/ifacer/store-did.zen
+  v1/ifacer/store-did.zen:
+    zenfile: v1/ifacer/store-did.zen
