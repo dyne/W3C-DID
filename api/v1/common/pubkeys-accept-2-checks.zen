@@ -6,9 +6,6 @@ Scenario 'w3c': proof
 # http_request.base_url
 Given I have a 'string' named 'base_url' inside 'http_request'
 
-# verify git
-Given I verify the path 'data/' is a git repository
-
 # request_data should be = {}
 Given I read the content of 'request_path' and save the output into 'request_data'
 and I have a 'string dictionary' named 'request_data'
@@ -112,11 +109,11 @@ and I create the 'string array' named 'files'
 and I copy 'request_path' in 'files'
 and I move 'files' in 'commit'
 
+# action
+When I write string 'create' in 'action'
+
 Then print the 'result'
 and print the 'request_path'
 and print the 'log_msg'
 and print the 'commit'
-
-Then store 'result' in the file 'request_path'
-Then append the string 'log_msg' to the logfile in 'api_dyne_v1.log'
-Then make a new commit to the git repository in 'data'
+and print the 'action'

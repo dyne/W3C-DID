@@ -97,9 +97,10 @@ and I append 'signer_id' to 'log_msg'
 and I append the string ';' to 'log_msg'
 and I append the 'integer' of 'timestamp' to 'log_msg'
 
+# action
+When I write string 'create' in 'action'
+
 Then print the 'result'
 and print the 'request_path'
 and print the 'log_msg'
-
-Then store 'result' in the file 'request_path'
-Then append the string 'log_msg' to the logfile in 'api_dyne_v1.log'
+and print the 'action'
