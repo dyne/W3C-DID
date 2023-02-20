@@ -50,6 +50,7 @@ const pathToDidId = (didPath) => {
     return `${DID_BEGIN}${folders.join(':')}`;
   }
 }
+
 const didIdToPath = (didId) => {
   if(!didId.startsWith(DID_BEGIN)) {
     throw new Error(`Invalid did id "${didId}"`)
@@ -58,23 +59,25 @@ const didIdToPath = (didId) => {
   const didPath = didId.replace('_', path.sep).replace(':', path.sep)
   return didPath
 }
+
 app.get('/dids', (req, res) => {
   const offset = parseInt(req.query.offset || '0');
   const limit = parseInt(req.query.limit || '20');
   const search = req.query.search || '';
   let dids = []
 
-  const stream = readdirp(path.join(FILES_DIR, 'data', 'dyne'), {fileFilter: '[^.]*'});
+  const stream = readdirp(path.join(FILES_DIR, 'data', 'dyne'), {fileFilter: '[^.]*', alwaysStat: true});
   stream.on('data', (entry) => {
     const didPath = pathToDidId(entry.path)
     if(didPath.includes(search)) {
-      dids.push(didPath)
+      dids.push({name: didPath, time: entry.stats.mtime.getTime()})
     }
   })
   // Optionally call stream.destroy() in `warn()` in order to abort and cause 'close' to be emitted
     .on('warn', error => console.error('non-fatal error', error))
     .on('error', error => console.error('fatal error', error))
     .on('close', () => {
+      dids = dids.sort((a, b) => b.time - a.time).map(did => did.name);
       res.json({moreDids: dids.length > offset+limit, dids: dids.slice(offset, offset+limit)})
     });
 })
