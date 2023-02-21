@@ -3,6 +3,10 @@ Rule caller restroom-mw
 # verify git
 Given I verify the path 'data/' is a git repository
 
+# http_request.base_url
+Given I read the http request
+Given I have a 'string' named 'base_url' inside 'http_request'
+
 # data
 Given I have a 'string dictionary' named 'result'
 Given I have a 'string' named 'request path'
@@ -11,9 +15,16 @@ Given I have a 'string' named 'txid'
 # maybe can be modified using the 
 Given I have a 'string' named 'action'
 
+# verify contract is used inside the chain
+When I verify 'base_url' has suffix '.chain'
+
+When I set 'create' to 'create' as 'string'
+When I set 'update' to 'update' as 'string'
+When I set 'deactivate' to 'deactivate' as 'string'
 When I pickup from path 'result.didDocumentMetadata'
 
 If I verify 'action' is equal to 'update'
+and 'update_txid' is found in 'didDocumentMetadata'
 When I remove the 'update_txid' from 'didDocumentMetadata'
 EndIf
 

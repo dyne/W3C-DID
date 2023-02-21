@@ -1,10 +1,11 @@
-rule input encoding base58
+Rule caller restroom-mw
+Rule input encoding base58
 Scenario 'ecdh': singature
 Scenario 'eddsa': signature
 Scenario 'w3c': did document
 
 # http_request
-Given I have a 'string dictionary' named 'http_request'
+Given I read the http request
 Given I have a 'string' named 'base_url' inside 'http_request'
 
 Given I have a 'did document' named 'did document'
@@ -185,4 +186,3 @@ and print the 'signer_id'
 and print the 'ecdh_signature'
 and print the 'timestamp'
 and print the 'eddsa signature'
-and print the 'http_request'
