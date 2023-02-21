@@ -68,6 +68,7 @@ jobs:
           restroom-logger: "${{ github.workspace }}/"
       - name: 🧪 Run tests
         run: |
+          sleep 10
           echo "SANDBOX"
           ./test/restroom/run.sh sandbox
           echo ""
