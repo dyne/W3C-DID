@@ -4,6 +4,7 @@ Scenario 'eddsa': verify signature
 Scenario 'w3c': proof
 
 # http_request.base_url
+Given I read the http request
 Given I have a 'string' named 'base_url' inside 'http_request'
 
 # timestamp

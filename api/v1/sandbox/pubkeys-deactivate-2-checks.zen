@@ -3,6 +3,7 @@ Scenario 'ecdh': verify signature
 Scenario 'w3c': proof
 
 # http_request.base_url
+Given I read the http request
 Given I have a 'string' named 'base_url' inside 'http_request'
 
 # timestamp
@@ -46,6 +47,7 @@ and I remove the 'deactivated' from 'request_metadata'
 and I move 'deactivated' in 'request_metadata'
 and I remove the 'didDocumentMetadata' from 'request_data'
 and I move the 'request_metadata' to 'didDocumentMetadata' in 'request_data'
+and I rename 'request_data' to 'result'
 
 # log
 When I write string '' in 'log_msg'
@@ -58,7 +60,7 @@ and I append 'signer_id' to 'log_msg'
 # action
 When I write string 'deactivate' in 'action'
 
-Then print the 'request_data'
+Then print the 'result'
 and print the 'request_path'
 and print the 'log_msg'
 and print the 'action'
