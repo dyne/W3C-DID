@@ -58,6 +58,7 @@ jobs:
       - name: 🗝️ Create server keys
         run: |
           cd restroom
+          mv .env.example .env
           yarn && yarn run init
       - name: 🛫 Start restroom
         uses: dyne/restroom-github-action@v1
