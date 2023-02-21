@@ -14,4 +14,4 @@ blocks:
     keysFile: v1/sandbox/broadcast-on-planetmint.keys
     next: v1/sandbox/store-did.zen
   v1/sandbox/store-did.zen:
-    zenfile: v1/sandbox/store-did.zen
+    zenFile: v1/sandbox/store-did.zen
