@@ -4,6 +4,7 @@ import { resolve } from "lib/resolver";
 import Link from "next/link";
 import useSwr from "swr";
 import JsonBlock from "./JSONBlock";
+import Button from "./Button";
 
 export interface DIDPreviewProps {
   did: string;
@@ -21,9 +22,11 @@ export default function DIDPreview(props: DIDPreviewProps) {
   return (
     <>
       {didUrl && (
-        <div className="  rounded-md p-4">
-          <div className="absolute top-0 right-0 text-secondary">
-            <Link href={`/details/${didUrl}`}>VIEW RAW 📄</Link>
+        <div className="rounded-md p-4">
+          <div className="pb-4">
+            <Link href={`/details/${didUrl}`}>
+              <Button>VIEW RAW 📄</Button>
+            </Link>
           </div>
           {data?.didDocument && (
             <div className="flex flex-col">
