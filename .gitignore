@@ -8,10 +8,8 @@
 package-lock.json
 restroom/node_modules
 
-# generated test files
-contracts/keyring.json
-contracts/public_keys.json
-contracts/did_document.json
+# logfile
+*.log
 
 # utility
 restroom-test
