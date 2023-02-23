@@ -12,34 +12,17 @@ Given I have a 'string dictionary' named 'result'
 Given I have a 'string' named 'request path'
 Given I have a 'string' named 'log_msg'
 Given I have a 'string' named 'txid'
-# maybe can be modified using the 
-Given I have a 'string' named 'action'
 
 # verify contract is used inside the chain
 When I verify 'base_url' has suffix '.chain'
 
-When I set 'create' to 'create' as 'string'
-When I set 'update' to 'update' as 'string'
-When I set 'deactivate' to 'deactivate' as 'string'
 When I pickup from path 'result.didDocumentMetadata'
+and I pickup a 'string array' from path 'result.didDocumentMetadata.planetmint'
 
-If I verify 'action' is equal to 'update'
-and 'update_txid' is found in 'didDocumentMetadata'
-When I remove the 'update_txid' from 'didDocumentMetadata'
-EndIf
+When I move 'txid' in 'planetmint'
 
-If I verify 'action' is equal to 'create'
-When I move the 'txid' to 'create_txid' in 'didDocumentMetadata'
-EndIf
-
-If I verify 'action' is equal to 'update'
-When I move the 'txid' to 'update_txid' in 'didDocumentMetadata'
-EndIf
-
-If I verify 'action' is equal to 'deactivate'
-When I move the 'txid' to 'deactivate_txid' in 'didDocumentMetadata'
-EndIf
-
+When I remove the 'planetmint' from 'didDocumentMetadata'
+and I move 'planetmint' in 'didDocumentMetadata'
 When I remove the 'didDocumentMetadata' from 'result'
 and I move 'didDocumentMetadata' in 'result'
 

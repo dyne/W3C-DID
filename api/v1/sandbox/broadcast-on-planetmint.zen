@@ -21,7 +21,6 @@ Given I have a 'string' named 'planetmint transaction'
 Given I have a 'string dictionary' named 'result'
 Given I have a 'string' named 'request path'
 Given I have a 'string' named 'log_msg'
-Given I have a 'string' named 'action'
 
 # verify contract is used inside the chain
 When I verify 'base_url' has suffix '.chain'
@@ -34,7 +33,6 @@ Then print the 'eddsa_public_key'
 Then print the 'result'
 Then print the 'request_path'
 Then print the 'log_msg'
-Then print the 'action'
 
 Then I prepare the signed planetmint transaction of 'planetmint_transaction' from 'eddsa_public_key'
 Then ask planetmint to broadcast the 'signed_planetmint_transaction'

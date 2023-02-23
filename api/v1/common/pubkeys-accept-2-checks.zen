@@ -78,7 +78,9 @@ and I move 'proof' in 'request did document'
 When I create the 'string dictionary' named 'didDocumentMetadata'
 and I copy the 'accept_timestamp' to 'created' in 'didDocumentMetadata'
 and I set 'deactivated' to 'false' as 'string'
-and I move 'deactivated' in 'didDocumentMetadata' 
+and I move 'deactivated' in 'didDocumentMetadata'
+and I create the 'string array' named 'planetmint'
+and I move 'planetmint' in 'didDocumentMetadata'
 
 # result
 When I create the 'string dictionary' named 'result'
@@ -110,11 +112,7 @@ and I create the 'string array' named 'files'
 and I copy 'request_path' in 'files'
 and I move 'files' in 'commit'
 
-# action
-When I write string 'create' in 'action'
-
 Then print the 'result'
 and print the 'request_path'
 and print the 'log_msg'
 and print the 'commit'
-and print the 'action'
