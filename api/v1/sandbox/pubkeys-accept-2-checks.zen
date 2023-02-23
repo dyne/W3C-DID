@@ -80,6 +80,8 @@ When I create the 'string dictionary' named 'didDocumentMetadata'
 and I copy the 'accept_timestamp' to 'created' in 'didDocumentMetadata'
 and I set 'deactivated' to 'false' as 'string'
 and I move 'deactivated' in 'didDocumentMetadata' 
+and I create the 'string array' named 'planetmint'
+and I move 'planetmint' in 'didDocumentMetadata'
 
 # result
 When I create the 'string dictionary' named 'result'
@@ -98,10 +100,6 @@ and I append 'signer_id' to 'log_msg'
 and I append the string ';' to 'log_msg'
 and I append the 'integer' of 'timestamp' to 'log_msg'
 
-# action
-When I write string 'create' in 'action'
-
 Then print the 'result'
 and print the 'request_path'
 and print the 'log_msg'
-and print the 'action'

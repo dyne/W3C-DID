@@ -70,11 +70,7 @@ and I create the 'string array' named 'files'
 and I copy 'request_path' in 'files'
 and I move 'files' in 'commit'
 
-# action
-When I write string 'deactivate' in 'action'
-
 Then print the 'result'
 and print the 'request_path'
 and print the 'log_msg'
 and print the 'commit'
-and print the 'action'
