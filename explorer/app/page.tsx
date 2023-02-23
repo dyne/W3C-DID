@@ -20,30 +20,36 @@ export default function Page() {
         </div>
       </div>
 
-      <div className="grow max-w-lg shrink-0 basis-2/5 px-4 flex flex-col space-y-6">
+      <div className="shrink-0 px-4 flex flex-col space-y-6 max-w-fit">
         <SearchDIDs setDIDs={setDids} />
-        <div className="grow h-0 overflow-y-auto space-y-2">
+        <div className="grow h-0 overflow-y-auto space-y-2 max-w-fit">
           {dids.map((did) => (
-            <DIDCard
-              did={did}
+            <div
               key={did}
-              onSelect={setHoveredDid}
-              selected={did == hoveredDid}
-            />
+              className="text-xs sm:text-base md:text-xs lg:text-base"
+            >
+              <DIDCard
+                did={did}
+                onSelect={setHoveredDid}
+                selected={did == hoveredDid}
+              />
+            </div>
           ))}
         </div>
       </div>
 
-      <div className="hidden grow shrink-0 basis-2/5 max-w-lg px-4 pb-4 lg:flex lg:flex-col ">
-        <div className="grow h-0 overflow-auto bg-secondary-10 rounded-md flex flex-col">
-          {hoveredDid && <DIDPreview did={hoveredDid} />}
-          {!hoveredDid && (
-            <div className="self-stretch grow flex items-center justify-center">
-              <p className="text-secondary-60">
-                Hover a DID to preview its details!
-              </p>
-            </div>
-          )}
+      <div className="hidden grow shrink-0 basis-2/5 px-4 pb-4 md:flex md:flex-col max-w-7xl">
+        <div className="grow h-0 overflow-y-auto bg-secondary-10 rounded-md flex flex-row items-stretch">
+          <div className="grow w-0 overflow-x-auto flex">
+            {hoveredDid && <DIDPreview did={hoveredDid} />}
+            {!hoveredDid && (
+              <div className="self-stretch grow flex items-center justify-center">
+                <p className="text-secondary-60">
+                  Hover a DID to preview its details!
+                </p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -24,13 +24,11 @@ export default function DIDCard(props: DIDCardProps) {
 
   return (
     <div className={className} onMouseOver={handleMouseOver}>
-      <div className="w-0 grow overflow-x-hidden">
-        <Link href={`/details/${didUrl}`}>
-          <div className="py-2 px-3">
-            <DIDString did={did} />
-          </div>
-        </Link>
-      </div>
+      <Link href={`/details/${didUrl}`}>
+        <div className="py-2 px-3">
+          <DIDString did={did} wrap />
+        </div>
+      </Link>
     </div>
   );
 }
