@@ -57,59 +57,83 @@ that is associated to the following DID document:
       "description":"https://schema.org/description"
     }
   ],
-  "description":"fake sandbox-admin",
-  "id":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
-  "proof": {
-    "created": "1671805668826",
-    "jws": "eyJhbGciOiJFUzI1NksiLCJiNjQiOnRydWUsImNyaXQiOiJiNjQifQ..0RywWwpi-26gwNhPC4lBcTce80WMDDygtlYu8EzyXa-PZRrG64Bt46z-wp_QXhF-FIbtgf_zfIVHDBeR7sPGGw",
-    "proofPurpose": "assertionMethod",
-    "type": "EcdsaSecp256k1Signature2019",
-    "verificationMethod": "did:dyne:admin:DMMYfDo7VpvKRHoJmiXvEpXrfbW3sCfhUBE4tBeXmNrJ#ecdh_public_key"
+  "description":"matteo",
+  "id":"did:dyne:sandbox.test:HtD277sgEGRPeqv2FYE6mrdwePtvxJ9jq4dZe1UTE48g",
+  "proof":{
+    "created":"1677163739984",
+    "jws":"eyJhbGciOiJFUzI1NksiLCJiNjQiOnRydWUsImNyaXQiOiJiNjQifQ..7ePFQRqvnUX29PzkQYsIvL3u3UsG6ld2nJXLEDLaRDqRqitSbPy2Xm-LNJmXtE20-iJEzkX_EV93q3Pyy7FUew",
+    "proofPurpose":"assertionMethod",
+    "type":"EcdsaSecp256k1Signature2019",
+    "verificationMethod":"did:dyne:sandbox.test_A:CoQ5W5wxi4SCMJK8Rjxfy52TyVRCECb7JiYXCemcZGBH#ecdh_public_key"
   },
   "verificationMethod":[
     {
-      "controller":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
-      "id":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#ecdh_public_key",
-      "publicKeyBase58":"S1bs1YRaGcfeUjAQh3jigvAXuV8bff2AHjERoHaBPKtBLnXLKDcGPrnB4j5bY8ZHVu9fQGkUW5XzDa9bdhGYbjPf",
+      "controller":"did:dyne:sandbox.test:HtD277sgEGRPeqv2FYE6mrdwePtvxJ9jq4dZe1UTE48g",
+      "id":"did:dyne:sandbox.test:HtD277sgEGRPeqv2FYE6mrdwePtvxJ9jq4dZe1UTE48g#ecdh_public_key","publicKeyBase58":"NgctHrSPYRuYgbmfYqa9cBqwdjbVMkbyDuf21XKqP7uzNx3wsCNupWTSeuPnaBxpEZ6QRXQ9EPzBiMc2ei6wT4Jr",
       "type":"EcdsaSecp256k1VerificationKey2019"
     },
     {
-      "controller":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
-      "id":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#reflow_public_key",
-      "publicKeyBase58":"9kPV92zSUok2Do2RJKx3Zn7ZY9WScvBZoorMQ8FRcoH7m1eo3mAuGJcrSpaw1YrSKeqAhJnpcFdQjLhTBEve3qvwGe7qZsam3kLo85CpTM84TaEnxVyaTZVYxuY4ytmGX2Yz1scayfSdJYASvn9z12VnmC8xM3D1cXMHNDN5zMkLZ29hgq631ssT55UQif6Pj371HUC5g6u2xYQ2mGYiQ6bQt1NWSMJDzzKTr9y7bEMPKq5bDfYEBab6a4fzk6Aqixr1P3",
-      "type":"ReflowBLS12381VerificationKey"
+      "controller":"did:dyne:sandbox.test:HtD277sgEGRPeqv2FYE6mrdwePtvxJ9jq4dZe1UTE48g",
+      "id":"did:dyne:sandbox.test:HtD277sgEGRPeqv2FYE6mrdwePtvxJ9jq4dZe1UTE48g#reflow_public_key",
+      "publicKeyBase58":"C78nKxqaYSEf1BxyZyysTT75QySD4yAjAUAJQoRdgmHmndBNgpvso5p8VJqm8j3L7RRPqDoYNrCQGd3umkAUQddsMn8xL3hqwh2Z7uzdwo2f422edhUmnv5pECyNBzNjyBPKHr9pVHAvjzH9AxRJCBHALdwG7tXBLkp9p8kxU8A1YYebrXZabdN62FLLyPiQaqGjTJnPDjGcAe26JH2SLSqXn6tAfbGppH2NpdRfYSCW3xWo7k2YWkVn4ACGHqkjG8WoQR","type":"ReflowBLS12381VerificationKey"
     },
     {
-      "controller":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
-      "id":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#bitcoin_public_key",
-      "publicKeyBase58":"rjXTCrGHFMtQhfnPMZz5rak6DDAtavVTrv2AEMXvZSBj",
+      "controller":"did:dyne:sandbox.test:HtD277sgEGRPeqv2FYE6mrdwePtvxJ9jq4dZe1UTE48g",
+      "id":"did:dyne:sandbox.test:HtD277sgEGRPeqv2FYE6mrdwePtvxJ9jq4dZe1UTE48g#bitcoin_public_key",
+      "publicKeyBase58":"pWLhCz4CaxNrSQWnywHsDhbAkXtNkdD8HqX5a9DyAxiK",
       "type":"EcdsaSecp256k1VerificationKey2019"
     },
     {
-      "controller":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
-      "id":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#eddsa_public_key",
-      "publicKeyBase58":"8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
+      "controller":"did:dyne:sandbox.test:HtD277sgEGRPeqv2FYE6mrdwePtvxJ9jq4dZe1UTE48g",
+      "id":"did:dyne:sandbox.test:HtD277sgEGRPeqv2FYE6mrdwePtvxJ9jq4dZe1UTE48g#eddsa_public_key",
+      "publicKeyBase58":"HtD277sgEGRPeqv2FYE6mrdwePtvxJ9jq4dZe1UTE48g",
       "type":"Ed25519VerificationKey2018"
     },
     {
-      "blockchainAccountId":"eip155:1:0xd3765bb6f5917d1a91adebadcfad6c248e721294",
-      "controller":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ",
-      "id":"did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ#ethereum_address",
+      "blockchainAccountId":"eip155:1:0xd7614a1afd45343a2542e5beb7df6d88f001663d",
+      "controller":"did:dyne:sandbox.test:HtD277sgEGRPeqv2FYE6mrdwePtvxJ9jq4dZe1UTE48g",
+      "id":"did:dyne:sandbox.test:HtD277sgEGRPeqv2FYE6mrdwePtvxJ9jq4dZe1UTE48g#ethereum_address",
       "type":"EcdsaSecp256k1RecoveryMethod2020"
     }
   ]
 }
 ```
+## Method Supported Metadata
+
 The informations about the DID document are store in the DidDocumentMetadata field outstide of the DID document, for example the above did document is associated with the following metadata:
 ```json
 {
-   "created":"1671805668826",
-   "deactivated": "false"
+  "created":"1677163739984",
+  "deactivated":"false",
+  "planetmint":[
+    "a8f9bceba0962b0e7e3db7d3196e9db97ec2e5d75e1b0cbcd3fdf6a6eab44844"
+  ]
 }
 ```
-Metadata includes information such as the timestamp (unix time) the document was created, the timestamp (unix time) it was last modified, and whether it has been deactivated or is still active.
+### Operation Timestamp
+Metadata includes information such as the timestamp (unix time) the document was created, the timestamp (unix time) it was last modified.
 
+### Deactivated
 If a DID document has been deactivated, *i.e.* **deactivated** field is set to true, it means that it is no longer active or available for use. This mean that the DID associated to the DID document can not be used anymore to prove the user identity under any circumstance.
+
+### Transaction ids
+Moreover the metadata contains an array of transaction ids over planetmint, named **planetmint**, where each transaction store the hash of the did document along with its metadata. These transactions are performed at creation, update and deactivation.
+The transaction ids are sorted by time, *i.e.* the first one will represent the creation, while the last one, if the deactivated filed is set to true, will be the deactivation.
+#### How to use the transaction ids
+Since the transaction id is known only after the transaction is performed, then in order to verify the correctness of the did document through the use of planetmint the following steps have to be executed:
+- resolve the DID document through the resolver.
+- use the last transaction id, found in the **planetmint** array in the metdata, to retrieve the hash from the planetmint blockhain.
+- remove the transaction id used in the previous step from the **planetmint** array in the metadata and compute the hash of the result.
+- compare the two hases, they must match.
+
+Pay attention, if only a transaction id is found then remove only the value, but not the list, *i.e.* it should look like this:
+```json
+{
+  "created":"1677163739984",
+  "deactivated":"false",
+  "planetmint":[]
+}
+```
 
 ## CRUD Operation Definitions
 
