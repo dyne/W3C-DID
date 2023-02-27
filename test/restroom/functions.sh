@@ -69,6 +69,19 @@ delete_request() {
     check_error ${?} ${tmperr}
 }
 
+
+# broadcast_request keyring domain signer_keyring signer_domain request
+broadcast_request() {
+    tmperr=`mktemp`
+    tmppk=`mktemp`
+    zenroom -z -a client/v1/did-settings.json -k secrets/${1} client/v1/create-identity-pubkeys.zen > ${tmppk} 2>${tmperr}
+    check_error ${?} ${tmperr}
+    tmp=`mktemp` && jq --arg value $2 '.did_spec = $value' ${tmppk} > ${tmp} && mv ${tmp} ${tmppk}
+    tmp=`mktemp` && jq --arg value $4 '.signer_did_spec = $value' ${tmppk} > ${tmp} && mv ${tmp} ${tmppk}
+    zenroom -z -a ${tmppk} -k secrets/${3} client/v1/broadcast-request.zen > ${5} 2>${tmperr}
+    check_error ${?} ${tmperr}
+}
+
 # test contract data expected_exitcode
 send_request() {
     tmpres=`mktemp`
