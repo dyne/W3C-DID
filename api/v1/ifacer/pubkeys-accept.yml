@@ -8,10 +8,3 @@ blocks:
   v1/ifacer/pubkeys-accept-2-checks.zen:
     zenFile: v1/ifacer/pubkeys-accept-2-checks.zen
     keysFile: v1/ifacer/pubkeys-store.keys
-    next: v1/ifacer/broadcast-on-planetmint.zen
-  v1/ifacer/broadcast-on-planetmint.zen:
-    zenFile: v1/ifacer/broadcast-on-planetmint.zen
-    keysFile: v1/ifacer/broadcast-on-planetmint.keys
-    next: v1/ifacer/store-did.zen
-  v1/ifacer/store-did.zen:
-    zenFile: v1/ifacer/store-did.zen

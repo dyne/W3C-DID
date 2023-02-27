@@ -79,9 +79,7 @@ and I move 'proof' in 'request did document'
 When I create the 'string dictionary' named 'didDocumentMetadata'
 and I copy the 'accept_timestamp' to 'created' in 'didDocumentMetadata'
 and I set 'deactivated' to 'false' as 'string'
-and I move 'deactivated' in 'didDocumentMetadata' 
-and I create the 'string array' named 'planetmint'
-and I move 'planetmint' in 'didDocumentMetadata'
+and I move 'deactivated' in 'didDocumentMetadata'
 
 # result
 When I create the 'string dictionary' named 'result'
@@ -103,3 +101,6 @@ and I append the 'integer' of 'timestamp' to 'log_msg'
 Then print the 'result'
 and print the 'request_path'
 and print the 'log_msg'
+
+Then store 'result' in the file 'request_path'
+Then append the string 'log_msg' to the logfile in 'api_dyne_v1.log'

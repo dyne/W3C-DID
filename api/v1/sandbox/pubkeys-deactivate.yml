@@ -7,10 +7,3 @@ blocks:
     next: v1/sandbox/pubkeys-deactivate-2-checks.zen
   v1/sandbox/pubkeys-deactivate-2-checks.zen:
     zenFile: v1/sandbox/pubkeys-deactivate-2-checks.zen
-    next: v1/sandbox/broadcast-on-planetmint.zen
-  v1/sandbox/broadcast-on-planetmint.zen:
-    zenFile: v1/sandbox/broadcast-on-planetmint.zen
-    keysFile: v1/sandbox/broadcast-on-planetmint.keys
-    next: v1/sandbox/store-did.zen
-  v1/sandbox/store-did.zen:
-    zenFile: v1/sandbox/store-did.zen

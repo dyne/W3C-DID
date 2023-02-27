@@ -7,6 +7,9 @@ Scenario 'w3c': proof
 Given I read the http request
 Given I have a 'string' named 'base_url' inside 'http_request'
 
+# verify git repo
+Given I verify the path 'data/' is a git repository
+
 # request_data should be = {}
 Given I read the content of 'request_path' and save the output into 'request_data'
 and I have a 'string dictionary' named 'request_data'
@@ -79,8 +82,6 @@ When I create the 'string dictionary' named 'didDocumentMetadata'
 and I copy the 'accept_timestamp' to 'created' in 'didDocumentMetadata'
 and I set 'deactivated' to 'false' as 'string'
 and I move 'deactivated' in 'didDocumentMetadata'
-and I create the 'string array' named 'planetmint'
-and I move 'planetmint' in 'didDocumentMetadata'
 
 # result
 When I create the 'string dictionary' named 'result'
@@ -116,3 +117,7 @@ Then print the 'result'
 and print the 'request_path'
 and print the 'log_msg'
 and print the 'commit'
+
+Then store 'result' in the file 'request_path'
+Then append the string 'log_msg' to the logfile in 'api_dyne_v1.log'
+Then make a new commit to the git repository in 'data'

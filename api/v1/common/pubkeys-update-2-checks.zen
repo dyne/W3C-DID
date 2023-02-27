@@ -7,6 +7,9 @@ Scenario 'w3c': proof
 Given I read the http request
 Given I have a 'string' named 'base_url' inside 'http_request'
 
+# verify git repo
+Given I verify the path 'data/' is a git repository
+
 # timestamp
 Given I fetch the local timestamp and store it into 'update_timestamp'
 and I have a 'integer' named 'update_timestamp'
@@ -113,3 +116,7 @@ Then print the 'result'
 and print the 'request_path'
 and print the 'log_msg'
 and print the 'commit'
+
+Then store 'result' in the file 'request_path'
+Then append the string 'log_msg' to the logfile in 'api_dyne_v1.log'
+Then make a new commit to the git repository in 'data'
