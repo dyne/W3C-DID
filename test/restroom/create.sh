@@ -333,4 +333,6 @@ create_request  ${domain}.${ctx}.fail-keyring.json \
                 admin \
                 ${tmpreq}
 send_request ${domain}/pubkeys-accept.chain ${tmpreq} 255
-rm -f secrets/${domain}.${ctx}.fail-keyring.json did_doc.json
+rm -f secrets/${domain}.${ctx}.fail-keyring.json \
+   secrets/test-service-keyring.json \
+   did_doc.json
