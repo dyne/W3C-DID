@@ -17,4 +17,8 @@ ctx="test"
 ./test/restroom/delete.sh ${domain} ${ctx}
 [ "$?" = "1" ] && { exit 1; }
 
+# Test broadcast
+./test/restroom/broadcast.sh ${domain} ${ctx}
+[ "$?" = "1" ] && { exit 1; }
+
 exit 0
