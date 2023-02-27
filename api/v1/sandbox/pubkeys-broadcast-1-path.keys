@@ -1,0 +1,20 @@
+{
+    "request_ACL": {
+        "A":"A",
+        "C":"C",
+        "U":"U",
+        "D":"D"
+        },
+    "signer_ACL": {
+        "A":"A"
+        },
+    "utility": {
+        "0":"0",
+        "1":"1",
+        "2":"2",
+        "true": "true",
+        "admin": "admin",
+        "exit_code": "0"
+        },
+    "allowed_spec": "sandbox"
+}
