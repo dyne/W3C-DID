@@ -76,8 +76,7 @@ create_request  spec.ctx-keyring.json \
                 ${domain}.${ctx} \
                 test-broadcast-service-keyring.json \
                 admin \
-                ${tmpreq} \
-                ${domain}.${ctx}_original.json
+                ${tmpreq}
 send_request ${domain}/pubkeys-accept.chain ${tmpreq} 0
 rm -f ${tmpreq}
 
@@ -105,7 +104,7 @@ broadcast_request  spec_A-keyring.json \
                 admin \
                 ${tmpreq}
 send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 0
-rm -f ${tmpreq}
+rm -f ${tmpreq} secrets/spec_A-keyring.json
 
 printf "%-18s %-20s %s\n" "admin" "broadcasts" "${domain}.${ctx}_A"
 broadcast_request  spec.ctx_A-keyring.json \
@@ -114,7 +113,7 @@ broadcast_request  spec.ctx_A-keyring.json \
                 admin \
                 ${tmpreq}
 send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 0
-rm -f ${tmpreq}
+rm -f ${tmpreq} secrets/spec.ctx_A-keyring.json
 
 printf "%-18s %-20s %s\n" "admin" "broadcasts" "${domain}.${ctx}"
 broadcast_request  spec.ctx-keyring.json \
@@ -123,7 +122,7 @@ broadcast_request  spec.ctx-keyring.json \
                 admin \
                 ${tmpreq}
 send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 0
-rm -f ${tmpreq}
+rm -f ${tmpreq} secrets/spec.ctx-keyring.json
 
 printf "%-18s %-20s %s\n" "admin" "broadcasts" "${domain}"
 broadcast_request  spec-keyring.json \
@@ -132,9 +131,7 @@ broadcast_request  spec-keyring.json \
                 admin \
                 ${tmpreq}
 send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 0
-rm -f ${tmpreq}
-
-rm -f secrets/spec*
+rm -f ${tmpreq} secrets/spec-keyring.json
 
 ## domain admin (domain_A)
 # create did docs to be broadcast from domain admin
@@ -195,7 +192,7 @@ broadcast_request  spec.ctx_A-keyring.json \
                 ${domain}_A \
                 ${tmpreq}
 send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 0
-rm -f ${tmpreq}
+rm -f ${tmpreq} secrets/spec.ctx_A-keyring.json
 
 printf "%-18s %-20s %s\n" "${domain}_A" "broadcasts" "${domain}.${ctx}"
 broadcast_request  spec.ctx-keyring.json \
@@ -204,7 +201,7 @@ broadcast_request  spec.ctx-keyring.json \
                 ${domain}_A \
                 ${tmpreq}
 send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 0
-rm -f ${tmpreq}
+rm -f ${tmpreq} secrets/spec.ctx-keyring.json
 
 printf "%-18s %-20s %s\n" "${domain}_A" "broadcasts" "${domain}"
 broadcast_request  spec-keyring.json \
@@ -213,9 +210,7 @@ broadcast_request  spec-keyring.json \
                 ${domain}_A \
                 ${tmpreq}
 send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 0
-rm -f ${tmpreq}
-
-rm -f secrets/spec.ctx_A-keyring.json secrets/spec.ctx-keyring.json secrets/spec-keyring.json
+rm -f ${tmpreq} secrets/spec-keyring.json
 
 ## domain.context admin (domain.ctx_A)
 # create did docs to be broadcast from domain context admin
@@ -278,7 +273,7 @@ broadcast_request  spec.ctx-keyring.json \
                 ${domain}.${ctx}_A \
                 ${tmpreq}
 send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 0
-rm -f ${tmpreq}
+rm -f ${tmpreq} secrets/spec.ctx-keyring.json
 
 printf "%-18s %-20s %s\n" "${domain}.${ctx}_A" "does not broadcast" "${domain}"
 broadcast_request  spec-keyring.json \
@@ -289,16 +284,13 @@ broadcast_request  spec-keyring.json \
 send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 255
 rm -f ${tmpreq}
 
-rm -f secrets/spec.ctx-keyring.json
-
 ## domain.context (domain.ctx)
 # create did docs to be broadcast from domain context
 create_request  spec.ctx-keyring.json \
                 ${domain}.${ctx} \
                 test-broadcast-service-keyring.json \
                 admin \
-                ${tmpreq} \
-                ${domain}.${ctx}_original.json
+                ${tmpreq}
 send_request ${domain}/pubkeys-accept.chain ${tmpreq} 0
 rm -f ${tmpreq}
 
@@ -393,4 +385,16 @@ broadcast_request  spec-keyring.json \
 send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 255
 rm -f ${tmpreq}
 
+
+# cleanup secrets
+rm -f secrets/spec_A-keyring.json \
+   secrets/spec.ctx_A-keyring.json \
+   secrets/spec.ctx-keyring.json \
+   secrets/spec-keyring.json \
+   secrets/test* \
+   secrets/${domain}_A-keyring.json \
+   secrets/${domain}.${ctx}_A-keyring.json \
+   secrets/${domain}.${ctx}-keyring.json \
+   secrets/${domain}-keyring.json \
+   did_doc.json
 

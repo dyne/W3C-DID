@@ -105,7 +105,7 @@ delete_request  spec_A-keyring.json \
                 admin \
                 ${tmpreq}
 send_request ${domain}/pubkeys-deactivate.chain ${tmpreq} 0
-rm -f ${tmpreq}
+rm -f ${tmpreq} secrets/spec_A-keyring.json
 
 printf "%-18s %-20s %s\n" "admin" "deletes" "${domain}.${ctx}_A"
 delete_request  spec.ctx_A-keyring.json \
@@ -114,7 +114,7 @@ delete_request  spec.ctx_A-keyring.json \
                 admin \
                 ${tmpreq}
 send_request ${domain}/pubkeys-deactivate.chain ${tmpreq} 0
-rm -f ${tmpreq}
+rm -f ${tmpreq} secrets/spec.ctx_A-keyring.json
 
 printf "%-18s %-20s %s\n" "admin" "deletes" "${domain}.${ctx}"
 delete_request  spec.ctx-keyring.json \
@@ -123,7 +123,7 @@ delete_request  spec.ctx-keyring.json \
                 admin \
                 ${tmpreq}
 send_request ${domain}/pubkeys-deactivate.chain ${tmpreq} 0
-rm -f ${tmpreq}
+rm -f ${tmpreq} secrets/spec.ctx-keyring.json
 
 printf "%-18s %-20s %s\n" "admin" "deletes" "${domain}"
 delete_request  spec-keyring.json \
@@ -132,9 +132,7 @@ delete_request  spec-keyring.json \
                 admin \
                 ${tmpreq}
 send_request ${domain}/pubkeys-deactivate.chain ${tmpreq} 0
-rm -f ${tmpreq}
-
-rm -f secrets/spec*
+rm -f ${tmpreq} secrets/spec-keyring.json
 
 ## domain admin (domain_A)
 # create did docs to be delete from domain admin
@@ -195,7 +193,7 @@ delete_request  spec.ctx_A-keyring.json \
                 ${domain}_A \
                 ${tmpreq}
 send_request ${domain}/pubkeys-deactivate.chain ${tmpreq} 0
-rm -f ${tmpreq}
+rm -f ${tmpreq} secrets/spec.ctx_A-keyring.json
 
 printf "%-18s %-20s %s\n" "${domain}_A" "deletes" "${domain}.${ctx}"
 delete_request  spec.ctx-keyring.json \
@@ -204,7 +202,7 @@ delete_request  spec.ctx-keyring.json \
                 ${domain}_A \
                 ${tmpreq}
 send_request ${domain}/pubkeys-deactivate.chain ${tmpreq} 0
-rm -f ${tmpreq}
+rm -f ${tmpreq} secrets/spec.ctx-keyring.json
 
 printf "%-18s %-20s %s\n" "${domain}_A" "deletes" "${domain}"
 delete_request  spec-keyring.json \
@@ -213,9 +211,7 @@ delete_request  spec-keyring.json \
                 ${domain}_A \
                 ${tmpreq}
 send_request ${domain}/pubkeys-deactivate.chain ${tmpreq} 0
-rm -f ${tmpreq}
-
-rm -f secrets/spec.ctx_A-keyring.json secrets/spec.ctx-keyring.json secrets/spec-keyring.json
+rm -f ${tmpreq} secrets/spec-keyring.json
 
 ## domain.context admin (domain.ctx_A)
 # create did docs to be delete from domain context admin
@@ -278,7 +274,7 @@ delete_request  spec.ctx-keyring.json \
                 ${domain}.${ctx}_A \
                 ${tmpreq}
 send_request ${domain}/pubkeys-deactivate.chain ${tmpreq} 0
-rm -f ${tmpreq}
+rm -f ${tmpreq} secrets/spec.ctx-keyring.json
 
 printf "%-18s %-20s %s\n" "${domain}.${ctx}_A" "does not delete" "${domain}"
 delete_request  spec-keyring.json \
@@ -288,8 +284,6 @@ delete_request  spec-keyring.json \
                 ${tmpreq}
 send_request ${domain}/pubkeys-deactivate.chain ${tmpreq} 255
 rm -f ${tmpreq}
-
-rm -f secrets/spec.ctx-keyring.json
 
 ## domain.context (domain.ctx)
 # create did docs to be delete from domain context
@@ -392,6 +386,10 @@ delete_request  spec-keyring.json \
                 ${tmpreq}
 send_request ${domain}/pubkeys-deactivate.chain ${tmpreq} 255
 rm -f ${tmpreq}
+
+rm -f secrets/spec_A-keyring.json \
+   secrets/spec.ctx_A-keyring.json \
+   secrets/spec-keyring.json
 
 echo ""
 echo "DOMAIN ADMIN does not delete other domains did"
@@ -518,4 +516,9 @@ send_request ${domain}/pubkeys-deactivate.chain ${tmpreq} 255
 rm -f ${tmpreq}
 
 # cleanup secrets
-rm -f secrets/test* secrets/${domain}* secrets/spec* did_doc.json
+rm -f secrets/test* \
+   secrets/${domain}_A-keyring.json \
+   secrets/${domain}.${ctx}_A-keyring.json \
+   secrets/${domain}.${ctx}-keyring.json \
+   secrets/${domain}-keyring.json \
+   did_doc.json

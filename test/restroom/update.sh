@@ -194,7 +194,7 @@ update_request  test_3 \
                 ${domain}.${ctx}_A \
                 ${tmpreq}
 send_request ${domain}/pubkeys-update.chain ${tmpreq} 255
-rm -f ${tmpreq}
+rm -f ${tmpreq} secrets/${domain}.${ctx}_A-keyring.json
 
 ## domain.context (domain.ctx)
 printf "%-18s %-20s %s\n" "${domain}.${ctx}" "does not update" "admin"
@@ -240,7 +240,7 @@ update_request  test_4 \
                 ${domain}.${ctx} \
                 ${tmpreq}
 send_request ${domain}/pubkeys-update.chain ${tmpreq} 255
-rm -f ${tmpreq}
+rm -f ${tmpreq} secrets/${domain}.${ctx}-keyring.json
 
 ## domain (domain)
 printf "%-18s %-20s %s\n" "${domain}" "does not update" "admin"
@@ -286,7 +286,7 @@ update_request  test_5 \
                 ${domain} \
                 ${tmpreq}
 send_request ${domain}/pubkeys-update.chain ${tmpreq} 255
-rm -f ${tmpreq}
+rm -f ${tmpreq} secrets/${domain}-keyring.json
 
 echo ""
 echo "DOMAIN ADMIN does not update other domains did"
@@ -362,6 +362,6 @@ update_request  test_1 \
                 ${domain}_A \
                 ${tmpreq}
 send_request ${second_domain}/pubkeys-update.chain ${tmpreq} 255
-rm -f ${tmpreq}
+rm -f ${tmpreq} secrets/${domain}_A-keyring.json
 
-rm secrets/test* secrets/${domain}* *_original.json
+rm secrets/test* *_original.json
