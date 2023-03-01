@@ -13,3 +13,10 @@
 - [ ] divide per controller
 - [ ] save your searches with login (save on localstorage)
 - [ ] tutorial on first ingress and reshow if between first and second access passes X time
+
+---
+
+- [ ] Implement proper design system (e.g. polaris, etc.)
+- [ ] Show loading spinners on search and DID details load
+- [ ] Modal or About section with "Marketing Pills" on mobile
+- [ ] Show both RAW and DIDDetails component on mobile in detail page
