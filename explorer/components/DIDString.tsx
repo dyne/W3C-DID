@@ -7,7 +7,10 @@ export interface DIDStringProps {
 
 export default function DIDString(props: DIDStringProps) {
   const { did, wrap = false } = props;
+  const parsed = parse(did);
+  if (!parsed) return <></>;
   const { method, id: fullId } = parse(did)!;
+
   const [submethod, id] = fullId.split(":");
 
   const colon = <span className="text-gray-400">:</span>;
