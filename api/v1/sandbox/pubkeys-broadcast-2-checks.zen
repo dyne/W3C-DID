@@ -1,8 +1,6 @@
 Rule caller restroom-mw
 Scenario 'ecdh': verify signature
 Scenario 'w3c': proof
-Scenario 'eddsa': Create the key
-Scenario 'planetmint': Create the key
 
 # http_request.base_url
 Given I read the http request
@@ -22,18 +20,6 @@ and I rename 'didDocumentMetadata' to 'signer_metadata'
 # request did document
 Given I read the content of 'request_path' and save the output into 'request_data'
 and I have a 'string dictionary' named 'request_data'
-and I rename 'request_data' to 'broadcast_data'
-
-# keys and pks
-Given I read the content of 'secrets/planetmint_client.json'
-Given my name is in a 'string' named 'identity'
-Given I have my 'keyring'
-Given I have a 'eddsa public key'
-
-# prepare tx
-Given I have a planetmint endpoint named 'planetmint_endpoint'
-Given I prepare the planetmint transaction to store 'request_data' from 'eddsa_public_key'
-Given I have a 'string' named 'planetmint transaction'
 
 # data
 Given I have a 'string' named 'broadcast_id'
@@ -42,7 +28,7 @@ and I have a 'string' named 'request_path'
 and I have a 'string' named 'signer_id'
 
 # verify contract is used inside the chain
-When I verify 'base_url' has suffix 'pubkeys-broadcast.chain'
+When I verify 'base_url' has suffix '.chain'
 
 # verify signer did documents is not deactivated
 When I set 'false' to 'false' as 'string'
@@ -52,8 +38,27 @@ and I verify 'false' is equal to 'deactivated' in 'signer_metadata'
 When I create the 'ecdh' public key from did document 'signer_did_document'
 and I verify the 'broadcast_id' has a ecdh signature in 'ecdh signature' by 'ecdh public key'
 
-# sign transaction
-When I create the planetmint signatures of 'planetmint transaction'
+# extract data to be broadcast
+When I create the 'string dictionary' named 'broadcast_data'
+When I create the copy of '@context' in 'request_data'
+and I move the 'copy' to '@context' in 'broadcast_data'
+When I create the copy of 'didDocument' in 'request_data'
+and I move the 'copy' to 'didDocument' in 'broadcast_data'
+When I create the copy of 'didDocumentMetadata' in 'request_data'
+and I create the 'string dictionary' named 'didDocumentMetadata'
+and I pickup from path 'copy.created'
+and I move 'created' in 'didDocumentMetadata'
+and I pickup from path 'copy.deactivated'
+and I move 'deactivated' in 'didDocumentMetadata'
+If 'updated' is found in 'copy'
+When I pickup from path 'copy.updated'
+and I move 'updated' in 'didDocumentMetadata'
+EndIf
+If 'planetmint' is found in 'copy'
+When I pickup from path 'copy.updated'
+and I move 'updated' in 'didDocumentMetadata'
+EndIf
+When I move 'didDocumentMetadata' in 'broadcast_data'
 
 # log
 When I write string '' in 'log_msg'
@@ -63,12 +68,7 @@ and I append 'broadcast_id' to 'log_msg'
 and I append the string ';B;' to 'log_msg'
 and I append 'signer_id' to 'log_msg'
 
-Then print the 'planetmint transaction'
-Then print the 'planetmint signatures'
-Then print the 'eddsa_public_key'
 Then print the 'broadcast_data'
 Then print the 'request_path'
 Then print the 'log_msg'
-
-Then I prepare the signed planetmint transaction of 'planetmint_transaction' from 'eddsa_public_key'
-Then ask planetmint to broadcast the 'signed_planetmint_transaction'
+Then print the 'request_data'

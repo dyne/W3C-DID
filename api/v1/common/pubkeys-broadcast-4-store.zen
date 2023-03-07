@@ -8,18 +8,18 @@ Given I read the http request
 Given I have a 'string' named 'base_url' inside 'http_request'
 
 # data
-Given I have a 'string dictionary' named 'broadcast_data'
+Given I have a 'string dictionary' named 'request_data'
 Given I have a 'string dictionary' named 'commit'
 Given I have a 'string' named 'request path'
 Given I have a 'string' named 'log_msg'
 Given I have a 'string' named 'txid'
 
 # verify contract is used inside the chain
-When I verify 'base_url' has suffix 'pubkeys-broadcast.chain'
+When I verify 'base_url' has suffix '.chain'
 
-When I pickup from path 'broadcast_data.didDocumentMetadata'
+When I pickup from path 'request_data.didDocumentMetadata'
 If 'planetmint' is found in 'didDocumentMetadata'
-When I pickup from path 'broadcast_data.didDocumentMetadata.planetmint'
+When I pickup from path 'request_data.didDocumentMetadata.planetmint'
 When I remove the 'planetmint' from 'didDocumentMetadata'
 EndIf
 
@@ -30,14 +30,14 @@ EndIf
 When I move 'txid' in 'planetmint'
 
 When I move 'planetmint' in 'didDocumentMetadata'
-and I remove the 'didDocumentMetadata' from 'broadcast_data'
-and I move 'didDocumentMetadata' in 'broadcast_data'
+and I remove the 'didDocumentMetadata' from 'request_data'
+and I move 'didDocumentMetadata' in 'request_data'
 
-Then print the 'broadcast_data'
+Then print the 'request_data'
 Then print the 'request_path'
 Then print the 'log_msg'
 Then print the 'commit'
 
-Then store 'broadcast_data' in the file 'request_path'
+Then store 'request_data' in the file 'request_path'
 Then append the string 'log_msg' to the logfile in 'api_dyne_v1.log'
 Then make a new commit to the git repository in 'data'
