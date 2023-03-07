@@ -1,13 +1,15 @@
 #!/bin/bash
 source ./test/restroom/functions.sh
 
-[ "$#" = "2" ] || {
-    >&2 echo "$0 domain context"
+[ "$#" = "3" ] || {
+    >&2 echo "$0 domain context chain"
 	exit 1
 }
 domain=$1
 ctx=$2
 tmpreq=`mktemp`
+
+broadcast_api="pubkeys-broadcast-${3}"
 
 echo ""
 echo "### BROADCAST ###"
@@ -94,7 +96,7 @@ broadcast_request  test-broadcast-2-service-keyring.json \
                 test-broadcast-service-keyring.json \
                 admin \
                 ${tmpreq}
-send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 255
+send_request ${domain}/${broadcast_api}.chain ${tmpreq} 255
 rm -f ${tmpreq}
 
 printf "%-18s %-20s %s\n" "admin" "broadcasts" "${domain}_A"
@@ -103,7 +105,7 @@ broadcast_request  spec_A-keyring.json \
                 test-broadcast-service-keyring.json \
                 admin \
                 ${tmpreq}
-send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 0
+send_request ${domain}/${broadcast_api}.chain ${tmpreq} 0
 rm -f ${tmpreq} secrets/spec_A-keyring.json
 
 printf "%-18s %-20s %s\n" "admin" "broadcasts" "${domain}.${ctx}_A"
@@ -112,7 +114,7 @@ broadcast_request  spec.ctx_A-keyring.json \
                 test-broadcast-service-keyring.json \
                 admin \
                 ${tmpreq}
-send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 0
+send_request ${domain}/${broadcast_api}.chain ${tmpreq} 0
 rm -f ${tmpreq} secrets/spec.ctx_A-keyring.json
 
 printf "%-18s %-20s %s\n" "admin" "broadcasts" "${domain}.${ctx}"
@@ -121,7 +123,7 @@ broadcast_request  spec.ctx-keyring.json \
                 test-broadcast-service-keyring.json \
                 admin \
                 ${tmpreq}
-send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 0
+send_request ${domain}/${broadcast_api}.chain ${tmpreq} 0
 rm -f ${tmpreq} secrets/spec.ctx-keyring.json
 
 printf "%-18s %-20s %s\n" "admin" "broadcasts" "${domain}"
@@ -130,7 +132,7 @@ broadcast_request  spec-keyring.json \
                 test-broadcast-service-keyring.json \
                 admin \
                 ${tmpreq}
-send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 0
+send_request ${domain}/${broadcast_api}.chain ${tmpreq} 0
 rm -f ${tmpreq} secrets/spec-keyring.json
 
 ## domain admin (domain_A)
@@ -173,7 +175,7 @@ broadcast_request  test-broadcast-2-service-keyring.json \
                 ${domain}_A-keyring.json \
                 ${domain}_A \
                 ${tmpreq}
-send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 255
+send_request ${domain}/${broadcast_api}.chain ${tmpreq} 255
 rm -f ${tmpreq}
 
 printf "%-18s %-20s %s\n" "${domain}_A" "does not broadcast" "${domain}_A"
@@ -182,7 +184,7 @@ broadcast_request  spec_A-keyring.json \
                 ${domain}_A-keyring.json \
                 ${domain}_A \
                 ${tmpreq}
-send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 255
+send_request ${domain}/${broadcast_api}.chain ${tmpreq} 255
 rm -f ${tmpreq}
 
 printf "%-18s %-20s %s\n" "${domain}_A" "broadcasts" "${domain}.${ctx}_A"
@@ -191,7 +193,7 @@ broadcast_request  spec.ctx_A-keyring.json \
                 ${domain}_A-keyring.json \
                 ${domain}_A \
                 ${tmpreq}
-send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 0
+send_request ${domain}/${broadcast_api}.chain ${tmpreq} 0
 rm -f ${tmpreq} secrets/spec.ctx_A-keyring.json
 
 printf "%-18s %-20s %s\n" "${domain}_A" "broadcasts" "${domain}.${ctx}"
@@ -200,7 +202,7 @@ broadcast_request  spec.ctx-keyring.json \
                 ${domain}_A-keyring.json \
                 ${domain}_A \
                 ${tmpreq}
-send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 0
+send_request ${domain}/${broadcast_api}.chain ${tmpreq} 0
 rm -f ${tmpreq} secrets/spec.ctx-keyring.json
 
 printf "%-18s %-20s %s\n" "${domain}_A" "broadcasts" "${domain}"
@@ -209,7 +211,7 @@ broadcast_request  spec-keyring.json \
                 ${domain}_A-keyring.json \
                 ${domain}_A \
                 ${tmpreq}
-send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 0
+send_request ${domain}/${broadcast_api}.chain ${tmpreq} 0
 rm -f ${tmpreq} secrets/spec-keyring.json
 
 ## domain.context admin (domain.ctx_A)
@@ -245,7 +247,7 @@ broadcast_request  test-broadcast-2-service-keyring.json \
                 ${domain}.${ctx}_A-keyring.json \
                 ${domain}.${ctx}_A \
                 ${tmpreq}
-send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 255
+send_request ${domain}/${broadcast_api}.chain ${tmpreq} 255
 rm -f ${tmpreq}
 
 printf "%-18s %-20s %s\n" "${domain}.${ctx}_A" "does not broadcast" "${domain}_A"
@@ -254,7 +256,7 @@ broadcast_request  spec_A-keyring.json \
                 ${domain}.${ctx}_A-keyring.json \
                 ${domain}.${ctx}_A \
                 ${tmpreq}
-send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 255
+send_request ${domain}/${broadcast_api}.chain ${tmpreq} 255
 rm -f ${tmpreq}
 
 printf "%-18s %-20s %s\n" "${domain}.${ctx}_A" "does not broadcast" "${domain}.${ctx}_A"
@@ -263,7 +265,7 @@ broadcast_request  spec.ctx_A-keyring.json \
                 ${domain}.${ctx}_A-keyring.json \
                 ${domain}.${ctx}_A \
                 ${tmpreq}
-send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 255
+send_request ${domain}/${broadcast_api}.chain ${tmpreq} 255
 rm -f ${tmpreq}
 
 printf "%-18s %-20s %s\n" "${domain}.${ctx}_A" "broadcasts" "${domain}.${ctx}"
@@ -272,7 +274,7 @@ broadcast_request  spec.ctx-keyring.json \
                 ${domain}.${ctx}_A-keyring.json \
                 ${domain}.${ctx}_A \
                 ${tmpreq}
-send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 0
+send_request ${domain}/${broadcast_api}.chain ${tmpreq} 0
 rm -f ${tmpreq} secrets/spec.ctx-keyring.json
 
 printf "%-18s %-20s %s\n" "${domain}.${ctx}_A" "does not broadcast" "${domain}"
@@ -281,7 +283,7 @@ broadcast_request  spec-keyring.json \
                 ${domain}.${ctx}_A-keyring.json \
                 ${domain}.${ctx}_A \
                 ${tmpreq}
-send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 255
+send_request ${domain}/${broadcast_api}.chain ${tmpreq} 255
 rm -f ${tmpreq}
 
 ## domain.context (domain.ctx)
@@ -300,7 +302,7 @@ broadcast_request  test-broadcast-2-service-keyring.json \
                 ${domain}.${ctx}-keyring.json \
                 ${domain}.${ctx} \
                 ${tmpreq}
-send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 255
+send_request ${domain}/${broadcast_api}.chain ${tmpreq} 255
 rm -f ${tmpreq}
 
 printf "%-18s %-20s %s\n" "${domain}.${ctx}" "does not broadcast" "${domain}_A"
@@ -309,7 +311,7 @@ broadcast_request  spec_A-keyring.json \
                 ${domain}.${ctx}-keyring.json \
                 ${domain}.${ctx} \
                 ${tmpreq}
-send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 255
+send_request ${domain}/${broadcast_api}.chain ${tmpreq} 255
 rm -f ${tmpreq}
 
 printf "%-18s %-20s %s\n" "${domain}.${ctx}" "does not broadcast" "${domain}.${ctx}_A"
@@ -318,7 +320,7 @@ broadcast_request  spec.ctx_A-keyring.json \
                 ${domain}.${ctx}-keyring.json \
                 ${domain}.${ctx} \
                 ${tmpreq}
-send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 255
+send_request ${domain}/${broadcast_api}.chain ${tmpreq} 255
 rm -f ${tmpreq}
 
 printf "%-18s %-20s %s\n" "${domain}.${ctx}" "does not broadcast" "${domain}.${ctx}"
@@ -327,7 +329,7 @@ broadcast_request  spec.ctx-keyring.json \
                 ${domain}.${ctx}-keyring.json \
                 ${domain}.${ctx} \
                 ${tmpreq}
-send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 255
+send_request ${domain}/${broadcast_api}.chain ${tmpreq} 255
 rm -f ${tmpreq}
 
 printf "%-18s %-20s %s\n" "${domain}.${ctx}" "does not broadcast" "${domain}"
@@ -336,7 +338,7 @@ broadcast_request  spec-keyring.json \
                 ${domain}.${ctx}-keyring.json \
                 ${domain}.${ctx} \
                 ${tmpreq}
-send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 255
+send_request ${domain}/${broadcast_api}.chain ${tmpreq} 255
 rm -f ${tmpreq}
 
 ## domain (domain)
@@ -346,7 +348,7 @@ broadcast_request  test-broadcast-2-service-keyring.json \
                 ${domain}-keyring.json \
                 ${domain} \
                 ${tmpreq}
-send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 255
+send_request ${domain}/${broadcast_api}.chain ${tmpreq} 255
 rm -f ${tmpreq}
 
 printf "%-18s %-20s %s\n" "${domain}" "does not broadcast" "${domain}_A"
@@ -355,7 +357,7 @@ broadcast_request  spec_A-keyring.json \
                 ${domain}-keyring.json \
                 ${domain} \
                 ${tmpreq}
-send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 255
+send_request ${domain}/${broadcast_api}.chain ${tmpreq} 255
 rm -f ${tmpreq}
 
 printf "%-18s %-20s %s\n" "${domain}" "does not broadcast" "${domain}.${ctx}_A"
@@ -364,7 +366,7 @@ broadcast_request  spec.ctx_A-keyring.json \
                 ${domain}-keyring.json \
                 ${domain} \
                 ${tmpreq}
-send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 255
+send_request ${domain}/${broadcast_api}.chain ${tmpreq} 255
 rm -f ${tmpreq}
 
 printf "%-18s %-20s %s\n" "${domain}" "does not broadcast" "${domain}.${ctx}"
@@ -373,7 +375,7 @@ broadcast_request  spec.ctx-keyring.json \
                 ${domain}-keyring.json \
                 ${domain} \
                 ${tmpreq}
-send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 255
+send_request ${domain}/${broadcast_api}.chain ${tmpreq} 255
 rm -f ${tmpreq}
 
 printf "%-18s %-20s %s\n" "${domain}" "does not broadcast" "${domain}"
@@ -382,7 +384,7 @@ broadcast_request  spec-keyring.json \
                 ${domain}-keyring.json \
                 ${domain} \
                 ${tmpreq}
-send_request ${domain}/pubkeys-broadcast.chain ${tmpreq} 255
+send_request ${domain}/${broadcast_api}.chain ${tmpreq} 255
 rm -f ${tmpreq}
 
 
