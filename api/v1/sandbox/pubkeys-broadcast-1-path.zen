@@ -22,7 +22,7 @@ and I have a 'string' named 'exit_code' inside 'utility'
 and I have a 'string' named 'admin' inside 'utility'
 
 # verify contract is used inside the chain
-When I verify 'base_url' has suffix 'pubkeys-broadcast.chain'
+When I verify 'base_url' has suffix '.chain'
 
 When I set ':' to ':' as 'string'
 and I set '.' to '.' as 'string'

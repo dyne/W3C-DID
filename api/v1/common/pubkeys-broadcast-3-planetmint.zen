@@ -1,0 +1,41 @@
+Rule caller restroom-mw
+Scenario 'planetmint': Create the key
+Scenario 'eddsa': keys
+
+# keyring and pks
+Given I read the content of 'secrets/planetmint_client.json'
+Given my name is in a 'string' named 'identity'
+Given I have my 'keyring'
+Given I have a 'eddsa public key'
+
+# prepare tx
+Given I have a planetmint endpoint named 'planetmint_endpoint'
+Given I prepare the planetmint transaction to store 'broadcast_data' from 'eddsa_public_key'
+Given I have a 'string' named 'planetmint transaction'
+
+# http_request.base_url
+Given I read the http request
+Given I have a 'string' named 'base_url' inside 'http_request'
+
+# data
+Given I have a 'string dictionary' named 'request_data'
+Given I have a 'string dictionary' named 'commit'
+Given I have a 'string' named 'request_path'
+Given I have a 'string' named 'log_msg'
+
+# verify contract is used inside the chain
+When I verify 'base_url' has suffix 'pubkeys-broadcast-planetmint.chain'
+
+# sign transaction
+When I create the planetmint signatures of 'planetmint transaction'
+
+Then print the 'request_path'
+Then print the 'log_msg'
+Then print the 'commit'
+Then print the 'request_data'
+Then print the 'planetmint transaction'
+Then print the 'planetmint signatures'
+Then print the 'eddsa_public_key'
+
+Then I prepare the signed planetmint transaction of 'planetmint_transaction' from 'eddsa_public_key'
+Then ask planetmint to broadcast the 'signed_planetmint_transaction'
