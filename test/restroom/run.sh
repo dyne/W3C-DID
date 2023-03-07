@@ -18,7 +18,7 @@ ctx="test"
 [ "$?" = "1" ] && { exit 1; }
 
 # Test broadcast
-./test/restroom/broadcast.sh ${domain} ${ctx}
+./test/restroom/broadcast.sh ${domain} ${ctx} "planetmint"
 [ "$?" = "1" ] && { exit 1; }
 
 exit 0
