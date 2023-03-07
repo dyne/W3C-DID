@@ -28,6 +28,9 @@
   "bugs": {
     "url": "https://github.com/dyne/W3C-DID/issues"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "homepage": "https://github.com/dyne/W3C-DID#readme",
   "dependencies": {
     "@types/node": "^18.11.18",
