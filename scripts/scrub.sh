@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # runtime checks
 command -v zenroom > /dev/null || {
@@ -13,8 +14,12 @@ command -v zenroom > /dev/null || {
 
 data="$1"
 spec="$2"
-export log=scrub.log
-zlog=zenroom.log
+if [ -z "$log" ]; then
+  export log=scrub.log
+fi
+if [ -z "$zlog" ]; then
+  zlog=zenroom.log
+fi
 # TODO: scrub-`date`.log to archive multiple logs
 echo -e "-- \nStarting scrub on `date`" | >&2 tee -a $log
 

@@ -26,6 +26,7 @@
     state: latest
 
 - name: Create planetmint_client keys and did doc
+  become: true
   command: yarn run init
   args:
     chdir: "{{ controller_root }}/restroom"

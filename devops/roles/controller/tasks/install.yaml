@@ -12,7 +12,14 @@
       - curl
       - rsync
       - jq
+      - parallel
     state: latest
+
+- name: Install zenroom
+  ansible.builtin.get_url:
+    url: https://files.dyne.org/zenroom/nightly/zenroom-linux-amd64
+    dest: /usr/local/bin/zenroom
+    mode: a+x
 
 - name: Create working dirs
   file:
@@ -23,7 +30,9 @@
   with_items:
     - "{{ controller_root }}"
     - "{{ controller_root }}/restroom"
+    - "{{ controller_root }}/scripts"
     - "{{ data_dir }}"
+    - "{{ logs_dir }}"
 
 - name: Copy app
   become: true
@@ -32,8 +41,18 @@
     dest: "{{ controller_root }}/restroom/"
   with_items:
     - restroom.mjs
+    - init.mjs
     - package.json
     - yarn.lock
+
+- name: Copy script
+  copy:
+    src: "../scripts/{{ item }}"
+    dest: "{{ controller_root }}/scripts/"
+    mode: a+x
+  with_items:
+    - "scrub.sh"
+    - "git_push.sh"
 
 # - name: Config restroom in private network
 #   ansible.builtin.lineinfile:
@@ -52,10 +71,13 @@
       FILES_DIR={{ data_dir }}
       ZENCODE_DIR=../api
       INIT_ZENCODE_DIR=../planetmint_client
+      LOGGER_DIR=/var/log/controller/
       USE_TIMESTAMP=y
       USE_FILES=y
       USE_ETHEREUM=y
       USE_PLANETMINT=y
+      USE_GIT=y
+      USE_LOGGER=y
       USE_HTTP=y
       HOST={{ domain_name }}
       HTTP_PORT=80
@@ -100,11 +122,21 @@
     group: controller
     recurse: yes
 
-- name: Clone data dir
+- name: Clone or pull data dir
   become: true
-  ansible.builtin.git:
-    repo: git@github.com:dyne/W3C-DID-data.git
-    dest: "{{ data_dir }}/data"
+  shell: |
+    REPOSRC=git@github.com:dyne/W3C-DID-data.git
+    LOCALREPO="{{ data_dir }}/data"
+
+    LOCALREPO_VC_DIR=$LOCALREPO/.git
+
+    if [ ! -d $LOCALREPO_VC_DIR ]
+    then
+        git clone $REPOSRC $LOCALREPO
+    else
+        cd $LOCALREPO
+        git pull --rebase origin main
+    fi
 
 - name: Download pm2 ecosystem
   become: true
@@ -126,3 +158,11 @@
     state: restarted
     daemon_reload: yes
     name: nginx
+
+- name: Ensure that one day controller push to github
+  become: true
+  ansible.builtin.cron:
+    name: "git push dids"
+    minute: "0"
+    hour: "0"
+    job: "cd {{ controller_root }}; log=\"{{ logs_dir }}/push.log\" ./scripts/git_push.sh {{ data_dir }}/data; cd $OLDPWD"
