@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 [ "$1" = "" ]                && { >&2 echo "$0 path/to/data"; exit 1;}
 [ "`basename $1`" = "data" ] || { >&2 echo "$0 path/to/data"; exit 1;}
@@ -23,4 +24,4 @@ cd -
 rm -r $1/dyne/git_check
 
 # push
-#cd $1 && git push
+cd $1 && git push

@@ -30,7 +30,9 @@ const zen = async (zencode, keys, data) => {
 
 // create private and public key
 let keysJson = {}
-if(!fs.existsSync(path.join(FILES_DIR, KEYS_PATH))){
+const keysPath = path.join(FILES_DIR, KEYS_PATH)
+const keysPathParsed = path.parse(keysPath)
+if(!fs.existsSync(keysPath)){
     const createKeysScript = await fsp.readFile(path.join(INIT_ZENCODE_DIR, "keygen.zen"), 'utf8');
     const didSettings = await fsp.readFile(path.join(INIT_ZENCODE_DIR, "did-settings.json"), 'utf8');
     const controller = JSON.stringify({controller: "planetmint_client"})
@@ -41,8 +43,9 @@ if(!fs.existsSync(path.join(FILES_DIR, KEYS_PATH))){
     }
 
     Object.assign(keysJson, JSON.parse(keys.result));
+    if (!fs.existsSync(keysPathParsed.dir)) fs.mkdirSync(keysPathParsed.dir,'0700', true);
     await fsp.writeFile(
-	    path.join(FILES_DIR, KEYS_PATH),
+	    keysPath,
 	    JSON.stringify(keysJson), {mode: 0o600});
 }
 else {
