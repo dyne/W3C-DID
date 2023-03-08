@@ -7,6 +7,7 @@ blocks:
     next: v1/ifacer/pubkeys-broadcast-2-checks.zen
   v1/ifacer/pubkeys-broadcast-2-checks.zen:
     zenFile: v1/ifacer/pubkeys-broadcast-2-checks.zen
+    keysFile: v1/ifacer/pubkeys-broadcast-2-checks.keys
     next: v1/ifacer/pubkeys-broadcast-3-planetmint.zen
   v1/ifacer/pubkeys-broadcast-3-planetmint.zen:
     zenFile: v1/ifacer/pubkeys-broadcast-3-planetmint.zen

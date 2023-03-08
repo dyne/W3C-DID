@@ -18,13 +18,14 @@ Given I have a 'string' named 'txid'
 When I verify 'base_url' has suffix '.chain'
 
 When I pickup from path 'request_data.didDocumentMetadata'
-If 'planetmint' is found in 'didDocumentMetadata'
-When I pickup from path 'request_data.didDocumentMetadata.planetmint'
-When I remove the 'planetmint' from 'didDocumentMetadata'
-EndIf
 
 If 'planetmint' is not found in 'didDocumentMetadata'
 When I create the 'string array' named 'planetmint'
+EndIf
+
+If 'planetmint' is found in 'didDocumentMetadata'
+When I pickup from path 'didDocumentMetadata.planetmint'
+When I remove the 'planetmint' from 'didDocumentMetadata'
 EndIf
 
 When I move 'txid' in 'planetmint'
