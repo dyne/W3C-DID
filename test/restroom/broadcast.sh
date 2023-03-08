@@ -23,7 +23,8 @@ create_request  ${domain}_A-keyring.json \
                 ${domain}_A \
                 test-broadcast-service-keyring.json \
                 admin \
-                ${tmpreq}
+                ${tmpreq} \
+                ${domain}_A_did_doc.json
 send_request ${domain}/pubkeys-accept.chain ${tmpreq} 0
 rm -f ${tmpreq}
 
@@ -387,6 +388,22 @@ broadcast_request  spec-keyring.json \
 send_request ${domain}/${broadcast_api}.chain ${tmpreq} 255
 rm -f ${tmpreq}
 
+echo "BROADCAST AN UPDATE"
+update_request  test_1 \
+                ${domain}_A_did_doc.json \
+                test-broadcast-service-keyring.json \
+                admin \
+                ${tmpreq}
+send_request ${domain}/pubkeys-update.chain ${tmpreq} 0
+rm -f ${tmpreq}
+printf "%-18s %-20s %s\n" "admin" "broadcasts updated" "${domain}_A"
+broadcast_request ${domain}_A-keyring.json \
+                ${domain}_A \
+                test-broadcast-service-keyring.json \
+                admin \
+                ${tmpreq}
+send_request ${domain}/${broadcast_api}.chain ${tmpreq} 0
+rm -f ${tmpreq} ${domain}_A_did_doc.json
 
 # cleanup secrets
 rm -f secrets/spec_A-keyring.json \
