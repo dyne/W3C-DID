@@ -63,7 +63,7 @@ fill-sandbox: ## Generate random DIDs in local sandbox  [ NUM ]
 	bash scripts/fakedid.sh ${NUM}
 
 test-units: ## Run client-api unit tests offline
-	-if [ ! -f test/zenroom ]; then cp /usr/local/bin/zenroom test/; fi
+	-if [ -f /usr/local/bin/zenroom ]; then cp -v /usr/local/bin/zenroom test/; fi
 	./test/bats/bin/bats test/zencode_units
 
 ##@ Service

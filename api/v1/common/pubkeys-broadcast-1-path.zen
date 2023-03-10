@@ -15,18 +15,19 @@ and I rename 'id' to 'signer_id'
 # constants
 Given I have a 'string dictionary' named 'request_ACL'
 and I have a 'string dictionary' named 'signer_ACL'
-and I have a 'string dictionary' named 'utility'
-and I have a 'float' named '2' inside 'utility'
+and I have a 'float' named '0'
+and I have a 'float' named '1'
+and I have a 'float' named '2'
 and I have a 'string' named 'not_allowed_spec'
-and I have a 'string' named 'exit_code' inside 'utility'
-and I have a 'string' named 'admin' inside 'utility'
+and I have a 'string' named 'exit_code'
+and I have a 'string' named 'admin'
+and I have a 'string' named ':'
+and I have a 'string' named '.'
+and I have a 'string' named '_'
 
 # verify contract is used inside the chain
 When I verify 'base_url' has suffix '.chain'
 
-When I set ':' to ':' as 'string'
-and I set '.' to '.' as 'string'
-and I set '_' to '_' as 'string'
 and I set 'signer_path' to 'data/dyne/' as 'string'
 and I set 'request_path' to 'data/dyne/' as 'string'
 and I write string '' in 'signer_path_permission'
@@ -46,10 +47,12 @@ and I rename the 'copy' to 'request_idspec'
 and I create the copy of element '4' in array 'array'
 and I rename the 'copy' to 'request_idpk'
 and I remove 'array'
+
 # request_domain
 When I create the array by splitting 'request_idspec' at '_'
 and I rename 'array' to 'request_split_by_underscore'
 and I create the length of 'request_split_by_underscore'
+# TODO: verify prefix https://github.com/dyne/Zenroom/issues/593
 and number 'length' is less or equal than '2'
 and I rename 'length' to 'length_request_split_by_underscore'
 and I create the copy of element '1' in array 'request_split_by_underscore'
@@ -64,7 +67,7 @@ and I remove 'array'
 
 # check request_domain is allowed
 When I verify 'request_domain' is not equal to 'not_allowed_spec'
-and I verify 'request_domain' is not equal to 'admin' in 'utility'
+and I verify 'request_domain' is not equal to 'admin'
 
 ## signer_path
 # signerPermission
@@ -75,19 +78,20 @@ and I create the copy of element '1' in array 'array'
 and I rename 'copy' to 'signer_domain.signer_ctx'
 
 # no underscore => has to be admin
-If I verify 'length' is equal to '1' in 'utility'
+If I verify 'length' is equal to '1'
 When I remove 'exit_code'
 and I set 'exit_code' to 'check signer is admin' as 'string'
 
-When I verify 'signer_idspec' is equal to 'admin' in 'utility'
+When I verify 'signer_idspec' is equal to 'admin'
 
+# TODO: exit with error https://github.com/dyne/Zenroom/issues/587
 When I remove 'exit_code'
 and I set 'exit_code' to '0' as 'string'
 EndIf
-When I verify 'exit_code' is equal to '0' in 'utility'
+When I verify 'exit_code' is equal to '0'
 
 # underscore => then _A
-If I verify 'length' is equal to '2' in 'utility'
+If I verify 'length' is equal to '2'
 When I remove 'exit_code'
 and I set 'exit_code' to 'check signer permissions' as 'string'
 
@@ -101,18 +105,22 @@ and I remove 'copy'
 When I remove 'exit_code'
 and I set 'exit_code' to '0' as 'string'
 EndIf
-When I verify 'exit_code' is equal to '0' in 'utility'
+When I verify 'exit_code' is equal to '0'
 
 When I remove 'array'
 and I remove 'length'
 
 # signerContext
 When I create the array by splitting 'signer_domain.signer_ctx' at '.'
+# verify length of array https://github.com/dyne/Zenroom/issues/607
 and I create the length of 'array'
 and number 'length' is less or equal than '2'
 
+## Switch case over length
+
+## 1)
 # no point => signer_idspec != request_idspec and signer_domain in {admin, request_doamin}
-If I verify 'length' is equal to '1' in 'utility'
+If I verify 'length' is equal to '1'
 When I remove 'exit_code'
 and I set 'exit_code' to 'check signer domain' as 'string'
 
@@ -130,10 +138,11 @@ When I append 'signer_domain' to 'signer_path'
 When I remove 'exit_code'
 and I set 'exit_code' to '0' as 'string'
 EndIf
-When I verify 'exit_code' is equal to '0' in 'utility'
+When I verify 'exit_code' is equal to '0'
 
+## 2)
 # point => signer_domain.signer_ctx = request_idspec
-If I verify 'length' is equal to '2' in 'utility'
+If I verify 'length' is equal to '2'
 When I remove 'exit_code'
 and I set 'exit_code' to 'check signer context' as 'string'
 
@@ -143,7 +152,7 @@ and I append 'signer_domain.signer_ctx' to 'signer_path'
 When I remove 'exit_code'
 and I set 'exit_code' to '0' as 'string'
 EndIf
-When I verify 'exit_code' is equal to '0' in 'utility'
+When I verify 'exit_code' is equal to '0'
 
 When I append 'signer_path_permission' to 'signer_path'
 and I append the string '/' to 'signer_path'
@@ -152,8 +161,10 @@ and I append 'signer_idpk' to 'signer_path'
 When I remove 'array'
 and I remove 'length'
 
+## ESAC end switch case over length
+
 ## request_path
-If I verify 'length_request_split_by_underscore' is equal to '2' in 'utility'
+If I verify 'length_request_split_by_underscore' is equal to '2'
 When I remove 'exit_code'
 and I set 'exit_code' to 'check request permissions' as 'string'
 
@@ -168,7 +179,7 @@ and I append 'copy' to 'request_idspec'
 When I remove 'exit_code'
 and I set 'exit_code' to '0' as 'string'
 EndIf
-When I verify 'exit_code' is equal to '0' in 'utility'
+When I verify 'exit_code' is equal to '0'
 
 When I append 'request_idspec' to 'request_path'
 and I append the string '/' to 'request_path'
