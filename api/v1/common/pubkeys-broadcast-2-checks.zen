@@ -2,11 +2,11 @@ Rule caller restroom-mw
 Scenario 'ecdh': verify signature
 Scenario 'w3c': proof
 
-# http_request.base_url
+# http_request.base_url (restroom)
 Given I read the http request
 Given I have a 'string' named 'base_url' inside 'http_request'
 
-# timestamp
+# timestamp (restroom)
 Given I fetch the local timestamp and store it into 'broadcast_timestamp'
 and I have a 'integer' named 'broadcast_timestamp'
 
@@ -58,12 +58,16 @@ If 'updated' is found in 'didDocumentMetadata_copy'
 When I pickup from path 'didDocumentMetadata_copy.updated'
 and I move 'updated' in 'didDocumentMetadata'
 EndIf
+
 # blockchains txids
+# TODO: use a flat array and zencode: When I the '' is found in ''
 When I set '-' to '-' as 'string'
 and I set '.' to '.' as 'string'
+## compose the blockchain api endpoint (dash is used in its name)
 and I create the array by splitting 'base_url' at '-'
 and I create the copy of element '3' in array 'array'
 and I rename 'copy' to 'blockchain.chain'
+## match the blockchain is supported by api
 and the 'blockchain.chain' is found in 'api_blockchains'
 and I remove 'array'
 and I create the array by splitting 'blockchain.chain' at '.'

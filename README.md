@@ -113,6 +113,42 @@ All secret keys are kept client-side and our server has none available, signing 
 
 All client-side secrets created using this repository CLI setup are stored in the `secrets/` folder.
 
+# run integration tests
+
+These instructions use binaries available only for x86_64 platform.
+
+Launch the DID server based on restroom-mw
+```
+cd restroom && npm i
+make run
+```
+
+This will also generate keyrings in `secrets/`
+
+Install the [restroom-test](git clone https://github.com/dyne/w3c-did-data data) utility
+```
+wget \
+https://github.com/dyne/zencode-tools/releases/latest/download/restroom-test \
+ -O restroom-test
+chmod +x restroom-test
+```
+
+Clone the `did:dyne` from [w3c-did-data](https://github.com/dyne/w3c-did-data)
+```
+git clone https://github.com/dyne/w3c-did-data data
+```
+
+
+Launch the integration tests on `did:dyne:sandbox`
+```
+bash ./test/restroom/run.sh
+```
+
+Launch the broadcast integration tests for `did:dyne:sandbox` on the planetmint blockchain
+```
+bash ./test/restroom/broadcast.sh sandbox test planetmint
+```
+
 # licensing
 
 Copyright (C) 2022-2023 Dyne.org foundation
