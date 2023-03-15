@@ -1,5 +1,7 @@
 {
-    "api_blockchains":{
-        "planetmint.chain":"planetmint"
-    }
+    "-": "-",
+    ".": ".",
+    "api_blockchains": [
+        "planetmint"
+    ]
 }

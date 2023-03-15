@@ -22,7 +22,9 @@ Given I read the content of 'request_path' and save the output into 'request_dat
 and I have a 'string dictionary' named 'request_data'
 
 # keys
-Given I have a 'string dictionary' named 'api_blockchains'
+Given I have a 'string array' named 'api_blockchains'
+and I have a 'string' named '-'
+and I have a 'string' named '.'
 
 # data
 Given I have a 'string' named 'broadcast_id'
@@ -58,17 +60,17 @@ If 'updated' is found in 'didDocumentMetadata_copy'
 When I pickup from path 'didDocumentMetadata_copy.updated'
 and I move 'updated' in 'didDocumentMetadata'
 EndIf
+
 # blockchains txids
-When I set '-' to '-' as 'string'
-and I set '.' to '.' as 'string'
-and I create the array by splitting 'base_url' at '-'
+When I create the array by splitting 'base_url' at '-'
 and I create the copy of element '3' in array 'array'
-and I rename 'copy' to 'blockchain.chain'
-and the 'blockchain.chain' is found in 'api_blockchains'
 and I remove 'array'
+and I rename 'copy' to 'blockchain.chain'
 and I create the array by splitting 'blockchain.chain' at '.'
 and I create the copy of element '1' in array 'array'
+and I remove 'array'
 and I rename 'copy' to 'blockchain'
+and the 'blockchain' is found in 'api_blockchains'
 If the 'blockchain' is found in 'didDocumentMetadata_copy'
 When I create the copy of object named by 'blockchain' from dictionary 'didDocumentMetadata_copy'
 and I rename 'copy' to named by 'blockchain'
