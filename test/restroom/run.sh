@@ -5,6 +5,9 @@ ctx="test"
 [ "$1" != "" ] && domain=$1
 [ "$2" != "" ] && ctx=$2
 
+path="sandbox"
+[ "$domain" != "sandbox" ] && path="common"
+
 # Test creation
 ./test/restroom/create.sh ${domain} ${ctx}
 [ "$?" = "1" ] && { exit 1; }
@@ -17,8 +20,15 @@ ctx="test"
 ./test/restroom/delete.sh ${domain} ${ctx}
 [ "$?" = "1" ] && { exit 1; }
 
+# switch with the test endpoints
+mv api/v1/${path}/pubkeys-broadcast-3-planetmint.keys .
+cp test/restroom/planetmint_endpoint.json api/v1/${path}/pubkeys-broadcast-3-planetmint.keys
 # Test broadcast
 ./test/restroom/broadcast.sh ${domain} ${ctx} "planetmint"
-[ "$?" = "1" ] && { exit 1; }
+[ "$?" = "1" ] && {
+    mv pubkeys-broadcast-3-planetmint.keys api/v1/${path}/
+    exit 1
+}
+mv pubkeys-broadcast-3-planetmint.keys api/v1/${path}/
 
 exit 0
