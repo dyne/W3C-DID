@@ -46,10 +46,13 @@
     - yarn.lock
 
 - name: Copy script
+  become: true
   copy:
     src: "../scripts/{{ item }}"
     dest: "{{ controller_root }}/scripts/"
     mode: a+x
+    owner: controller
+    group: controller
   with_items:
     - "scrub.sh"
     - "git_push.sh"
@@ -164,5 +167,5 @@
   ansible.builtin.cron:
     name: "git push dids"
     minute: "0"
-    hour: "0"
+    hour: "*"
     job: "cd {{ controller_root }}; log=\"{{ logs_dir }}/push.log\" ./scripts/git_push.sh {{ data_dir }}/data; cd $OLDPWD"
