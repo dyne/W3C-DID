@@ -1,5 +1,8 @@
 # W3C-DID
-[Dyne.org](http://dyne.org/) W3C-DID implementation. 
+
+![image](https://user-images.githubusercontent.com/148059/226372912-a1934fcd-42d9-4d8c-9bb2-0197f81a1958.png)
+
+[Dyne.org](http://dyne.org/) W3C-DID software and online service.
 
 A distributed digital identity gives users control over their personal, verified information and allows them to share it on demand in a safe and secure way.
 
