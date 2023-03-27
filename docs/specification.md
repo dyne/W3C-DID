@@ -26,7 +26,7 @@ Dyne DIDs is a URI conformant with [[RFC3986]] specification. The ABNF definitio
 ```
 dyne-did   := did:dyne:<idspec>:<idchar>
 idspec     := *(ALPHA) *1("." *(ALPHA)) *1("_" 1*1(permission))
-permission := "A" / "C" / "U" / "D"
+permission := "A" / "C" / "U" / "D" / "T"
 idchar     := 1*44(base58char)
 base58char := "1" / "2" / "3" / "4" / "5" / "6" / "7" / "8" / "9" / "A" / "B" / "C"
               / "D" / "E" / "F" / "G" / "H" / "J" / "K" / "L" / "M" / "N" / "P" / "Q"
@@ -35,10 +35,17 @@ base58char := "1" / "2" / "3" / "4" / "5" / "6" / "7" / "8" / "9" / "A" / "B" / 
               / "q" / "r" / "s" / "t" / "u" / "v" / "w" / "x" / "y" / "z"
 ```
 
+The permission characters are used to define the power of a did document on other did documents with the same did domain:
+- **A** identifies domain admins that have all the admin power listed below.
+- **C** identifies domain admins that have the power only to create.
+- **U** identifies domain admins that have the power only to update.
+- **D** identifies domain admins that have the power only to deactivate.
+- **T** identifies domain admins that have the power only to make transaction in the scope of the [zenflows project](https://github.com/interfacerproject/zenflows).
+
 For the moment the main used prefix are:
 - <b>did:</b><b>dyne:</b><b>sandbox:</b> that is used for testing purposes.
-- <b>did:</b><b>dyne:</b><b>ifacer:</b> that is used in our [zenflows project](https://github.com/interfacerproject/zenflows) to create the user identity.
-- <b>did:</b><b>dyne:</b><b>zenflows_A:</b> that is used in our [zenflows project](https://github.com/interfacerproject/zenflows) to create the admin identity.
+- <b>did:</b><b>dyne:</b><b>ifacer.main:</b> that is used in our [zenflows project](https://github.com/interfacerproject/zenflows) to create the user identity.
+- <b>did:</b><b>dyne:</b><b>ifacer.main_A:</b> that is used in our [zenflows project](https://github.com/interfacerproject/zenflows) to create the admin identity.
 
 An example of Dyne.org's DID is:
 ```
