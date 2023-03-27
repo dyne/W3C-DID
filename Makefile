@@ -45,6 +45,11 @@ sign: ## Sign a request and generate a DID proof [ REQUEST, KEYRING ]
 	@zenroom -z -k ${KEYRING} -a ${REQUEST} \
 				client/v1/pubkeys-sign.zen > ${OUT}
 
+run-admin:
+	$(if $(wildcard restroom/node_modules),,$(error Deps missing, first run: make build))
+	@cp -v client/v1/domain_admin_server/.env.example restroom/.env
+	cd restroom && node restroom.mjs
+
 ##@ Test
 populate-remote-sandbox:
 	zenroom -z -a client/v1/did-settings.json \

@@ -1,0 +1,12 @@
+zenchain: 1.0
+start: create_request.zen
+blocks:
+  create_request.zen:
+    zenFile: create_request.zen
+    next: prepare_post.zen
+  prepare_post.zen:
+    zenFile: prepare_post.zen
+    next: send_post.zen
+  send_post.zen:
+    zenFile: send_post.zen
+    keysFile: send_post.keys

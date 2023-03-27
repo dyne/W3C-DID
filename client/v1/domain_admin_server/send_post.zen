@@ -1,0 +1,6 @@
+Rule caller restroom-mw
+
+Given I connect to 'endpoint' and pass it the content of 'post' and save the output into 'response'
+and I have a 'string dictionary' named 'response'
+
+Then print the 'response'
