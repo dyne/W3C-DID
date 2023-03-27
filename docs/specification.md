@@ -40,7 +40,7 @@ The permission characters are used to define the power of a did document on othe
 - **C** identifies domain admins that have the power only to create.
 - **U** identifies domain admins that have the power only to update.
 - **D** identifies domain admins that have the power only to deactivate.
-- **T** identifies domain admins that have the power only to make transaction in the scope of the [zenflows project](https://github.com/interfacerproject/zenflows).
+- **T** identifies domain admins that have the power only to make transactions.
 
 For the moment the main used prefix are:
 - <b>did:</b><b>dyne:</b><b>sandbox:</b> that is used for testing purposes.
