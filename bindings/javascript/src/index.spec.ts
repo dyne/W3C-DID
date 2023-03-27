@@ -121,11 +121,11 @@ test.serial("Send the delete request", async (t) => {
     deleteSignedRequest
     );
   t.is(typeof result, "object");
-  t.is(typeof result["request_data"], "object");
-  t.is(typeof result["request_data"]["@context"], "string");
-  t.is(typeof result["request_data"]["didDocument"], "object");
-  t.is(typeof result["request_data"]["didDocumentMetadata"], "object");
-  t.is(result["request_data"]["didDocumentMetadata"]["deactivated"], "true");
+  t.is(typeof result["result"], "object");
+  t.is(typeof result["result"]["@context"], "string");
+  t.is(typeof result["result"]["didDocument"], "object");
+  t.is(typeof result["result"]["didDocumentMetadata"], "object");
+  t.is(result["result"]["didDocumentMetadata"]["deactivated"], "true");
 })
 
 test.serial("Create a ifacer keyring", async (t) => {
