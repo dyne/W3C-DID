@@ -57,6 +57,7 @@ jobs:
           git clone https://github.com/dyne/W3C-DID-data.git data
       - name: 🗝️ Create server keys
         run: |
+          cp test/restroom/test_keyring.json secrets/blockchains_client.json
           cd restroom
           mv .env.example .env
           yarn && yarn run init
