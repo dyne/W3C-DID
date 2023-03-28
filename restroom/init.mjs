@@ -10,8 +10,8 @@ dotenv.config();
 
 const INIT_ZENCODE_DIR = process.env.INIT_ZENCODE_DIR;
 const FILES_DIR = process.env.FILES_DIR;
-const KEYS_PATH = "secrets/planetmint_client.json";
-const DID_PATH = "data/dyne/planetmint.client"
+const KEYS_PATH = "secrets/blockchains_client.json";
+const DID_PATH = "data/dyne/blockchains.client"
 
 const zen = async (zencode, keys, data) => {
     const params = {};
@@ -35,7 +35,7 @@ const keysPathParsed = path.parse(keysPath)
 if(!fs.existsSync(keysPath)){
     const createKeysScript = await fsp.readFile(path.join(INIT_ZENCODE_DIR, "keygen.zen"), 'utf8');
     const didSettings = await fsp.readFile(path.join(INIT_ZENCODE_DIR, "did-settings.json"), 'utf8');
-    const controller = JSON.stringify({controller: "planetmint_client"})
+    const controller = JSON.stringify({controller: "blockchains_client"})
     const keys = await zen(createKeysScript, controller, didSettings);
     if (!keys) {
 	    console.error("Error in keys creation");
