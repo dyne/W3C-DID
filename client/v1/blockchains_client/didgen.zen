@@ -23,6 +23,7 @@ Given I have a 'string' named 'identity'
 and I rename 'identity' to 'description'
 Given I have a 'eddsa_public_key'
 and I have a 'ecdh_public_key'
+and I have a 'ethereum address'
 
 #TODO: validate eddsa public key
 
