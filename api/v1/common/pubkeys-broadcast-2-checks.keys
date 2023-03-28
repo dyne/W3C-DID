@@ -2,6 +2,7 @@
     "-": "-",
     ".": ".",
     "api_blockchains": [
-        "planetmint"
+        "planetmint",
+        "polygon"
     ]
 }

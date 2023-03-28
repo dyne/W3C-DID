@@ -1,0 +1,52 @@
+Rule caller restroom-mw
+Scenario 'ethereum': keys
+
+# keyring and pks
+Given I read the content of 'secrets/blockchains_client.json'
+and my name is in a 'string' named 'identity'
+and I have my 'keyring'
+
+# polygon endpoint
+Given I have a ethereum endpoint named 'polygon_endpoint'
+
+# http_request.base_url
+Given I read the http request
+and I have a 'string' named 'base_url' inside 'http_request'
+
+# gas price
+Given I read the ethereum suggested gas price
+and I have a 'gas_price'
+
+# nonce
+Given I read the ethereum nonce for 'ethereum_address'
+and I have a 'ethereum nonce'
+
+# keys
+Given I have a 'ethereum address' named 'storage contract'
+
+# data
+Given I have a 'string dictionary' named 'request_data'
+and I have a 'string dictionary' named 'broadcast_data'
+and I have a 'string' named 'request_path'
+and I have a 'string' named 'log_msg'
+and I have a 'string' named 'chainid'
+and I have a 'gas_limit'
+
+# verify contract is used inside the chain
+When I verify 'base_url' has suffix 'pubkeys-broadcast-polygon.chain'
+
+# store the hash to point
+When I create the hash to point 'ecp' of 'broadcast_data'
+
+# transaction
+When I create the ethereum transaction to 'storage contract'
+and I use the ethereum transaction to store 'hash to point'
+and I create the signed ethereum transaction for chain 'chainid'
+
+Then print the 'signed_ethereum_transaction'
+and print the 'request_path'
+and print the 'log_msg'
+and print the 'commit'
+and print the 'request_data'
+
+Then I ask ethereum to broadcast the 'signed_ethereum_transaction' and save the transaction id in 'txid'
