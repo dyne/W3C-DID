@@ -1,19 +1,23 @@
 Scenario ecdh
 Scenario eddsa
+Scenario ethereum
 
 Given I my name is in a 'string' named 'controller'
 and I have a 'string array' named '@context'
 and I have a 'string dictionary' named 'proof'
 
 When I create the ecdh key
-When I create the eddsa key
+and I create the eddsa key
+and I create the ethereum key
 
 When I create the ecdh public key
-When I create the eddsa public key
+and I create the eddsa public key
+and I create the ethereum address
 
 # keyring and explicit owner identity
 Then print the 'eddsa public key' as 'base58'
 Then print the 'ecdh public key' as 'base58'
+Then print the 'ethereum address' as 'hex'
 Then print my 'keyring'
 Then print my name in 'identity'
 Then print the '@context'
