@@ -20,15 +20,29 @@ path="sandbox"
 ./test/restroom/delete.sh ${domain} ${ctx}
 [ "$?" = "1" ] && { exit 1; }
 
-# switch with the test endpoints
+# set a keyring for tests
+
+
+# Test planetmint broadcast
+## switch with the test endpoints
 mv api/v1/${path}/pubkeys-broadcast-3-planetmint.keys .
 cp test/restroom/planetmint_endpoint.json api/v1/${path}/pubkeys-broadcast-3-planetmint.keys
-# Test broadcast
 ./test/restroom/broadcast.sh ${domain} ${ctx} "planetmint"
 [ "$?" = "1" ] && {
     mv pubkeys-broadcast-3-planetmint.keys api/v1/${path}/
     exit 1
 }
 mv pubkeys-broadcast-3-planetmint.keys api/v1/${path}/
+
+# Test polygon broadcast
+## switch with the test endpoints
+mv api/v1/${path}/pubkeys-broadcast-3-polygon.keys .
+cp test/restroom/ganache_endpoint.json api/v1/${path}/pubkeys-broadcast-3-polygon.keys
+./test/restroom/broadcast.sh ${domain} ${ctx} "polygon"
+[ "$?" = "1" ] && {
+    mv pubkeys-broadcast-3-polygon.keys api/v1/${path}/
+    exit 1
+}
+mv pubkeys-broadcast-3-polygon.keys api/v1/${path}/
 
 exit 0
