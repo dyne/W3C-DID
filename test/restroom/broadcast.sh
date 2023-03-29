@@ -12,7 +12,7 @@ tmpreq=`mktemp`
 broadcast_api="pubkeys-broadcast-${3}"
 
 echo ""
-echo "### BROADCAST ###"
+echo "### BROADCAST ${3} ###"
 # admin
 echo ""
 echo "CREATE NEW ADMINS"
