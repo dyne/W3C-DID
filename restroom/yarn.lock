@@ -8048,6 +8048,6 @@ yocto-queue@^1.0.0:
   integrity sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==
 
 zenroom@^2.20.1:
-  version "2.20.3"
-  resolved "https://registry.yarnpkg.com/zenroom/-/zenroom-2.20.3.tgz#83f9e30c7867e3a2f7becc329419f20627d54ae5"
-  integrity sha512-dCXew4iRWZ6T8Mlur5VaqcFymSuU1ruwdxbN10UozkCPUnrJnYD4w7bamnN5pMNapcgK5z+VDjEsrJfxvaWx9g==
+  version "2.20.4"
+  resolved "https://registry.yarnpkg.com/zenroom/-/zenroom-2.20.4.tgz#a99207a81ae64c03d425a8818cf12bd611834d50"
+  integrity sha512-IMnq16PydpIiBeKck4QlExbyA61cJVs6QWJxfrxLkJYusF+RyFea7QfonR1bwSMT+3HmniXviiDOCls8nC6uDQ==
