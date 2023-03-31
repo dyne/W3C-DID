@@ -37,7 +37,7 @@ mv pubkeys-broadcast-3-planetmint.keys api/v1/${path}/
 # Test polygon broadcast
 ## switch with the test endpoints
 mv api/v1/${path}/pubkeys-broadcast-3-polygon.keys .
-cp test/restroom/ganache_endpoint.json api/v1/${path}/pubkeys-broadcast-3-polygon.keys
+cp test/restroom/mumbai_endpoint.json api/v1/${path}/pubkeys-broadcast-3-polygon.keys
 ./test/restroom/broadcast.sh ${domain} ${ctx} "polygon"
 [ "$?" = "1" ] && {
     mv pubkeys-broadcast-3-polygon.keys api/v1/${path}/
