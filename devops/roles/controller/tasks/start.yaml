@@ -25,7 +25,7 @@
     path: "{{ controller_root }}/restroom"
     state: latest
 
-- name: Create planetmint_client keys and did doc
+- name: Create blockchains_client keys and did doc
   become: true
   command: yarn run init
   args:
