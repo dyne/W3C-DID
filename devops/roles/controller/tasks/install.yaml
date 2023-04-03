@@ -73,7 +73,7 @@
     block: |
       FILES_DIR={{ data_dir }}
       ZENCODE_DIR=../api
-      INIT_ZENCODE_DIR=../planetmint_client
+      INIT_ZENCODE_DIR=../blockchains_client
       LOGGER_DIR=/var/log/controller/
       USE_TIMESTAMP=y
       USE_FILES=y
@@ -113,14 +113,29 @@
 - name: Copy init contracts (permissions may be wrong)
   become: true
   synchronize:
-    src: "../client/v1/planetmint_client"
+    src: "../client/v1/blockchains_client"
     dest: "{{ controller_root }}"
     owner: no
     group: no
 
 - name: Fix init contracts permissions
   file:
-    dest: "{{ controller_root }}/planetmint_client"
+    dest: "{{ controller_root }}/blockchains_client"
+    owner: controller
+    group: controller
+    recurse: yes
+
+- name: Copy secrets
+  become: true
+  synchronize:
+    src: "../secrets"
+    dest: "{{ controller_root }}"
+    owner: no
+    group: no
+
+- name: Fix secrets permissions
+  file:
+    dest: "{{ controller_root }}/secrets"
     owner: controller
     group: controller
     recurse: yes
