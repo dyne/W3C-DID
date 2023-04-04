@@ -78,6 +78,7 @@ broadcast_request() {
     check_error ${?} ${tmperr}
     tmp=`mktemp` && jq --arg value $2 '.did_spec = $value' ${tmppk} > ${tmp} && mv ${tmp} ${tmppk}
     tmp=`mktemp` && jq --arg value $4 '.signer_did_spec = $value' ${tmppk} > ${tmp} && mv ${tmp} ${tmppk}
+    tmp=`mktemp` && jq --arg value $(($(date +%s%N)/1000000)) '.timestamp = $value' ${tmppk} > ${tmp} && mv ${tmp} ${tmppk}
     zenroom -z -a ${tmppk} -k secrets/${3} client/v1/broadcast-request.zen > ${5} 2>${tmperr}
     check_error ${?} ${tmperr}
 }
