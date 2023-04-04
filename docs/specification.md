@@ -114,6 +114,9 @@ The informations about the DID document are store in the DidDocumentMetadata fie
   "deactivated":"false",
   "planetmint":[
     "a8f9bceba0962b0e7e3db7d3196e9db97ec2e5d75e1b0cbcd3fdf6a6eab44844"
+  ],
+  "polygon": [
+    ""
   ]
 }
 ```
@@ -124,23 +127,23 @@ Metadata includes information such as the timestamp (unix time) the document was
 If a DID document has been deactivated, *i.e.* **deactivated** field is set to true, it means that it is no longer active or available for use. This mean that the DID associated to the DID document can not be used anymore to prove the user identity under any circumstance.
 
 ### Transaction ids
-Moreover the metadata contains an array of transaction ids over planetmint, named **planetmint**, where each transaction store the hash of the did document along with its metadata. These transactions are performed at creation, update and deactivation.
-The transaction ids are sorted by time, *i.e.* the first one will represent the creation, while the last one, if the deactivated filed is set to true, will be the deactivation.
-#### How to use the transaction ids
-Since the transaction id is known only after the transaction is performed, then in order to verify the correctness of the did document through the use of planetmint the following steps have to be executed:
-- resolve the DID document through the resolver.
-- use the last transaction id, found in the **planetmint** array in the metdata, to retrieve the hash from the planetmint blockhain.
-- remove the transaction id used in the previous step from the **planetmint** array in the metadata and compute the hash of the result.
-- compare the two hases, they must match.
+Moreover the metadata contains arrays of transaction ids over some blockachains, at the moment they are:
+- [planetmint](https://planetmint.io/);
+- [polygon](https://polygon.technology/).
 
-Pay attention, if only a transaction id is found then remove only the value, but not the list, *i.e.* it should look like this:
-```json
-{
-  "created":"1677163739984",
-  "deactivated":"false",
-  "planetmint":[]
-}
-```
+#### planetmint
+A transaction on **planetmint** contains the [CID](https://github.com/multiformats/cid) of the did document along with its metadata fields *created*, *updated*, *deactivated* and *planetmint*. Thus in order to verify the integrity of a did document using planetmint blockchain the following steps have to be followed:
+* resolve the DID document through the resolver.
+* use the last transaction id, found in the **planetmint** array in the metdata, to retrieve the CID from the planetmint blockhain.
+* remove the transaction id used in the previous step from the **planetmint** array in the metadata, remove all the fileds not mentioned above from the metadata and compute the CID of the result.
+* compare the two CIDs, they must match.
+
+#### polygon
+A transaction on **polygon** contains the hash to point on BLS12-381 elliptic curve (ECP) of the did document along with its metadata fields *created*, *updated*, *deactivated* and *polygon*. Thus in order to verify the integrity of a did document using polygon blockchain the following steps have to be followed:
+* resolve the DID document through the resolver.
+* use the last transaction id, found in the **polygon** array in the metdata, to retrieve the BLS12-381 point from the polygon blockhain.
+* remove the transaction id used in the previous step from the **polygon** array in the metadata, remove all the fileds not mentioned above from the metadata and compute the hash to point on BLS12-381 elliptic curve of the result.
+* compare the two points, they must match.
 
 ## CRUD Operation Definitions
 
@@ -232,7 +235,7 @@ Thus the last step from a Client prospective is an *HTTP POST* that will be of t
 
 ```bash
 curl -X 'POST' \
-  'https://did.dyne.org:443/api/v1/sandbox/pubkeys-accept.chain' \
+  'https://did.dyne.org:443/api/v1/{domain}/pubkeys-accept.chain' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -246,6 +249,8 @@ curl -X 'POST' \
   "keys": {}
 }'
 ```
+
+where *{domain}* is the request did domain, for example for the above DID document it will be sandbox.
 
 ### DID Document Read
 
@@ -272,7 +277,7 @@ As stated at the beginning also this operation is permissioned. The procedure is
 
 ```bash
 curl -X 'POST' \
-  'https://did.dyne.org:443/api/v1/sandbox/pubkeys-update.chain' \
+  'https://did.dyne.org:443/api/v1/{domain}/pubkeys-update.chain' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -287,13 +292,15 @@ curl -X 'POST' \
 }'
 ```
 
+where *{domain}* is the request did domain
+
 ### DID Document Revocation
 
 To revocate/deactivate a DID document, it is enough to perform a *HTTP POST* request as follow where the **deactivate_id** is the DID to be deactivated, the **ecdh signature** is its ecdh signature using the admin or second-level admin ecdh key and the **id** is te signer DID:
 
 ```bash
 curl -X 'POST' \
-  'https://did.dyne.org:443/api/did-deactivate.chain' \
+  'https://did.dyne.org:443/api/v1/{domain}/pubkeys-deactivate.chain' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -306,8 +313,34 @@ curl -X 'POST' \
 }'
 ```
 
-The did document will not be removed, but inside its metadata the field **deactivated** will be set to **true** and it will not be possible for this DID document to perform any operations.
+where *{domain}* is the request did domain. The did document will not be removed, but inside its metadata the field **deactivated** will be set to **true** and it will not be possible for this DID document to perform any operations.
 
+## DID Document Blockchains Broadcast
+
+To broadcast a DID document on one of the following blockchains:
+* planetmint;
+* polygon;
+
+it is enough to perform an *HTTP POST* request as follow
+```bash
+curl -X 'POST' \
+  'https://did.dyne.org:443/api/v1/{domain}/pubkeys-broadcast-{blockchain}.chain' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "data": {
+     "broadcast_id": "...",
+     "ecdh_signature": "...",
+     "id": "..."
+  },
+  "keys": {}
+}'
+```
+where:
+* *{domain}* is your domain
+* *{blockchain}* is the blockchain you want to use (e.g. planetmint)
+* *broadcast_id* is the id corresponding to the DID document that you want to save on the blockchain
+* *ecdh_signature*
 ## Security Considerations
 
 - DID documents are stored from the Server on filesystem and any change is tracked using git and logifles, thus any change can be track and controlled.
