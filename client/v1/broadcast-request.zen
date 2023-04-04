@@ -1,7 +1,6 @@
 rule input encoding base58
 rule output encoding base58
 
-Scenario ecdh
 Scenario eddsa
 
 # load the spec admin keyring to sign the request
@@ -13,6 +12,9 @@ and I have a 'string' named 'signer_did_spec'
 Given I have a 'eddsa_public_key'
 and I rename 'eddsa_public_key' to 'identity pk'
 and I have a 'string' named 'did_spec'
+
+# timestamp
+Given I have a 'integer' named 'timestamp'
 
 # broadcast_id
 When I set 'broadcast_id' to 'did:dyne:' as 'string'
@@ -27,9 +29,14 @@ and I append 'signer_did_spec' to 'id'
 and I append the string ':' to 'id'
 and I append the 'base58' of 'eddsa public key' to 'id'
 
-# ecdh singature of deactivate_id
-When I create the ecdh signature of 'broadcast_id'
+# eddsa singature of deactivate_id
+When I create the 'string dictionary' named 'signed_by_eddsa'
+and I copy 'broadcast_id' in 'signed_by_eddsa'
+and I copy 'timestamp' in 'signed_by_eddsa'
+and I create the json of 'signed_by_eddsa'
+and I create the eddsa signature of 'json'
 
 Then print the 'broadcast_id'
 Then print the 'id'
-Then print the 'ecdh signature'
+Then print the 'timestamp'
+Then print the 'eddsa signature'
