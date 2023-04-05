@@ -31,6 +31,7 @@ and I have a 'string dictionary' named 'broadcast_data'
 and I have a 'string' named 'request_path'
 and I have a 'string' named 'log_msg'
 and I have a 'gas_limit'
+Given I have a 'string' named 'blockchain'
 
 # verify contract is used inside the chain
 When I verify 'base_url' has suffix 'pubkeys-broadcast-polygon.chain'
@@ -47,5 +48,6 @@ Then print the 'signed_ethereum_transaction'
 and print the 'request_path'
 and print the 'log_msg'
 and print the 'request_data'
+Then print the 'blockchain'
 
 Then I ask ethereum to broadcast the 'signed_ethereum_transaction' and save the transaction id in 'txid'

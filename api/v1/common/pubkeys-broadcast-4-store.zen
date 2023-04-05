@@ -13,25 +13,28 @@ Given I have a 'string dictionary' named 'commit'
 Given I have a 'string' named 'request path'
 Given I have a 'string' named 'log_msg'
 Given I have a 'string' named 'txid'
+Given I have a 'string' named 'blockchain'
 
 # verify contract is used inside the chain
 When I verify 'base_url' has suffix '.chain'
 
 When I pickup from path 'request_data.didDocumentMetadata'
-
-If 'planetmint' is not found in 'didDocumentMetadata'
-When I create the 'string array' named 'planetmint'
-EndIf
-
-If 'planetmint' is found in 'didDocumentMetadata'
-When I pickup from path 'didDocumentMetadata.planetmint'
-When I remove the 'planetmint' from 'didDocumentMetadata'
-EndIf
-
-When I move 'txid' in 'planetmint'
-
-When I move 'planetmint' in 'didDocumentMetadata'
 and I remove the 'didDocumentMetadata' from 'request_data'
+
+If the 'blockchain' is not found in 'didDocumentMetadata'
+When I create the 'string array'
+and I rename the 'string array' to 'blockchain_temp'
+EndIf
+
+If the 'blockchain' is found in 'didDocumentMetadata'
+When I create the copy of object named by 'blockchain' from dictionary 'didDocumentMetadata'
+and I remove the 'copy' from 'didDocumentMetadata'
+and I rename 'copy' to 'blockchain_temp'
+EndIf
+
+When I move 'txid' in 'blockchain_temp'
+and I rename 'blockchain_temp' to named by 'blockchain'
+and I move named by 'blockchain' in 'didDocumentMetadata'
 and I move 'didDocumentMetadata' in 'request_data'
 
 Then print the 'request_data'
