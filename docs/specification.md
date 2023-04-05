@@ -54,53 +54,55 @@ did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ
 that is associated to the following DID document:
 ```json
 {
-  "@context":[
+  "@context": [
     "https://www.w3.org/ns/did/v1",
     "https://w3id.org/security/suites/ed25519-2018/v1",
     "https://w3id.org/security/suites/secp256k1-2019/v1",
     "https://w3id.org/security/suites/secp256k1-2020/v1",
     "https://dyne.github.io/W3C-DID/specs/ReflowBLS12381.json",
     {
-      "description":"https://schema.org/description"
+      "description": "https://schema.org/description"
     }
   ],
-  "description":"matteo",
-  "id":"did:dyne:sandbox.test:HtD277sgEGRPeqv2FYE6mrdwePtvxJ9jq4dZe1UTE48g",
-  "proof":{
-    "created":"1677163739984",
-    "jws":"eyJhbGciOiJFUzI1NksiLCJiNjQiOnRydWUsImNyaXQiOiJiNjQifQ..7ePFQRqvnUX29PzkQYsIvL3u3UsG6ld2nJXLEDLaRDqRqitSbPy2Xm-LNJmXtE20-iJEzkX_EV93q3Pyy7FUew",
-    "proofPurpose":"assertionMethod",
-    "type":"EcdsaSecp256k1Signature2019",
-    "verificationMethod":"did:dyne:sandbox.test_A:CoQ5W5wxi4SCMJK8Rjxfy52TyVRCECb7JiYXCemcZGBH#ecdh_public_key"
+  "description": "test_1",
+  "id": "did:dyne:sandbox_A:EZaFxsxneBGGXEZQKUQvK8mDasoAQtmp3QRVdbbuRYtX",
+  "proof": {
+    "created": "1680719343284",
+    "jws": "eyJhbGciOiJFUzI1NksiLCJiNjQiOnRydWUsImNyaXQiOiJiNjQifQ..Zdm8WMFzDCvi4kEyOc5JZ3A6-zoLH70Hm7Z0njKUhKEfSB2LNa3BI7NdyWCe91nYcxZQem9HfRof7S-e1WkPWg",
+    "proofPurpose": "assertionMethod",
+    "type": "EcdsaSecp256k1Signature2019",
+    "verificationMethod": "did:dyne:admin:HUvWbwGMQ9UrCDDoQWS2qBpbHowaaxudiPhYVVwvDt13#ecdh_public_key"
   },
-  "verificationMethod":[
+  "verificationMethod": [
     {
-      "controller":"did:dyne:sandbox.test:HtD277sgEGRPeqv2FYE6mrdwePtvxJ9jq4dZe1UTE48g",
-      "id":"did:dyne:sandbox.test:HtD277sgEGRPeqv2FYE6mrdwePtvxJ9jq4dZe1UTE48g#ecdh_public_key","publicKeyBase58":"NgctHrSPYRuYgbmfYqa9cBqwdjbVMkbyDuf21XKqP7uzNx3wsCNupWTSeuPnaBxpEZ6QRXQ9EPzBiMc2ei6wT4Jr",
-      "type":"EcdsaSecp256k1VerificationKey2019"
+      "controller": "did:dyne:sandbox_A:EZaFxsxneBGGXEZQKUQvK8mDasoAQtmp3QRVdbbuRYtX",
+      "id": "did:dyne:sandbox_A:EZaFxsxneBGGXEZQKUQvK8mDasoAQtmp3QRVdbbuRYtX#ecdh_public_key",
+      "publicKeyBase58": "NYcj8gWnK7JJqyXoMY35LMEpz4uHfUAj2RHuAQECGJ3ejVhtb3Bt6aeaWQUUTUuJsff15G72iQ1uA3AcBTfYPzUx",
+      "type": "EcdsaSecp256k1VerificationKey2019"
     },
     {
-      "controller":"did:dyne:sandbox.test:HtD277sgEGRPeqv2FYE6mrdwePtvxJ9jq4dZe1UTE48g",
-      "id":"did:dyne:sandbox.test:HtD277sgEGRPeqv2FYE6mrdwePtvxJ9jq4dZe1UTE48g#reflow_public_key",
-      "publicKeyBase58":"C78nKxqaYSEf1BxyZyysTT75QySD4yAjAUAJQoRdgmHmndBNgpvso5p8VJqm8j3L7RRPqDoYNrCQGd3umkAUQddsMn8xL3hqwh2Z7uzdwo2f422edhUmnv5pECyNBzNjyBPKHr9pVHAvjzH9AxRJCBHALdwG7tXBLkp9p8kxU8A1YYebrXZabdN62FLLyPiQaqGjTJnPDjGcAe26JH2SLSqXn6tAfbGppH2NpdRfYSCW3xWo7k2YWkVn4ACGHqkjG8WoQR","type":"ReflowBLS12381VerificationKey"
+      "controller": "did:dyne:sandbox_A:EZaFxsxneBGGXEZQKUQvK8mDasoAQtmp3QRVdbbuRYtX",
+      "id": "did:dyne:sandbox_A:EZaFxsxneBGGXEZQKUQvK8mDasoAQtmp3QRVdbbuRYtX#reflow_public_key",
+      "publicKeyBase58": "ByWnWiyPV98psi43ZGRyWE5r5S8Bv48Q9VTGqji2i7vX1qacF1j95LtnxtTSNy2RgAcMZjBXdEkdXHt4bszR7hUEboJ18rMwquZtPLvNcXxbGEat7W1ZLBZ1zzCsq46LyRCbhZyZ3a8G5uC2WG8YSVYiJpQTJ1LyFCrTS7hT9na1Nn5Ft6v7g24em2HMVHruv7Qo46BvjVoEgzFwxk6TFXBsbnGYsCoWXfgyyQfJ54XLvVFUowzRgAPZjTjcw7YKYBoUou",
+      "type": "ReflowBLS12381VerificationKey"
     },
     {
-      "controller":"did:dyne:sandbox.test:HtD277sgEGRPeqv2FYE6mrdwePtvxJ9jq4dZe1UTE48g",
-      "id":"did:dyne:sandbox.test:HtD277sgEGRPeqv2FYE6mrdwePtvxJ9jq4dZe1UTE48g#bitcoin_public_key",
-      "publicKeyBase58":"pWLhCz4CaxNrSQWnywHsDhbAkXtNkdD8HqX5a9DyAxiK",
-      "type":"EcdsaSecp256k1VerificationKey2019"
+      "controller": "did:dyne:sandbox_A:EZaFxsxneBGGXEZQKUQvK8mDasoAQtmp3QRVdbbuRYtX",
+      "id": "did:dyne:sandbox_A:EZaFxsxneBGGXEZQKUQvK8mDasoAQtmp3QRVdbbuRYtX#bitcoin_public_key",
+      "publicKeyBase58": "26U1BRHcxHtQTHwuKCKPLnn2DSHxsFRqtaLSYszUUJsH1",
+      "type": "EcdsaSecp256k1VerificationKey2019"
     },
     {
-      "controller":"did:dyne:sandbox.test:HtD277sgEGRPeqv2FYE6mrdwePtvxJ9jq4dZe1UTE48g",
-      "id":"did:dyne:sandbox.test:HtD277sgEGRPeqv2FYE6mrdwePtvxJ9jq4dZe1UTE48g#eddsa_public_key",
-      "publicKeyBase58":"HtD277sgEGRPeqv2FYE6mrdwePtvxJ9jq4dZe1UTE48g",
-      "type":"Ed25519VerificationKey2018"
+      "controller": "did:dyne:sandbox_A:EZaFxsxneBGGXEZQKUQvK8mDasoAQtmp3QRVdbbuRYtX",
+      "id": "did:dyne:sandbox_A:EZaFxsxneBGGXEZQKUQvK8mDasoAQtmp3QRVdbbuRYtX#eddsa_public_key",
+      "publicKeyBase58": "EZaFxsxneBGGXEZQKUQvK8mDasoAQtmp3QRVdbbuRYtX",
+      "type": "Ed25519VerificationKey2018"
     },
     {
-      "blockchainAccountId":"eip155:1:0xd7614a1afd45343a2542e5beb7df6d88f001663d",
-      "controller":"did:dyne:sandbox.test:HtD277sgEGRPeqv2FYE6mrdwePtvxJ9jq4dZe1UTE48g",
-      "id":"did:dyne:sandbox.test:HtD277sgEGRPeqv2FYE6mrdwePtvxJ9jq4dZe1UTE48g#ethereum_address",
-      "type":"EcdsaSecp256k1RecoveryMethod2020"
+      "blockchainAccountId": "eip155:1:0xd071063c1a9a7c0f218d4714cd5a3099c86917cd",
+      "controller": "did:dyne:sandbox_A:EZaFxsxneBGGXEZQKUQvK8mDasoAQtmp3QRVdbbuRYtX",
+      "id": "did:dyne:sandbox_A:EZaFxsxneBGGXEZQKUQvK8mDasoAQtmp3QRVdbbuRYtX#ethereum_address",
+      "type": "EcdsaSecp256k1RecoveryMethod2020"
     }
   ]
 }
@@ -110,14 +112,15 @@ that is associated to the following DID document:
 The informations about the DID document are store in the DidDocumentMetadata field outstide of the DID document, for example the above did document is associated with the following metadata:
 ```json
 {
-  "created":"1677163739984",
-  "deactivated":"false",
-  "planetmint":[
-    "a8f9bceba0962b0e7e3db7d3196e9db97ec2e5d75e1b0cbcd3fdf6a6eab44844"
+  "created": "1680719302454",
+  "deactivated": "false",
+  "planetmint": [
+    "b8c66ff40758120d1e6224cb6a866450664ae5e45018cede9982c954b3879490"
   ],
   "polygon": [
-    ""
-  ]
+    "6e9c6569f9883b88aa1599c5d3147c13bbe7c879bb01348a1f5e4f7c24337d76"
+  ],
+  "updated": "1680719343284"
 }
 ```
 ### Operation Timestamp
@@ -330,17 +333,20 @@ curl -X 'POST' \
   -d '{
   "data": {
      "broadcast_id": "...",
-     "ecdh_signature": "...",
+     "timestamp": "..."
+     "eddsa_signature": "...",
      "id": "..."
   },
   "keys": {}
 }'
 ```
 where:
-* *{domain}* is your domain
-* *{blockchain}* is the blockchain you want to use (e.g. planetmint)
-* *broadcast_id* is the id corresponding to the DID document that you want to save on the blockchain
-* *ecdh_signature*
+* *{domain}* is your domain;
+* *{blockchain}* is the blockchain you want to use (e.g. planetmint);
+* *broadcast_id* is the id corresponding to the DID document that you want to save on the blockchain;
+* *timestamp* is the unix timestamp in millisecond of the creation of the request;
+* *eddsa_signature* is the eddsa signature, created using the admin or second-level admin eddsa key, of the dictionary containing the *broadcast_id* and the *timestamp* encoded into a string removing all new lines and withespaces (outside of the values of DID document) and escaping double quotes and backslashes.
+
 ## Security Considerations
 
 - DID documents are stored from the Server on filesystem and any change is tracked using git and logifles, thus any change can be track and controlled.
