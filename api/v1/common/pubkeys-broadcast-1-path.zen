@@ -1,14 +1,16 @@
 Rule caller restroom-mw
 Rule input encoding base58
-Scenario 'ecdh': singature
+Scenario 'eddsa': singature
 Scenario 'w3c': did document
 
 # http_request
 Given I read the http request
 Given I have a 'string' named 'base_url' inside 'http_request'
 
+# data
 Given I have a 'string' named 'broadcast_id'
-and I have a 'ecdh signature'
+and I have a 'eddsa signature'
+and I have a 'integer' named 'timestamp'
 and I have a 'string' named 'id'
 and I rename 'id' to 'signer_id'
 
@@ -190,3 +192,5 @@ and print the 'request_path'
 and print the 'broadcast_id'
 and print the 'signer_id'
 and print the 'ecdh_signature'
+and print the 'eddsa_signature'
+and print the 'timestamp'
