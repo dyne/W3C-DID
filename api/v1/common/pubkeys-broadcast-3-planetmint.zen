@@ -22,6 +22,7 @@ Given I have a 'string dictionary' named 'request_data'
 Given I have a 'string dictionary' named 'commit'
 Given I have a 'string' named 'request_path'
 Given I have a 'string' named 'log_msg'
+Given I have a 'string' named 'blockchain'
 
 # verify contract is used inside the chain
 When I verify 'base_url' has suffix 'pubkeys-broadcast-planetmint.chain'
@@ -36,6 +37,7 @@ Then print the 'request_data'
 Then print the 'planetmint transaction'
 Then print the 'planetmint signatures'
 Then print the 'eddsa_public_key'
+Then print the 'blockchain'
 
 Then I prepare the signed planetmint transaction of 'planetmint_transaction' from 'eddsa_public_key'
 Then ask planetmint to broadcast the 'signed_planetmint_transaction'

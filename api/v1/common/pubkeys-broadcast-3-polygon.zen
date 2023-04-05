@@ -33,6 +33,7 @@ Given I have a 'string dictionary' named 'commit'
 Given I have a 'string' named 'request_path'
 Given I have a 'string' named 'log_msg'
 Given I have a 'gas_limit'
+Given I have a 'string' named 'blockchain'
 
 # store the hash to point
 When I create the hash to point 'ecp' of 'broadcast_data'
@@ -50,5 +51,6 @@ Then print the 'request_path'
 Then print the 'log_msg'
 Then print the 'commit'
 Then print the 'request_data'
+Then print the 'blockchain'
 
 Then I ask ethereum to broadcast the 'signed_ethereum_transaction' and save the transaction id in 'txid'
