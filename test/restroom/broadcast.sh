@@ -10,6 +10,7 @@ ctx=$2
 tmpreq=`mktemp`
 
 broadcast_api="pubkeys-broadcast-${3}"
+[ "${3}" = "planetmint" ] && broadcast_api_2="pubkeys-broadcast-polygon" || broadcast_api_2="pubkeys-broadcast-planetmint"
 
 echo ""
 echo "### BROADCAST ${3} ###"
@@ -395,7 +396,7 @@ update_request  test_1 \
                 admin \
                 ${tmpreq}
 send_request ${domain}/pubkeys-update.chain ${tmpreq} 0
-rm -f ${tmpreq}
+rm -f ${tmpreq} ${domain}_A_did_doc.json
 printf "%-18s %-20s %s\n" "admin" "broadcasts updated" "${domain}_A"
 broadcast_request ${domain}_A-keyring.json \
                 ${domain}_A \
@@ -403,7 +404,22 @@ broadcast_request ${domain}_A-keyring.json \
                 admin \
                 ${tmpreq}
 send_request ${domain}/${broadcast_api}.chain ${tmpreq} 0
-rm -f ${tmpreq} ${domain}_A_did_doc.json
+
+echo "BROADCAST 2 TIMES THE SAME REQUEST"
+sleep 1
+printf "%-18s %-20s %s\n" "admin" "does not broadcasts" "${domain}_A   2 times"
+send_request ${domain}/${broadcast_api}.chain ${tmpreq} 255
+rm -f ${tmpreq}
+
+echo "BROADCAST ON DIFFERENT BLOCKCHAIN"
+printf "%-18s %-20s %s\n" "admin" "broadcasts " "${domain}_A   on different blockchains"
+broadcast_request ${domain}_A-keyring.json \
+                ${domain}_A \
+                test-broadcast-service-keyring.json \
+                admin \
+                ${tmpreq}
+send_request ${domain}/${broadcast_api_2}.chain ${tmpreq} 0
+
 
 # cleanup secrets
 rm -f secrets/spec_A-keyring.json \
