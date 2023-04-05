@@ -1,5 +1,5 @@
 Rule caller restroom-mw
-Scenario 'ecdh': verify signature
+Scenario 'eddsa': verify signature
 Scenario 'w3c': proof
 
 # http_request.base_url (restroom)
@@ -25,12 +25,18 @@ and I have a 'string dictionary' named 'request_data'
 Given I have a 'string array' named 'api_blockchains'
 and I have a 'string' named '-'
 and I have a 'string' named '.'
+and I have a 'integer' named 'expiration_time'
 
 # data
 Given I have a 'string' named 'broadcast_id'
-and I have a 'ecdh signature'
+and I have a 'eddsa signature'
 and I have a 'string' named 'request_path'
 and I have a 'string' named 'signer_id'
+and I have a 'integer' named 'timestamp'
+
+# verify timestamp
+When I create the result of 'broadcast_timestamp' - 'timestamp'
+and number 'result' is less or equal than 'expiration_time'
 
 # verify contract is used inside the chain
 When I verify 'base_url' has suffix '.chain'
@@ -40,8 +46,12 @@ When I set 'false' to 'false' as 'string'
 and I verify 'false' is equal to 'deactivated' in 'signer_metadata'
 
 # verify singautres
-When I create the 'ecdh' public key from did document 'signer_did_document'
-and I verify the 'broadcast_id' has a ecdh signature in 'ecdh signature' by 'ecdh public key'
+When I create the 'string dictionary' named 'signed_by_eddsa'
+and I copy 'broadcast_id' in 'signed_by_eddsa'
+and I copy 'timestamp' in 'signed_by_eddsa'
+and I create the json of 'signed_by_eddsa'
+and I create the 'eddsa' public key from did document 'signer_did_document'
+and I verify the 'json' has a eddsa signature in 'eddsa signature' by 'eddsa public key'
 
 # extract data to be broadcast
 When I create the 'string dictionary' named 'broadcast_data'
