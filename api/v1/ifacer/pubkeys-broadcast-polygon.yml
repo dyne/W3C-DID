@@ -8,7 +8,7 @@ blocks:
   v1/ifacer/pubkeys-broadcast-2-checks.zen:
     zenFile: v1/ifacer/pubkeys-broadcast-2-checks.zen
     keysFile: v1/ifacer/pubkeys-broadcast-2-checks.keys
-    next: v1/ifacer/pubkeys-broadcast-3-polygon.zen
+    next: v1/ifacer/pubkeys-broadcast-3-evm.zen
   v1/ifacer/pubkeys-broadcast-3-evm.zen:
     zenFile: v1/ifacer/pubkeys-broadcast-3-evm.zen
     keysFile: v1/ifacer/pubkeys-broadcast-3-polygon.keys
