@@ -9,9 +9,9 @@ blocks:
     zenFile: v1/sandbox/pubkeys-broadcast-2-checks.zen
     keysFile: v1/sandbox/pubkeys-broadcast-2-checks.keys
     next: v1/sandbox/pubkeys-broadcast-3-polygon.zen
-  v1/sandbox/pubkeys-broadcast-3-polygon.zen:
-    zenFile: v1/sandbox/pubkeys-broadcast-3-polygon.zen
-    keysFile: v1/sandbox/pubkeys-broadcast-3-polygon.keys
+  v1/sandbox/pubkeys-broadcast-3-evm.zen:
+    zenFile: v1/sandbox/pubkeys-broadcast-3-evm.zen
+    keysFile: v1/sandbox/pubkeys-broadcast-3-ganache.keys
     next: v1/sandbox/pubkeys-broadcast-4-store.zen
   v1/sandbox/pubkeys-broadcast-4-store.zen:
     zenFile: v1/sandbox/pubkeys-broadcast-4-store.zen

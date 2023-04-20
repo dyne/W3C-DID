@@ -1,0 +1,7 @@
+{
+    "evm_endpoint": "http://ganache.dyne.org:9485",
+    "storage contract":"662c4017c01ba23c94257289dab8c2757b472b81",
+    "gas limit": "100000",
+    "chainid": "fabt"
+}
+

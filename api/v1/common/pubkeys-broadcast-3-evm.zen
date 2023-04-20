@@ -11,8 +11,8 @@ Given I have the 'ethereum address'
 Given I read the http request
 Given I have a 'string' named 'base_url' inside 'http_request'
 
-# polygon endpoint
-Given I have a ethereum endpoint named 'polygon_endpoint'
+# evm endpoint
+Given I have a ethereum endpoint named 'evm_endpoint'
 
 # nonce
 Given I read the ethereum nonce for 'ethereum_address'
@@ -39,7 +39,7 @@ Given I have a 'string' named 'blockchain'
 When I create the hash to point 'ecp' of 'broadcast_data'
 
 # verify contract is used inside the chain
-When I verify 'base_url' has suffix 'pubkeys-broadcast-polygon.chain'
+When I verify 'base_url' has suffix '.chain'
 
 # transaction
 When I create the ethereum transaction to 'storage contract'
