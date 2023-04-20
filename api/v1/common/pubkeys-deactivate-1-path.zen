@@ -17,7 +17,7 @@ Given I have a 'string dictionary' named 'request_ACL'
 and I have a 'string dictionary' named 'signer_ACL'
 and I have a 'string dictionary' named 'utility'
 and I have a 'float' named '2' inside 'utility'
-and I have a 'string' named 'not_allowed_spec'
+and I have a 'string' named 'allowed_spec'
 and I have a 'string' named 'exit_code' inside 'utility'
 and I have a 'string' named 'admin' inside 'utility'
 
@@ -62,7 +62,7 @@ and I rename 'copy' to 'request_domain'
 and I remove 'length'
 and I remove 'array'
 # check request_domain is allowed
-When I verify 'request_domain' is not equal to 'not_allowed_spec'
+When I verify 'request_domain' is equal to 'allowed_spec'
 and I verify 'request_domain' is not equal to 'admin' in 'utility'
 
 ## signer_path

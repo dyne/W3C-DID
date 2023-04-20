@@ -1,1 +1,6 @@
-../common/pubkeys-broadcast-3-polygon.keys
+{
+    "polygon_endpoint": "https://polygon-rpc.com/",
+    "storage_contract": "662c4017C01bA23c94257289Dab8C2757b472B81",
+    "gas limit": "100000",
+    "chainid": "137"
+}
