@@ -9,13 +9,13 @@
     ],
     "ecdh_public_key":"PdJHAMft4Mw3BVYHNMayRfz4Q8tfqMtkD8PxWpAvFi34rmVHw5uSZJyXpdNVZtDZbaDqExqDWQcVHCDKvAGJDEQm",
     "eddsa_public_key":"2Vt1NkuMrgPn3gzgM3hAW9Tjgn7tQbkC1PdfyYSS6HTn",
-    "ethereum_address": "996B5A6D21a760F5C28a3EF58849d23060aB9b91",
+    "ethereum_address": "7d6df85bDBCe99151c813fd1DDE6BC007c523C27",
     "identity":"service",
     "service":{
         "keyring":{
             "ecdh":"d9ZZ6F0iszOut5xzMIEKURy6rW/mriYZ9YbMRtM78Mw=",
             "eddsa":"5eKaabDrfAdjhRj4Zuq4NeGBkf9j8VUZFsMSJnzS1QDM",
-            "ethereum": "990c70bad6c46bce123fa92156c0c31b58d39dbc854c144e80fc326f94781ff8"
+            "ethereum": "52268bd5befb5e375f231c16a0614ff97ce81b105190c293a482efe9745c95ae"
         }
     },
     "proof":{
