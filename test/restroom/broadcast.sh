@@ -10,7 +10,15 @@ ctx=$2
 tmpreq=`mktemp`
 
 broadcast_api="pubkeys-broadcast-${3}"
-[ "${3}" = "planetmint" ] && broadcast_api_2="pubkeys-broadcast-polygon" || broadcast_api_2="pubkeys-broadcast-planetmint"
+if [[ "${3}" = "planetmint" ]]; then
+    if [[ "$domain" == "sandbox" ]]; then
+        broadcast_api_2="pubkeys-broadcast-ganache"
+    else
+        broadcast_api_2="pubkeys-broadcast-polygon"
+    fi
+else
+    broadcast_api_2="pubkeys-broadcast-planetmint"
+fi
 
 echo ""
 echo "### BROADCAST ${3} ###"
