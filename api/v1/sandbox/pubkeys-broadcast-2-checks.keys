@@ -1,1 +1,9 @@
-../common/pubkeys-broadcast-2-checks.keys
+{
+    "-": "-",
+    ".": ".",
+    "expiration_time": "500",
+    "api_blockchains": [
+        "planetmint",
+        "ganache"
+    ]
+}
