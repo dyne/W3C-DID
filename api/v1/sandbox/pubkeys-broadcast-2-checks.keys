@@ -1,9 +1,1 @@
-{
-    "-": "-",
-    ".": ".",
-    "expiration_time": "500",
-    "api_blockchains": [
-        "planetmint",
-        "polygon"
-    ]
-}
+../common/pubkeys-broadcast-2-checks.keys

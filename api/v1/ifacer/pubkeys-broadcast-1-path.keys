@@ -1,1 +1,21 @@
-../common/pubkeys-broadcast-1-path.keys
+{
+    "0": "0",
+    "1": "1",
+    "2": "2",
+    ":": ":",
+    ".": ".",
+    "_": "_",
+    "admin": "admin",
+    "exit_code": "0",
+    "request_ACL": {
+        "A":"A",
+        "C":"C",
+        "U":"U",
+        "D":"D",
+        "T":"T"
+        },
+    "signer_ACL": {
+        "A":"A"
+        },
+    "allowed_spec": "ifacer"
+}
