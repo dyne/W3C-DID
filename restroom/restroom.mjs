@@ -53,7 +53,7 @@ const pathToDidId = (didPath) => {
 
 const didIdToPath = (didId) => {
   if(!didId.startsWith(DID_BEGIN)) {
-    throw new Error(`Invalid did id "${didId}"`)
+    return null
   }
   didId = didId.slice(DID_BEGIN.length)
   const didPath = didId.replace('_', path.sep).replace(':', path.sep)
@@ -83,14 +83,32 @@ app.get('/dids', (req, res) => {
 })
 
 app.get('/dids/:id', (req, res) => {
-  const didPath = path.join(path.join(FILES_DIR, 'data', 'dyne'), didIdToPath(req.params.id))
+  const relativePath = didIdToPath(req.params.id);
+  if (!relativePath) {
+    res.status(400);
+    res.type("application/did+ld+json");
+    res.send(JSON.stringify({
+      didResolutionMetadata: {
+        error: "invalidDid",
+      }
+    }));
+    return
+  }
+  const didPath = path.join(path.join(FILES_DIR, 'data', 'dyne'), relativePath);
   validatePath(didPath);
   fs.stat(didPath, (err, _) => {
     if(err) {
-      res.status(400).send("The did doesn't exist");
+      res.status(400);
+      res.type("application/did+ld+json");
+      res.send(JSON.stringify({
+        didResolutionMetadata: {
+          error: "notFound",
+        }
+      }));
+      return;
     } else {
       res.writeHead(200, {
-        "Content-Type": "application/json",
+        "Content-Type": "application/did+ld+json",
       });
       fs.createReadStream(didPath).pipe(res);
       return;
