@@ -54,56 +54,56 @@ did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ
 that is associated to the following DID document:
 ```json
 {
-  "@context": [
-    "https://www.w3.org/ns/did/v1",
-    "https://w3id.org/security/suites/ed25519-2018/v1",
-    "https://w3id.org/security/suites/secp256k1-2019/v1",
-    "https://w3id.org/security/suites/secp256k1-2020/v1",
-    "https://dyne.github.io/W3C-DID/specs/ReflowBLS12381.json",
-    {
-      "description": "https://schema.org/description"
-    }
+  "@context":[
+      "https://www.w3.org/ns/did/v1",
+      "https://w3id.org/security/suites/ed25519-2018/v1",
+      "https://w3id.org/security/suites/secp256k1-2019/v1",
+      "https://w3id.org/security/suites/secp256k1-2020/v1",
+      "https://dyne.github.io/W3C-DID/specs/ReflowBLS12381.json",
+      {
+        "description":"https://schema.org/description"
+      }
   ],
-  "description": "test_1",
-  "id": "did:dyne:sandbox_A:EZaFxsxneBGGXEZQKUQvK8mDasoAQtmp3QRVdbbuRYtX",
-  "proof": {
-    "created": "1680719343284",
-    "jws": "eyJhbGciOiJFUzI1NksiLCJiNjQiOnRydWUsImNyaXQiOiJiNjQifQ..Zdm8WMFzDCvi4kEyOc5JZ3A6-zoLH70Hm7Z0njKUhKEfSB2LNa3BI7NdyWCe91nYcxZQem9HfRof7S-e1WkPWg",
-    "proofPurpose": "assertionMethod",
-    "type": "EcdsaSecp256k1Signature2019",
-    "verificationMethod": "did:dyne:admin:HUvWbwGMQ9UrCDDoQWS2qBpbHowaaxudiPhYVVwvDt13#ecdh_public_key"
+  "description":"test_1",
+  "id":"did:dyne:sandbox_A:Ed7VLBF1bBZrenTcANcc9Qk98onXctPedTnREvAMbvPi",
+  "proof":{
+      "created":"1682499234671",
+      "jws":"eyJhbGciOiJFUzI1NksiLCJiNjQiOnRydWUsImNyaXQiOiJiNjQifQ..YcBHEgwWdx4VQk9DR7UafcFkHla4v6H-T19ddIopU55KIeXEp37ezpUsI7iYJlBAzldOoOEUn9ue20ulTrsXsg",
+      "proofPurpose":"assertionMethod",
+      "type":"EcdsaSecp256k1Signature2019",
+      "verificationMethod":"did:dyne:admin:9Bvc3rQLbX9JZ15ZcyPTHws7wkE5vAgmokiQcWADLFKt#ecdh_public_key"
   },
-  "verificationMethod": [
-    {
-      "controller": "did:dyne:sandbox_A:EZaFxsxneBGGXEZQKUQvK8mDasoAQtmp3QRVdbbuRYtX",
-      "id": "did:dyne:sandbox_A:EZaFxsxneBGGXEZQKUQvK8mDasoAQtmp3QRVdbbuRYtX#ecdh_public_key",
-      "publicKeyBase58": "NYcj8gWnK7JJqyXoMY35LMEpz4uHfUAj2RHuAQECGJ3ejVhtb3Bt6aeaWQUUTUuJsff15G72iQ1uA3AcBTfYPzUx",
-      "type": "EcdsaSecp256k1VerificationKey2019"
-    },
-    {
-      "controller": "did:dyne:sandbox_A:EZaFxsxneBGGXEZQKUQvK8mDasoAQtmp3QRVdbbuRYtX",
-      "id": "did:dyne:sandbox_A:EZaFxsxneBGGXEZQKUQvK8mDasoAQtmp3QRVdbbuRYtX#reflow_public_key",
-      "publicKeyBase58": "ByWnWiyPV98psi43ZGRyWE5r5S8Bv48Q9VTGqji2i7vX1qacF1j95LtnxtTSNy2RgAcMZjBXdEkdXHt4bszR7hUEboJ18rMwquZtPLvNcXxbGEat7W1ZLBZ1zzCsq46LyRCbhZyZ3a8G5uC2WG8YSVYiJpQTJ1LyFCrTS7hT9na1Nn5Ft6v7g24em2HMVHruv7Qo46BvjVoEgzFwxk6TFXBsbnGYsCoWXfgyyQfJ54XLvVFUowzRgAPZjTjcw7YKYBoUou",
-      "type": "ReflowBLS12381VerificationKey"
-    },
-    {
-      "controller": "did:dyne:sandbox_A:EZaFxsxneBGGXEZQKUQvK8mDasoAQtmp3QRVdbbuRYtX",
-      "id": "did:dyne:sandbox_A:EZaFxsxneBGGXEZQKUQvK8mDasoAQtmp3QRVdbbuRYtX#bitcoin_public_key",
-      "publicKeyBase58": "26U1BRHcxHtQTHwuKCKPLnn2DSHxsFRqtaLSYszUUJsH1",
-      "type": "EcdsaSecp256k1VerificationKey2019"
-    },
-    {
-      "controller": "did:dyne:sandbox_A:EZaFxsxneBGGXEZQKUQvK8mDasoAQtmp3QRVdbbuRYtX",
-      "id": "did:dyne:sandbox_A:EZaFxsxneBGGXEZQKUQvK8mDasoAQtmp3QRVdbbuRYtX#eddsa_public_key",
-      "publicKeyBase58": "EZaFxsxneBGGXEZQKUQvK8mDasoAQtmp3QRVdbbuRYtX",
-      "type": "Ed25519VerificationKey2018"
-    },
-    {
-      "blockchainAccountId": "eip155:1:0xd071063c1a9a7c0f218d4714cd5a3099c86917cd",
-      "controller": "did:dyne:sandbox_A:EZaFxsxneBGGXEZQKUQvK8mDasoAQtmp3QRVdbbuRYtX",
-      "id": "did:dyne:sandbox_A:EZaFxsxneBGGXEZQKUQvK8mDasoAQtmp3QRVdbbuRYtX#ethereum_address",
-      "type": "EcdsaSecp256k1RecoveryMethod2020"
-    }
+  "verificationMethod":[
+      {
+        "controller":"did:dyne:sandbox_A:Ed7VLBF1bBZrenTcANcc9Qk98onXctPedTnREvAMbvPi",
+        "id":"did:dyne:sandbox_A:Ed7VLBF1bBZrenTcANcc9Qk98onXctPedTnREvAMbvPi#ecdh_public_key",
+        "publicKeyBase58":"PgyVKqMzAA3GMKTiysgnPa5gpPLU6FBGqdTmC4gAtjhFccu3xJYV1Zwwg5eazKyqyqhFAiYPvvoKgfTyGYwMH6cV",
+        "type":"EcdsaSecp256k1VerificationKey2019"
+      },
+      {
+        "controller":"did:dyne:sandbox_A:Ed7VLBF1bBZrenTcANcc9Qk98onXctPedTnREvAMbvPi",
+        "id":"did:dyne:sandbox_A:Ed7VLBF1bBZrenTcANcc9Qk98onXctPedTnREvAMbvPi#reflow_public_key",
+        "publicKeyBase58":"7S9aP4BWHfsf9xxnEhewgZkvDeZvqP6d9JdC1RNefKUAf2GTZWFV7UMLrgbSbtdnYv1WGLFY3fkbYBAq4177RPejWt5c5z9y1TdU8RwUxnm27dLuPMfPBHRe9fde72yFPxwwhf3mTDAWBG7jPNRaU4uBZXwjuBPGmbHuMSfziUkQhprpXkgJdSqEh5rHyUP7fY7VDEyV9VTWvvEVSLSrCwqi4L1GLSkQSowU6TFkhLz28xKckFqqK1DFmiFyYowwytkYWe",
+        "type":"ReflowBLS12381VerificationKey"
+      },
+      {
+        "controller":"did:dyne:sandbox_A:Ed7VLBF1bBZrenTcANcc9Qk98onXctPedTnREvAMbvPi",
+        "id":"did:dyne:sandbox_A:Ed7VLBF1bBZrenTcANcc9Qk98onXctPedTnREvAMbvPi#bitcoin_public_key",
+        "publicKeyBase58":"mK2tS9nwJ5SpFeNESXPo92XQ2WwhWYW6Z1djJ9pm9eGm",
+        "type":"EcdsaSecp256k1VerificationKey2019"
+      },
+      {
+        "controller":"did:dyne:sandbox_A:Ed7VLBF1bBZrenTcANcc9Qk98onXctPedTnREvAMbvPi",
+        "id":"did:dyne:sandbox_A:Ed7VLBF1bBZrenTcANcc9Qk98onXctPedTnREvAMbvPi#eddsa_public_key",
+        "publicKeyBase58":"Ed7VLBF1bBZrenTcANcc9Qk98onXctPedTnREvAMbvPi",
+        "type":"Ed25519VerificationKey2018"
+      },
+      {
+        "blockchainAccountId":"eip155:1:0x3192f4ccab5fe1e0644ed0b7b6139e5b19f072d7",
+        "controller":"did:dyne:sandbox_A:Ed7VLBF1bBZrenTcANcc9Qk98onXctPedTnREvAMbvPi",
+        "id":"did:dyne:sandbox_A:Ed7VLBF1bBZrenTcANcc9Qk98onXctPedTnREvAMbvPi#ethereum_address",
+        "type":"EcdsaSecp256k1RecoveryMethod2020"
+      }
   ]
 }
 ```
@@ -112,15 +112,15 @@ that is associated to the following DID document:
 The informations about the DID document are store in the DidDocumentMetadata field outstide of the DID document, for example the above did document is associated with the following metadata:
 ```json
 {
-  "created": "1680719302454",
-  "deactivated": "false",
-  "planetmint": [
-    "b8c66ff40758120d1e6224cb6a866450664ae5e45018cede9982c954b3879490"
+  "created":"1682499221032",
+  "deactivated":"false",
+  "ganache":[
+      "4654c6494ff79d4b306b3d0474a681360112b00d3fa6c691000cb8ba7b1545d5"
   ],
-  "polygon": [
-    "6e9c6569f9883b88aa1599c5d3147c13bbe7c879bb01348a1f5e4f7c24337d76"
+  "planetmint":[
+      "0f7cc262d6fe6b2e102f3df99a3bb9726bffcc6a5c39ba9ed87d47be98fdd890"
   ],
-  "updated": "1680719343284"
+  "updated":"1682499234671"
 }
 ```
 ### Operation Timestamp
@@ -132,6 +132,7 @@ If a DID document has been deactivated, *i.e.* **deactivated** field is set to t
 ### Transaction ids
 Moreover the metadata contains arrays of transaction ids over some blockachains, at the moment they are:
 - [planetmint](https://planetmint.io/);
+- [ganache](https://trufflesuite.com/ganache/);
 - [polygon](https://polygon.technology/).
 
 #### planetmint
@@ -141,11 +142,11 @@ A transaction on **planetmint** contains the [CID](https://github.com/multiforma
 * remove the transaction id used in the previous step from the **planetmint** array in the metadata, remove all the fileds not mentioned above from the metadata and compute the CID of the result.
 * compare the two CIDs, they must match.
 
-#### polygon
-A transaction on **polygon** contains the hash to point on BLS12-381 elliptic curve (ECP) of the did document along with its metadata fields *created*, *updated*, *deactivated* and *polygon*. Thus in order to verify the integrity of a did document using polygon blockchain the following steps have to be followed:
+#### Ethereum blockchains
+A transaction on **polygon** or **ganache** contains the hash to point on BLS12-381 elliptic curve (ECP) of the did document along with its metadata fields *created*, *updated*, *deactivated* and *polygon* or *ganache*. Thus in order to verify the integrity of a did document using polygon blockchain the following steps have to be followed:
 * resolve the DID document through the resolver.
-* use the last transaction id, found in the **polygon** array in the metdata, to retrieve the BLS12-381 point from the polygon blockhain.
-* remove the transaction id used in the previous step from the **polygon** array in the metadata, remove all the fileds not mentioned above from the metadata and compute the hash to point on BLS12-381 elliptic curve of the result.
+* use the last transaction id, found in the **polygon** or **ganache** array in the metdata, to retrieve the BLS12-381 point from the polygon blockhain.
+* remove the transaction id used in the previous step from the **polygon** or **ganache** array in the metadata, remove all the fileds not mentioned above from the metadata and compute the hash to point on BLS12-381 elliptic curve of the result.
 * compare the two points, they must match.
 
 ## CRUD Operation Definitions
@@ -322,6 +323,7 @@ where *{domain}* is the request did domain. The did document will not be removed
 
 To broadcast a DID document on one of the following blockchains:
 * planetmint;
+* ganache;
 * polygon;
 
 it is enough to perform an *HTTP POST* request as follow
@@ -346,6 +348,10 @@ where:
 * *broadcast_id* is the id corresponding to the DID document that you want to save on the blockchain;
 * *timestamp* is the unix timestamp in millisecond of the creation of the request;
 * *eddsa_signature* is the eddsa signature, created using the admin or second-level admin eddsa key, of the dictionary containing the *broadcast_id* and the *timestamp* encoded into a string removing all new lines and withespaces (outside of the values of DID document) and escaping double quotes and backslashes.
+
+Not all the blockchains are available for all domains, indeed:
+* **sandbox** has planetmint and ganche;
+* **ifacer** has planetmint and polygon.
 
 ## Security Considerations
 
