@@ -350,7 +350,7 @@ where:
 * *eddsa_signature* is the eddsa signature, created using the admin or second-level admin eddsa key, of the dictionary containing the *broadcast_id* and the *timestamp* encoded into a string removing all new lines and withespaces (outside of the values of DID document) and escaping double quotes and backslashes.
 
 Not all the blockchains are available for all domains, indeed:
-* **sandbox** has planetmint and ganche;
+* **sandbox** has planetmint and ganache;
 * **ifacer** has planetmint and polygon.
 
 ## Security Considerations
