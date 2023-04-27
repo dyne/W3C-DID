@@ -129,13 +129,13 @@
   become: true
   synchronize:
     src: "../secrets"
-    dest: "{{ controller_root }}"
+    dest: "{{ data_dir }}"
     owner: no
     group: no
 
 - name: Fix secrets permissions
   file:
-    dest: "{{ controller_root }}/secrets"
+    dest: "{{ data_dir }}/secrets"
     owner: controller
     group: controller
     recurse: yes
