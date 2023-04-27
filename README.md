@@ -40,6 +40,23 @@ and send us your request to become a domain admin.
 
 **Even in case our server we get hacked, your keys will not ne leaked and your DIDs will not be lost**
 
+## Claim your own domain context as an admin
+
+Given we want to create a context called **`sandbox.snakeoil`** with admin
+permission (as stated in the documentation) we need to go on with the following instructions.
+
+Please make sure to have installed as prerequisites:
+ * [Zenroom](https://zenroom.org)
+ * [Zencode tools](https://github.com/dyne/zencode-tools)
+ * [jq](https://stedolan.github.io/jq/)
+
+ 1. Create a private keyring by running `make keyring [user@hostname]` this will create your **secret** key in `./secrets/keyring.json`
+ 2. Create a request document with you domain name followed by `_A` that makes you an admin of the context with the following command:
+ `make request DOMAIN="sandbox.snakeoil_A"` this will generate a `did_doc.json` you **DO NOT** have to commit it
+ 3. send the `did_doc.json` via secure mail to [info@dyne.org](mailto:info@dyne.org)
+ 4. Wait for your context to be avialble on https://explorer.dyne.org
+
+
 ## test on your own
 
 To run simple tests one needs to install also [Zenroom](https://zenroom.org), the [Zencode tools](https://github.com/dyne/zencode-tools), [GNU parallel](https://www.gnu.org/parallel) and [jq](https://stedolan.github.io/jq/).
