@@ -46,7 +46,7 @@ Given we want to create a context called **`sandbox.snakeoil`** with admin
 permission (as stated in the documentation) we need to go on with the following instructions.
 
 Please make sure to have installed as prerequisites:
- * [Zenroom](https://zenroom.org)
+ * [Zenroom](https://zenroom.org#downloads)
  * [jq](https://stedolan.github.io/jq/)
 
  1. Create a private keyring by running `make keyring [user@hostname]` this will create your **secret** key in `./secrets/keyring.json` keep it safe and DON'T loose it, without that the context is useless
