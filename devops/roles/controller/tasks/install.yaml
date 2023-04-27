@@ -128,7 +128,7 @@
 - name: Copy secrets
   become: true
   synchronize:
-    src: "../secrets"
+    src: "secrets"
     dest: "{{ data_dir }}"
     owner: no
     group: no
