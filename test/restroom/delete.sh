@@ -387,9 +387,43 @@ delete_request  spec-keyring.json \
 send_request ${domain}/pubkeys-deactivate.chain ${tmpreq} 255
 rm -f ${tmpreq}
 
-rm -f secrets/spec_A-keyring.json \
-   secrets/spec.ctx_A-keyring.json \
-   secrets/spec-keyring.json
+echo ""
+echo "SELF REVOCATION"
+printf "%-18s %-20s %s\n" "${domain}_A" "deletes" "itself"
+delete_request  spec_A-keyring.json \
+                ${domain}_A \
+                spec_A-keyring.json \
+                ${domain}_A \
+                ${tmpreq}
+send_request ${domain}/pubkeys-deactivate.chain ${tmpreq} 0
+rm -f ${tmpreq} secrets/spec_A-keyring.json
+
+printf "%-18s %-20s %s\n" "${domain}.${ctx}_A" "deletes" "itself"
+delete_request  spec.ctx_A-keyring.json \
+                ${domain}.${ctx}_A \
+                spec.ctx_A-keyring.json \
+                ${domain}.${ctx}_A \
+                ${tmpreq}
+send_request ${domain}/pubkeys-deactivate.chain ${tmpreq} 0
+rm -f ${tmpreq} secrets/spec.ctx_A-keyring.json
+
+printf "%-18s %-20s %s\n" "${domain}.${ctx}" "deletes" "itself"
+delete_request  spec.ctx-keyring.json \
+                ${domain}.${ctx} \
+                spec.ctx-keyring.json \
+                ${domain}.${ctx} \
+                ${tmpreq}
+send_request ${domain}/pubkeys-deactivate.chain ${tmpreq} 0
+rm -f ${tmpreq}
+
+printf "%-18s %-20s %s\n" "${domain}" "deletes" "itself"
+delete_request  spec-keyring.json \
+                ${domain} \
+                spec-keyring.json \
+                ${domain}\
+                ${tmpreq}
+send_request ${domain}/pubkeys-deactivate.chain ${tmpreq} 0
+rm -f ${tmpreq} secrets/spec-keyring.json
 
 echo ""
 echo "DOMAIN ADMIN does not delete other domains did"
@@ -466,13 +500,6 @@ rm -f ${tmpreq}
 echo ""
 echo "OTHER TESTS"
 echo "did documents can not be deleted two times"
-delete_request  spec.ctx-keyring.json \
-                ${domain}.${ctx} \
-                ${domain}.${ctx}_A-keyring.json \
-                ${domain}.${ctx}_A \
-                ${tmpreq}
-send_request ${domain}/pubkeys-deactivate.chain ${tmpreq} 0
-rm -f ${tmpreq}
 delete_request  spec.ctx-keyring.json \
                 ${domain}.${ctx} \
                 ${domain}.${ctx}_A-keyring.json \
