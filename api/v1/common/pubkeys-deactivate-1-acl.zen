@@ -38,6 +38,13 @@ and I rename the 'copy' to 'signer_idspec'
 and I create the copy of element '4' in array 'array'
 and I rename the 'copy' to 'signer_idpk'
 and I remove 'array'
+and I create the array by splitting 'signer_idspec' at '_'
+Foreach 'signer part' in 'array'
+When I append 'signer part' to 'signer_path'
+and I append the string '/' to 'signer_path'
+EndForeach
+When I append 'signer_idpk' to 'signer_path'
+and I remove 'array'
 
 # request_parts
 When I create the array by splitting 'deactivate_id' at ':'
@@ -67,6 +74,12 @@ and I verify 'request_domain' is not equal to 'admin' in 'utility'
 
 ## signer_path
 # signerPermission
+When I set 'self_allowed' to 'false' as 'string'
+If I verify 'deactivate_id' is equal to 'signer_id'
+When I remove 'self_allowed'
+When I set 'self_allowed' to 'true' as 'string'
+EndIf
+
 When I create the array by splitting 'signer_idspec' at '_'
 and I create the length of 'array'
 and number 'length' is less or equal than '2'
@@ -75,6 +88,7 @@ and I rename 'copy' to 'signer_domain.signer_ctx'
 
 # no underscore => has to be admin
 If I verify 'length' is equal to '1' in 'utility'
+and I verify 'self_allowed' is not equal to 'true' in 'utility'
 When I remove 'exit_code'
 and I set 'exit_code' to 'check signer is admin' as 'string'
 
@@ -87,14 +101,12 @@ When I verify 'exit_code' is equal to '0' in 'utility'
 
 # underscore => then _A or _C
 If I verify 'length' is equal to '2' in 'utility'
+and I verify 'self_allowed' is not equal to 'true' in 'utility'
 When I remove 'exit_code'
 and I set 'exit_code' to 'check signer permissions' as 'string'
 
 When I create the copy of element '2' in array 'array'
 and the 'copy' is found in 'signer_ACL'
-
-When I append the string '/' to 'signer_path_permission'
-and I append 'copy' to 'signer_path_permission'
 and I remove 'copy'
 
 When I remove 'exit_code'
@@ -112,6 +124,7 @@ and number 'length' is less or equal than '2'
 
 # no point => signer_idspec != request_idspec and signer_domain in {admin, request_doamin}
 If I verify 'length' is equal to '1' in 'utility'
+and I verify 'self_allowed' is not equal to 'true' in 'utility'
 When I remove 'exit_code'
 and I set 'exit_code' to 'check signer domain' as 'string'
 
@@ -123,9 +136,6 @@ and I move 'admin' in 'allowed_domains'
 and I copy 'request_domain' in 'allowed_domains'
 and the 'signer_domain' is found in 'allowed_domains'
 
-# path
-When I append 'signer_domain' to 'signer_path' 
-
 When I remove 'exit_code'
 and I set 'exit_code' to '0' as 'string'
 EndIf
@@ -133,20 +143,16 @@ When I verify 'exit_code' is equal to '0' in 'utility'
 
 # point => signer_domain.signer_ctx = request_idspec
 If I verify 'length' is equal to '2' in 'utility'
+and I verify 'self_allowed' is not equal to 'true' in 'utility'
 When I remove 'exit_code'
 and I set 'exit_code' to 'check signer context' as 'string'
 
 When I verify 'signer_domain.signer_ctx' is equal to 'request_idspec'
-and I append 'signer_domain.signer_ctx' to 'signer_path'
 
 When I remove 'exit_code'
 and I set 'exit_code' to '0' as 'string'
 EndIf
 When I verify 'exit_code' is equal to '0' in 'utility'
-
-When I append 'signer_path_permission' to 'signer_path'
-and I append the string '/' to 'signer_path'
-and I append 'signer_idpk' to 'signer_path'
 
 When I remove 'array'
 and I remove 'length'
