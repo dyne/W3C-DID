@@ -18,7 +18,7 @@ create_admin test-update-service-keyring.json
 rm -f service-admin-did.json
 # create an admin, spec admin, spec.ctx admin and spec.ctx to be updated later
 create_admin test-update-2-service-keyring.json admin_original.json
-tmp=`mktemp` && jq '.didDocument | del(.proof) | {"did_document": .}' admin_original.json > ${tmp} && mv ${tmp} admin_original.json
+tmp=`mktemp` && jq '.request | del(.proof) | {"request": {"did_document": .}}' admin_original.json > ${tmp} && mv ${tmp} admin_original.json
 
 create_request  ${domain}_A-keyring.json \
                 ${domain}_A \
@@ -105,10 +105,18 @@ send_request ${domain}/pubkeys-update.chain ${tmpreq} 0
 rm -f ${tmpreq}
 
 ## domain admin (domain_A)
+create_request  ${domain}_A-keyring-test.json \
+                ${domain}_A \
+                test-update-service-keyring.json \
+                admin \
+                ${tmpreq}
+send_request ${domain}/pubkeys-accept.chain ${tmpreq} 0
+rm -f ${tmpreq}
+
 printf "%-18s %-20s %s\n" "${domain}_A" "does not update" "admin"
 update_request  test_2 \
                 admin_original.json \
-                ${domain}_A-keyring.json \
+                ${domain}_A-keyring-test.json \
                 ${domain}_A \
                 ${tmpreq}
 send_request ${domain}/pubkeys-update.chain ${tmpreq} 255
@@ -117,7 +125,7 @@ rm -f ${tmpreq}
 printf "%-18s %-20s %s\n" "${domain}_A" "does not update" "${domain}_A"
 update_request  test_2 \
                 ${domain}_A_original.json \
-                ${domain}_A-keyring.json \
+                ${domain}_A-keyring-test.json \
                 ${domain}_A \
                 ${tmpreq}
 send_request ${domain}/pubkeys-update.chain ${tmpreq} 255
@@ -126,7 +134,7 @@ rm -f ${tmpreq}
 printf "%-18s %-20s %s\n" "${domain}_A" "updates" "${domain}.${ctx}_A"
 update_request  test_2 \
                 ${domain}.${ctx}_A_original.json \
-                ${domain}_A-keyring.json \
+                ${domain}_A-keyring-test.json \
                 ${domain}_A \
                 ${tmpreq}
 send_request ${domain}/pubkeys-update.chain ${tmpreq} 0
@@ -135,7 +143,7 @@ rm -f ${tmpreq}
 printf "%-18s %-20s %s\n" "${domain}_A" "updates" "${domain}.${ctx}"
 update_request  test_2 \
                 ${domain}.${ctx}_original.json \
-                ${domain}_A-keyring.json \
+                ${domain}_A-keyring-test.json \
                 ${domain}_A \
                 ${tmpreq}
 send_request ${domain}/pubkeys-update.chain ${tmpreq} 0
@@ -144,17 +152,25 @@ rm -f ${tmpreq}
 printf "%-18s %-20s %s\n" "${domain}_A" "updates" "${domain}"
 update_request  test_2 \
                 ${domain}_original.json \
-                ${domain}_A-keyring.json \
+                ${domain}_A-keyring-test.json \
                 ${domain}_A \
                 ${tmpreq}
 send_request ${domain}/pubkeys-update.chain ${tmpreq} 0
-rm -f ${tmpreq}
+rm -f ${tmpreq} secrets/${domain}_A-keyring-test.json
 
 ## domain.context admin (domain.ctx_A)
+create_request  ${domain}.${ctx}_A-keyring-test.json \
+                ${domain}.${ctx}_A \
+                test-update-service-keyring.json \
+                admin \
+                ${tmpreq}
+send_request ${domain}/pubkeys-accept.chain ${tmpreq} 0
+rm -f ${tmpreq}
+
 printf "%-18s %-20s %s\n" "${domain}.${ctx}_A" "does not update" "admin"
 update_request  test_3 \
                 admin_original.json \
-                ${domain}.${ctx}_A-keyring.json \
+                ${domain}.${ctx}_A-keyring-test.json \
                 ${domain}.${ctx}_A \
                 ${tmpreq}
 send_request ${domain}/pubkeys-update.chain ${tmpreq} 255
@@ -163,7 +179,7 @@ rm -f ${tmpreq}
 printf "%-18s %-20s %s\n" "${domain}.${ctx}_A" "does not update" "${domain}_A"
 update_request  test_3 \
                 ${domain}_A_original.json \
-                ${domain}.${ctx}_A-keyring.json \
+                ${domain}.${ctx}_A-keyring-test.json \
                 ${domain}.${ctx}_A \
                 ${tmpreq}
 send_request ${domain}/pubkeys-update.chain ${tmpreq} 255
@@ -172,7 +188,7 @@ rm -f ${tmpreq}
 printf "%-18s %-20s %s\n" "${domain}.${ctx}_A" "does not update" "${domain}.${ctx}_A"
 update_request  test_3 \
                 ${domain}.${ctx}_A_original.json \
-                ${domain}.${ctx}_A-keyring.json \
+                ${domain}.${ctx}_A-keyring-test.json \
                 ${domain}.${ctx}_A \
                 ${tmpreq}
 send_request ${domain}/pubkeys-update.chain ${tmpreq} 255
@@ -181,7 +197,7 @@ rm -f ${tmpreq}
 printf "%-18s %-20s %s\n" "${domain}.${ctx}_A" "updates" "${domain}.${ctx}"
 update_request  test_3 \
                 ${domain}.${ctx}_original.json \
-                ${domain}.${ctx}_A-keyring.json \
+                ${domain}.${ctx}_A-keyring-test.json \
                 ${domain}.${ctx}_A \
                 ${tmpreq}
 send_request ${domain}/pubkeys-update.chain ${tmpreq} 0
@@ -190,17 +206,25 @@ rm -f ${tmpreq}
 printf "%-18s %-20s %s\n" "${domain}.${ctx}_A" "does not update" "${domain}"
 update_request  test_3 \
                 ${domain}_original.json \
-                ${domain}.${ctx}_A-keyring.json \
+                ${domain}.${ctx}_A-keyring-test.json \
                 ${domain}.${ctx}_A \
                 ${tmpreq}
 send_request ${domain}/pubkeys-update.chain ${tmpreq} 255
-rm -f ${tmpreq} secrets/${domain}.${ctx}_A-keyring.json
+rm -f ${tmpreq} secrets/${domain}.${ctx}_A-keyring-test.json 
 
 ## domain.context (domain.ctx)
+create_request  ${domain}.${ctx}-keyring-test.json \
+                ${domain}.${ctx} \
+                test-update-service-keyring.json \
+                admin \
+                ${tmpreq}
+send_request ${domain}/pubkeys-accept.chain ${tmpreq} 0
+rm -f ${tmpreq}
+
 printf "%-18s %-20s %s\n" "${domain}.${ctx}" "does not update" "admin"
 update_request  test_4 \
                 admin_original.json \
-                ${domain}.${ctx}-keyring.json \
+                ${domain}.${ctx}-keyring-test.json \
                 ${domain}.${ctx} \
                 ${tmpreq}
 send_request ${domain}/pubkeys-update.chain ${tmpreq} 255
@@ -209,7 +233,7 @@ rm -f ${tmpreq}
 printf "%-18s %-20s %s\n" "${domain}.${ctx}" "does not update" "${domain}_A"
 update_request  test_4 \
                 ${domain}_A_original.json \
-                ${domain}.${ctx}-keyring.json \
+                ${domain}.${ctx}-keyring-test.json \
                 ${domain}.${ctx} \
                 ${tmpreq}
 send_request ${domain}/pubkeys-update.chain ${tmpreq} 255
@@ -218,7 +242,7 @@ rm -f ${tmpreq}
 printf "%-18s %-20s %s\n" "${domain}.${ctx}" "does not update" "${domain}.${ctx}_A"
 update_request  test_4 \
                 ${domain}.${ctx}_A_original.json \
-                ${domain}.${ctx}-keyring.json \
+                ${domain}.${ctx}-keyring-test.json \
                 ${domain}.${ctx} \
                 ${tmpreq}
 send_request ${domain}/pubkeys-update.chain ${tmpreq} 255
@@ -227,7 +251,7 @@ rm -f ${tmpreq}
 printf "%-18s %-20s %s\n" "${domain}.${ctx}" "does not update" "${domain}.${ctx}"
 update_request  test_4 \
                 ${domain}.${ctx}_original.json \
-                ${domain}.${ctx}-keyring.json \
+                ${domain}.${ctx}-keyring-test.json \
                 ${domain}.${ctx} \
                 ${tmpreq}
 send_request ${domain}/pubkeys-update.chain ${tmpreq} 255
@@ -236,17 +260,25 @@ rm -f ${tmpreq}
 printf "%-18s %-20s %s\n" "${domain}.${ctx}" "does not update" "${domain}"
 update_request  test_4 \
                 ${domain}_original.json \
-                ${domain}.${ctx}-keyring.json \
+                ${domain}.${ctx}-keyring-test.json \
                 ${domain}.${ctx} \
                 ${tmpreq}
 send_request ${domain}/pubkeys-update.chain ${tmpreq} 255
-rm -f ${tmpreq} secrets/${domain}.${ctx}-keyring.json
+rm -f ${tmpreq} secrets/${domain}.${ctx}-keyring-test.json
 
 ## domain (domain)
+create_request  ${domain}-keyring-test.json \
+                ${domain} \
+                test-update-service-keyring.json \
+                admin \
+                ${tmpreq}
+send_request ${domain}/pubkeys-accept.chain ${tmpreq} 0
+rm -f ${tmpreq}
+
 printf "%-18s %-20s %s\n" "${domain}" "does not update" "admin"
 update_request  test_5 \
                 admin_original.json \
-                ${domain}-keyring.json \
+                ${domain}-keyring-test.json \
                 ${domain} \
                 ${tmpreq}
 send_request ${domain}/pubkeys-update.chain ${tmpreq} 255
@@ -255,7 +287,7 @@ rm -f ${tmpreq}
 printf "%-18s %-20s %s\n" "${domain}" "does not update" "${domain}_A"
 update_request  test_5 \
                 ${domain}_A_original.json \
-                ${domain}-keyring.json \
+                ${domain}-keyring-test.json \
                 ${domain} \
                 ${tmpreq}
 send_request ${domain}/pubkeys-update.chain ${tmpreq} 255
@@ -264,7 +296,7 @@ rm -f ${tmpreq}
 printf "%-18s %-20s %s\n" "${domain}" "does not update" "${domain}.${ctx}_A"
 update_request  test_5 \
                 ${domain}.${ctx}_A_original.json \
-                ${domain}-keyring.json \
+                ${domain}-keyring-test.json \
                 ${domain} \
                 ${tmpreq}
 send_request ${domain}/pubkeys-update.chain ${tmpreq} 255
@@ -273,7 +305,7 @@ rm -f ${tmpreq}
 printf "%-18s %-20s %s\n" "${domain}" "does not update" "${domain}.${ctx}"
 update_request  test_5 \
                 ${domain}.${ctx}_original.json \
-                ${domain}-keyring.json \
+                ${domain}-keyring-test.json \
                 ${domain} \
                 ${tmpreq}
 send_request ${domain}/pubkeys-update.chain ${tmpreq} 255
@@ -282,10 +314,48 @@ rm -f ${tmpreq}
 printf "%-18s %-20s %s\n" "${domain}" "does not update" "${domain}"
 update_request  test_5 \
                 ${domain}_original.json \
-                ${domain}-keyring.json \
+                ${domain}-keyring-test.json \
                 ${domain} \
                 ${tmpreq}
 send_request ${domain}/pubkeys-update.chain ${tmpreq} 255
+rm -f ${tmpreq} secrets/${domain}-keyring-test.json
+
+echo ""
+echo "SELF UPDATE"
+printf "%-18s %-20s %s\n" "${domain}_A" "updates" "itself"
+update_request  test_6 \
+                ${domain}_A_original.json \
+                ${domain}_A-keyring.json \
+                ${domain}_A \
+                ${tmpreq}
+send_request ${domain}/pubkeys-update.chain ${tmpreq} 0
+rm -f ${tmpreq}
+
+printf "%-18s %-20s %s\n" "${domain}.${ctx}_A" "updates" "itself"
+update_request  test_6 \
+                ${domain}.${ctx}_A_original.json \
+                ${domain}.${ctx}_A-keyring.json \
+                ${domain}.${ctx}_A \
+                ${tmpreq}
+send_request ${domain}/pubkeys-update.chain ${tmpreq} 0
+rm -f ${tmpreq} secrets/${domain}.${ctx}_A-keyring.json
+
+printf "%-18s %-20s %s\n" "${domain}.${ctx}" "updates" "itself"
+update_request  test_6 \
+                ${domain}.${ctx}_original.json \
+                ${domain}.${ctx}-keyring.json \
+                ${domain}.${ctx} \
+                ${tmpreq}
+send_request ${domain}/pubkeys-update.chain ${tmpreq} 0
+rm -f ${tmpreq} secrets/${domain}.${ctx}-keyring.json
+
+printf "%-18s %-20s %s\n" "${domain}" "updates" "itself"
+update_request  test_6 \
+                ${domain}_original.json \
+                ${domain}-keyring.json \
+                ${domain} \
+                ${tmpreq}
+send_request ${domain}/pubkeys-update.chain ${tmpreq} 0
 rm -f ${tmpreq} secrets/${domain}-keyring.json
 
 echo ""
