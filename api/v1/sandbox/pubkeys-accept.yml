@@ -1,9 +1,9 @@
 zenchain: 1.0
-start: v1/sandbox/pubkeys-accept-1-path.zen
+start: v1/sandbox/pubkeys-accept-1-acl.zen
 blocks:
-  v1/sandbox/pubkeys-accept-1-path.zen:
-    zenFile: v1/sandbox/pubkeys-create-paths.zen
-    keysFile: v1/sandbox/pubkeys-accept-1-path.keys
+  v1/sandbox/pubkeys-accept-1-acl.zen:
+    zenFile: v1/sandbox/pubkeys-accept-1-acl.zen
+    keysFile: v1/sandbox/pubkeys-accept-1-acl.keys
     next: v1/sandbox/pubkeys-accept-2-checks.zen
   v1/sandbox/pubkeys-accept-2-checks.zen:
     zenFile: v1/sandbox/pubkeys-accept-2-checks.zen
