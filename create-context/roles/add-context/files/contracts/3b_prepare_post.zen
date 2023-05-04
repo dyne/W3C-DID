@@ -1,0 +1,56 @@
+Scenario 'ecdh': keys
+Scenario 'eddsa': keys
+Scenario 'ethereum': keys
+Scenario 'reflow': keys
+
+
+Given I have a 'string dictionary' named 'did document'
+and I have a 'string dictionary' named 'ecdh signature'
+and I have a 'string' named 'timestamp'
+and I have a 'string' named 'eddsa signature'
+and I have a 'string' named 'id'
+
+Given I have a 'string' named 'eddsa_public_key'
+and I have a 'string' named 'ethereum_address'
+and I have a 'string' named 'ecdh_public_key'
+and I have a 'string' named 'reflow_public_key'
+and I have a 'string' named 'bitcoin public key'
+
+Given I have a 'string array' named 'user-keyring'
+and I have a 'string' named 'user-id'
+
+# prepare post
+When I create the 'string dictionary' named 'post'
+and I create the 'string dictionary' named 'data'
+and I move 'did document' in 'data'
+and I move 'ecdh signature' in 'data'
+and I move 'timestamp' in 'data'
+and I move 'eddsa signature' in 'data'
+and I move 'id' in 'data'
+and I move 'data' in 'post'
+
+When I rename the 'user-keyring' to 'keyring'
+
+When I create the 'string dictionary' named 'user-keys'
+When I move 'keyring' in 'user-keys'
+When I move 'user-id' in 'user-keys'
+
+When I create the 'string dictionary' named 'public-keys'
+When I move 'eddsa public key' in 'public-keys'
+When I move 'ethereum address' in 'public-keys'
+When I move 'ecdh public key' in 'public-keys'
+When I move 'bitcoin public key' in 'public-keys'
+When I move 'reflow public key' in 'public-keys'
+When I move 'public-keys' in 'user-keys'
+
+#When I rename 'string dictionary' to named by 'user-id'
+
+
+
+Then print the 'post'
+
+
+
+#Then I print the 'keyring'
+Then I print the 'user-keys'
+

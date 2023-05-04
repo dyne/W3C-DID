@@ -1,0 +1,12 @@
+{
+    "Bali_DID_Controller": {
+        "keyring": {
+            "bitcoin": "KxqS1U9Fvg1AfFFfrUens3shPAQdPzZYmKqbHaSgMj3iysif7NbP",
+            "ecdh": "rWwU4nu7Y3Zx/VgUHJ1+RmGLJtVBGvQ7GTVR5Itva68=",
+            "eddsa": "H1ryrxq69CzxqWDSgkpD6okYjvkVcPHvEXub5AxVshih",
+            "ethereum": "a622c2ccfa90fb5fae86c80f52dfc2110115ee93418aa26e714a0e8e975d50f5",
+            "reflow": "S/GkKTopEQBAVtC6KquIoYhFdiyyPVFEVRCOqJ3wV6c="
+        }
+    },
+    "controller": "Bali_DID_Controller"
+}

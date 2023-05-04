@@ -1,0 +1,25 @@
+---
+- name: Create temporary build directory
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: nvm
+  register: nvm_tmp
+
+- name: Download the nvm(node version manager) install script
+  get_url:
+    url: https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh
+    dest: "{{ nvm_tmp.path }}/install.sh"
+
+- name: Execute the nvm install script
+  shell:
+    cmd: bash install.sh
+    chdir: "{{ nvm_tmp.path }}"
+  args:
+    executable: /bin/bash
+
+- name: Install the specified node version using the nvm command and set it as default
+  shell: "source /home/controller/.nvm/nvm.sh && nvm install {{ node_version }} && nvm run {{node_version}} --version && nvm alias default {{node_version}}"
+  args:
+    executable: /bin/bash
+    creates: ~/.nvm/versions/node/v{{ node_version }}
+

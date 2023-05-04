@@ -1,0 +1,15 @@
+---
+- name: Copy contracts (permissions may be wrong)
+  become: true
+  synchronize:
+    src: "{{ src }}"
+    dest: "{{ dest }}"
+    owner: no
+    group: no
+
+- name: Fix contracts permissions
+  file:
+    dest: "{{ dest }}/{{ src }}"
+    owner: controller
+    group: controller
+    recurse: yes

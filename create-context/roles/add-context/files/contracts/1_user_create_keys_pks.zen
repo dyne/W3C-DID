@@ -1,0 +1,32 @@
+Scenario 'ecdh': keys
+Scenario 'eddsa': keys
+Scenario 'ethereum': keys
+Scenario 'reflow': keys
+
+Given I my name is in a 'string' named 'controller'
+and I have a 'string array' named '@context'
+and I have a 'string' named 'did_spec'
+and I have a 'string' named 'signer_did_spec'
+
+When I create the ecdh key
+When I create the eddsa key
+When I create the ethereum key
+When I create the bitcoin key
+When I create the reflow key
+
+When I create the ecdh public key
+and I create the eddsa public key
+and I create the ethereum address
+and I create the bitcoin public key
+and I create the reflow public key
+
+Then I print the 'eddsa public key' as 'base58'
+Then I print the 'ethereum address'
+Then I print the 'ecdh public key' as 'base58'
+Then I print the 'bitcoin public key' as 'base58'
+Then I print the 'reflow public key' as 'base58'
+Then I print the 'keyring'
+Then I print my name in 'identity'
+Then I print the '@context'
+Then I print the 'did_spec'
+Then I print the 'signer_did_spec'

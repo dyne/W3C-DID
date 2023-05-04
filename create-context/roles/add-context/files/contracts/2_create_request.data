@@ -1,0 +1,27 @@
+{
+   "@context": [
+      "https://www.w3.org/ns/did/v1",
+      "https://w3id.org/security/suites/ed25519-2018/v1",
+      "https://w3id.org/security/suites/secp256k1-2019/v1",
+      "https://w3id.org/security/suites/secp256k1-2020/v1",
+      "https://dyne.github.io/W3C-DID/specs/ReflowBLS12381.json",
+      {
+         "description": "https://schema.org/description"
+      }
+   ],
+   "bitcoin_public_key": "f41ogCsw3FEQgHsrQXD5bRHpuQ9cKqjPxx9SpWgftga9",
+   "did_spec": "sandbox.bali",
+   "ecdh_public_key": "Pkd1JzA5XFuLrwqxhJNSMfHgSTdy8vT1oumS8EvfBFqqYASLLTQ5MLMSj2SVFgAogwJKreoBpaMrLydCvfmR4DMA",
+   "eddsa_public_key": "nhQ3319cohDiCxWzx9Gmz7c2ZmAfwzbQFzAXHN2YY5s",
+   "ethereum_address": "df5846bbe1f40cd1e3700b38e9c5baf22ee4df3b",
+   "identity": "test",
+   "keyring": {
+      "bitcoin": "Kx5rz1hGTf3XuoFhq6vVYEUdCnWD9fGeTphYaQASw3MakFuGUS5W",
+      "ecdh": "DIEzruTSyOMX3Y3xJnQm1ODAc88Ujr399tlIxzBoSFQ=",
+      "eddsa": "9ZREbvK3Qj2KRsHK3z98scdsKdxCnLBLrmEkJ7PTfUE6",
+      "ethereum": "81a0ce2a3b7ce6900ab0c16ff06da9e0e6664d6e1dc862f984ff56a7d3585cd9",
+      "reflow": "VLqwB49Xw1paz4iLVwm4O3Ls1eJ0ZnJbP+mPZRbFw3w="
+   },
+   "reflow_public_key": "46efSA1S82A3jkTUrvYX8XThWkgswRybddnnw5mYVZxuvXvbr7UsXSGybzT4gajMzea8Ca5RUPWxuWMPnb95imL5nbgeBZLUH4M4vhrB26Ts942foGvt8xSEWhTbveEPGCJfXyBmu8N2j6Q9m5eenjfopE7e8xQnBoesocGZqyWGdu3p8DgcPNTP36b5gTF7sPwMg5sGoKGkzEADke2pJydDxdPaSonc1iTcYH3VzH5bM9QKYt71nmmXiR1sP3wEaMaS2H",
+   "signer_did_spec": "sandbox.bali_A"
+}

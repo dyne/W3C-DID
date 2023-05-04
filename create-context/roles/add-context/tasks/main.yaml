@@ -1,0 +1,14 @@
+- name: Create working dirs
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: controller
+    group: controller
+  with_items:
+    - "{{ context_root }}/contracts/{{ context_name }}"
+
+- name: copy contracts
+  import_tasks: copy-contracts.yaml
+  vars:
+    src: "contracts"
+    dest: "{{ context_root }}"
