@@ -1,0 +1,117 @@
+zenchain: 1.0
+start: 1_deactivate_request.zen
+blocks:
+  1_deactivate_request.zen:
+    zenContent: |
+      rule input encoding base58
+      rule output encoding base58
+
+      Scenario 'ecdh': sign 
+      Scenario 'eddsa': sign 
+
+      # load the spec admin keyring to sign the request
+      Given my name is in a 'string' named 'controller'
+      and I have my 'keyring'
+      and I have a 'string' named 'signer_did_spec'
+
+      # load eddsa pk for id
+      Given I have a 'eddsa_public_key'
+      and I rename 'eddsa_public_key' to 'identity pk'
+      and I have a 'string' named 'did_spec'
+
+      # deactivate_id
+      When I set 'deactivate_id' to 'did:dyne:' as 'string'
+      and I append 'did_spec' to 'deactivate_id'
+      and I append the string ':' to 'deactivate_id'
+      and I append the 'base58' of 'identity pk' to 'deactivate_id'
+
+      # id
+      When I create the eddsa public key
+      and I set 'id' to 'did:dyne:' as 'string'
+      and I append 'signer_did_spec' to 'id'
+      and I append the string ':' to 'id'
+      and I append the 'base58' of 'eddsa public key' to 'id'
+
+      # ecdh singature of deactivate_id
+      When I create the ecdh signature of 'deactivate_id'
+
+      Then print the 'deactivate_id'
+      Then print the 'id'
+      Then print the 'ecdh signature'
+    keysFile: 1_deactivate_request.keys
+    next: 2_deactivate_prepare_post.zen
+  2_deactivate_prepare_post.zen:
+    zenContent: |
+      Scenario 'ecdh': keys
+      Scenario 'eddsa': keys
+      Scenario 'ethereum': keys
+      Scenario 'reflow': keys
+
+
+      Given I have a 'string' named 'deactivate_id'
+      and I have a 'string dictionary' named 'ecdh signature'
+      and I have a 'string' named 'id'
+
+      # prepare post
+      When I create the 'string dictionary' named 'post'
+      and I create the 'string dictionary' named 'data'
+      and I move 'deactivate_id' in 'data'
+      and I move 'ecdh signature' in 'data'
+      and I move 'id' in 'data'
+      and I move 'data' in 'post'
+
+      Then print the 'post'
+    next: 3_deactivate_send_post.zen
+  3_deactivate_send_post.zen:
+    zenContent: >
+      Rule caller restroom-mw
+
+
+      Given I connect to 'endpoint' and pass it the content of 'post' and save
+      the output into 'response'
+
+      and I have a 'string dictionary' named 'response'
+
+
+      When I pickup from path 'response.status'
+
+      When I set '200' to '200' as 'float'
+
+      When I set '500' to '500' as 'float'
+
+
+      If I verify 'status' is equal to '200'
+
+      When I pickup from path 'response.result.result.didDocument.id'
+
+      and I rename 'id' to 'Deactivated_DID'
+
+      When I set 'DID_show_explorer' to 'https://explorer.did.dyne.org/details/'
+      as 'string'
+
+      and I append 'Deactivated_DID' to 'DID_show_explorer'
+
+      When I set 'resolve_DID' to 'https://did.dyne.org/dids/' as 'string'
+
+      and I append 'Deactivated_DID' to 'resolve_DID'
+
+      Then print the 'Deactivated_DID'
+
+      Then print the 'DID_show_explorer'
+
+      Then print the 'resolve_DID'
+
+      EndIf
+
+
+      If I verify 'status' is equal to '500'
+
+      When I set 'result' to 'Some error occured during DID document creation'
+      as 'string'
+
+      Then print the 'result'
+
+      Then print the 'response'
+
+      EndIf
+    keysFile: 3_deactivate_send_post.keys
