@@ -9,14 +9,68 @@
   file:
     path: "{{ item }}"
     state: directory
-    owner: controller
-    group: controller
+    owner: "{{ username }}"
+    group: "{{ username }}"
   with_items:
     - "{{ context_root }}"
     - "{{ context_root }}/contracts"
 
-- name: Copy app
+- name: Create restroom instance
   become: true
   copy:
-    src: "Dockerfile"
+    src: "restroom/{{ item }}"
     dest: "{{ context_root }}/"
+  with_items:
+    - "restroom.mjs"
+    - "package.json"
+    - "yarn.lock"
+    - "ecosystem.config.js"
+    - "Dockerfile"
+
+- name: Build an image
+  community.docker.docker_image:
+    build:
+      path: "{{ context_root }}"
+    name: "{{ container_name }}"
+    source: build
+
+- name: Create .env
+  become: true
+  blockinfile:
+    path: "{{ context_root }}/.env"
+    create: true
+    block: |
+      ZENCODE_DIR=contracts
+      USE_TIMESTAMP=y
+      USE_FILES=y
+      USE_ETHEREUM=y
+      USE_PLANETMINT=y
+      USE_HTTP=y
+      HOST={{ domain_name }}
+      HTTP_PORT=80
+      HTTPS_PORT=443
+      LOCAL_PORT={{ local_port }}
+      CHAIN_EXT=chain
+      YML_EXT=yml
+
+- name: Start the container
+  community.docker.docker_container:
+    name: "{{ container_name }}"
+    image: "{{ container_name }}"
+    restart_policy: always
+    ports:
+      - "{{ local_port }}:{{ local_port }}"
+    mounts:
+      - type: "bind"
+        target: /var/contracts
+        source: "{{ context_root }}/contracts"
+    env_file: "{{ context_root }}/.env"
+
+- name: Config for nginx
+  template: src=nginx.conf.j2 dest=/etc/nginx/sites-enabled/sanbox force=true
+
+- name: Restart nginx
+  ansible.builtin.systemd:
+    state: restarted
+    daemon_reload: yes
+    name: nginx

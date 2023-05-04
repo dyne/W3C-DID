@@ -1,9 +1,2 @@
-- name: setup user
-  import_tasks: user.yaml
-- name: install nvm
-  remote_user: controller
-  import_tasks: nvm.yaml
-- name: setup controller
+- name: build image
   import_tasks: install.yaml
-- name: start controller
-  import_tasks: start.yaml

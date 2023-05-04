@@ -3,7 +3,7 @@
   hosts: all
   gather_facts: false
   remote_user: root
-  become_user: controller
+  become_user: sandbox-context
   become_method: su
   roles:
-    - controller
+    - setup
