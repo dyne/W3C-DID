@@ -1,4 +1,4 @@
-# API SPECIFICATION
+# APIs SPECIFICATION
 
 ## How to create new context APIs (for dyne developer)
 In order to create a new context you should have access to:
@@ -7,12 +7,12 @@ In order to create a new context you should have access to:
 
 With this information:
 * Create a new folder `ZENCODE_DIR/sandbox.<new_context>` and copy all genric contracts in there.
-* Add to the file `ZENCODE_DIR/sandbox.<new_context>/1_create_request.keys` the following fields:
+* Add to the files `ZENCODE_DIR/sandbox.<new_context>/1_create_request.keys` and `ZENCODE_DIR/sandbox.<new_context>/1_deactivate_request.keys` the following fields:
     * **signer_did_spec** with value `sandbox.<new_context>_A`;
     * **did_spec** with value `sandbox.<new_context>`;
     * all the contents of the file generated for the new admin (*i.e.* controller and keyring);
 
-Suppose we are generating new context APIs for the **test** context, then the file contained in `ZENCODE_DIR/sandbox.test/1_create_request.keys` will look like:
+Suppose that we are generating new context APIs for the **test** context, then the file contained in `ZENCODE_DIR/sandbox.test/1_create_request.keys` will look like:
 ```json
 {
     "controller":"sandbox_test_admin",
@@ -22,8 +22,9 @@ Suppose we are generating new context APIs for the **test** context, then the fi
             "ecdh":"nsb/5NYCUxFFvOOkJ14Yha+MEwhJKskVYfn6ab0IZMc=",
             "eddsa":"6VK3BaNmwawRkkKizNbvMv1oEVZhxvcUZomPRWacyfrV",
             "ethereum":"3f622cda0ce91d9d9ea1ea37547062906c3c4d4e1c95e29436ffadcc460e3d7a",
-            "reflow":"V9CwKTHc84/d2RquAyGeoNOl0Fs2MDgUsWI+YFDe38I="}
-        },
+            "reflow":"V9CwKTHc84/d2RquAyGeoNOl0Fs2MDgUsWI+YFDe38I="
+        }
+    },
     "signer_did_spec":"sandbox.test_A",
     "@context":[
         "https://www.w3.org/ns/did/v1",
@@ -35,6 +36,23 @@ Suppose we are generating new context APIs for the **test** context, then the fi
             "description":"https://schema.org/description"
         }
     ],
+    "did_spec":"sandbox.test"
+}
+```
+while the `ZENCODE_DIR/sandbox.test/1_deactivate_request.keys` will look like:
+```json
+{
+    "controller":"sandbox_test_admin",
+    "sandbox_test_admin":{
+        "keyring":{
+            "bitcoin":"L4NdUcEoPrmkyaJ2jCiytG7usrxn7CVxn9B7pMXXgxJGLr74NoxS",
+            "ecdh":"nsb/5NYCUxFFvOOkJ14Yha+MEwhJKskVYfn6ab0IZMc=",
+            "eddsa":"6VK3BaNmwawRkkKizNbvMv1oEVZhxvcUZomPRWacyfrV",
+            "ethereum":"3f622cda0ce91d9d9ea1ea37547062906c3c4d4e1c95e29436ffadcc460e3d7a",
+            "reflow":"V9CwKTHc84/d2RquAyGeoNOl0Fs2MDgUsWI+YFDe38I="
+        }
+    },
+    "signer_did_spec":"sandbox.test_A",
     "did_spec":"sandbox.test"
 }
 ```
@@ -69,7 +87,7 @@ store the keyring in a safe place and keep a copy of the public key for the next
 * `api/sandbox.<context>/create_sandbox_did.chain` that given in input a set of public keys and a string that defines it identities will craft a DID document and send it to did.dyne.org server to be stored and resolved later. It can be used through a POST request as following
 ```bash
 curl -X 'POST' \
-  'https://sandbox.did.dyne.org/api/sandbox.<context>/create_sandbox_test_did.chain' \
+  'https://sandbox.did.dyne.org/api/sandbox.<context>/create_sandbox_did.chain' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -92,7 +110,24 @@ that will return something like:
   "resolve_DID": "https://did.dyne.org/dids/did:dyne:sandbox.test:3XbZ2Hxm5R1o5h3ezqMBTstJy499Er1ktuEgqKnVqNSD"
 }
 ```
-* `api/sandbox.<context>/delete_sandbox_did.chain` that given in input a DID will deactivate it. It can be called with a POST request as following:
+* `api/sandbox.<context>/deactivate_sandbox_did.chain` that given in input a eddsa public key will deactivate the corresponding DID. It can be called with a POST request as following:
 ```bash
-TODO
+curl -X 'POST' \
+  'https://sandbox.did.dyne.org/api/sandbox.<context>/deactivate_sandbox_did.chain' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "data": {
+  "eddsa_public_key": "3XbZ2Hxm5R1o5h3ezqMBTstJy499Er1ktuEgqKnVqNSD"
+},
+  "keys": {}
+}'
+```
+and it will return something like:
+```json
+{
+  "Deactivated_DID": "did:dyne:sandbox.test:3XbZ2Hxm5R1o5h3ezqMBTstJy499Er1ktuEgqKnVqNSD",
+  "DID_show_explorer": "https://explorer.did.dyne.org/details/did:dyne:sandbox.test:3XbZ2Hxm5R1o5h3ezqMBTstJy499Er1ktuEgqKnVqNSD",
+  "resolve_DID": "https://did.dyne.org/dids/did:dyne:sandbox.test:3XbZ2Hxm5R1o5h3ezqMBTstJy499Er1ktuEgqKnVqNSD"
+}
 ```
