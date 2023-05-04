@@ -38,7 +38,7 @@ blocks:
       Then print the 'deactivate_id'
       Then print the 'id'
       Then print the 'ecdh signature'
-    keysFile: 1_deactivate_request.keys
+    keysFile: {{ context_name }}/1_deactivate_request.keys
     next: 2_deactivate_prepare_post.zen
   2_deactivate_prepare_post.zen:
     zenContent: |
@@ -114,4 +114,4 @@ blocks:
       Then print the 'response'
 
       EndIf
-    keysFile: 3_deactivate_send_post.keys
+    keysFile: {{ context_name }}/3_deactivate_send_post.keys
