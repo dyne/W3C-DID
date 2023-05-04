@@ -1,0 +1,25 @@
+---
+- name: Add the user
+  ansible.builtin.user:
+    name: "{{ username }}"
+    shell: /bin/bash
+
+- name: Create .ssh directory
+  file:
+    path: "/home/{{ username}}/.ssh"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
+- name: Set authorized keys for user controller
+  copy:
+    src: /root/.ssh/authorized_keys
+    remote_src: true
+    dest: "/home/{{ username }}/.ssh/authorized_keys"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
+- name: Remove default .bashrc
+  copy:
+    src: .bashrc
+    dest: "/home/{{ username }}/.bashrc"

@@ -1,0 +1,76 @@
+{
+   "post": {
+      "data": {
+         "did_document": {
+            "@context": [
+               "https://www.w3.org/ns/did/v1",
+               "https://w3id.org/security/suites/ed25519-2018/v1",
+               "https://w3id.org/security/suites/secp256k1-2019/v1",
+               "https://w3id.org/security/suites/secp256k1-2020/v1",
+               "https://dyne.github.io/W3C-DID/specs/ReflowBLS12381.json",
+               {
+                  "description": "https://schema.org/description"
+               }
+            ],
+            "description": "test",
+            "id": "did:dyne:sandbox.bali:6UBNUNEuHY9ZLjoUbHFrzfZ9cWpSf7jt2hQ18yghsrK2",
+            "verificationMethod": [
+               {
+                  "controller": "did:dyne:sandbox.bali:6UBNUNEuHY9ZLjoUbHFrzfZ9cWpSf7jt2hQ18yghsrK2",
+                  "id": "did:dyne:sandbox.bali:6UBNUNEuHY9ZLjoUbHFrzfZ9cWpSf7jt2hQ18yghsrK2#ecdh_public_key",
+                  "publicKeyBase58": "PBy6uiKNzoct9ggBeCtzfKQnJXJmotffozopCJoskP4S78oZzBw1UsSk1TUdFnUa6sr5zucpxo3RrnDFdtwYqk9L",
+                  "type": "EcdsaSecp256k1VerificationKey2019"
+               },
+               {
+                  "controller": "did:dyne:sandbox.bali:6UBNUNEuHY9ZLjoUbHFrzfZ9cWpSf7jt2hQ18yghsrK2",
+                  "id": "did:dyne:sandbox.bali:6UBNUNEuHY9ZLjoUbHFrzfZ9cWpSf7jt2hQ18yghsrK2#reflow_public_key",
+                  "publicKeyBase58": "8ENJoigouo3N9kXDEm7WGtj8ALUZR4xCMPg6FGbcpDbyECG13kFmfSLDhVL6qL2zc3EU2rzfQZWfSFvhfJ5cWRoBLFG5sHdukAC2KiysLn1u1ry8qqxSK3ySu55FLfkA9sUUn61EGrQ8kZAzZWXj4N9PDgYrZE8SvdSJHW1f3xWCCPmB65e5ynpbNZUGjrryJaywyNj8UVMLRjp7HnUpgB55Fu25iy5wjr2pQks6j132ZPLD5G71ZLYXLcHdkUXXZ65Qjx",
+                  "type": "ReflowBLS12381VerificationKey"
+               },
+               {
+                  "controller": "did:dyne:sandbox.bali:6UBNUNEuHY9ZLjoUbHFrzfZ9cWpSf7jt2hQ18yghsrK2",
+                  "id": "did:dyne:sandbox.bali:6UBNUNEuHY9ZLjoUbHFrzfZ9cWpSf7jt2hQ18yghsrK2#bitcoin_public_key",
+                  "publicKeyBase58": "23EXVR7fYxQB8yjBnJGZ4QtxuVq1PQn59acneeWVHnBCy",
+                  "type": "EcdsaSecp256k1VerificationKey2019"
+               },
+               {
+                  "controller": "did:dyne:sandbox.bali:6UBNUNEuHY9ZLjoUbHFrzfZ9cWpSf7jt2hQ18yghsrK2",
+                  "id": "did:dyne:sandbox.bali:6UBNUNEuHY9ZLjoUbHFrzfZ9cWpSf7jt2hQ18yghsrK2#eddsa_public_key",
+                  "publicKeyBase58": "6UBNUNEuHY9ZLjoUbHFrzfZ9cWpSf7jt2hQ18yghsrK2",
+                  "type": "Ed25519VerificationKey2018"
+               },
+               {
+                  "blockchainAccountId": "eip155:1:0x528f4bce826f5861a398baf6d5f8f14a553dd537",
+                  "controller": "did:dyne:sandbox.bali:6UBNUNEuHY9ZLjoUbHFrzfZ9cWpSf7jt2hQ18yghsrK2",
+                  "id": "did:dyne:sandbox.bali:6UBNUNEuHY9ZLjoUbHFrzfZ9cWpSf7jt2hQ18yghsrK2#ethereum_address",
+                  "type": "EcdsaSecp256k1RecoveryMethod2020"
+               }
+            ]
+         },
+         "ecdh_signature": {
+            "r": "ECnDUejXVQ1dEDoRRXRqbtiJiv3pPDcVwCG46feXKVZZ",
+            "s": "A79ZyfEQBqFAVy2Q1mLURrrqzrTFMjWN3n8JhX9UkzUj"
+         },
+         "eddsa_signature": "4aGHujGH23RFAwkVkC6ZBbVFHZt1hiUapKH8CnNhMQ7N1i8A19fsNkcCbWKiJGAGWXHpVb5vayXMpGETREVLX9nM",
+         "id": "did:dyne:sandbox.bali_A:CMHhBqE97hSxaeHHLb1b1p4hctTBxqbcqtT67a6zj7FC",
+         "timestamp": "1680077554703"
+      }
+   },
+   "user-keys": {
+      "keyring": {
+         "bitcoin": "Kyx13niSGJ38B3cxGuAGV17LhNDzZbJkmF7UDtEN1aTjCcR7Wyt2",
+         "ecdh": "zYyyn5G4a4qGZxvCpqHZaifTb5jHpWW5XvhGitaVqDA=",
+         "eddsa": "Ch4qxop6jMDdZhSTvfyAefvfqS9T6iv7Jw54vCAHoqzy",
+         "ethereum": "f7a70c30eb9919312b4ce9c5bd958a30b16dabbe4e33d132a0eec2cfce2219d9",
+         "reflow": "Tcj/qK8UJAC141BHGqs0r/C0ChfIUv8PRBgPYjZGg3o="
+      },
+      "public-keys": {
+         "bitcoin_public_key": "23EXVR7fYxQB8yjBnJGZ4QtxuVq1PQn59acneeWVHnBCy",
+         "ecdh_public_key": "PBy6uiKNzoct9ggBeCtzfKQnJXJmotffozopCJoskP4S78oZzBw1UsSk1TUdFnUa6sr5zucpxo3RrnDFdtwYqk9L",
+         "eddsa_public_key": "CMHhBqE97hSxaeHHLb1b1p4hctTBxqbcqtT67a6zj7FC",
+         "ethereum_address": "528f4bce826f5861a398baf6d5f8f14a553dd537",
+         "reflow_public_key": "8ENJoigouo3N9kXDEm7WGtj8ALUZR4xCMPg6FGbcpDbyECG13kFmfSLDhVL6qL2zc3EU2rzfQZWfSFvhfJ5cWRoBLFG5sHdukAC2KiysLn1u1ry8qqxSK3ySu55FLfkA9sUUn61EGrQ8kZAzZWXj4N9PDgYrZE8SvdSJHW1f3xWCCPmB65e5ynpbNZUGjrryJaywyNj8UVMLRjp7HnUpgB55Fu25iy5wjr2pQks6j132ZPLD5G71ZLYXLcHdkUXXZ65Qjx"
+      },
+      "user-id": "test"
+   }
+}
