@@ -91,7 +91,7 @@ EOF
 
 @test "Api pubkeys: accept (chain)" {
 	jq_insert "http_request" '{"base_url":"/api/v1/sandbox/pubkeys-accept.chain"}' signed-request.json
-	zexe api/v1/sandbox/pubkeys-create-paths.zen api/v1/sandbox/pubkeys-accept-1-path.keys signed-request.json
+	zexe api/v1/sandbox/pubkeys-accept-1-acl.zen api/v1/sandbox/pubkeys-accept-1-acl.keys signed-request.json
 	save_tmp_output pubkeys-accept-api-checks.json
 }
 
@@ -130,7 +130,7 @@ EOF
 
 @test "Api pubkeys: accept-update (chain)" {
 	jq_insert "http_request" '{"base_url":"/api/v1/sandbox/pubkeys-update.chain"}' pubkeys-update-request.json
-	zexe api/v1/sandbox/pubkeys-create-paths.zen api/v1/sandbox/pubkeys-update-1-path.keys pubkeys-update-request.json
+	zexe api/v1/sandbox/pubkeys-update-1-acl.zen api/v1/sandbox/pubkeys-update-1-acl.keys pubkeys-update-request.json
 	save_tmp_output pubkeys-update-api-checks.json
 }
 
@@ -156,7 +156,7 @@ EOF
 
 @test "Api pubkeys: accept-deactivate (chain)" {
 	jq_insert "http_request" '{"base_url":"/api/v1/sandbox/pubkeys-deactivate.chain"}' pubkeys-deactivate-request.json
-	zexe api/v1/sandbox/pubkeys-deactivate-1-path.zen api/v1/sandbox/pubkeys-deactivate-1-path.keys pubkeys-deactivate-request.json
+	zexe api/v1/sandbox/pubkeys-deactivate-1-acl.zen api/v1/sandbox/pubkeys-deactivate-1-acl.keys pubkeys-deactivate-request.json
 	save_tmp_output pubkeys-deactivate-api-checks.json
 }
 
@@ -185,7 +185,7 @@ EOF
 
 	## check ACL and create path
 	jq_insert "http_request" '{"base_url":"/api/v1/sandbox/pubkeys-update.chain"}' pubkeys-update-request.json
-	zexe api/v1/sandbox/pubkeys-create-paths.zen api/v1/sandbox/pubkeys-update-1-path.keys pubkeys-update-request.json
+	zexe api/v1/sandbox/pubkeys-update-1-acl.zen api/v1/sandbox/pubkeys-update-1-acl.keys pubkeys-update-request.json
 	save_tmp_output pubkeys-update-api-checks.json
 
 	## update
@@ -211,7 +211,7 @@ EOF
 
 	## check ACL and create path
 	jq_insert "http_request" '{"base_url":"/api/v1/sandbox/pubkeys-accept.chain"}' pubkeys-create-request.json
-	zexe api/v1/sandbox/pubkeys-create-paths.zen api/v1/sandbox/pubkeys-accept-1-path.keys pubkeys-create-request.json
+	zexe api/v1/sandbox/pubkeys-accept-1-acl.zen api/v1/sandbox/pubkeys-accept-1-acl.keys pubkeys-create-request.json
 	save_tmp_output pubkeys-create-api-checks.json
 
 	## store
