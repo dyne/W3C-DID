@@ -36,7 +36,7 @@ and I have a 'integer' named 'timestamp'
 
 # verify timestamp
 When I create the result of 'broadcast_timestamp' - 'timestamp'
-and number 'result' is less or equal than 'expiration_time'
+and I verify number 'result' is less or equal than 'expiration_time'
 
 # verify contract is used inside the chain
 When I verify 'base_url' has suffix '.chain'
@@ -66,7 +66,7 @@ and I pickup from path 'didDocumentMetadata_copy.created'
 and I move 'created' in 'didDocumentMetadata'
 and I pickup from path 'didDocumentMetadata_copy.deactivated'
 and I move 'deactivated' in 'didDocumentMetadata'
-If 'updated' is found in 'didDocumentMetadata_copy'
+If I verify 'updated' is found in 'didDocumentMetadata_copy'
 When I pickup from path 'didDocumentMetadata_copy.updated'
 and I move 'updated' in 'didDocumentMetadata'
 EndIf
@@ -83,7 +83,7 @@ and I remove 'array'
 and I rename 'copy' to 'blockchain'
 ## match the blockchain is supported by api
 When the 'blockchain' is found in 'api_blockchains'
-If the 'blockchain' is found in 'didDocumentMetadata_copy'
+If I verify the 'blockchain' is found in 'didDocumentMetadata_copy'
 When I create the copy of object named by 'blockchain' from dictionary 'didDocumentMetadata_copy'
 and I rename 'copy' to named by 'blockchain'
 and I move named by 'blockchain' in 'didDocumentMetadata'

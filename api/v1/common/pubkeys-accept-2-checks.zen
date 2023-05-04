@@ -41,7 +41,7 @@ and I have a 'string' named 'signer_id'
 When I verify 'base_url' has suffix 'pubkeys-accept.chain'
 
 # verify request_data={}
-When 'didDocument' is not found in 'request_data'
+When I verify 'didDocument' is not found in 'request_data'
 
 # verify signer is not deactivated
 When I set 'false' to 'false' as 'string'
@@ -53,7 +53,7 @@ and I create the 'eddsa' public key from did document 'signer_did_document'
 
 # verify timestamp (6h) + eddsa_signature
 When I create the result of 'accept_timestamp' - 'timestamp'
-and number 'result' is less or equal than 'expiration_time'
+and I verify number 'result' is less or equal than 'expiration_time'
 When I create the 'string dictionary' named 'signed_by_eddsa'
 and I copy the 'request did document' to 'did document' in 'signed_by_eddsa'
 and I copy 'timestamp' in 'signed_by_eddsa'
