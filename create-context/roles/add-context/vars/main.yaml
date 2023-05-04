@@ -1,6 +1,5 @@
 context_root: "/sandbox-context"
 node_version: 18
-local_port: 5000
-container_name: restroom
+local_port: 4000
 username: sandbox-context
 

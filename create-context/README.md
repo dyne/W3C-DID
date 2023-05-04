@@ -6,7 +6,7 @@ In order to create a new context you should have access to:
 * The new context that will be created
 
 With this information:
-* Create a new folder `ZENCODE_DIR/sandbox.<new_context>` and copy all genric contracts in there.
+* Create a new folder `ZENCODE_DIR/sandbox.<new_context>` and copy all generic contracts in there.
 * Add to the files `ZENCODE_DIR/sandbox.<new_context>/1_create_request.keys` and `ZENCODE_DIR/sandbox.<new_context>/1_deactivate_request.keys` the following fields:
     * **signer_did_spec** with value `sandbox.<new_context>_A`;
     * **did_spec** with value `sandbox.<new_context>`;

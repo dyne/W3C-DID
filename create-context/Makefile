@@ -7,3 +7,6 @@ help: ## Display this help.
 ##@ Server management
 install: ## Install controller
 	$(call ANSIPLAY, install.yaml)
+
+add-context: ## Add context
+	$(call ANSIPLAY, add-context.yaml)

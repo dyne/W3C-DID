@@ -2,13 +2,14 @@
   file:
     path: "{{ item }}"
     state: directory
-    owner: controller
-    group: controller
+    owner: "{{ username }}"
+    group: "{{ username }}"
   with_items:
     - "{{ context_root }}/contracts/{{ context_name }}"
 
-- name: copy contracts
-  import_tasks: copy-contracts.yaml
-  vars:
-    src: "contracts"
-    dest: "{{ context_root }}"
+- name: Copy contracts (permissions may be wrong)
+  synchronize:
+    src: "contracts/"
+    dest: "{{ context_root }}/contracts/{{ context_name }}"
+    owner: no
+    group: no
