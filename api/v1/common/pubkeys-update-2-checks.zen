@@ -52,7 +52,7 @@ and I create the 'eddsa' public key from did document 'signer_did_document'
 
 # verify timestamp (6h) + eddsa_signature
 When I create the result of 'update_timestamp' - 'timestamp'
-and number 'result' is less or equal than 'expiration_time'
+and I verify number 'result' is less or equal than 'expiration_time'
 When I create the 'string dictionary' named 'signed_by_eddsa'
 and I copy the 'request did document' to 'did document' in 'signed_by_eddsa'
 and I copy 'timestamp' in 'signed_by_eddsa'
@@ -77,7 +77,7 @@ and I move 'verificationMethod' in 'proof'
 and I move 'proof' in 'request did document'
 
 # metadata
-If 'updated' is found in 'request_metadata'
+If I verify 'updated' is found in 'request_metadata'
 When I remove the 'updated' from 'request_metadata'
 EndIf
 When I copy the 'update_timestamp' to 'updated' in 'request_metadata'
