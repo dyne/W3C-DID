@@ -1,43 +1,7 @@
 zenchain: 1.0
-start: BaliDID/1_user_create_keys_pks.zen
+start: 1_create_request.zen
 blocks:
-  BaliDID/1_user_create_keys_pks.zen:
-    zenContent: |
-      Scenario 'ecdh': keys
-      Scenario 'eddsa': keys
-      Scenario 'ethereum': keys
-      Scenario 'reflow': keys
-
-      Given I my name is in a 'string' named 'controller'
-      and I have a 'string array' named '@context'
-      and I have a 'string' named 'did_spec'
-      and I have a 'string' named 'signer_did_spec'
-
-      When I create the ecdh key
-      When I create the eddsa key
-      When I create the ethereum key
-      When I create the bitcoin key
-      When I create the reflow key
-
-      When I create the ecdh public key
-      and I create the eddsa public key
-      and I create the ethereum address
-      and I create the bitcoin public key
-      and I create the reflow public key
-
-      Then I print the 'eddsa public key' as 'base58'
-      and I print the 'ethereum address'
-      and I print the 'ecdh public key' as 'base58'
-      and I print the 'bitcoin public key' as 'base58'
-      and I print the 'reflow public key' as 'base58'
-      and I print the 'keyring'
-      and I print my name in 'identity'
-      and I print the '@context'
-      and I print the 'did_spec'
-      and I print the 'signer_did_spec'
-    keysFile: BaliDID/1_user_create_keys_pks.keys
-    next: BaliDID/2_create_request.zen
-  BaliDID/2_create_request.zen:
+  1_create_request.zen:
     zenContent: >
       Rule caller restroom-mw
 
@@ -84,7 +48,7 @@ blocks:
 
       and I rename 'identity' to 'description'
 
-      and I have a 'eddsa_public_key'
+      Given I have a 'eddsa_public_key'
 
       and I rename 'eddsa_public_key' to 'identity pk'
 
@@ -95,6 +59,9 @@ blocks:
       and I have a 'reflow_public_key'
 
       and I have a 'base58' named 'bitcoin public key'
+
+
+      When I copy 'description' to 'user-id'
 
 
       ### Formulate the DID creation request
@@ -338,10 +305,16 @@ blocks:
       Then print the 'eddsa signature'
 
       Then print the 'id'
-    keysFile: BaliDID/2_create_request.keys
-    next: BaliDID/3_prepare_post.zen
-  BaliDID/3_prepare_post.zen:
+    keysFile: 1_create_request.keys
+    next: 2_prepare_post.zen
+  2_prepare_post.zen:
     zenContent: |
+      Scenario 'ecdh': keys
+      Scenario 'eddsa': keys
+      Scenario 'ethereum': keys
+      Scenario 'reflow': keys
+
+
       Given I have a 'string dictionary' named 'did document'
       and I have a 'string dictionary' named 'ecdh signature'
       and I have a 'string' named 'timestamp'
@@ -359,17 +332,83 @@ blocks:
       and I move 'data' in 'post'
 
       Then print the 'post'
-    next: BaliDID/4_send_post.zen
-  BaliDID/4_send_post.zen:
-    zenContent: >
+    next: 3_send_post.zen
+  3_send_post.zen:
+    zenContent: >+
       Rule caller restroom-mw
+
+
 
 
       Given I connect to 'endpoint' and pass it the content of 'post' and save
       the output into 'response'
 
+
       and I have a 'string dictionary' named 'response'
 
 
+
+
+      When I pickup from path 'response.status'
+
+
+      When I set '200' to '200' as 'float'
+
+
+      When I set '500' to '500' as 'float'
+
+
+
+
+      If I verify 'status' is equal to '200'
+
+
+      When I pickup from path 'response.result.result.didDocument.id'
+
+
+      and I rename 'id' to 'DID'
+
+
+      When I set 'DID_show_explorer' to 'https://explorer.did.dyne.org/details/'
+      as 'string'
+
+
+      and I append 'DID' to 'DID_show_explorer'
+
+
+      When I set 'resolve_DID' to 'https://did.dyne.org/dids/' as 'string'
+
+
+      and I append 'DID' to 'resolve_DID'
+
+
+      Then print the 'DID'
+
+
+      Then print the 'DID_show_explorer'
+
+
+      Then print the 'resolve_DID'
+
+
+      EndIf
+
+
+
+
+      If I verify 'status' is equal to '500'
+
+
+      When I set 'result' to 'Some error occured during DID document creation'
+      as 'string'
+
+
+      Then print the 'result'
+
+
       Then print the 'response'
-    keysFile: BaliDID/4_send_post.keys
+
+
+      EndIf
+
+    keysFile: 3_send_post.keys
