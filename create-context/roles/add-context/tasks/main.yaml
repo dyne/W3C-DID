@@ -13,3 +13,12 @@
     dest: "{{ context_root }}/contracts/{{ context_name }}"
     owner: no
     group: no
+
+- name: Copy chain files
+  template:
+    src: "contracts/{{ item }}.j2"
+    dest: "{{ context_root }}/contracts/{{ context_name }}/{{ item }}"
+  with_items:
+    - "create_sandbox_did.yml"
+    - "deactivate_sandbox_did.yml"
+

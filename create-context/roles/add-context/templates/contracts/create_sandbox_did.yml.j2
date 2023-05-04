@@ -305,7 +305,7 @@ blocks:
       Then print the 'eddsa signature'
 
       Then print the 'id'
-    keysFile: 1_create_request.keys
+    keysFile: {{ context_name }}/1_create_request.keys
     next: 2_prepare_post.zen
   2_prepare_post.zen:
     zenContent: |
@@ -411,4 +411,4 @@ blocks:
 
       EndIf
 
-    keysFile: 3_send_post.keys
+    keysFile: {{ context_name }}/3_send_post.keys
