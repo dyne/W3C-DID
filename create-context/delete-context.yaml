@@ -1,0 +1,7 @@
+---
+- name: Install controller
+  hosts: all
+  gather_facts: false
+  remote_user: sandbox-context
+  roles:
+    - delete-context

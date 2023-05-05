@@ -1,3 +1,16 @@
+- name: create specs
+  set_fact:
+    specs_name:
+      signer_did_spec: "{{ 'sandbox.' + context_name + '_A' }}"
+      did_spec: "{{ 'sandbox.' + context_name }}"
+
+- name: create keys
+  set_fact:
+    create_request: "{{ context_keyring |
+      combine(context_header, specs_name) }}"
+    deactivate_request: "{{ context_keyring |
+      combine(specs_name) }}"
+
 - name: Create working dirs
   file:
     path: "{{ item }}"
@@ -22,3 +35,8 @@
     - "create_sandbox_did.yml"
     - "deactivate_sandbox_did.yml"
 
+- name: Create keys
+  copy: content="{{ create_request }}" dest={{ context_root }}/contracts/{{ context_name }}/1_create_request.keys
+
+- name: Create keys
+  copy: content="{{ deactivate_request }}" dest={{ context_root }}/contracts/{{ context_name }}/1_deactivate_request.keys
