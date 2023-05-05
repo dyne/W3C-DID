@@ -1,0 +1,5 @@
+- name: Delete context directory
+  ansible.builtin.file:
+    state: absent
+    path: "{{ context_root }}/contracts/{{ context_name }}"
+
