@@ -41,14 +41,15 @@ cp test/restroom/ganache_endpoint.json ${keys_path}
     mv evm.keys ${keys_path}
     exit 1
 }
-mv pubkeys-broadcast-3-planetmint.keys api/v1/common/
 
 # Test polygon broadcast
 ./test/restroom/broadcast.sh ${domain} ${ctx} ${blockchain}
 [ "$?" = "1" ] && {
+    mv pubkeys-broadcast-3-planetmint.keys api/v1/common/
     mv evm.keys ${keys_path}
     exit 1
 }
+mv pubkeys-broadcast-3-planetmint.keys api/v1/common/
 mv evm.keys ${keys_path}
 
 exit 0
