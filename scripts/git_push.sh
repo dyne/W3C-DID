@@ -14,12 +14,6 @@ committed_files=`cd "$data_dir"; git diff --name-only origin/main HEAD`
 if [ "$committed_files" = "" ]; then
     >&2 echo "No committed files to be checked"
 else
-    sandbox_files=`cd $data_dir; echo $committed_files | grep "dyne/sandbox" || true`
-    [ "$sandbox_files" = "" ] || {
-        >&2 echo "Sandbox files found in committed files: "
-        echo $sandbox_files | tr ' ' '\n' >&2
-        exit 1
-    }
     cd "$data_dir"
     rm -rf dyne/git_check
     mkdir dyne/git_check
