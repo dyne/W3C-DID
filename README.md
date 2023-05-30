@@ -27,19 +27,6 @@ Our W3C-DID implementation is opinionated:
 - share DIDs p2p using IPFS
 - [Zencode](https://dev.zenroom.org) contract language
 
-# quickstart
-
-Participants need not to run a DID controller, but can use our official instance at https://did.dyne.org/docs
-
-If you need a domain for your application please contact us at [info@dyne.org](mailto:info@dyne.org), do:
-```
-make keyring
-make request
-```
-and send us your request to become a domain admin.
-
-**Even in case our server we get hacked, your keys will not ne leaked and your DIDs will not be lost**
-
 ## Claim your own domain context as an admin
 
 Given we want to create a context called **`sandbox.snakeoil`** with admin
@@ -49,19 +36,20 @@ Please make sure to have installed as prerequisites:
  * [Zenroom](https://zenroom.org#downloads)
  * [jq](https://stedolan.github.io/jq/)
 
- 1. Create a private keyring by running `make keyring [user@hostname]` this will create your **secret** key in `./secrets/keyring.json` keep it safe and DON'T loose it, without that the context is useless
+ 1. Create a private keyring by running `make keyring CONTROLLER="description of your DID purpose in few words"` this will create your **secret** key in `./secrets/keyring.json` keep it safe and DON'T loose it, without that the context is useless. The
  2. Create a request document with you domain name followed by `_A` that makes you an admin of the context with the following command:
  `make request DOMAIN="sandbox.snakeoil_A"` this will generate a `did_doc.json` you **DO NOT** have to commit it
  3. send the `did_doc.json` via secure mail to [info@dyne.org](mailto:info@dyne.org)
  4. Wait for your context to be avialble on https://explorer.dyne.org
 
+**Even in case our server we get hacked, your keys will not ne leaked and your DIDs will not be lost**
 
 ## test on your own
 
 To run simple tests one needs to install also [Zenroom](https://zenroom.org), the [Zencode tools](https://github.com/dyne/zencode-tools), [GNU parallel](https://www.gnu.org/parallel) and [jq](https://stedolan.github.io/jq/).
 
 A brief command-line overview is given just typing `make`:
-```
+```bash
 __／________／__________／
 ／ ｄｉｄ ／ ｄｙｎｅ ／
 
@@ -90,14 +78,14 @@ Service
 ```
 
 Using the test command `fill-sandbox` one can generate a fake admin keyring and 100 fake DIDs in `did:dyne:sandbox`
-```
+```bash
 make fill-sandbox
 ```
 
 See what you have created with `ls -l data/dyne/sandbox`.
 
 To test the integrity of dids we have a `scrub` function which will check they are all correctly signed by their admin. Running a scrub requires the installation of GNU parallel:
-```
+```bash
 make scrub
 ```
 
@@ -109,7 +97,7 @@ We call "domain" any word following the `did:dyne:` namespace. DID domains are g
 
 Any "domain" has one or more admins that have the permission to create, update or delete the DID document under their "domain". These admins can be recognized from their DID of the from `did:dyne:domain.A:` and they will govern all the DID documents whose DID starts with `did:dyne:domain:`.
 
-For example `did:dyne:zenflows.A` manages DIDs for the `did:dyne:zenflows:` domain.
+For example `did:dyne:ifacer.A` manages DIDs for the `did:dyne:ifacer:` domain.
 
 The special `did:dyne:admin` spec is the one governing all admin domainsand can create, update and delete admins.
 
@@ -134,15 +122,17 @@ All client-side secrets created using this repository CLI setup are stored in th
 These instructions use binaries available only for x86_64 platform.
 
 Launch the DID server based on restroom-mw
-```
-cd restroom && npm i
+```bash
+# copy a test keyring
+cp test/restroom/test_keyring.json secrets/blockchains_client.json
+# install dependencies
+make build
+# launch the DID server based on restroom-mw
 make run
 ```
 
-This will also generate keyrings in `secrets/`
-
 Install the [restroom-test](git clone https://github.com/dyne/w3c-did-data data) utility
-```
+```bash
 wget \
 https://github.com/dyne/zencode-tools/releases/latest/download/restroom-test \
  -O restroom-test
@@ -150,19 +140,14 @@ chmod +x restroom-test
 ```
 
 Clone the `did:dyne` from [w3c-did-data](https://github.com/dyne/w3c-did-data)
-```
+```bash
 git clone https://github.com/dyne/w3c-did-data data
 ```
 
 
 Launch the integration tests on `did:dyne:sandbox`
-```
+```bash
 bash ./test/restroom/run.sh
-```
-
-Launch the broadcast integration tests for `did:dyne:sandbox` on the planetmint blockchain
-```
-bash ./test/restroom/broadcast.sh sandbox test planetmint
 ```
 
 # licensing
