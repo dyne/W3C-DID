@@ -33,7 +33,7 @@ and I move '@context' in 'did document'
 and I move 'description' in 'did document'
 
 ## did spec and id
-When I set 'did:dyne:' to 'did:dyne:planetmint.client:' as 'string'
+When I set 'did:dyne:' to 'did:dyne:blockchains.client:' as 'string'
 and I append the 'base58' of 'eddsa_public_key' to 'did:dyne:'
 and I copy the 'did:dyne:' to 'id' in 'did document'
 
@@ -67,6 +67,25 @@ When I move 'type' in 'verification-key'
 # id
 When I copy 'did:dyne:' to 'id'
 When I append the string '#eddsa_public_key' to 'id'
+When I move 'id' in 'verification-key'
+# controller
+When I copy the 'did:dyne:' to 'controller' in 'verification-key'
+When I move 'verification-key' in 'verificationMethod'
+
+# 3-ethereum address
+When I create the 'string dictionary' named 'verification-key'
+# address
+# this follows the CAIP-10(https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-10.md) spec
+# thus it is: namespace + ":" + chain_id + ":" + address
+When I set 'blockchainAccountId' to 'eip155:1:0x' as 'string'
+When I append the 'hex' of 'ethereum address' to 'blockchainAccountId'
+When I move 'blockchainAccountId' in 'verification-key'
+# type
+When I set 'type' to 'EcdsaSecp256k1RecoveryMethod2020' as 'string'
+When I move 'type' in 'verification-key'
+# id
+When I copy 'did:dyne:' to 'id'
+When I append the string '#ethereum_address' to 'id'
 When I move 'id' in 'verification-key'
 # controller
 When I copy the 'did:dyne:' to 'controller' in 'verification-key'
