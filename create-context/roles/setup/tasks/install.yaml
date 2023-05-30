@@ -44,7 +44,6 @@
       USE_TIMESTAMP=y
       USE_FILES=y
       USE_ETHEREUM=y
-      USE_PLANETMINT=y
       USE_HTTP=y
       HOST={{ domain_name }}
       HTTP_PORT=80

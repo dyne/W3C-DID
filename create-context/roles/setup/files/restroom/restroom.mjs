@@ -11,7 +11,6 @@ import files from "@restroom-mw/files";
 import rrredis from "@restroom-mw/redis";
 import rrhttp from "@restroom-mw/http";
 import fabric from "@restroom-mw/fabric";
-import planetmint from "@restroom-mw/planetmint";
 import ethereum from "@restroom-mw/ethereum";
 import logger from "@restroom-mw/logger";
 import ui from "@restroom-mw/ui";
@@ -40,7 +39,6 @@ app.use(logger.default);
 app.use(rrhttp.default);
 app.use(rrredis.default);
 app.use(ethereum.default);
-app.use(planetmint.default);
 app.use(timestamp.default);
 app.use(git.default);
 if (OPENAPI) {
