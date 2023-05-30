@@ -3,7 +3,6 @@
     ".": ".",
     "expiration_time": "500",
     "api_blockchains": [
-        "planetmint",
         "ganache"
     ]
 }
