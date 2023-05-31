@@ -55,6 +55,7 @@ and I rename the 'id' to 'request_id'
 and I create the array by splitting 'request_id' at ':'
 and I create the copy of element '3' in array 'array'
 and I rename the 'copy' to 'request_idspec'
+and I copy 'request_idspec' to 'commit message'
 and I create the copy of element '4' in array 'array'
 and I rename the 'copy' to 'request_idpk'
 and I remove 'array'
@@ -177,6 +178,19 @@ and I set 'exit_code' to '0' as 'string'
 EndIf
 When I verify 'exit_code' is equal to '0' in 'utility'
 
+# utility for commit creation
+## committer
+When I rename 'signer_idspec' to 'author'
+and I append the string ':' to 'author'
+and I split the leftmost '8' bytes of 'signer_idpk'
+and I append 'leftmost' to 'author'
+and I remove 'leftmost'
+## message
+When I append the string ':' to 'commit message'
+and I split the leftmost '8' bytes of 'request_idpk'
+and I append 'leftmost' to 'commit message'
+and I remove 'leftmost'
+
 Then print the 'signer_path'
 and print the 'request_path'
 and print the 'request_did_document'
@@ -184,3 +198,5 @@ and print the 'signer_id'
 and print the 'ecdh_signature'
 and print the 'timestamp'
 and print the 'eddsa signature'
+and print the 'author'
+and print the 'commit message'

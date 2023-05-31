@@ -7,3 +7,4 @@ blocks:
     next: v1/ifacer/pubkeys-deactivate-2-checks.zen
   v1/ifacer/pubkeys-deactivate-2-checks.zen:
     zenFile: v1/ifacer/pubkeys-deactivate-2-checks.zen
+    keysFile: v1/ifacer/pubkeys-deactivate-2-checks.keys

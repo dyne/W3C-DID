@@ -1,1 +1,10 @@
-{"proof":{"type":"EcdsaSecp256k1Signature2019","proofPurpose":"assertionMethod"},"@context":"https://w3id.org/did-resolution/v1", "expiration_time": "21600000"}
+{
+    "proof":{
+        "type":"EcdsaSecp256k1Signature2019",
+        "proofPurpose":"assertionMethod"
+    },
+    "@context":"https://w3id.org/did-resolution/v1",
+    "expiration_time": "21600000",
+    "commit_message_prefix_accept": "create: 💾 ",
+    "commit_message_prefix_update": "update: ⬆️  "
+}
