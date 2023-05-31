@@ -4,5 +4,7 @@
     "expiration_time": "500",
     "api_blockchains": [
         "polygon"
-    ]
+    ],
+    "commit_message_prefix_broadcast": "broadcast: 📡 ",
+    "on": " on "
 }
