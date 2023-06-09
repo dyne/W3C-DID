@@ -169,7 +169,7 @@ EOF
 	request_path=`jq_extract_raw "request_path" pubkeys-deactivate-api-checks.json`
 	jq_insert_json "request_data" $request_path pubkeys-deactivate-api-checks.json
 	# execute
-	zexe api/v1/sandbox/pubkeys-deactivate-2-checks.zen pubkeys-deactivate-api-checks.json
+	zexe api/v1/sandbox/pubkeys-deactivate-2-checks.zen pubkeys-deactivate-api-checks.json api/v1/sandbox/pubkeys-deactivate-2-checks.keys
 	save_tmp_output pubkeys-deactivate-api-execute.json
 	# save deactivated result
 	jq '.request_data' $BATS_FILE_TMPDIR/pubkeys-deactivate-api-execute.json > $R/$request_path
