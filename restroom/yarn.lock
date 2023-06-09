@@ -5318,7 +5318,7 @@ yocto-queue@^1.0.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-1.0.0.tgz#7f816433fb2cbc511ec8bf7d263c3b58a1a3c251"
   integrity sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==
 
-zenroom@^2.20.1:
-  version "2.21.1"
-  resolved "https://registry.yarnpkg.com/zenroom/-/zenroom-2.21.1.tgz#ac73c06fb6aadde8a72b7e14e576ef14aecd59c1"
-  integrity sha512-okq1JTyiw7uTQ8D5phvnR9pVlaJqcwt1dj50c3zRnB0OyUVQP08Nj9QIDZGvMYDme25aZLzBqmsT3zCZcKgipg==
+zenroom@^3.0.0:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/zenroom/-/zenroom-3.3.1.tgz#fb525993ad8b162bca34920bde0221e83bb70c12"
+  integrity sha512-zIT8rLpt9cifAVt0OIxNYxE0RCgdSv5dt1yxpjmPHpH1ftYHOjZ0p3QuwOWv5gvDuL2/cw3YKvr5a2iQeQvxoQ==
