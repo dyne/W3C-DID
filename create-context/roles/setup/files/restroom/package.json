@@ -8,7 +8,6 @@
   "dependencies": {
     "@grpc/grpc-js": "^1.5.0",
     "@hyperledger/fabric-gateway": "^1.0.1",
-    "@planetmint/driver": "^0.0.1",
     "@redis/client": "^1.0.6",
     "@restroom-mw/core": "0.13.1-7259d93.87",
     "@restroom-mw/db": "0.13.1-7259d93.87",
@@ -18,7 +17,6 @@
     "@restroom-mw/git": "0.13.1-7259d93.87",
     "@restroom-mw/http": "0.13.1-7259d93.87",
     "@restroom-mw/logger": "0.13.1-7259d93.87",
-    "@restroom-mw/planetmint": "0.13.1-7259d93.87",
     "@restroom-mw/redis": "0.13.1-7259d93.87",
     "@restroom-mw/timestamp": "0.13.1-7259d93.87",
     "@restroom-mw/types": "0.13.1-7259d93.87",

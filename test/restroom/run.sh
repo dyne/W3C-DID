@@ -18,10 +18,6 @@ ctx="test"
 [ "$?" = "1" ] && { exit 1; }
 
 # switch with the test endpoints
-## planetmint
-mv api/v1/common/pubkeys-broadcast-3-planetmint.keys .
-cp test/restroom/planetmint_endpoint.json api/v1/common/pubkeys-broadcast-3-planetmint.keys
-
 ## evm
 if [[ "$domain" == "sandbox" ]]; then
     blockchain="ganache"
@@ -34,22 +30,12 @@ echo $keys_path
 mv ${keys_path} evm.keys
 cp test/restroom/ganache_endpoint.json ${keys_path}
 
-# Test planetmint broadcast
-./test/restroom/broadcast.sh ${domain} ${ctx} "planetmint"
-[ "$?" = "1" ] && {
-    mv pubkeys-broadcast-3-planetmint.keys api/v1/common/
-    mv evm.keys ${keys_path}
-    exit 1
-}
-
 # Test polygon broadcast
 ./test/restroom/broadcast.sh ${domain} ${ctx} ${blockchain}
 [ "$?" = "1" ] && {
-    mv pubkeys-broadcast-3-planetmint.keys api/v1/common/
     mv evm.keys ${keys_path}
     exit 1
 }
-mv pubkeys-broadcast-3-planetmint.keys api/v1/common/
 mv evm.keys ${keys_path}
 
 exit 0

@@ -10,15 +10,6 @@ ctx=$2
 tmpreq=`mktemp`
 
 broadcast_api="pubkeys-broadcast-${3}"
-if [[ "${3}" = "planetmint" ]]; then
-    if [[ "$domain" == "sandbox" ]]; then
-        broadcast_api_2="pubkeys-broadcast-ganache"
-    else
-        broadcast_api_2="pubkeys-broadcast-polygon"
-    fi
-else
-    broadcast_api_2="pubkeys-broadcast-planetmint"
-fi
 
 echo ""
 echo "### BROADCAST ${3} ###"
@@ -419,14 +410,24 @@ printf "%-18s %-20s %s\n" "admin" "does not broadcasts" "${domain}_A   2 times"
 send_request ${domain}/${broadcast_api}.chain ${tmpreq} 255
 rm -f ${tmpreq}
 
-echo "BROADCAST ON DIFFERENT BLOCKCHAIN"
-printf "%-18s %-20s %s\n" "admin" "broadcasts " "${domain}_A   on different blockchains"
-broadcast_request ${domain}_A-keyring.json \
-                ${domain}_A \
-                test-broadcast-service-keyring.json \
-                admin \
-                ${tmpreq}
-send_request ${domain}/${broadcast_api_2}.chain ${tmpreq} 0
+# at the moment only ganache/polygon is present to be reactivate when other blockchains are added
+#if [[ "${3}" = "planetmint" ]]; then
+#    if [[ "$domain" == "sandbox" ]]; then
+#        broadcast_api_2="pubkeys-broadcast-ganache"
+#    else
+#        broadcast_api_2="pubkeys-broadcast-polygon"
+#    fi
+#else
+#    broadcast_api_2="pubkeys-broadcast-planetmint"
+#fi
+#echo "BROADCAST ON DIFFERENT BLOCKCHAIN"
+#printf "%-18s %-20s %s\n" "admin" "broadcasts " "${domain}_A   on different blockchains"
+#broadcast_request ${domain}_A-keyring.json \
+#                ${domain}_A \
+#                test-broadcast-service-keyring.json \
+#                admin \
+#                ${tmpreq}
+#send_request ${domain}/${broadcast_api_2}.chain ${tmpreq} 0
 
 
 # cleanup secrets

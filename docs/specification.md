@@ -4,12 +4,6 @@
 
 The first focus for the Dyne.org's DID method was to register [Zenswarm Oracles](https://github.com/dyne/zenswarm) identities, in a way that is both machine and human readable. We have introduced some new classes and properties to cover all the public keys that we are using inside the DID document, including also a **post quantum** public key. The DID Document and the DID are respectively stored and resolved by our [Controller](https://did.dyne.org/docs/).
 
-<!-- To be added as soon as notarization is back
- who also notarizes the DID Document on creation, update and removal on [planetmint blockchain]().
--->
-
-
-
 ### State of the document 
 
 This is a draft document and will be updated.
@@ -117,9 +111,6 @@ The informations about the DID document are store in the DidDocumentMetadata fie
   "ganache":[
       "4654c6494ff79d4b306b3d0474a681360112b00d3fa6c691000cb8ba7b1545d5"
   ],
-  "planetmint":[
-      "0f7cc262d6fe6b2e102f3df99a3bb9726bffcc6a5c39ba9ed87d47be98fdd890"
-  ],
   "updated":"1682499234671"
 }
 ```
@@ -131,18 +122,9 @@ If a DID document has been deactivated, *i.e.* **deactivated** field is set to t
 
 ### Transaction ids
 Moreover the metadata contains arrays of transaction ids over some blockachains, at the moment they are:
-- [planetmint](https://planetmint.io/);
 - [ganache](https://trufflesuite.com/ganache/);
 - [polygon](https://polygon.technology/).
 
-#### planetmint
-A transaction on **planetmint** contains the [CID](https://github.com/multiformats/cid) of the did document along with its metadata fields *created*, *updated*, *deactivated* and *planetmint*. Thus in order to verify the integrity of a did document using planetmint blockchain the following steps have to be followed:
-* resolve the DID document through the resolver.
-* use the last transaction id, found in the **planetmint** array in the metdata, to retrieve the CID from the planetmint blockhain.
-* remove the transaction id used in the previous step from the **planetmint** array in the metadata, remove all the fileds not mentioned above from the metadata and compute the CID of the result.
-* compare the two CIDs, they must match.
-
-#### Ethereum blockchains
 A transaction on **polygon** or **ganache** contains the hash to point on BLS12-381 elliptic curve (ECP) of the did document along with its metadata fields *created*, *updated*, *deactivated* and *polygon* or *ganache*. Thus in order to verify the integrity of a did document using polygon blockchain the following steps have to be followed:
 * resolve the DID document through the resolver.
 * use the last transaction id, found in the **polygon** or **ganache** array in the metdata, to retrieve the BLS12-381 point from the polygon blockhain.
@@ -322,7 +304,6 @@ where *{domain}* is the request did domain. The did document will not be removed
 ## DID Document Blockchains Broadcast
 
 To broadcast a DID document on one of the following blockchains:
-* planetmint;
 * ganache;
 * polygon;
 
@@ -344,14 +325,14 @@ curl -X 'POST' \
 ```
 where:
 * *{domain}* is your domain;
-* *{blockchain}* is the blockchain you want to use (e.g. planetmint);
+* *{blockchain}* is the blockchain you want to use (e.g. ganache/polygon);
 * *broadcast_id* is the id corresponding to the DID document that you want to save on the blockchain;
 * *timestamp* is the unix timestamp in millisecond of the creation of the request;
 * *eddsa_signature* is the eddsa signature, created using the admin or second-level admin eddsa key, of the dictionary containing the *broadcast_id* and the *timestamp* encoded into a string removing all new lines and withespaces (outside of the values of DID document) and escaping double quotes and backslashes.
 
 Not all the blockchains are available for all domains, indeed:
-* **sandbox** has planetmint and ganache;
-* **ifacer** has planetmint and polygon.
+* **sandbox** has ganache;
+* **ifacer** has polygon.
 
 ## Security Considerations
 
@@ -363,6 +344,3 @@ Not all the blockchains are available for all domains, indeed:
 - No personally identifiable information (PII) is included in a DID document retrieved by Dyne.org's DID resolver.
 - The private key only exists on the user's device and will not be known to any third party.
 
-<!-- To be added as soon as notarization is back
-- DID Document details published on the blockchain ledger are necessary only for authentication by other parties
--->
