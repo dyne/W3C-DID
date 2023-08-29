@@ -396,107 +396,107 @@
   resolved "https://registry.yarnpkg.com/@redis/time-series/-/time-series-1.0.4.tgz#af85eb080f6934580e4d3b58046026b6c2b18717"
   integrity sha512-ThUIgo2U/g7cCuZavucQTQzA9g9JbDDY2f64u3AbAoz/8vE2lt2U37LamDUVChhaDA3IRT9R6VvJwqnUfTJzng==
 
-"@restroom-mw/core@^0.13.1-7259d93.87":
-  version "0.13.1-7259d93.87"
-  resolved "https://registry.yarnpkg.com/@restroom-mw/core/-/core-0.13.1-7259d93.87.tgz#ab374fb2a5e19e35e65126dcb6020ed164a0cd2e"
-  integrity sha512-ODtpt1LDtDB0bUrG4j82IMXgnJvjQME6NAHZuK4JfEOlclnfTMoJ4BN1ucwgVUlLKso7I/GpMlizRN5J3qKJRA==
+"@restroom-mw/core@next":
+  version "0.13.1-378d393.108"
+  resolved "https://registry.yarnpkg.com/@restroom-mw/core/-/core-0.13.1-378d393.108.tgz#a9ce6fba3b58f53d10b442af983597fc209fad83"
+  integrity sha512-EmRhYMmnRVJiQnXeJcsgfjegzlHD4H5dt1zQHEweAXQRtjQuU2230pMimyxfOmEsYyN8kbIPVw1pcCgE76mRSg==
   dependencies:
     fuzzball "^2.1.2"
     js-yaml "^4.1.0"
 
-"@restroom-mw/db@^0.13.1-7259d93.87":
-  version "0.13.1-7259d93.87"
-  resolved "https://registry.yarnpkg.com/@restroom-mw/db/-/db-0.13.1-7259d93.87.tgz#2ada998de752932ab102a14ab96719aea5f6e262"
-  integrity sha512-fyExPa736aRF1zrpIIFc9iuIYeVLOt8xxYjAw5gpTgrBS355xtM/L87ciml7yUUegPROi9FE2pNpxHKJf+OFgg==
+"@restroom-mw/db@next":
+  version "0.13.1-378d393.108"
+  resolved "https://registry.yarnpkg.com/@restroom-mw/db/-/db-0.13.1-378d393.108.tgz#09a6e33445c1efa6f14de16160a09f2cadfecf6e"
+  integrity sha512-o2zBihCiSdaXmv63VVvpyOyFSnbYAblnqXl1mRWN8uPi8bkLxvyDRG1qL1yKj6i2LcmvZsjfeMKx8zbwZo4qAw==
   dependencies:
     mariadb "^2.5.4"
     mysql2 "^2.2.5"
     sequelize "^6.16.0"
     sqlite3 "^5.0.0"
 
-"@restroom-mw/ethereum@^0.13.1-7259d93.87":
-  version "0.13.1-7259d93.87"
-  resolved "https://registry.yarnpkg.com/@restroom-mw/ethereum/-/ethereum-0.13.1-7259d93.87.tgz#fc7a5f93e852af1de54764f20362537210a32bc4"
-  integrity sha512-mqxZMJ5/hi5RDjW63ip2+LI4gnz6IHf6fFRqv4CQx1a3yOMQDgO0nBhrsK26UA19rWzNrFatGzfCJbitFoS6ww==
+"@restroom-mw/ethereum@next":
+  version "0.13.1-378d393.108"
+  resolved "https://registry.yarnpkg.com/@restroom-mw/ethereum/-/ethereum-0.13.1-378d393.108.tgz#13409f19aa2bd790e4c499a24dfea829119d8858"
+  integrity sha512-mJ/AI5Aoif6zbW+LU3aN13iXfOMsX7Fl6TqcDJukSxSHlZmWy7Nn31RCOaZ69AJfSBa8nm21tdd9utaFoTPydQ==
   dependencies:
     base64url "3.0.1"
     web3 "1.7.0"
 
-"@restroom-mw/fabric@^0.13.1-7259d93.87":
-  version "0.13.1-7259d93.87"
-  resolved "https://registry.yarnpkg.com/@restroom-mw/fabric/-/fabric-0.13.1-7259d93.87.tgz#73423a824f144c4e1ff44bd30d9987646cff4ac8"
-  integrity sha512-43+TJK3bowXY5FizwEvRVBg53Xqx5NXeFGY6EpIOEzXgTSEAKeNVsdG50NqaZkmE04TQ8ojU97FjBFPSSEAhMg==
+"@restroom-mw/fabric@next":
+  version "0.13.1-378d393.108"
+  resolved "https://registry.yarnpkg.com/@restroom-mw/fabric/-/fabric-0.13.1-378d393.108.tgz#3d132e8c71b07077c33b2a68eeb8a9253025d3bb"
+  integrity sha512-PB8g02lWMRyDNpkDYHX02+q+moyK3JQb+trBYLteKUG6SVZWP04tA9K4qjOdde2F4oitSSUDIk7BjoDnKH7Ttw==
   dependencies:
     "@grpc/grpc-js" "^1.5.0"
     "@hyperledger/fabric-gateway" "^1.0.1"
     base64url "3.0.1"
 
-"@restroom-mw/files@^0.13.1-7259d93.87":
-  version "0.13.1-7259d93.87"
-  resolved "https://registry.yarnpkg.com/@restroom-mw/files/-/files-0.13.1-7259d93.87.tgz#28e2602b2e43cb9b7a7a32461efcc72ffab42057"
-  integrity sha512-YTXfZdvCA1kvfExDWuKrhTILBPwuVb9f7Ojj+2bxjp5DKWKcimXr577ouYswuCZTHV472LtvxGmkN5szrbuCGg==
+"@restroom-mw/files@next":
+  version "0.13.1-378d393.108"
+  resolved "https://registry.yarnpkg.com/@restroom-mw/files/-/files-0.13.1-378d393.108.tgz#78d7d68e97d8d8a61c5e451703a29aae34447b48"
+  integrity sha512-5suqv9lni0Xb0wXPrNsAt1BG8MrQL440owAdsMsw2DdD628h8ifhOj2cpLuGUs6gEoa/lh6FjZ6IcNkcsnSC6Q==
   dependencies:
     axios "^0.26.0"
     extract-zip "2.0.1"
 
-"@restroom-mw/git@^0.13.1-7259d93.87":
-  version "0.13.1-7259d93.87"
-  resolved "https://registry.yarnpkg.com/@restroom-mw/git/-/git-0.13.1-7259d93.87.tgz#d621c3d7647d77dbcb9232387d35afbbb803281b"
-  integrity sha512-nWP4DyNaJfPeQ7qq+wPQkYbFRbyfTbgXfq3OeUGaVRGbguqtiYD+hOTQOHIy802eAlawA+h9z35LsMxIUO/mxA==
+"@restroom-mw/git@next":
+  version "0.13.1-378d393.108"
+  resolved "https://registry.yarnpkg.com/@restroom-mw/git/-/git-0.13.1-378d393.108.tgz#7489e03cae15593c9b3be2bbc541a5381fb21e5a"
+  integrity sha512-KqqlD7A989t1S6Q9DzzXgiQt61VHNaCt28zYgyzIFo2HgC0I8q/ZKu9GZoM0eqEcVueBigssHeN8VPFc5THzwQ==
   dependencies:
     isomorphic-git "^1.21.0"
 
-"@restroom-mw/http@^0.13.1-7259d93.87":
-  version "0.13.1-7259d93.87"
-  resolved "https://registry.yarnpkg.com/@restroom-mw/http/-/http-0.13.1-7259d93.87.tgz#df91281c46ace0de70fd14218e0c9329648885cf"
-  integrity sha512-NGBzL8+aowP4o1A8fNsytyXp48JnIp2D1vHSUtFqu96Ul3iWgZzDeE4Ic17QPX12t8WsOKviRnAzurFTM2F1SQ==
+"@restroom-mw/http@next":
+  version "0.13.1-378d393.108"
+  resolved "https://registry.yarnpkg.com/@restroom-mw/http/-/http-0.13.1-378d393.108.tgz#1c914f0e191348dc56c853f6bab4b76655102e92"
+  integrity sha512-s9FN2NU9aQdPCS/ypnO1GOoWrWfpU9Fev+pxnP2nh/QbH1zqtZaaF0oWfun23Mhhs46YftNJ0wVuKZ1rG4Alog==
   dependencies:
     axios "^0.26.0"
 
-"@restroom-mw/logger@^0.13.1-7259d93.87":
-  version "0.13.1-7259d93.87"
-  resolved "https://registry.yarnpkg.com/@restroom-mw/logger/-/logger-0.13.1-7259d93.87.tgz#29bcdb1a12a32716f932d192af0fe412f9245ce2"
-  integrity sha512-nmRpvz0u7per6qyI8SNjsdwu2MlSBUiMIolhMC8bs8s3i5UUPz6jVByq1LMPxyXOON6gityZDKZT8sVYmn1ruw==
+"@restroom-mw/logger@next":
+  version "0.13.1-378d393.108"
+  resolved "https://registry.yarnpkg.com/@restroom-mw/logger/-/logger-0.13.1-378d393.108.tgz#b6cf97874f9ebdf53c583eac864e561a46e64f93"
+  integrity sha512-bs3c6Po8Ya6AyuGjLAt613Fwtf3PuRJGImiodtoXRnFWDmjcuLFCkltgf2VGc8WEOM8B9/c5Y4VnizRNXm91DQ==
   dependencies:
     axios "^0.26.0"
     extract-zip "2.0.1"
 
-"@restroom-mw/redis@^0.13.1-7259d93.87":
-  version "0.13.1-7259d93.87"
-  resolved "https://registry.yarnpkg.com/@restroom-mw/redis/-/redis-0.13.1-7259d93.87.tgz#b7a2bdafe0da299b0cedc76b4ff4452e58386818"
-  integrity sha512-crOf9TbKi7ch6/G4V/bp34XDgI5qekA3ZmeeutxQpjLRm/a4JukaHXkPFVNZyrxKpZyWQpwdmmazUHbgcTk/CA==
+"@restroom-mw/redis@next":
+  version "0.13.1-378d393.108"
+  resolved "https://registry.yarnpkg.com/@restroom-mw/redis/-/redis-0.13.1-378d393.108.tgz#56fd723ed60f89ca28fa422c77482cbf4fbe527a"
+  integrity sha512-HetCcIlRItCCkoY2JMSGQ4Z1CqpM0tJ7gPuvnnMDyKPeCIVy4yId3btdwd/pAQ/D/bAxrTmQgUnNuNquc9Gz/g==
   dependencies:
     "@redis/client" "^1.0.6"
     redis "^4.0.2"
 
-"@restroom-mw/timestamp@^0.13.1-7259d93.87":
-  version "0.13.1-7259d93.87"
-  resolved "https://registry.yarnpkg.com/@restroom-mw/timestamp/-/timestamp-0.13.1-7259d93.87.tgz#2871a2f98e5446b6830df9245d7fbeed34b968fb"
-  integrity sha512-oY5R1l+voe5mnWk8acWIcF3aocOu6e2OrqewKdB7Yw5oV06ID3OGf1lqBZDdT0WTCz5H9wNbbG7ylymq/OU6QQ==
+"@restroom-mw/timestamp@next":
+  version "0.13.1-378d393.108"
+  resolved "https://registry.yarnpkg.com/@restroom-mw/timestamp/-/timestamp-0.13.1-378d393.108.tgz#144ae84626ec5361aa6551a13d1e7ca5f32373fd"
+  integrity sha512-Di1Obm4L1HCe+3je34i4wcM7ZZno2AzC5Kmq5LYjXLtOgmzgzoC89XP7IkUQxe3OB7tf75yoeth+KmOOL1i3HA==
 
-"@restroom-mw/types@^0.13.1-7259d93.87":
-  version "0.13.1-7259d93.87"
-  resolved "https://registry.yarnpkg.com/@restroom-mw/types/-/types-0.13.1-7259d93.87.tgz#3b8e490ff249fcfe8c8b520d079d3bf16af4ce00"
-  integrity sha512-daIDNZdqM4dWCp9rkbPLYhM9rI0lc43q0zVE39QIAfKHadD3l5vVaetDOkXoAadKetYEMZeiHklfe+s2CbLRdQ==
+"@restroom-mw/types@next":
+  version "0.13.1-378d393.108"
+  resolved "https://registry.yarnpkg.com/@restroom-mw/types/-/types-0.13.1-378d393.108.tgz#8e67d608c3828c1ebbbbb0a422814ac56c979454"
+  integrity sha512-mZD9nxWt4dKQWxWAFQer6ebx8rQB4SAaHZ7F/F94xfQByO56VP5omPlMEoj6DSKhn46UNOT7c3p87gypRnAARQ==
 
-"@restroom-mw/ui@^0.13.1-7259d93.87":
-  version "0.13.1-7259d93.87"
-  resolved "https://registry.yarnpkg.com/@restroom-mw/ui/-/ui-0.13.1-7259d93.87.tgz#17a0a28cbcf6317914a2bb3be3d8d5c4d4e77524"
-  integrity sha512-5mxGEqdA2j4epzr3/JhDvx7M8X2y33pfPdym5gSse80YqBFsBWSA/gOGI1K5O1Efj/Sy3MqdTdfSHSMeDSMaOg==
+"@restroom-mw/ui@next":
+  version "0.13.1-378d393.108"
+  resolved "https://registry.yarnpkg.com/@restroom-mw/ui/-/ui-0.13.1-378d393.108.tgz#fe3db7843de85bc49dbd2216aa20872c8947c782"
+  integrity sha512-Sp1VwXDOMwrwTvgbmf4s4CrlEwe6PnuDnb3wZItc9pLhF/9WhQ5AfIdxAAQRg52xTHBnHN1nJxp8HuGWPq5qHg==
   dependencies:
     swagger-ui-express "^4.1.5"
 
-"@restroom-mw/utils@^0.13.1-7259d93.87":
-  version "0.13.1-7259d93.87"
-  resolved "https://registry.yarnpkg.com/@restroom-mw/utils/-/utils-0.13.1-7259d93.87.tgz#731de03f010b9325dfa72ba50779a7965abeeee4"
-  integrity sha512-ZRVvseH1l7Uv9P0ouL7H3AThZpTqx1v/wYtnYFUOVlWB1Ij0w8UZw9G+qpuRAvDSBno4Avk5WHQ4ymTM7sMDIA==
+"@restroom-mw/utils@next":
+  version "0.13.1-378d393.108"
+  resolved "https://registry.yarnpkg.com/@restroom-mw/utils/-/utils-0.13.1-378d393.108.tgz#1ec9b0a3ec93e3bf7099b0b43237d80dccb2ad2c"
+  integrity sha512-IZu5nb5VY6HBc0delM3FDtpw4yUBb2V2n54enbYnMSpG/IVM2g4goI1SiNrJYINwibhA0x6dWWN5li4Zujk7Ug==
   dependencies:
     dotenv "^16.0.0"
 
-"@restroom-mw/zencode@^0.13.1-7259d93.87":
-  version "0.13.1-7259d93.87"
-  resolved "https://registry.yarnpkg.com/@restroom-mw/zencode/-/zencode-0.13.1-7259d93.87.tgz#c83c45f227140f3007640fffd9fa2e1024653e07"
-  integrity sha512-+QLKpPuNd4QZIPuouI6Bz+yIk3A8T4JfIyrvUrTfGpTjXa0T7hluz//WtaPgezb0zL9krrBpSFi+Tc2s9qp2Yg==
+"@restroom-mw/zencode@next":
+  version "0.13.1-378d393.108"
+  resolved "https://registry.yarnpkg.com/@restroom-mw/zencode/-/zencode-0.13.1-378d393.108.tgz#d0b7b9cd2600087143533d5d50f2212332ac9bf8"
+  integrity sha512-CBRolDCH+FwrYv3fmYz1JJFWYVAQW1FBV7nC/lN7h2xBGtaZFtHUkv+H/Kfz7uLnGeLctNAu33X4xn43LtRl6g==
 
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
