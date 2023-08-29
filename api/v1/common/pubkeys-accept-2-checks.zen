@@ -19,10 +19,10 @@ Given I fetch the local timestamp and store it into 'accept_timestamp'
 and I have a 'integer' named 'accept_timestamp'
 
 # signer did document
-Given I read the content of 'signer_path'
-Given I have a 'did document' named 'didDocument'
+Given I read the content of 'signer_path' and save the output into 'signer_data'
+Given I have a 'did document' named 'didDocument' in 'signer_data'
 Given I rename 'didDocument' to 'signer_did_document'
-Given I have a 'string dictionary' named 'didDocumentMetadata'
+Given I have a 'string dictionary' named 'didDocumentMetadata' in 'signer_data'
 Given I rename 'didDocumentMetadata' to 'signer_metadata'
 
 # key

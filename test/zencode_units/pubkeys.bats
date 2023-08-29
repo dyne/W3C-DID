@@ -101,7 +101,7 @@ EOF
 	jq_insert "accept_timestamp" $(($(date +%s%N)/1000000)) pubkeys-accept-api-checks.json
 	signer_path=`jq_extract_raw "signer_path" pubkeys-accept-api-checks.json`
 	request_path=`jq_extract_raw "request_path" pubkeys-accept-api-checks.json`
-	json_join_two $signer_path pubkeys-accept-api-checks.json
+	jq_insert_json "signer_data" "$signer_path" pubkeys-accept-api-checks.json
 	if [ -f $request_path ]; then
 		json_join_two $request_path pubkeys-accept-api-checks.json
 	else
