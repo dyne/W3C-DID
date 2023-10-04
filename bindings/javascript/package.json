@@ -7,7 +7,9 @@
   "author": "Matteo Cristino <matteo@dyne.org>",
   "license": "AGPL-3.0",
   "keywords": [
-    "did", "w3c-did", "decentralized-identity"
+    "did",
+    "w3c-did",
+    "decentralized-identity"
   ],
   "scripts": {
     "build": "run-s build:*",
@@ -41,7 +43,7 @@
     "npm-run-all": "^4.1.5",
     "rimraf": "^4.1.2",
     "typescript": "^4.9.4",
-    "zenroom": "^2.16.3"
+    "zenroom": "latest"
   },
   "ava": {
     "failFast": true,

@@ -1931,6 +1931,11 @@ yargs@^17.6.2:
     y18n "^5.0.5"
     yargs-parser "^21.1.1"
 
+yarn@^1.22.19:
+  version "1.22.19"
+  resolved "https://registry.yarnpkg.com/yarn/-/yarn-1.22.19.tgz#4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
+  integrity sha512-/0V5q0WbslqnwP91tirOvldvYISzaqhClxzyUKXYxs07yUILIs5jx/k6CFe8bvKSkds5w+eiOqta39Wk3WxdcQ==
+
 yn@3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/yn/-/yn-3.1.1.tgz#1e87401a09d767c1d5eab26a6e4c185182d2eb50"
@@ -1941,7 +1946,9 @@ yocto-queue@^1.0.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-1.0.0.tgz#7f816433fb2cbc511ec8bf7d263c3b58a1a3c251"
   integrity sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==
 
-zenroom@^2.16.3:
-  version "2.16.3"
-  resolved "https://registry.yarnpkg.com/zenroom/-/zenroom-2.16.3.tgz#be63ad838b4b059eb7d2906a52013ba90a666684"
-  integrity sha512-1lLMZbL0gmy7VLZL9zAjoVQGi2YPEFASJyjPsUveWtcY545hyfWVk+jkkpi4yZoNgk8fxVQLdF7j4FCv8TKbiw==
+zenroom@latest:
+  version "3.22.1"
+  resolved "https://registry.yarnpkg.com/zenroom/-/zenroom-3.22.1.tgz#88efbd771c0417a4d6e68cd1f9947a7157ff040d"
+  integrity sha512-1/BbSRPeXdSDwsOPPgA7wysSLqIeMYzE5VzLap+/qVJR4tXz4ISwpOpyVw4WF6o7Aq08VXleB2mjeB+NERu1zw==
+  dependencies:
+    yarn "^1.22.19"
