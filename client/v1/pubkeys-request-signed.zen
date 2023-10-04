@@ -134,16 +134,16 @@ When I move 'verificationMethod' in 'did document'
 ### DID-Document ended
 
 # did document signature
-When I create the json of 'did document'
-When I create the ecdh signature of 'json'
-and I remove 'json'
+When I create the json escaped string of 'did document'
+When I create the ecdh signature of 'json escaped string'
+and I remove 'json escaped string'
 
 # result signature
 When I create the 'string dictionary' named 'result'
 and I copy 'did document' in 'result'
 and I copy 'timestamp' in 'result'
-and I create the json of 'result'
-and I create the eddsa signature of 'json'
+and I create the json escaped string of 'result'
+and I create the eddsa signature of 'json escaped string'
 
 # signer id
 When I create the eddsa public key

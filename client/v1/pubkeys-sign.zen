@@ -16,33 +16,33 @@ and I have my 'keyring'
 Given I have a 'string dictionary' named 'request'
 and I have a 'string' named 'signer_did_spec'
 
-If 'did_document' is found in 'request'
+If I verify 'did_document' is found in 'request'
 When I pickup from path 'request.did_document'
 
 # signature with timestamp
 When I create the 'string dictionary' named 'result'
 and I copy 'did document' in 'result'
 and I copy 'timestamp' in 'result'
-and I create the json of 'result'
-and I create the eddsa signature of 'json'
-and I remove 'json'
+and I create the json escaped string of 'result'
+and I create the eddsa signature of 'json escaped string'
+and I remove 'json escaped string'
 
-When I create the json of 'did_document'
+When I create the json escaped string of 'did_document'
 
 Then print the 'did document'
 and print the 'timestamp'
 and print the 'eddsa signature'
 EndIf
 
-If 'deactivate_id' is found in 'request'
-When I copy the 'deactivate_id' in 'request' to 'json'
+If I verify 'deactivate_id' is found in 'request'
+When I copy the 'deactivate_id' in 'request' to 'json escaped string'
 Then print the 'deactivate_id' from 'request'
 EndIf
 
-When 'json' is found
+When I verify 'json escaped string' is found
 
 # did document signature
-When I create the ecdh signature of 'json'
+When I create the ecdh signature of 'json escaped string'
 
 # signer id
 When I create the eddsa public key
