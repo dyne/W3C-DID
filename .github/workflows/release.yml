@@ -42,7 +42,7 @@ jobs:
             echo "release=False" >> $GITHUB_OUTPUT
           else
             echo "release=True" >> $GITHUB_OUTPUT
-            awk '/Published release/ { printf("version=v%s\n",$7) }' semantic-release.log >> $GITHUB_OUTPUT
+            awk '/Published release/ { printf("version=v%s\n",$8) }' semantic-release.log >> $GITHUB_OUTPUT
           fi
 
   package-release:
