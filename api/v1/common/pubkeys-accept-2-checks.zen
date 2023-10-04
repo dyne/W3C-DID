@@ -60,14 +60,14 @@ and I verify number 'result' is less or equal than 'expiration_time'
 When I create the 'string dictionary' named 'signed_by_eddsa'
 and I copy the 'request did document' to 'did document' in 'signed_by_eddsa'
 and I copy 'timestamp' in 'signed_by_eddsa'
-and I create the json of 'signed_by_eddsa'
-and I verify the 'json' has a eddsa signature in 'eddsa signature' by 'eddsa public key'
+and I create the json escaped string of 'signed_by_eddsa'
+and I verify the 'json escaped string' has a eddsa signature in 'eddsa signature' by 'eddsa public key'
 and I remove 'result'
-and I remove 'json'
+and I remove 'json escaped string'
 
 # verify singautres
-When I create the json of 'request did document'
-and I verify the 'json' has a ecdh signature in 'ecdh signature' by 'ecdh public key'
+When I create the json escaped string of 'request did document'
+and I verify the 'json escaped string' has a ecdh signature in 'ecdh signature' by 'ecdh public key'
 
 # create proof
 When I create the jws signature using the ecdh signature in 'ecdh signature'
