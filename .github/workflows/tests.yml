@@ -60,7 +60,7 @@ jobs:
           cp test/restroom/test_keyring.json secrets/blockchains_client.json
           cd restroom
           mv .env.example .env
-          npm install && npm run init
+          npm ci && npm run init
       - name: 🛫 Start restroom
         uses: dyne/restroom-github-action@v1
         with:
