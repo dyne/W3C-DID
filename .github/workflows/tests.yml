@@ -60,7 +60,7 @@ jobs:
           cp test/restroom/test_keyring.json secrets/blockchains_client.json
           cd restroom
           mv .env.example .env
-          yarn && yarn run init
+          npm install && npm run init
       - name: 🛫 Start restroom
         uses: dyne/restroom-github-action@v1
         with:
@@ -101,9 +101,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: ⏬ Install dependencies
-        run: yarn
+        run: npm install
       - name: 🏗️ Build javascript bindings
-        run: yarn build
+        run: npm run build
       - name: ⏫ Upload artifact
         if: ${{ matrix.node-version == '16.x' }}
         uses: actions/upload-artifact@v3
@@ -114,4 +114,4 @@ jobs:
             ./bindings/javascript/README.md
             ./bindings/javascript/dist/
       - name: 🧪 Test bindings node-${{ matrix.node-version }}
-        run: yarn test
+        run: npm test
