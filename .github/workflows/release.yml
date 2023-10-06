@@ -81,6 +81,6 @@ jobs:
           version=${{ needs.semantic-release.outputs.version }}
           yarn version --new-version ${version:1} --no-git-tag-version
       - name: 📦 Publish
-        run: npm publish . --tag latest
+        run: npm publish . --tag latest --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
