@@ -8,6 +8,9 @@
 package-lock.json
 restroom/node_modules
 
+#binding
+!bindings/javascript/package-lock.json
+
 # logfile
 *.log
 
