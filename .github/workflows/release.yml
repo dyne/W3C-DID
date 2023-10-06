@@ -17,8 +17,9 @@ jobs:
   semantic-release:
     name: 🤖 Semantic release
     runs-on: ubuntu-latest
-    if: "!contains(github.event.pull_request.labels.*.name, 'skip-release')"
-    # if: ${{ github.ref_name == 'main' && github.event_name == 'push' }}
+    if: |
+      ${{ github.event.workflow_run.conclusion == 'success' &&
+      !contains(github.event.pull_request.labels.*.name, 'skip-release') }}
     outputs:
       release: ${{ steps.tag_release.outputs.release }}
       version: ${{ steps.tag_release.outputs.version }}
