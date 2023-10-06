@@ -101,7 +101,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: ⏬ Install dependencies
-        run: npm install
+        run: npm ci
       - name: 🏗️ Build javascript bindings
         run: npm run build
       - name: ⏫ Upload artifact
