@@ -79,7 +79,7 @@ jobs:
       - name: 📌 Set version
         run: |
           version=${{ needs.semantic-release.outputs.version }}
-          yarn version --new-version ${version:1} --no-git-tag-version
+          npm version --new-version ${version:1} --no-git-tag-version
       - name: 📦 Publish
         run: npm publish . --tag latest --access public
         env:
