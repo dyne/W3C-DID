@@ -23,7 +23,7 @@ keyring: CONTROLLER ?= ${USER}@${HOSTNAME}
 keyring: ## Generate a new admin keyring [ OUT, CONTROLLER ]
 	$(if $(wildcard ${OUT}),$(error Local authority ${OUT} found, cannot overwrite))
 	@echo "{\"controller\": \"${CONTROLLER}\"}" > ${tmp}
-	@zenroom -z -k ${tmp} client/v1/create-keyring.zen > ${OUT}
+	@zenroom -z -k ${tmp} client/v1/create-keyring.zen > ${OUT} || rm ${OUT}
 	@rm -f ${tmp}
 
 request: KEYRING ?= secrets/keyring.json
