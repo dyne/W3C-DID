@@ -5,11 +5,7 @@
 # restroom files
 .env
 .envrc
-package-lock.json
-restroom/node_modules
-
-#binding
-!bindings/javascript/package-lock.json
+node_modules
 
 # logfile
 *.log
