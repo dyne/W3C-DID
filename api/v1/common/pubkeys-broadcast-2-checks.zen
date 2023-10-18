@@ -1,4 +1,4 @@
-Rule caller restroom-mw
+Rule unknown ignore
 Scenario 'eddsa': verify signature
 Scenario 'w3c': proof
 

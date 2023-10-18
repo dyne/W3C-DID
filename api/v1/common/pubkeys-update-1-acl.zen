@@ -1,4 +1,4 @@
-Rule caller restroom-mw
+Rule unknown ignore
 Rule input encoding base58
 Scenario 'ecdh': singature
 Scenario 'eddsa': signature
@@ -72,7 +72,7 @@ and I verify the size of 'request_split_by_underscore' is less or equal than '2'
 and I create the copy of element '1' in array 'request_split_by_underscore'
 and I rename 'copy' to 'request_domain.request_ctx'
 and I create the array by splitting 'request_domain.request_ctx' at '.'
-and I verify the length of 'array' is less or equal than '2'
+and I verify the size of 'array' is less or equal than '2'
 and I create the copy of element '1' in array 'array'
 and I rename 'copy' to 'request_domain'
 and I remove 'array'
@@ -166,7 +166,7 @@ and I remove 'size'
 
 ## request ACL
 # TODO: replace with equal (not yet implemented)
-If I verify the length of 'request_split_by_underscore' is more or equal than '2'
+If I verify the size of 'request_split_by_underscore' is more or equal than '2'
 When I remove 'exit_code'
 and I set 'exit_code' to 'check request permissions' as 'string'
 

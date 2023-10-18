@@ -1,4 +1,4 @@
-Rule caller restroom-mw
+Rule unknown ignore
 
 # verify git
 Given I verify the path 'data/' is a git repository
