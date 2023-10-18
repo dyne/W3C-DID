@@ -1,39 +1,33 @@
 Rule unknown ignore
 Scenario 'ethereum': keys
 
-# keyring and pks
+# restroom statements
 Given I read the content of 'secrets/blockchains_client.json'
+and I read the http request
+and I have a ethereum endpoint named 'evm_endpoint'
+and I read the ethereum nonce for 'ethereum_address'
+and I read the ethereum suggested gas price
+
+# restroom data
 Given my name is in a 'string' named 'identity'
-Given I have my 'keyring'
-Given I have the 'ethereum address'
+and I have my 'keyring'
+and I have the 'ethereum address'
+and I have a 'string' named 'base_url' inside 'http_request'
+and I have a 'ethereum nonce'
+and I have a 'gas_price'
 
-# http_request.base_url
-Given I read the http request
-Given I have a 'string' named 'base_url' inside 'http_request'
-
-# evm endpoint
-Given I have a ethereum endpoint named 'evm_endpoint'
-
-# nonce
-Given I read the ethereum nonce for 'ethereum_address'
-Given I have a 'ethereum nonce'
-
-# gas price
-Given I read the ethereum suggested gas price
-Given I have a 'gas_price'
+# data
+Given I have a 'string dictionary' named 'request_data'
+and I have a 'string dictionary' named 'broadcast_data'
+and I have a 'string dictionary' named 'commit'
+and I have a 'string' named 'request_path'
+and I have a 'string' named 'log_msg'
+and I have a 'gas_limit'
+and I have a 'string' named 'blockchain'
 
 # keys
 Given I have a 'ethereum address' named 'storage contract'
 Given I have a 'string' named 'chainid'
-
-# data
-Given I have a 'string dictionary' named 'request_data'
-Given I have a 'string dictionary' named 'broadcast_data'
-Given I have a 'string dictionary' named 'commit'
-Given I have a 'string' named 'request_path'
-Given I have a 'string' named 'log_msg'
-Given I have a 'gas_limit'
-Given I have a 'string' named 'blockchain'
 
 # store the hash to point
 When I create the hash to point 'ecp' of 'broadcast_data'
@@ -53,4 +47,5 @@ Then print the 'commit'
 Then print the 'request_data'
 Then print the 'blockchain'
 
+# restroom statements
 Then I ask ethereum to broadcast the 'signed_ethereum_transaction' and save the transaction id in 'txid'

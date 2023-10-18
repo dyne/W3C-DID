@@ -1,13 +1,16 @@
-Rule unknown ignore
+ule unknown ignore
 Rule input encoding base58
 Scenario 'ecdh': singature
 Scenario 'eddsa': signature
 Scenario 'w3c': did document
 
-# http_request
+# restroom statements
 Given I read the http request
+
+# restroom data
 Given I have a 'string' named 'base_url' inside 'http_request'
 
+# data
 Given I have a 'did document' named 'did document'
 and I rename 'did_document' to 'request_did_document'
 and I have a 'ecdh signature'
@@ -16,7 +19,7 @@ and I have a 'eddsa signature'
 and I have a 'string' named 'id'
 and I rename 'id' to 'signer_id'
 
-# constants
+# keys
 Given I have a 'string dictionary' named 'request_ACL'
 and I have a 'string dictionary' named 'signer_ACL'
 and I have a 'string dictionary' named 'utility'
