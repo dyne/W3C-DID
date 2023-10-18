@@ -1,4 +1,4 @@
-#Rule caller restroom-mw
+#Rule unknown ignore
 rule input encoding base58
 rule output encoding base58
 
