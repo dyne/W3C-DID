@@ -1,19 +1,19 @@
 Rule unknown ignore
 
-# verify git
+# restroom statements
 Given I verify the path 'data/' is a git repository
+and I read the http request
 
-# http_request.base_url
-Given I read the http request
+# restroom data
 Given I have a 'string' named 'base_url' inside 'http_request'
 
 # data
 Given I have a 'string dictionary' named 'request_data'
-Given I have a 'string dictionary' named 'commit'
-Given I have a 'string' named 'request path'
-Given I have a 'string' named 'log_msg'
-Given I have a 'string' named 'txid'
-Given I have a 'string' named 'blockchain'
+and I have a 'string dictionary' named 'commit'
+and I have a 'string' named 'request path'
+and I have a 'string' named 'log_msg'
+and I have a 'string' named 'txid'
+and I have a 'string' named 'blockchain'
 
 # verify contract is used inside the chain
 When I verify 'base_url' has suffix '.chain'
@@ -41,6 +41,7 @@ Then print the 'request_path'
 Then print the 'log_msg'
 Then print the 'commit'
 
+# restroom statements
 Then store 'request_data' in the file 'request_path'
-Then append the string 'log_msg' to the logfile in 'api_dyne_v1.log'
-Then make a new commit to the git repository in 'data'
+and append the string 'log_msg' to the logfile in 'api_dyne_v1.log'
+and make a new commit to the git repository in 'data'

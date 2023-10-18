@@ -3,8 +3,10 @@ Rule input encoding base58
 Scenario 'eddsa': singature
 Scenario 'w3c': did document
 
-# http_request
+# restroom statements
 Given I read the http request
+
+# restroom data
 Given I have a 'string' named 'base_url' inside 'http_request'
 
 # data
@@ -14,7 +16,7 @@ and I have a 'integer' named 'timestamp'
 and I have a 'string' named 'id'
 and I rename 'id' to 'signer_id'
 
-# constants
+# keys
 Given I have a 'string dictionary' named 'request_ACL'
 and I have a 'string dictionary' named 'signer_ACL'
 and I have a 'float' named '0'

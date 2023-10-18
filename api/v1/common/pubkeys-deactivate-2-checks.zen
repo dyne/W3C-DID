@@ -2,32 +2,24 @@ Rule unknown ignore
 Scenario 'ecdh': verify signature
 Scenario 'w3c': proof
 
-# http_request.base_url
+# restroom statements
 Given I read the http request
+and I verify the path 'data/' is a git repository
+and I fetch the local timestamp and store it into 'deactivate_timestamp'
+and I read the content of 'signer_path' and save the output into 'signer_data'
+amd I read the content of 'request_path' and save the output into 'request_data'
+
+# restroom data
 Given I have a 'string' named 'base_url' inside 'http_request'
-
-# verify git repo
-Given I verify the path 'data/' is a git repository
-
-# timestamp
-Given I fetch the local timestamp and store it into 'deactivate_timestamp'
 and I have a 'integer' named 'deactivate_timestamp'
-
-# signer did document
-Given I read the content of 'signer_path' and save the output into 'signer_data'
 and I have a 'did document' named 'didDocument' in 'signer_data'
 and I rename 'didDocument' to 'signer_did_document'
 and I have a 'string dictionary' named 'didDocumentMetadata' in 'signer_data'
 and I rename 'didDocumentMetadata' to 'signer_metadata'
-
-# request did document
-Given I read the content of 'request_path' and save the output into 'request_data'
 and I have a 'string dictionary' named 'request_data'
 and I have a 'string dictionary' named 'didDocumentMetadata' in 'request_data'
 and I rename 'didDocumentMetadata' to 'request_metadata'
 
-# keys
-Given I have a 'string' named 'commit_message_prefix_deactivate'
 # data
 Given I have a 'string' named 'deactivate_id'
 and I have a 'ecdh signature'
@@ -35,6 +27,9 @@ and I have a 'string' named 'request_path'
 and I have a 'string' named 'signer_id'
 and I have a 'string' named 'author'
 and I have a 'string' named 'commit message'
+
+# keys
+Given I have a 'string' named 'commit_message_prefix_deactivate'
 
 # verify contract is used inside the chain
 When I verify 'base_url' has suffix 'pubkeys-deactivate.chain'
@@ -81,6 +76,7 @@ and print the 'request_path'
 and print the 'log_msg'
 and print the 'commit'
 
+# restroom statements
 Then store 'result' in the file 'request_path'
-Then append the string 'log_msg' to the logfile in 'api_dyne_v1.log'
-Then make a new commit to the git repository in 'data'
+and append the string 'log_msg' to the logfile in 'api_dyne_v1.log'
+and make a new commit to the git repository in 'data'
