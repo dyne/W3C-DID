@@ -1,4 +1,4 @@
-ule unknown ignore
+Rule unknown ignore
 Rule input encoding base58
 Scenario 'ecdh': singature
 Scenario 'eddsa': signature

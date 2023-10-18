@@ -7,7 +7,7 @@ Given I read the http request
 and I verify the path 'data/' is a git repository
 and I fetch the local timestamp and store it into 'deactivate_timestamp'
 and I read the content of 'signer_path' and save the output into 'signer_data'
-amd I read the content of 'request_path' and save the output into 'request_data'
+and I read the content of 'request_path' and save the output into 'request_data'
 
 # restroom data
 Given I have a 'string' named 'base_url' inside 'http_request'

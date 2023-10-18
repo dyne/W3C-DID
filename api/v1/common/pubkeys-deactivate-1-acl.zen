@@ -1,4 +1,4 @@
-Rule unkown ignore
+Rule unknown ignore
 Rule input encoding base58
 Scenario 'ecdh': singature
 Scenario 'w3c': did document
