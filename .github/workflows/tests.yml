@@ -22,7 +22,7 @@ jobs:
     name: 🧪 Contract unit tests
     steps:
       - name: 🛎️ Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: ⏬ Install Zenroom
         run: |
           wget https://github.com/dyne/zenroom/releases/latest/download/zenroom -O zenroom
@@ -41,7 +41,7 @@ jobs:
     name: 🔬 API integration tests
     steps:
       - name: 🛎️ Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: ⏬ Install Zenroom
         run: |
           wget https://github.com/dyne/zenroom/releases/latest/download/zenroom -O zenroom
@@ -95,9 +95,9 @@ jobs:
         working-directory: bindings/javascript
     steps:
       - name: 🛎️ Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: ⚙️ Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
       - name: ⏬ Install dependencies
