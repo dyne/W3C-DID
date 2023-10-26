@@ -5314,8 +5314,8 @@ yocto-queue@^1.0.0:
   integrity sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==
 
 zenroom@^3.0.0:
-  version "3.23.2"
-  resolved "https://registry.npmjs.org/zenroom/-/zenroom-3.23.2.tgz"
-  integrity sha512-T5S6dkIhGVkH2buZhgWSHikLhhEgc2ZxxRCiquVxkGDXkr7ytyQCL29Ovp/ClaJqfMfeZVjoyDMa7E5oc4fCDQ==
+  version "3.23.4"
+  resolved "https://registry.npmjs.org/zenroom/-/zenroom-3.23.4.tgz"
+  integrity sha512-ZcgLydUXqviQzmehQy2bnuQiuPEhRBAGSLZZN3YiaIQ4uo6e5RjG3/EiRDFJV5shiKH09fhhb8ci5ORbd4kcoQ==
   dependencies:
     yarn "^1.22.19"
