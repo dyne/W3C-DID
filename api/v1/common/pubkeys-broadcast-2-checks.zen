@@ -55,11 +55,11 @@ and I verify the 'json escaped string' has a eddsa signature in 'eddsa signature
 
 # extract data to be broadcast
 When I create the 'string dictionary' named 'broadcast_data'
-When I create the copy of '@context' in 'request_data'
+When I create the copy of '@context' from 'request_data'
 and I move the 'copy' to '@context' in 'broadcast_data'
-When I create the copy of 'didDocument' in 'request_data'
+When I create the copy of 'didDocument' from 'request_data'
 and I move the 'copy' to 'didDocument' in 'broadcast_data'
-When I create the copy of 'didDocumentMetadata' in 'request_data'
+When I create the copy of 'didDocumentMetadata' from 'request_data'
 and I rename 'copy' to 'didDocumentMetadata_copy'
 and I create the 'string dictionary' named 'didDocumentMetadata'
 and I pickup from path 'didDocumentMetadata_copy.created'
@@ -74,11 +74,11 @@ EndIf
 # blockchains txids
 ## compose the blockchain api endpoint (dash is used in its name)
 When I create the array by splitting 'base_url' at '-'
-and I create the copy of element '3' in array 'array'
+and I create the copy of element '3' from array 'array'
 and I remove 'array'
 and I rename 'copy' to 'blockchain.chain'
 and I create the array by splitting 'blockchain.chain' at '.'
-and I create the copy of element '1' in array 'array'
+and I create the copy of element '1' from array 'array'
 and I remove 'array'
 and I rename 'copy' to 'blockchain'
 ## match the blockchain is supported by api

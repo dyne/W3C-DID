@@ -35,7 +35,7 @@ and print the 'eddsa signature'
 EndIf
 
 If I verify 'deactivate_id' is found in 'request'
-When I copy the 'deactivate_id' in 'request' to 'json escaped string'
+When I copy the 'deactivate_id' from 'request' to 'json escaped string'
 Then print the 'deactivate_id' from 'request'
 EndIf
 
