@@ -35,9 +35,9 @@ and I set 'request_path' to 'data/dyne/' as 'string'
 
 # signer_parts
 When I create the array by splitting 'signer_id' at ':'
-and I create the copy of element '3' in array 'array'
+and I create the copy of element '3' from array 'array'
 and I rename the 'copy' to 'signer_idspec'
-and I create the copy of element '4' in array 'array'
+and I create the copy of element '4' from array 'array'
 and I rename the 'copy' to 'signer_idpk'
 and I remove 'array'
 and I create the array by splitting 'signer_idspec' at '_'
@@ -50,9 +50,9 @@ and I remove 'array'
 
 # request_parts
 When I create the array by splitting 'deactivate_id' at ':'
-and I create the copy of element '3' in array 'array'
+and I create the copy of element '3' from array 'array'
 and I rename the 'copy' to 'request_idspec'
-and I create the copy of element '4' in array 'array'
+and I create the copy of element '4' from array 'array'
 and I rename the 'copy' to 'request_idpk'
 and I copy 'request_idspec' to 'commit message'
 and I remove 'array'
@@ -66,11 +66,11 @@ When I append 'request_idpk' to 'request_path'
 # request domain
 When I rename 'array' to 'request_split_by_underscore'
 and I verify the size of 'request_split_by_underscore' is less or equal than '2'
-and I create the copy of element '1' in array 'request_split_by_underscore'
+and I create the copy of element '1' from array 'request_split_by_underscore'
 and I rename 'copy' to 'request_domain.request_ctx'
 and I create the array by splitting 'request_domain.request_ctx' at '.'
 and I verify the size of 'array' is less or equal than '2'
-and I create the copy of element '1' in array 'array'
+and I create the copy of element '1' from array 'array'
 and I rename 'copy' to 'request_domain'
 and I remove 'array'
 # check request_domain is allowed
@@ -87,7 +87,7 @@ EndIf
 When I create the array by splitting 'signer_idspec' at '_'
 and I create the size of 'array'
 and I verify number 'size' is less or equal than '2'
-and I create the copy of element '1' in array 'array'
+and I create the copy of element '1' from array 'array'
 and I rename 'copy' to 'signer_domain.signer_ctx'
 
 # no underscore => has to be admin
@@ -109,7 +109,7 @@ and I verify 'self_allowed' is not equal to 'true' in 'utility'
 When I remove 'exit_code'
 and I set 'exit_code' to 'check signer permissions' as 'string'
 
-When I create the copy of element '2' in array 'array'
+When I create the copy of element '2' from array 'array'
 and I verify the 'copy' is found in 'signer_ACL'
 and I remove 'copy'
 
@@ -167,7 +167,7 @@ If I verify the size of 'request_split_by_underscore' is more or equal than '2'
 When I remove 'exit_code'
 and I set 'exit_code' to 'check request permissions' as 'string'
 
-When I create the copy of element '2' in array 'request_split_by_underscore'
+When I create the copy of element '2' from array 'request_split_by_underscore'
 and I verify the 'copy' is found in 'request_ACL'
 
 When I remove 'exit_code'
