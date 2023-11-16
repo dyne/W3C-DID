@@ -70,7 +70,7 @@ blocks:
       When I write string 'finished' in 'state'
       and I move 'state' in 'didState'
       # didState.didDocument
-      When I pickup from path 'oracle_output.result.did_result.resultresult..didDocument'
+      When I pickup from path 'oracle_output.result.did_result.result.result.didDocument'
       and I move 'didDocument' in 'didState'
       EndIf
 
