@@ -1,0 +1,24 @@
+Scenario 'eddsa': signature
+
+# keys
+Given my name is in a 'string' named 'controller'
+Given I have my 'keyring'
+
+# data
+Given I have a 'base64' in path 'didState.signingRequest.signingRequest1.serializedPayload'
+and I have a 'string' named 'jobId'
+
+When I create the eddsa signature of 'serializedPayload'
+
+When I create the 'string dictionary' named 'secret'
+and I create the 'string dictionary' named 'signingResponse'
+and I create the 'string dictionary' named 'signingRequest1'
+and I write the string '' in 'signature'
+and I append the 'base64' of 'eddsa signature' to 'signature'
+and I move the 'signature' in 'signingRequest1'
+and I move the 'signingRequest1' in 'signingResponse'
+and I move the 'signingResponse' in 'secret'
+
+Then print the 'jobId'
+Then print the 'secret'
+
