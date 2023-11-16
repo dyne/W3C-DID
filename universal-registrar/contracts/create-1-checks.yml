@@ -52,6 +52,9 @@ blocks:
 
       Scenario 'w3c': did doc
 
+      # Restroom statement
+      Given I have a redis connection on 'redis://localhost:6379'
+
       # data
       Given I have a 'string dictionary' named 'didDocument'
       and I have a 'string' named 'timestamp'
@@ -103,7 +106,7 @@ blocks:
       and print the 'jobId' as 'hex'
 
       # Restroom on success
-      Then I store 'stored' in the file 'jobId'
+      Then I write 'stored' into redis under the key named by 'jobId'
     keysFile: create-13-action.keys
     next: create-14-print.zen
   create-14-print.zen:

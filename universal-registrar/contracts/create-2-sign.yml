@@ -8,16 +8,16 @@ blocks:
       Scenario 'eddsa': verify sign
 
       # Restroom statement
-      Given I read the content of 'jobId'
+      Given I have a redis connection on 'redis://localhost:6379'
+      Given I read from redis the data under the key named 'jobId' and save the output into 'redis_data'
 
       # restroom data
-      Given I have a 'base64' in path 'didState.signingRequest.signingRequest1.serializedPayload'
-      and I have a 'string dictionary' named 'didDocument'
+      Given I have a 'base64' in path 'redis_data.didState.signingRequest.signingRequest1.serializedPayload'
+      and I have a 'string dictionary' in path 'redis_data.didDocument'
 
       # data
       Given I have a 'base64' in path 'secret.signingResponse.signingRequest1.signature'
-
-      # keys (?)
+      and I have a 'string' named 'jobId'
 
       #verify signature
       When I create the 'eddsa' public key from did document 'didDocument'
@@ -37,6 +37,10 @@ blocks:
 
       Then print the 'didState'
       and print the 'post'
+      and print the 'jobId'
+
+      # restroom on success
+      Then I remove the key 'jobId' in redis
     next: create-22-post.zen
   create-22-post.zen:
     zenContent: |

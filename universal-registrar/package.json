@@ -7,8 +7,8 @@
   },
   "dependencies": {
     "@restroom-mw/core": "0.13.1-378d393.108",
-    "@restroom-mw/files": "0.13.1-378d393.108",
     "@restroom-mw/http": "0.13.1-378d393.108",
+    "@restroom-mw/redis": "0.13.1-378d393.108",
     "@restroom-mw/timestamp": "0.13.1-378d393.108",
     "@restroom-mw/ui": "0.13.1-378d393.108",
     "@restroom-mw/utils": "0.13.1-378d393.108",
