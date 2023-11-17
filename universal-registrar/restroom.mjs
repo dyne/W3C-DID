@@ -66,7 +66,6 @@ app.post('/create', async (req, res) => {
 	});
     }
     const rr = await r.json();
-    console.log(rr);
     if (r.status == "500") res.send(rr.zenroom_errors)
     else res.send(rr);
 })
