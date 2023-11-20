@@ -27,6 +27,8 @@ blocks:
       When I create the 'string dictionary' named 'post'
       and I create the 'string dictionary' named 'data'
       and I copy 'didDocument' in 'data'
+      and I write string 'create' in 'operation'
+      and I move 'operation' in 'data'
       and I move 'data' in 'post'
 
       # prepare output
