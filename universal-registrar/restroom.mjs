@@ -43,6 +43,9 @@ const formatInput = (input) => {
     return { data: input }
 }
 
+// TODO: check existance of eddsa pk in Did document when jobId not found
+// In case of error try to make it more easier to read
+
 app.post('/create', async (req, res) => {
     const body = JSON.stringify(formatInput(req.body));
     var r;
@@ -57,6 +60,34 @@ app.post('/create', async (req, res) => {
 	});
     } else {
 	r = await fetch('http://localhost:3000/api/create-1-checks.chain', {
+	    method: "POST",
+	    body: body,
+	    headers: {
+		"Accept": "application/json",
+		"Content-Type": "application/json"
+	    }
+	});
+    }
+    const rr = await r.json();
+    if (r.status == "500") res.send(rr.zenroom_errors)
+    else res.send(rr);
+})
+
+// TODO: accept only setDidDocument or nil values for didDocumentOperation
+app.post('/update', async (req, res) => {
+    const body = JSON.stringify(formatInput(req.body));
+    var r;
+    if (req.body.jobId) {
+	r = await fetch('http://localhost:3000/api/update-2-sign.chain', {
+	    method: "POST",
+	    body: body,
+	    headers: {
+		"Accept": "application/json",
+		"Content-Type": "application/json"
+	    }
+	});
+    } else {
+	r = await fetch('http://localhost:3000/api/update-1-checks.chain', {
 	    method: "POST",
 	    body: body,
 	    headers: {
