@@ -1,0 +1,98 @@
+zenchain: 1.0
+start: update-21-check-sign.zen
+blocks:
+  update-21-check-sign.zen:
+    zenContent: |
+      Rule unknown ignore
+      Scenario 'w3c': did
+      Scenario 'eddsa': verify sign
+
+      # Restroom statement
+      Given I have a redis connection on 'redis://localhost:6379'
+      Given I read from redis the data under the key named 'jobId' and save the output into 'redis_data'
+
+      # restroom data
+      Given I have a 'base64' in path 'redis_data.didState.signingRequest.signingRequest1.serializedPayload'
+      and I have a 'string dictionary' in path 'redis_data.didDocument'
+      and I have a 'string dictionary' in path 'redis_data.newDidDocument'
+
+      # data
+      Given I have a 'base64' in path 'secret.signingResponse.signingRequest1.signature'
+      and I have a 'string' named 'jobId'
+
+      #verify signature
+      When I create the 'eddsa' public key from did document 'didDocument'
+      and I verify the 'serializedPayload' has a eddsa signature in 'signature' by 'eddsa_public_key'
+
+      # prepare post for oracle
+      When I create the 'string dictionary' named 'post'
+      and I create the 'string dictionary' named 'data'
+      and I copy 'newDidDocument' to 'didDocument' in 'data'
+      and I write string 'update' in 'operation'
+      and I move 'operation' in 'data'
+      and I move 'data' in 'post'
+
+      # prepare output
+      When I create the 'string dictionary' named 'didState'
+      # didState.did
+      When I pickup from path 'didDocument.id'
+      and I move 'id' to 'did' in 'didState'
+
+      Then print the 'didState'
+      and print the 'post'
+      and print the 'jobId'
+
+      # restroom on success
+      Then I remove the key 'jobId' in redis
+    next: update-22-post.zen
+  update-22-post.zen:
+    zenContent: |
+      Rule unknown ignore
+
+      # Restroom statement
+      Given I connect to 'oracle_url' and pass it the content of 'post' and save the output into 'oracle_output'
+
+      # Restroom data
+      Given I have a 'string dictionary' named 'oracle_output'
+
+      # data
+      Given I have a 'string dictionary' named 'didState'
+      
+      When I pickup from path 'oracle_output.status'
+      and I set '200' to '200' as 'float'
+      and I set '500' to '500' as 'float'
+
+      If I verify 'status' is equal to '200'
+      When I remove 'status'
+      and I pickup from path 'oracle_output.result.did_result.status'
+      EndIf
+
+      # If created print didState
+      If I verify 'status' is equal to '200'
+      # didState.state
+      When I write string 'finished' in 'state'
+      and I move 'state' in 'didState'
+      # didState.didDocument
+      When I pickup from path 'oracle_output.result.did_result.result.result.didDocument'
+      and I move 'didDocument' in 'didState'
+      EndIf
+
+      # If not create print error
+      If I verify 'status' is equal to '500'
+      # didState.state
+      When I write string 'failed' in 'state'
+      and I move 'state' in 'didState'
+      # didState.reason
+      When I write string 'something went wrong see didRegistrationMetadata for a complete error log' in 'reason'
+      and I move 'reason' in 'didState'
+
+      # didRegistrationMetadata
+      When  I create the 'string dictionary' named 'didRegistrationMetadata'
+      and I pickup from path 'oracle_output.result'
+      and I move 'result' to 'error_log' in 'didRegistrationMetadata'
+
+      Then print the 'didRegistrationMetadata'
+      EndIf
+
+      Then print the 'didState'
+    keysFile: update-22-post.keys

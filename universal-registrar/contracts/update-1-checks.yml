@@ -1,0 +1,120 @@
+zenchain: 1.0
+start: update-11-check-prefix.zen
+blocks:
+  update-11-check-prefix.zen:
+    zenContent: |
+      Scenario 'w3c': did document
+
+      # data
+      Given I have a 'string dictionary' named 'didDocument'
+
+      # keys
+      Given I have a 'string' named 'get'
+
+      # check id
+      When I pickup from path 'didDocument.id'
+      and I verify 'id' has prefix 'did:dyne:sandbox.uniregistrar:'
+
+      # prepare get for did
+      When I append 'id' to 'get'
+
+      Then print the 'get'
+      and print the 'didDocument'
+    keysFile: update-11-check-prefix.keys
+    next: update-12-check-exist.zen
+  update-12-check-exist.zen:
+    zenContent: |
+      Rule unknown ignore
+
+      # restroom statement
+      Given I have a endpoint named 'get'
+      and I connect to 'get' and save the output into 'get_result'
+      and I fetch the local timestamp and store it into 'timestamp'
+
+      # restroom data
+      Given I have a 'string dictionary' named 'get_result'
+      and I have a 'string' named 'timestamp'
+
+      # data
+      Given I have a 'string dictionary' named 'didDocument'
+      and I rename 'didDocument' to 'newDidDocument'
+
+      # check it does not exists
+      When I pickup from path 'get_result.status'
+      and I write number '200' in '200'
+      and I verify 'status' is equal to '200'
+      and I pickup from path 'get_result.result.didDocument'
+
+      Then print the 'newDidDocument'
+      and print the 'timestamp'
+      and print the 'didDocument'
+    next: update-13-action.zen
+  update-13-action.zen:
+    zenContent: |
+      Rule unknown ignore
+
+      # Restroom statement
+      Given I have a redis connection on 'redis://localhost:6379'
+
+      # data
+      Given I have a 'string dictionary' named 'newDidDocument'
+      and I have a 'string dictionary' named 'didDocument'
+      and I have a 'string' named 'timestamp'
+
+      # keys
+      Given I have a 'string dictionary' named 'didState'
+
+      When I pickup from path 'didDocument.id' 
+
+      # jobId
+      When I copy 'id' to 'jobId'
+      
+      # kid
+      When I write string '' in 'kid'
+      and I append 'id' to 'kid'
+      and I append the string '#eddsa_public_key' to 'kid'
+
+      # alg
+      When I write string 'EdDSA' in 'alg'
+
+      # serializedPayload
+      When I create the 'string dictionary' named 'to_be_hashed'
+      and I copy 'newDidDocument' in 'to_be_hashed'
+      and I copy 'timestamp' in 'to_be_hashed'
+      and I create the json escaped string of 'to_be_hashed'
+      and I create the hash of 'json_escaped_string'
+      and I write string '' in 'serializedPayload'
+      and I append 'base64' of 'hash' to 'serializedPayload'
+
+      # signingRequest
+      When I create the 'string dictionary' named 'signingRequest'
+      and I create the 'string dictionary' named 'signingRequest1'
+      and I move 'kid' in 'signingRequest1'
+      and I move 'alg' in 'signingRequest1'
+      and I move 'serializedPayload' in 'signingRequest1'
+      and I move 'signingRequest1' in 'signingRequest'
+
+      # did State
+      When I move 'signingRequest' in 'didState'
+
+      # to be stored
+      When I create the 'string dictionary' named 'stored'
+      and I copy 'didState' in 'stored'
+      and I copy 'didDocument' in 'stored'
+      and I copy 'newDidDocument' in 'stored'
+
+      Then print the 'didState'
+      and print the 'stored'
+      and print the 'jobId' as 'hex'
+
+      # Restroom on success
+      Then I write 'stored' into redis under the key named by 'jobId'
+    keysFile: update-13-action.keys
+    next: update-14-print.zen
+  update-14-print.zen:
+    zenContent: |
+      Given I have a 'string dictionary' named 'didState'
+      and I have a 'string' named 'jobId'
+      
+      Then print the 'didState'
+      and print the 'jobId'
