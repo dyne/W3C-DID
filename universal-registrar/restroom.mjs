@@ -38,6 +38,16 @@ if (OPENAPI) {
 }
 zencode.addMiddlewares("/api", app);
 
+const checkVariousInput = (input) => {
+    if (!input.options || !input.options.clientSecretMode) {
+	return true, "dyne method accept only clinetSecretMode option";
+    }
+    if (!input.secret) {
+	return true, "secret not found in body";
+    }
+    return false, "";
+}
+
 const verMethodResponse = {
     jobId: null,
     didState: {
@@ -55,7 +65,7 @@ const verMethodResponse = {
 const checkverificationMethod = (input) => {
     let found = false
     if (input.didDocument && input.didDocument.verificationMethod) {
-	for (let v of verificationMethod) {
+	for (let v of input.didDocument.verificationMethod) {
 	    if (v.type == "Ed25519VerificationKey2018") {
 		found = true;
 		break;
@@ -69,8 +79,19 @@ const formatInput = (input) => {
     return { data: input }
 }
 
-// TODO: In case of error try to make it more easier to read
 app.post('/create', async (req, res) => {
+    let invalid, error = checkVariousInput(req.body);
+    if (invalid) {
+	res.send({
+	    jobId: req.body.jobId,
+	    didState: {
+		state: "failed",
+		did: req.body.did,
+		reason: error
+	    }
+	});
+	return;
+    }
     const body = JSON.stringify(formatInput(req.body));
     var r;
     if (req.body.jobId) {
@@ -83,7 +104,10 @@ app.post('/create', async (req, res) => {
 	    }
 	});
     } else {
-	if (checkverificationMethod(req.body)) res.send(verMethodResponse);
+	if (checkverificationMethod(req.body)) {
+	    res.send(verMethodResponse);
+	    return;
+	}
 	r = await fetch('http://localhost:3000/api/create-1-checks.chain', {
 	    method: "POST",
 	    body: body,
@@ -102,11 +126,22 @@ app.post('/create', async (req, res) => {
 // accept only setDidDocument or nil values for didDocumentOperation
 const isOperationValid = (input) => {
     const op = input.didDocumentOperation;
-    console.log(op);
     return (!op) || ((op.length == 1) && (op[0] == "setDidDocument"));
 }
 
 app.post('/update', async (req, res) => {
+    let invalid, error = checkVariousInput(req.body);
+    if (invalid) {
+	res.send({
+	    jobId: req.body.jobId,
+	    didState: {
+		state: "failed",
+		did: req.body.did,
+		reason: error
+	    }
+	});
+	return;
+    }
     const body = JSON.stringify(formatInput(req.body));
     var r;
     if (req.body.jobId) {
@@ -120,15 +155,26 @@ app.post('/update', async (req, res) => {
 	});
     } else {
 	if (!isOperationValid(req.body)) {
-	    const setDidDocumentError = {
+	    res.send({
 		jobId: null,
 		didState: {
 		    state: "failed",
-		    did: `req.body.did`,
+		    did: req.body.did,
 		    reason: "update api accept only setDidDocument as didDocumentOperation"
 		}
-	    }
-	    res.send(setDidDocumentError);
+	    });
+	    return;
+	}
+	if (!req.body.didDocument) {
+	    res.send({
+		jobId: null,
+		didState: {
+		    state: "failed",
+		    did: req.body.did,
+		    reason: "didDocument not found in input"
+		}
+	    });
+	    return;
 	}
 	r = await fetch('http://localhost:3000/api/update-1-checks.chain', {
 	    method: "POST",
@@ -145,6 +191,18 @@ app.post('/update', async (req, res) => {
 })
 
 app.post('/deactivate', async (req, res) => {
+    let invalid, error = checkVariousInput(req.body);
+    if (invalid) {
+	res.send({
+	    jobId: req.body.jobId,
+	    didState: {
+		state: "failed",
+		did: req.body.did,
+		reason: error
+	    }
+	});
+	return;
+    }
     const body = JSON.stringify(formatInput(req.body));
     var r;
     if (req.body.jobId) {
@@ -157,6 +215,17 @@ app.post('/deactivate', async (req, res) => {
 	    }
 	});
     } else {
+	if (!req.body.did) {
+	    res.send({
+		jobId: null,
+		didState: {
+		    state: "failed",
+		    did: req.body.did,
+		    reason: "did not found in input"
+		}
+	    });
+	    return;
+	}
 	r = await fetch('http://localhost:3000/api/deactivate-1-checks.chain', {
 	    method: "POST",
 	    body: body,
