@@ -38,14 +38,38 @@ if (OPENAPI) {
 }
 zencode.addMiddlewares("/api", app);
 
+const verMethodResponse = {
+    jobId: null,
+    didState: {
+	state: "action",
+	action: "getVerificationMethod",
+	verificationMethodTemplate:
+	[
+	    {
+	    "type": "Ed25519VerificationKey2018"
+	    }
+	]
+    }
+}
+
+const checkverificationMethod = (input) => {
+    let found = false
+    if (input.didDocument && input.didDocument.verificationMethod) {
+	for (let v of verificationMethod) {
+	    if (v.type == "Ed25519VerificationKey2018") {
+		found = true;
+		break;
+	    }
+	}
+    }
+    return !found;
+}
 
 const formatInput = (input) => {
     return { data: input }
 }
 
-// TODO: check existance of eddsa pk in Did document when jobId not found
-// In case of error try to make it more easier to read
-
+// TODO: In case of error try to make it more easier to read
 app.post('/create', async (req, res) => {
     const body = JSON.stringify(formatInput(req.body));
     var r;
@@ -59,6 +83,7 @@ app.post('/create', async (req, res) => {
 	    }
 	});
     } else {
+	if (checkverificationMethod(req.body)) res.send(verMethodResponse);
 	r = await fetch('http://localhost:3000/api/create-1-checks.chain', {
 	    method: "POST",
 	    body: body,
@@ -73,7 +98,14 @@ app.post('/create', async (req, res) => {
     else res.send(rr);
 })
 
-// TODO: accept only setDidDocument or nil values for didDocumentOperation
+
+// accept only setDidDocument or nil values for didDocumentOperation
+const isOperationValid = (input) => {
+    const op = input.didDocumentOperation;
+    console.log(op);
+    return (!op) || ((op.length == 1) && (op[0] == "setDidDocument"));
+}
+
 app.post('/update', async (req, res) => {
     const body = JSON.stringify(formatInput(req.body));
     var r;
@@ -87,6 +119,17 @@ app.post('/update', async (req, res) => {
 	    }
 	});
     } else {
+	if (!isOperationValid(req.body)) {
+	    const setDidDocumentError = {
+		jobId: null,
+		didState: {
+		    state: "failed",
+		    did: `req.body.did`,
+		    reason: "update api accept only setDidDocument as didDocumentOperation"
+		}
+	    }
+	    res.send(setDidDocumentError);
+	}
 	r = await fetch('http://localhost:3000/api/update-1-checks.chain', {
 	    method: "POST",
 	    body: body,
@@ -101,7 +144,6 @@ app.post('/update', async (req, res) => {
     else res.send(rr);
 })
 
-// TODO: accept only setDidDocument or nil values for didDocumentOperation
 app.post('/deactivate', async (req, res) => {
     const body = JSON.stringify(formatInput(req.body));
     var r;
