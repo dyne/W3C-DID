@@ -48,22 +48,8 @@ const checkVariousInput = (input) => {
     return false, "";
 }
 
-const verMethodResponse = {
-    jobId: null,
-    didState: {
-	state: "action",
-	action: "getVerificationMethod",
-	verificationMethodTemplate:
-	[
-	    {
-	    "type": "Ed25519VerificationKey2018"
-	    }
-	]
-    }
-}
-
 const checkverificationMethod = (input) => {
-    let found = false
+    var found = false;
     if (input.didDocument && input.didDocument.verificationMethod) {
 	for (let v of input.didDocument.verificationMethod) {
 	    if (v.type == "Ed25519VerificationKey2018") {
@@ -80,9 +66,9 @@ const formatInput = (input) => {
 }
 
 app.post('/create', async (req, res) => {
-    let invalid, error = checkVariousInput(req.body);
+    var invalid, error = checkVariousInput(req.body);
     if (invalid) {
-	res.send({
+	res.status(400).send({
 	    jobId: req.body.jobId,
 	    didState: {
 		state: "failed",
@@ -93,33 +79,42 @@ app.post('/create', async (req, res) => {
 	return;
     }
     const body = JSON.stringify(formatInput(req.body));
-    var r;
+    var url;
+    var status;
     if (req.body.jobId) {
-	r = await fetch('http://localhost:3000/api/create-2-sign.chain', {
-	    method: "POST",
-	    body: body,
-	    headers: {
-		"Accept": "application/json",
-		"Content-Type": "application/json"
-	    }
-	});
+	url = 'http://localhost:3000/api/create-2-sign.chain';
+	status = 201;
     } else {
 	if (checkverificationMethod(req.body)) {
-	    res.send(verMethodResponse);
+	    res.status(400).send({
+		jobId: null,
+		didState: {
+		    state: "action",
+		    action: "getVerificationMethod",
+		    verificationMethodTemplate:
+		    [
+			{
+			    "type": "Ed25519VerificationKey2018"
+			}
+		    ]
+		}
+	    });
 	    return;
 	}
-	r = await fetch('http://localhost:3000/api/create-1-checks.chain', {
-	    method: "POST",
-	    body: body,
-	    headers: {
-		"Accept": "application/json",
-		"Content-Type": "application/json"
-	    }
-	});
+	url = 'http://localhost:3000/api/create-1-checks.chain';
+	status = 200
     }
+    const r = await fetch(url, {
+	method: "POST",
+	body: body,
+	headers: {
+	    "Accept": "application/json",
+	    "Content-Type": "application/json"
+	}
+    });
     const rr = await r.json();
-    if (r.status == "500") res.send(rr.zenroom_errors)
-    else res.send(rr);
+    if (r.status == "500") res.status(500).send(rr.zenroom_errors)
+    else res.status(status).send(rr);
 })
 
 
@@ -130,9 +125,9 @@ const isOperationValid = (input) => {
 }
 
 app.post('/update', async (req, res) => {
-    let invalid, error = checkVariousInput(req.body);
+    var invalid, error = checkVariousInput(req.body);
     if (invalid) {
-	res.send({
+	res.status(400).send({
 	    jobId: req.body.jobId,
 	    didState: {
 		state: "failed",
@@ -143,19 +138,14 @@ app.post('/update', async (req, res) => {
 	return;
     }
     const body = JSON.stringify(formatInput(req.body));
-    var r;
+    var url;
+    var status;
     if (req.body.jobId) {
-	r = await fetch('http://localhost:3000/api/update-2-sign.chain', {
-	    method: "POST",
-	    body: body,
-	    headers: {
-		"Accept": "application/json",
-		"Content-Type": "application/json"
-	    }
-	});
+	url = 'http://localhost:3000/api/update-2-sign.chain';
+	status = 201;
     } else {
 	if (!isOperationValid(req.body)) {
-	    res.send({
+	    res.status(400).send({
 		jobId: null,
 		didState: {
 		    state: "failed",
@@ -166,7 +156,7 @@ app.post('/update', async (req, res) => {
 	    return;
 	}
 	if (!req.body.didDocument) {
-	    res.send({
+	    res.status(400).send({
 		jobId: null,
 		didState: {
 		    state: "failed",
@@ -176,24 +166,26 @@ app.post('/update', async (req, res) => {
 	    });
 	    return;
 	}
-	r = await fetch('http://localhost:3000/api/update-1-checks.chain', {
-	    method: "POST",
-	    body: body,
-	    headers: {
-		"Accept": "application/json",
-		"Content-Type": "application/json"
-	    }
-	});
+	url = 'http://localhost:3000/api/update-1-checks.chain';
+	status = 200;
     }
+    const r = await fetch(url, {
+	method: "POST",
+	body: body,
+	headers: {
+	    "Accept": "application/json",
+	    "Content-Type": "application/json"
+	}
+    });
     const rr = await r.json();
-    if (r.status == "500") res.send(rr.zenroom_errors)
-    else res.send(rr);
+    if (r.status == "500") res.status(500).send(rr.zenroom_errors)
+    else res.status(status).send(rr);
 })
 
 app.post('/deactivate', async (req, res) => {
-    let invalid, error = checkVariousInput(req.body);
+    var invalid, error = checkVariousInput(req.body);
     if (invalid) {
-	res.send({
+	res.status(400).send({
 	    jobId: req.body.jobId,
 	    didState: {
 		state: "failed",
@@ -204,19 +196,14 @@ app.post('/deactivate', async (req, res) => {
 	return;
     }
     const body = JSON.stringify(formatInput(req.body));
-    var r;
+    var url;
+    var status;
     if (req.body.jobId) {
-	r = await fetch('http://localhost:3000/api/deactivate-2-sign.chain', {
-	    method: "POST",
-	    body: body,
-	    headers: {
-		"Accept": "application/json",
-		"Content-Type": "application/json"
-	    }
-	});
+	url = 'http://localhost:3000/api/deactivate-2-sign.chain';
+	status = 201;
     } else {
 	if (!req.body.did) {
-	    res.send({
+	    res.status(400).send({
 		jobId: null,
 		didState: {
 		    state: "failed",
@@ -226,18 +213,20 @@ app.post('/deactivate', async (req, res) => {
 	    });
 	    return;
 	}
-	r = await fetch('http://localhost:3000/api/deactivate-1-checks.chain', {
-	    method: "POST",
-	    body: body,
-	    headers: {
-		"Accept": "application/json",
-		"Content-Type": "application/json"
-	    }
-	});
+	url = 'http://localhost:3000/api/deactivate-1-checks.chain';
+	status = 200;
     }
+    const r = await fetch(url, {
+	method: "POST",
+	body: body,
+	headers: {
+	    "Accept": "application/json",
+	    "Content-Type": "application/json"
+	}
+    });
     const rr = await r.json();
-    if (r.status == "500") res.send(rr.zenroom_errors)
-    else res.send(rr);
+    if (r.status == "500") res.status(500).send(rr.zenroom_errors)
+    else res.status(status).send(rr);
 })
 
 const contracts = fs.readdirSync(ZENCODE_DIR);
