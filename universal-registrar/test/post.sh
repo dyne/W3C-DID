@@ -21,7 +21,13 @@ call_api() {
 	 "http://localhost:3000/${1}" \
 	 -H 'accept: application/json' \
 	 -H 'Content-Type: application/json' \
-	 -d $(cat res.json)
+	 -d '{
+		"options": {
+			"clientSecretMode": true
+		},
+		"jobId": '"$(cat res.json | jq '.jobId')"',
+		"secret": '"$(cat res.json | jq '.secret')"'
+	    }'
 
     rm -f output.json res.json
 }
