@@ -101,6 +101,34 @@ app.post('/update', async (req, res) => {
     else res.send(rr);
 })
 
+// TODO: accept only setDidDocument or nil values for didDocumentOperation
+app.post('/deactivate', async (req, res) => {
+    const body = JSON.stringify(formatInput(req.body));
+    var r;
+    if (req.body.jobId) {
+	r = await fetch('http://localhost:3000/api/deactivate-2-sign.chain', {
+	    method: "POST",
+	    body: body,
+	    headers: {
+		"Accept": "application/json",
+		"Content-Type": "application/json"
+	    }
+	});
+    } else {
+	r = await fetch('http://localhost:3000/api/deactivate-1-checks.chain', {
+	    method: "POST",
+	    body: body,
+	    headers: {
+		"Accept": "application/json",
+		"Content-Type": "application/json"
+	    }
+	});
+    }
+    const rr = await r.json();
+    if (r.status == "500") res.send(rr.zenroom_errors)
+    else res.send(rr);
+})
+
 const contracts = fs.readdirSync(ZENCODE_DIR);
 
 if (contracts.length > 0) {
