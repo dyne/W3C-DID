@@ -20,7 +20,7 @@ blocks:
 
       Then print the 'get'
       and print the 'didDocument'
-    keysFile: create-11-check-prefix.keys
+    keysFile: did-get.keys
     next: create-12-check-exist.zen
   create-12-check-exist.zen:
     zenContent: |
@@ -107,7 +107,7 @@ blocks:
 
       # Restroom on success
       Then I write 'stored' into redis under the key named by 'jobId'
-    keysFile: create-13-action.keys
+    keysFile: did-state.keys
     next: create-14-print.zen
   create-14-print.zen:
     zenContent: |

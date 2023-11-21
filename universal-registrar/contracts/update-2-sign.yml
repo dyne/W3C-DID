@@ -95,4 +95,4 @@ blocks:
       EndIf
 
       Then print the 'didState'
-    keysFile: update-22-post.keys
+    keysFile: oracle-post.keys
