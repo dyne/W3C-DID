@@ -19,11 +19,7 @@ jobs:
       with:
         filters: |
           registrar:
-            - 'contracts/**'
-            - 'Dockerfile'
-            - 'package.json'
-            - 'restroom.mjs'
-        working-directory: 'universal-registrar'
+            - 'universal-registrar/**'
 
   set-version:
     name: "📌 Set version"
@@ -34,12 +30,12 @@ jobs:
       version: ${{ steps.version.outputs.version }}
     steps:
       - name: ⬇ install dependecy
-        run: sudo apt-get install-y skopeo jq
+        run: sudo apt-get install -y skopeo jq
       - name: 📡 get docker version
         id: version
         run: |
           (skopeo inspect docker://docker.io/dyne/did-registrar:0.1 2>/dev/null || echo '{"RepoTags": ["0.0"]}') \
-            | jq '.RepoTags .[]' \
+            | jq -r '.RepoTags | .[]' \
             | sort -Vr \
             | head -n 1 \
             | awk 'BEGIN{FS=OFS="."} {$2+=1} { printf("version=%s.%s\n",$1, $2) }' >> $GITHUB_OUTPUT
@@ -62,16 +58,12 @@ jobs:
         with:
           images: |
             dyne/did-registrar
-          tags: |
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
           labels: |
             org.opencontainers.image.vendor=Dyne.org
       - name: 🏗️ Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: universal-registrar
-          file: ./Dockerfile
           push: true
           tags: ${{ needs.set-version.outputs.version }}
           labels: ${{ steps.meta.outputs.labels }}
