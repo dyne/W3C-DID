@@ -1,41 +1,77 @@
+name: Publish Docker image
+
 on:
   push:
     branches: ['main']
 
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}-uniregistrar
-
 jobs:
-  build-and-push-image:
+  file-changes:
+    name: "🗃️  Check file changes"
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-
+    outputs:
+      registrar: ${{ steps.filter.outputs.registrar }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          submodules: true
+    - name: 🛎️ Checkout
+      uses: actions/checkout@v4
+    - name: 📂 paths filter
+      uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        filters: |
+          registrar:
+            - 'contracts/**'
+            - 'Dockerfile'
+            - 'package.json'
+            - 'restroom.mjs'
+        working-directory: 'universal-registrar'
 
-      - name: Log in to the Container registry
+  set-version:
+    name: "📌 Set version"
+    runs-on: ubuntu-latest
+    needs: [file-changes]
+    if: "needs.file-changes.outputs.registrar == 'true'"
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - name: ⬇ install dependecy
+        run: sudo apt-get install-y skopeo jq
+      - name: 📡 get docker version
+        id: version
+        run: |
+          (skopeo inspect docker://docker.io/dyne/did-registrar:0.1 2>/dev/null || echo '{"RepoTags": ["0.0"]}') \
+            | jq '.RepoTags .[]' \
+            | sort -Vr \
+            | head -n 1 \
+            | awk 'BEGIN{FS=OFS="."} {$2+=1} { printf("version=%s.%s\n",$1, $2) }' >> $GITHUB_OUTPUT
+
+  push_to_registry:
+    name: 🐋 Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    needs: [set-version]
+    steps:
+      - name: 🛎️ Checkout
+        uses: actions/checkout@v4
+      - name: 🔐 Log in to Docker Hub
         uses: docker/login-action@v3
         with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Extract metadata (tags, labels) for Docker
+          username: dyne
+          password: ${{ secrets.DOCKERHUB_PASS }}
+      - name: ⛏️ Extract metadata for Docker
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
-      - name: Build and push Docker image
+          images: |
+            dyne/did-registrar
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+          labels: |
+            org.opencontainers.image.vendor=Dyne.org
+      - name: 🏗️ Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: universal-registrar
+          file: ./Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ needs.set-version.outputs.version }}
           labels: ${{ steps.meta.outputs.labels }}
