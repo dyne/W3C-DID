@@ -57,4 +57,4 @@ rm oldDidDoc.json
 call_api "deactivate" "did"
 
 rm didDoc.json
-# (?) action -> getVerificationMethod if eddsa public key is missing
+
