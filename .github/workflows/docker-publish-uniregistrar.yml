@@ -51,7 +51,7 @@ jobs:
         uses: docker/login-action@v3
         with:
           username: dyne
-          password: ${{ secrets.DOCKERHUB_PASS }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: ⛏️ Extract metadata for Docker
         id: meta
         uses: docker/metadata-action@v5
