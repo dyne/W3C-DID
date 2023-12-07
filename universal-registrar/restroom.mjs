@@ -65,7 +65,7 @@ const formatInput = (input) => {
     return { data: input }
 }
 
-app.post('/create', async (req, res) => {
+app.post('/1.0/create', async (req, res) => {
     var invalid, error = checkVariousInput(req.body);
     if (invalid) {
 	res.status(400).send({
@@ -124,7 +124,7 @@ const isOperationValid = (input) => {
     return (!op) || ((op.length == 1) && (op[0] == "setDidDocument"));
 }
 
-app.post('/update', async (req, res) => {
+app.post('/1.0/update', async (req, res) => {
     var invalid, error = checkVariousInput(req.body);
     if (invalid) {
 	res.status(400).send({
@@ -182,7 +182,7 @@ app.post('/update', async (req, res) => {
     else res.status(status).send(rr);
 })
 
-app.post('/deactivate', async (req, res) => {
+app.post('/1.0/deactivate', async (req, res) => {
     var invalid, error = checkVariousInput(req.body);
     if (invalid) {
 	res.status(400).send({
