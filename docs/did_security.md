@@ -40,3 +40,21 @@ This class represents a linked data signature verification key. See the [Dilithi
 }
 ```
 
+### BbsVerificationKey
+This class represents a linked data signature verification key. See the [BBS paper](https://identity.foundation/bbs-signature/draft-irtf-cfrg-bbs-signatures.html) for more details.
+
+**Status**:  
+*Stable*  
+**Expected properties**:  
+*id, type, controller, publicKeyBase58*
+
+**Example**:
+
+```json
+{
+	"id": "did:example:123#key1",
+	"type": "BbsVerificationKey",
+	"controller": "did:example:123",
+	"publicKeyBase58": "rqGGNqCnuL1xWXGZZ2NYedvHVeAyG3wJUq451TE8q3MrQQFjcbgUPXtXiG87MAtBG4d4oyjiGGQNjPufGuo1t4AptCxGNTGvoGfWqLLwX1ozaJUAAwooTp5CCcWQZrkT1Sv"
+}
+```
