@@ -58,3 +58,22 @@ This class represents a linked data signature verification key. See the [BBS pap
 	"publicKeyBase58": "rqGGNqCnuL1xWXGZZ2NYedvHVeAyG3wJUq451TE8q3MrQQFjcbgUPXtXiG87MAtBG4d4oyjiGGQNjPufGuo1t4AptCxGNTGvoGfWqLLwX1ozaJUAAwooTp5CCcWQZrkT1Sv"
 }
 ```
+
+### EcdsaSecp256r1VerificationKey
+This class represents a linked data signature verification key. This key represent a ecdsa key over the Secp256r1 curve, known also as P-256 curve. 
+
+**Status**:  
+*Stable*  
+**Expected properties**:  
+*id, type, controller, publicKeyBase58*
+
+**Example**:
+
+```json
+{
+	"id": "did:example:123#key1",
+	"type": "EcdsaSecp256r1VerificationKey",
+	"controller": "did:example:123",
+	"publicKeyBase58": "5a1vFrHHfCULezmUm3mAsd6G9qtyHVvMH9aMLj7QGBkEg3nkqSjgVo4Pk64nMrm8z2ZmJ6whqzp1nPdqaQX5j6Hr"
+}
+```
