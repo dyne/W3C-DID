@@ -4,7 +4,7 @@ key_path="universal-registrar/test/keyring.json"
 
 call_api() {
     curl -X 'POST' -o output.json \
-	 "http://localhost:3000/${1}" \
+	 "http://localhost:3000/1.0/${1}" \
 	 -H 'accept: application/json' \
 	 -H 'Content-Type: application/json' \
 	 -d '{
@@ -18,7 +18,7 @@ call_api() {
     zenroom -z -a output.json -k keyring.json sign.zen > res.json
 
     curl -X 'POST' \
-	 "http://localhost:3000/${1}" \
+	 "http://localhost:3000/1.0/${1}" \
 	 -H 'accept: application/json' \
 	 -H 'Content-Type: application/json' \
 	 -d '{
