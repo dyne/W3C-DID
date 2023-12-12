@@ -12,6 +12,8 @@ and I read the content of 'request_path' and save the output into 'request_data'
 
 # restroom data
 Given I have a 'string' named 'base_url' inside 'http_request'
+and I have a 'string' named 'update_timestamp'
+and I rename 'update_timestamp' to 'update_timestamp_str'
 and I have a 'integer' named 'update_timestamp'
 and I have a 'did document' named 'didDocument' in 'signer_data'
 and I rename 'didDocument' to 'signer_did_document'
@@ -66,7 +68,7 @@ and I verify the 'json escaped string' has a ecdh signature in 'ecdh signature' 
 # create proof
 When I create the jws signature using the ecdh signature in 'ecdh signature'
 and I move 'jws' in 'proof'
-and I copy the 'update_timestamp' to 'created' in 'proof'
+and I copy the 'update_timestamp_str' to 'created' in 'proof'
 
 # proof's verification method
 When I copy 'signer_id' to 'verificationMethod'
@@ -78,7 +80,7 @@ and I move 'proof' in 'request did document'
 If I verify 'updated' is found in 'request_metadata'
 When I remove the 'updated' from 'request_metadata'
 EndIf
-When I copy the 'update_timestamp' to 'updated' in 'request_metadata'
+When I copy the 'update_timestamp_str' to 'updated' in 'request_metadata'
 
 # result
 When I create the 'string dictionary' named 'result'
