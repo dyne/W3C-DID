@@ -13,6 +13,8 @@ and I read the content of 'signer_path' and save the output into 'signer_data'
 # restroom data
 Given I have a 'string' named 'base_url' inside 'http_request'
 and I have a 'string dictionary' named 'request_data'
+and I have a 'string' named 'accept_timestamp'
+and I rename 'accept_timestamp' to 'accept_timestamp_str'
 and I have a 'integer' named 'accept_timestamp'
 and I have a 'did document' named 'didDocument' in 'signer_data'
 and I rename 'didDocument' to 'signer_did_document'
@@ -67,7 +69,7 @@ and I verify the 'json escaped string' has a ecdh signature in 'ecdh signature' 
 # create proof
 When I create the jws signature using the ecdh signature in 'ecdh signature'
 and I move 'jws' in 'proof'
-and I copy the 'accept_timestamp' to 'created' in 'proof'
+and I copy the 'accept_timestamp_str' to 'created' in 'proof'
 
 # proof's verification method
 When I copy 'signer_id' to 'verificationMethod'
@@ -77,7 +79,7 @@ and I move 'proof' in 'request did document'
 
 # metadata
 When I create the 'string dictionary' named 'didDocumentMetadata'
-and I copy the 'accept_timestamp' to 'created' in 'didDocumentMetadata'
+and I copy the 'accept_timestamp_str' to 'created' in 'didDocumentMetadata'
 and I set 'deactivated' to 'false' as 'string'
 and I move 'deactivated' in 'didDocumentMetadata'
 
