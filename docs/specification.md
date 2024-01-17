@@ -43,7 +43,7 @@ For the moment the main used prefix are:
 
 An example of Dyne.org's DID is:
 ```
-did:dyne:sandbox.A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ
+did:dyne:sandbox_A:8REPQXUsFmaN6avGN6aozQtkhLNC9xUmZZNRM7u2UqEZ
 ```
 that is associated to the following DID document:
 ```json
