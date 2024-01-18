@@ -68,13 +68,11 @@ const prepareZencodeKeyring = (
 }
 
 const preparePks = async (
-  requestKeyring: ControllerKeyring,
-  additionalData: string
+  requestKeyring: ControllerKeyring
 ) :Promise<string> => {
   const contractPks = readFromFile('client/v1/create-identity-pubkeys.zen');
-  const data = readFromFile(additionalData);
   const keys = prepareZencodeKeyring(requestKeyring);
-  let {result} = await zencode_exec(contractPks, {data, keys});
+  let {result} = await zencode_exec(contractPks, {data: "{}", keys});
   return result;
 }
 
@@ -82,15 +80,17 @@ const prepareRequest= async (
   requestDomain: string,
   requestType: string,
   data: string,
+  settings: string,
   contractPath: string
 ) :Promise<string> => {
+  const keys = readFromFile(settings);
   data = JSON.parse(data);
   data["did_spec"] = requestDomain;
   data = JSON.stringify(data);
   let res: string = null;
   if (requestType == DidActions.CREATE || requestType == DidActions.UPDATE) {
     const contractRequest = readFromFile(contractPath);
-    const {result} = await zencode_exec(contractRequest, {data, keys : "{}"});
+    const {result} = await zencode_exec(contractRequest, {data, keys});
     res = result;
   } else if (requestType == DidActions.DEACTIVATE) {
     const id = `did:dyne:${requestDomain}:${JSON.parse(data)["eddsa_public_key"]}`;
@@ -128,8 +128,8 @@ export const createRequest = async (
   requestDomain: string,
   requestType: DidActions
 ) :Promise<DidRequest> => {
-  const data = await preparePks(requestKeyring, "client/v1/did-settings.json");
-  const result = await prepareRequest(requestDomain, requestType, data, "client/v1/pubkeys-request-unsigned.zen");
+  const data = await preparePks(requestKeyring);
+  const result = await prepareRequest(requestDomain, requestType, data, "client/v1/did-settings.json", "client/v1/pubkeys-request-unsigned.zen");
   return JSON.parse(result).request;
 }
 
@@ -147,11 +147,11 @@ export const createIfacerRequest = async (
   requestType: DidActions,
   requestIdentifier: string,
 ) :Promise<DidRequest> => {
-  let data = await preparePks(requestKeyring, "client/v1/ifacer/did-settings.json");
+  let data = await preparePks(requestKeyring);
   const dataDict = JSON.parse(data);
   dataDict.identifier = requestIdentifier;
   data = JSON.stringify(dataDict);
-  const result = await prepareRequest(requestDomain, requestType, data, "client/v1/ifacer/pubkeys-request-unsigned.zen");
+  const result = await prepareRequest(requestDomain, requestType, data, "client/v1/ifacer/did-settings.json", "client/v1/ifacer/pubkeys-request-unsigned.zen");
   return JSON.parse(result).request;
 }
 
