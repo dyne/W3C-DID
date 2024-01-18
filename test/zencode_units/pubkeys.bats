@@ -76,7 +76,7 @@ EOF
 }
 
 @test "Participant identity with pubkeys" {
-	zexe client/v1/create-identity-pubkeys.zen client/v1/did-settings.json new-keyring.json
+	zexe client/v1/create-identity-pubkeys.zen new-keyring.json
 	save_tmp_output new-id-pubkeys.json
 	# add did_spec and signer_did_spec to be used in all the following contratcs
 	jq_insert "did_spec" "sandbox.test" new-id-pubkeys.json
@@ -85,6 +85,7 @@ EOF
 
 @test "Signed accept request" {
 	jq_insert "timestamp" $(($(date +%s%N)/1000000)) new-id-pubkeys.json
+	json_join_two client/v1/did-settings.json controller-keyring.json
 	zexe client/v1/pubkeys-request-signed.zen new-id-pubkeys.json controller-keyring.json
 	save_tmp_output signed-request.json
 }
@@ -119,7 +120,7 @@ EOF
 @test "Update request with request-unsigned and sign" {
 	# unsigned request
 	jq_insert "identity" "update_unit_test" new-id-pubkeys.json
-	zexe client/v1/pubkeys-request-unsigned.zen new-id-pubkeys.json
+	zexe client/v1/pubkeys-request-unsigned.zen new-id-pubkeys.json client/v1/did-settings.json
 	save_tmp_output unsigned-request.json
 	# sign the request
 	jq_insert "timestamp" $(($(date +%s%N)/1000000)) unsigned-request.json
