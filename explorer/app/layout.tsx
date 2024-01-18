@@ -20,10 +20,8 @@ export default function RootLayout(props: RootLayoutProps) {
         <meta name="viewport" content="width=device-width" />
         <meta name="title" content="DID:Explorer by Dyne.org" />
         <meta name="description" content="Explore, search and retrieve Dyne.org Distributed Identifiers, based on W3C standard." />
-        <!-- Dublin Core basic info -->
         <meta name="dcterms.Title" content="DID:Explorer by Dyne.org" />
         <meta name="dcterms.Description" content="Explore, search and retrieve Dyne.org Distributed Identifiers, based on W3C standard." />
-        <!-- Facebook -->
         <meta property="og:title" content="DID:Explorer by Dyne.org" />
         <meta property="og:locale" content="en" />
         <meta property="og:description" content="Explore, search and retrieve Dyne.org Distributed Identifiers, based on W3C standard." />
@@ -31,12 +29,11 @@ export default function RootLayout(props: RootLayoutProps) {
         <meta property="og:url" content="https://explorer.did.dyne.org/" />
         <meta property="og:site_name" content="DID:Explorer by Dyne.org" />
         <meta property="og:image" content="https://dyne.org/images/projects/did-explorer.jpg" />
-        <!-- Twitter Card -->
-        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="DID:Explorer by Dyne.org" />
         <meta name="twitter:description" content="Explore, search and retrieve Dyne.org Distributed Identifiers, based on W3C standard." />
         <meta name="twitter:image" content="https://dyne.org/images/projects/did-explorer.jpg" />
-        <meta name="twitter:creator" content="@DyneOrg">
+        <meta name="twitter:creator" content="@DyneOrg" />
       </head>
 
       <body>
