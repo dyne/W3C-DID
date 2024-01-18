@@ -5,6 +5,7 @@ RR_SCHEMA := https
 HOSTNAME := $(shell hostname)
 DOMAIN ?= sandbox
 REQUEST ?= did_doc.json
+CLIENT_FOLDER ?= ""
 
 $(info __／________／__________／)
 $(info ／ ｄｉｄ ／ ｄｙｎｅ ／)
@@ -23,14 +24,14 @@ keyring: CONTROLLER ?= ${USER}@${HOSTNAME}
 keyring: ## Generate a new admin keyring [ OUT, CONTROLLER ]
 	$(if $(wildcard ${OUT}),$(error Local authority ${OUT} found, cannot overwrite))
 	@echo "{\"controller\": \"${CONTROLLER}\"}" > ${tmp}
-	@zenroom -z -k ${tmp} client/v1/create-keyring.zen > ${OUT} || rm ${OUT}
+	@zenroom -z -k ${tmp} client/v1/${CLIENT_FOLDER}create-keyring.zen > ${OUT} || rm ${OUT}
 	@rm -f ${tmp}
 
 request: KEYRING ?= secrets/keyring.json
 request: OUT ?= did_doc.json
 request: DOMAIN ?= sandbox
 request: ## Generate an admin request [ DOMAIN, KEYRING ]
-	@sh ./scripts/req.sh ${DOMAIN} ${KEYRING} > ${OUT}
+	@sh ./scripts/req.sh ${DOMAIN} ${KEYRING} ${CLIENT_FOLDER} > ${OUT}
 
 sign: tmp := $(shell mktemp)
 sign: REQUEST ?= did_doc.json

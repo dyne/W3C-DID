@@ -6,8 +6,6 @@ Scenario reflow
 
 Given my name is in a 'string' named 'controller'
 and I have my 'keyring'
-and I have a 'string array' named '@context'
-and I have a 'string dictionary' named 'proof'
 
 When I create the ecdh public key
 and I create the eddsa public key
@@ -21,5 +19,3 @@ and I print the 'ecdh public key' as 'base58'
 and I print the 'bitcoin public key' as 'base58'
 and I print the 'reflow public key' as 'base58'
 and I print my name in 'identity'
-and print the '@context'
-and print the 'proof'

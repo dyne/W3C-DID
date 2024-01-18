@@ -18,16 +18,18 @@ create_admin() {
     [ "$2" != "" ] && out=$2 
     tmpctrl=`mktemp`
     tmperr=`mktemp`
+    tmp=`mktemp`
     echo "{\"controller\": \"test_admin\"}" > ${tmpctrl}
     zenroom -z -k ${tmpctrl} client/v1/create-keyring.zen >secrets/$1 2>${tmperr}
     check_error ${?} ${tmperr}
     rm -f ${tmpctrl}
-    zenroom -z -k secrets/$1 -a client/v1/did-settings.json client/v1/create-identity-pubkeys.zen >${tmpctrl} 2>${tmperr}
+    zenroom -z -k secrets/$1 client/v1/create-identity-pubkeys.zen >${tmpctrl} 2>${tmperr}
     check_error ${?} ${tmperr}
     cat ${tmpctrl} | jq --arg value $(($(date +%s%N)/1000000)) '.timestamp = $value' > ${tmpctrl}
-    zenroom -z -a ${tmpctrl} -k secrets/$1 client/v1/admin/didgen.zen >${out} 2>${tmperr}
+    jq -s '.[0] * .[1]' secrets/$1 client/v1/did-settings.json > ${tmp}
+    zenroom -z -a ${tmpctrl} -k ${tmp} client/v1/admin/didgen.zen >${out} 2>${tmperr}
     check_error ${?} ${tmperr}
-    rm -f ${tmpctrl}
+    rm -f ${tmpctrl} ${tmp}
     # store admin did
     didpath=`jq -r '.didDocument.id' ${out}`
     did=`echo ${didpath} | cut -d: -f4`
