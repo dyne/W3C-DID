@@ -20,7 +20,8 @@ export default async function Page({ params }: { params: { did: string } }) {
     document = await resolve(decodeURIComponent(params.did));
   } catch (e) {
     if (e instanceof FetchError) error = e;
-    else error = new FetchError(500, "Unknown error");
+    else
+      error = new FetchError(500, "Something went wrong :O", "Unknown error");
   }
 
   return (
@@ -55,7 +56,9 @@ export default async function Page({ params }: { params: { did: string } }) {
       {error && (
         <div className="overflow-auto p-4">
           <div className="p-4 bg-red-100 border border-red-600 rounded-lg text-red-600">
-            <p className="font-bold">Error {error.status}</p>
+            <p className="font-bold">
+              Error | {error.status} - {error.statusText}
+            </p>
             <p>{error.message}</p>
           </div>
         </div>
