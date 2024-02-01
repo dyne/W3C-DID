@@ -5,6 +5,7 @@ Scenario reflow
 Scenario es256
 Scenario credential
 Scenario bbs
+Scenario qp
 
 Given I my name is in a 'string' named 'controller'
 
@@ -16,6 +17,7 @@ and I create the reflow key
 and I create the es256 key
 and I create the issuer key
 and I create the bbs key
+and I create the dilithium key
 
 # keyring and explicit owner identity
 Then print my 'keyring'
