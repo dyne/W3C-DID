@@ -6,6 +6,7 @@ Scenario 'eddsa' : Create the pk
 Scenario 'credential': Create the pk
 Scenario 'bbs': Create the pk
 Scenario 'es256': Create the pk
+Scenario 'qp': Create the pk
 
 Given my name is in a 'string' named 'controller'
 and I have my 'keyring'
@@ -18,6 +19,7 @@ and I create the reflow public key
 and I create the issuer public key
 and I create the bbs public key
 and I create the es256 public key
+and I create the dilithium public key
 
 Then I print the 'eddsa public key'
 and I print the 'ethereum address'
@@ -27,4 +29,5 @@ and I print the 'reflow public key'
 and I print the 'issuer public key' as 'compressed issuer public key'
 and I print the 'bbs public key'
 and I print the 'es256 public key'
+and I print the 'dilithium public key'
 and I print my name in 'identity'

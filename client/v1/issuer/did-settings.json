@@ -8,6 +8,7 @@
         "https://dyne.github.io/W3C-DID/specs/IssuerBLS12381.json",
         "https://dyne.github.io/W3C-DID/specs/Bbs.json",
         "https://dyne.github.io/W3C-DID/specs/EcdsaSecp256r1.json",
+        "https://dyne.github.io/W3C-DID/specs/Dilithium2.json",
         {
             "description": "https://schema.org/description"
         }
