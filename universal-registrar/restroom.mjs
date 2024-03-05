@@ -82,7 +82,7 @@ app.post('/1.0/create', async (req, res) => {
     var url;
     var status;
     if (req.body.jobId) {
-	url = 'http://localhost:3000/api/create-2-sign.chain';
+	url = 'http://0.0.0.0:3000/api/create-2-sign.chain';
 	status = 201;
     } else {
 	if (checkverificationMethod(req.body)) {
@@ -101,7 +101,7 @@ app.post('/1.0/create', async (req, res) => {
 	    });
 	    return;
 	}
-	url = 'http://localhost:3000/api/create-1-checks.chain';
+	url = 'http://0.0.0.0:3000/api/create-1-checks.chain';
 	status = 200
     }
     const r = await fetch(url, {
@@ -141,7 +141,7 @@ app.post('/1.0/update', async (req, res) => {
     var url;
     var status;
     if (req.body.jobId) {
-	url = 'http://localhost:3000/api/update-2-sign.chain';
+	url = 'http://0.0.0.0:3000/api/update-2-sign.chain';
 	status = 201;
     } else {
 	if (!isOperationValid(req.body)) {
@@ -166,7 +166,7 @@ app.post('/1.0/update', async (req, res) => {
 	    });
 	    return;
 	}
-	url = 'http://localhost:3000/api/update-1-checks.chain';
+	url = 'http://0.0.0.0:3000/api/update-1-checks.chain';
 	status = 200;
     }
     const r = await fetch(url, {
@@ -199,7 +199,7 @@ app.post('/1.0/deactivate', async (req, res) => {
     var url;
     var status;
     if (req.body.jobId) {
-	url = 'http://localhost:3000/api/deactivate-2-sign.chain';
+	url = 'http://0.0.0.0:3000/api/deactivate-2-sign.chain';
 	status = 201;
     } else {
 	if (!req.body.did) {
@@ -213,7 +213,7 @@ app.post('/1.0/deactivate', async (req, res) => {
 	    });
 	    return;
 	}
-	url = 'http://localhost:3000/api/deactivate-1-checks.chain';
+	url = 'http://0.0.0.0:3000/api/deactivate-1-checks.chain';
 	status = 200;
     }
     const r = await fetch(url, {
