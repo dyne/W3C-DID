@@ -1,10 +1,19 @@
 #!/bin/env bash
 
+# path to keyring
 key_path="universal-registrar/test/keyring.json"
+
+# Used when testing on uniregistrar.io, may break testing of dockerimage
+method="?method=dyne"
+
+# Set endpoint to uni-registrar
+# user "http://localhost:3000/1.0/" to test in localhost
+endpoint="https://uniregistrar.io/1.0/"
+
 
 call_api() {
     curl -X 'POST' -o output.json \
-	 "http://localhost:3000/1.0/${1}" \
+	 "${endpoint}${1}${method}" \
 	 -H 'accept: application/json' \
 	 -H 'Content-Type: application/json' \
 	 -d '{
@@ -18,7 +27,7 @@ call_api() {
     zenroom -z -a output.json -k keyring.json sign.zen > res.json
 
     curl -X 'POST' \
-	 "http://localhost:3000/1.0/${1}" \
+	 "${endpoint}${1}${method}" \
 	 -H 'accept: application/json' \
 	 -H 'Content-Type: application/json' \
 	 -d '{
