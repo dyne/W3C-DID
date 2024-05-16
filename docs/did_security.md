@@ -41,8 +41,8 @@ This class represents a linked data signature verification key. See the [Dilithi
 ```
 ### Mldsa44VerificationKey
 
-ML-DSA-44 is an update of the Dilithium algorithm suggested by NIST.
-This class represents a linked data signature verification key. See the specification in [FIPS 204](https://csrc.nist.gov/pubs/fips/204/ipd) for more details.
+ML-DSA-44 is an update of the Dilithium algorithm implemented by NIST, see the specification in [FIPS 204](https://csrc.nist.gov/pubs/fips/204/ipd) for more details.
+This class represents a linked data signature verification key. 
 
 
 **Status**:  
