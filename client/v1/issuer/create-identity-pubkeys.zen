@@ -20,6 +20,7 @@ and I create the issuer public key
 and I create the bbs public key
 and I create the es256 public key
 and I create the dilithium public key
+and I create the mldsa44 public key
 
 Then I print the 'eddsa public key'
 and I print the 'ethereum address'
@@ -30,4 +31,5 @@ and I print the 'issuer public key' as 'compressed issuer public key'
 and I print the 'bbs public key'
 and I print the 'es256 public key'
 and I print the 'dilithium public key'
+and I print the 'mldsa44 public key'
 and I print my name in 'identity'
